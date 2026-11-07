@@ -20,6 +20,7 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Komponen Button, Table, Modal, Placeholder.
 
 ### Diubah
+- `STATUS.md` diperbarui setelah commit pertama dikirim ke GitHub.
 - Struktur folder mengikuti referensi frontend-beasiswa: `components`, `pages`, `services`, `hooks`, `utils`, `assets`.
 - Seluruh kode dari JavaScript ke TypeScript mode strict.
 - Frontend dipisah menjadi repo sendiri.

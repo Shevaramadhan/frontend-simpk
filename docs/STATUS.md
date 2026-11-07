@@ -18,10 +18,6 @@ Terakhir diperbarui: 7 November 2026.
 
 Yang sudah teruji: pengecekan tipe dan build. Tampilan belum mengikuti prototype.
 
-## Belum ada
-
-- Commit pertama. Remote sudah terpasang.
-
 ## Langkah berikutnya
 
 1. Mencoba login ke backend setelah MySQL siap.
