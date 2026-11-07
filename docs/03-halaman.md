@@ -1,0 +1,21 @@
+# Daftar Halaman
+
+Status: **Kerangka** berarti rute sudah ada tetapi isinya belum dibuat.
+
+| Rute | Akses | Komponen | Status |
+|---|---|---|---|
+| `/login` | Publik | `pages/auth/LoginPage` | Selesai |
+| `/katalog` | Publik | `pages/publik/KatalogPublikPage` | Kerangka |
+| `/app` | Marketing | `pages/marketing/MarketingDashboardPage` | Kerangka |
+| `/app` | Operasional | `pages/operasional/OperasionalDashboardPage` | Kerangka |
+| `/app` | Tim | `pages/tim/TugasSayaPage` | Kerangka |
+| `/app/katalog` | Marketing | `pages/marketing/KatalogPage` | Kerangka |
+| `/app/pesanan` | Marketing | `pages/marketing/PesananPage` | Kerangka |
+| `/app/tagihan` | Marketing | `pages/marketing/TagihanPage` | Kerangka |
+| `/app/proyek` | Marketing, Operasional, Tim | Placeholder langsung di `App.tsx` | Kerangka, akan dipisah per role |
+| `/app/pengguna` | Operasional | `pages/operasional/PenggunaPage` | Kerangka |
+| `/portal` | Klien | `pages/klien/ProyekSayaPage` | Kerangka |
+| `/403` | Publik | `pages/ErrorPages` | Selesai |
+| Lainnya | Publik | `pages/ErrorPages` | Selesai |
+
+Pengguna yang sudah masuk diarahkan ke `/portal` untuk Klien dan `/app` untuk role lain.
