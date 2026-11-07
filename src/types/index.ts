@@ -47,14 +47,23 @@ export interface Client {
   user: { id: number; name: string; email: string };
 }
 
-export interface ClientInput {
+export interface RegisterInput {
   name: string;
   email: string;
   password: string;
   namaInstansi: string;
   jenisKlien: string;
   noWhatsapp: string;
-  alamat: string;
+}
+
+export type InternalRole = Exclude<Role, 'KLIEN'>;
+
+export interface InternalUser {
+  id: number;
+  name: string;
+  email: string;
+  role: InternalRole;
+  isActive: boolean;
 }
 
 export interface Order {
@@ -62,6 +71,7 @@ export interface Order {
   nomor: string;
   kebutuhan: string;
   anggaran: string | null;
+  nilaiDisepakati: string | null;
   tenggatDiharapkan: string | null;
   status: OrderStatus;
   alasanDitolak: string | null;

@@ -30,3 +30,8 @@ export const INTERNAL_MENU: Partial<Record<Role, { to: string; label: string }[]
 export function homePath(role: Role): string {
   return role === 'KLIEN' ? '/portal' : '/app';
 }
+
+// Klien yang datang dari tombol pesan di katalog dilanjutkan ke form pesan dengan jasa pilihannya.
+export function afterAuthPath(role: Role, jasa: string | null): string {
+  return role === 'KLIEN' && jasa ? `/portal/pesan?jasa=${encodeURIComponent(jasa)}` : homePath(role);
+}

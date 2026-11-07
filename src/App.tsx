@@ -6,7 +6,11 @@ import Placeholder from './components/Placeholder';
 import PublicLayout from './components/Layout/PublicLayout';
 import InternalLayout from './components/Layout/InternalLayout';
 import ClientLayout from './components/Layout/ClientLayout';
+import DaftarPage from './pages/auth/DaftarPage';
+import GantiSandiPage from './pages/auth/GantiSandiPage';
 import LoginPage from './pages/auth/LoginPage';
+import LupaSandiPage from './pages/auth/LupaSandiPage';
+import ResetSandiPage from './pages/auth/ResetSandiPage';
 import KatalogPublikPage from './pages/publik/KatalogPublikPage';
 import MarketingDashboardPage from './pages/marketing/MarketingDashboardPage';
 import KatalogPage from './pages/marketing/KatalogPage';
@@ -33,6 +37,9 @@ export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/daftar" element={<DaftarPage />} />
+      <Route path="/lupa-sandi" element={<LupaSandiPage />} />
+      <Route path="/reset-sandi" element={<ResetSandiPage />} />
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Navigate to="/katalog" replace />} />
         <Route path="/katalog" element={<KatalogPublikPage />} />
@@ -42,6 +49,7 @@ export default function App() {
         <Route path="/app" element={<InternalLayout />}>
           <Route index element={<InternalHome />} />
           <Route path="proyek" element={<Placeholder title="Proyek" />} />
+          <Route path="sandi" element={<GantiSandiPage />} />
           <Route element={<ProtectedRoute roles={['MARKETING']} />}>
             <Route path="katalog" element={<KatalogPage />} />
             <Route path="pesanan" element={<PesananPage />} />
@@ -58,6 +66,7 @@ export default function App() {
         <Route path="/portal" element={<ClientLayout />}>
           <Route index element={<ProyekSayaPage />} />
           <Route path="pesan" element={<PesanPage />} />
+          <Route path="sandi" element={<GantiSandiPage />} />
         </Route>
       </Route>
 

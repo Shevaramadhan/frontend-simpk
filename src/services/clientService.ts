@@ -1,4 +1,4 @@
-import type { ApiResponse, Client, ClientInput } from '../types';
+import type { ApiResponse, Client } from '../types';
 import api from './apiConfig';
 
 export async function listClients() {
@@ -6,8 +6,8 @@ export async function listClients() {
   return data.data;
 }
 
-export async function createClient(input: ClientInput) {
-  await api.post('/clients', input);
+export async function updateClientEmail(id: number, email: string) {
+  await api.patch(`/clients/${id}/email`, { email });
 }
 
 export async function setClientActive(id: number, isActive: boolean) {

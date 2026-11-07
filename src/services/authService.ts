@@ -1,9 +1,26 @@
-import type { ApiResponse, User } from '../types';
+import type { ApiResponse, RegisterInput, User } from '../types';
 import api from './apiConfig';
 
 export async function login(email: string, password: string) {
   const { data } = await api.post<ApiResponse<{ token: string; user: User }>>('/auth/login', { email, password });
   return data.data;
+}
+
+export async function register(input: RegisterInput) {
+  const { data } = await api.post<ApiResponse<{ token: string; user: User }>>('/auth/register', input);
+  return data.data;
+}
+
+export async function forgotPassword(email: string) {
+  await api.post('/auth/forgot-password', { email });
+}
+
+export async function resetPassword(token: string, passwordBaru: string) {
+  await api.post('/auth/reset-password', { token, passwordBaru });
+}
+
+export async function changePassword(passwordLama: string, passwordBaru: string) {
+  await api.post('/auth/change-password', { passwordLama, passwordBaru });
 }
 
 export async function me() {

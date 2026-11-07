@@ -1,12 +1,13 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import * as authService from '../services/authService';
 import { tokenAuth } from '../services/tokenAuth';
-import type { User } from '../types';
+import type { RegisterInput, User } from '../types';
 
 interface AuthValue {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<User>;
+  register: (input: RegisterInput) => Promise<User>;
   logout: () => void;
 }
 
@@ -32,12 +33,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return result.user;
   }, []);
 
+  const register = useCallback(async (input: RegisterInput) => {
+    const result = await authService.register(input);
+    tokenAuth.set(result.token);
+    setUser(result.user);
+    return result.user;
+  }, []);
+
   const logout = useCallback(() => {
     tokenAuth.clear();
     setUser(null);
   }, []);
 
-  const value = useMemo(() => ({ user, loading, login, logout }), [user, loading, login, logout]);
+  const value = useMemo(() => ({ user, loading, login, register, logout }), [user, loading, login, register, logout]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

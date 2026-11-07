@@ -11,6 +11,10 @@ export async function createOrder(input: OrderInput) {
   return data.data;
 }
 
+export async function approveOrder(id: number, nilaiDisepakati: number) {
+  await api.post(`/orders/${id}/approve`, { nilaiDisepakati });
+}
+
 export async function updateOrderStatus(id: number, status: OrderStatus, alasanDitolak?: string) {
   await api.patch(`/orders/${id}/status`, { status, alasanDitolak });
 }

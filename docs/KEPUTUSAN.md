@@ -16,3 +16,4 @@ Format: nomor, tanggal, keputusan, alasan, status.
 | F-08 | 7 Nov 2026 | Mock data tidak dipakai | Satu orang mengerjakan frontend dan backend sehingga API langsung tersedia | Berlaku |
 | F-10 | 7 Nov 2026 | Tampilan sementara mengacu situs profil Neo Telemetri, warna terpusat sebagai token | Prototype belum ada; token memudahkan penggantian | Sementara, sampai prototype tersedia |
 | F-09 | 7 Nov 2026 | Tagihan PDF memakai cetak browser | Sesuai BRS, tanpa mesin PDF di backend | Berlaku |
+| F-11 | 8 Nov 2026 | Pengalihan setelah login dan daftar lewat satu fungsi `afterAuthPath` | Halaman login dan daftar mengalihkan pengguna begitu sesi terisi, jadi tujuan harus dihitung di satu tempat | Berlaku |

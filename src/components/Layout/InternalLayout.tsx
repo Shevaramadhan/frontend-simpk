@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth, useCurrentUser } from '../../hooks/useAuth';
 import { INTERNAL_MENU, ROLE_LABEL } from '../../utils/navigation';
 
@@ -32,9 +32,12 @@ export default function InternalLayout() {
             </NavLink>
           ))}
         </nav>
-        <button type="button" onClick={handleLogout} className="mt-4 text-sm text-muted underline">
-          Keluar
-        </button>
+        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted md:flex-col">
+          <Link to="/app/sandi" className="underline">Ganti Kata Sandi</Link>
+          <button type="button" onClick={handleLogout} className="text-left underline">
+            Keluar
+          </button>
+        </div>
       </aside>
       <main className="min-w-0 flex-1 p-4 sm:p-6">
         <Outlet />

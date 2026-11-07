@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import Button from '../../components/Button';
 import DataState from '../../components/DataState';
 import Field, { inputClass } from '../../components/Field';
@@ -7,13 +7,14 @@ import StatusBadge from '../../components/StatusBadge';
 import Table, { type Column } from '../../components/Table';
 import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
-import { listOrders, updateOrderStatus } from '../../services/orderService';
+import { approveOrder, listOrders, updateOrderStatus } from '../../services/orderService';
 import type { Order, OrderStatus } from '../../types';
 import { ORDER_STATUS_LABEL, rupiah, tanggal } from '../../utils/format';
 
+// Persetujuan punya formulir sendiri karena wajib disertai nilai kesepakatan.
 const NEXT: Partial<Record<OrderStatus, OrderStatus[]>> = {
   BARU: ['DITINJAU', 'DITOLAK', 'DIBATALKAN'],
-  DITINJAU: ['DISETUJUI', 'DITOLAK', 'DIBATALKAN'],
+  DITINJAU: ['DITOLAK', 'DIBATALKAN'],
   DISETUJUI: ['DIBATALKAN'],
 };
 
@@ -22,17 +23,32 @@ export default function PesananPage() {
   const [detail, setDetail] = useState<Order | null>(null);
   const [alasan, setAlasan] = useState('');
   const [actionError, setActionError] = useState('');
+  const [nilai, setNilai] = useState('');
 
   function openDetail(order: Order) {
     setDetail(order);
     setAlasan('');
     setActionError('');
+    setNilai(order.anggaran ? String(Number(order.anggaran)) : '');
   }
 
   async function change(order: Order, status: OrderStatus) {
     setActionError('');
     try {
       await updateOrderStatus(order.id, status, status === 'DITOLAK' ? alasan : undefined);
+      setDetail(null);
+      await reload();
+    } catch (err) {
+      setActionError(errorMessage(err));
+    }
+  }
+
+  async function handleApprove(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!detail) return;
+    setActionError('');
+    try {
+      await approveOrder(detail.id, Number(nilai));
       setDetail(null);
       await reload();
     } catch (err) {
@@ -75,7 +91,22 @@ export default function PesananPage() {
               <dd className="mb-2">{rupiah(detail.anggaran)}</dd>
               <dt className="font-medium">Tenggat</dt>
               <dd className="mb-2">{tanggal(detail.tenggatDiharapkan)}</dd>
+              {detail.nilaiDisepakati && (
+                <>
+                  <dt className="font-medium">Nilai disepakati</dt>
+                  <dd className="mb-2">{rupiah(detail.nilaiDisepakati)}</dd>
+                </>
+              )}
             </dl>
+            {detail.status === 'DITINJAU' && (
+              <form onSubmit={handleApprove} className="mb-4 border-t border-line pt-3">
+                <h3 className="mb-2 font-semibold">Setujui setelah MoU disepakati</h3>
+                <Field id="nilai" label="Nilai disepakati (Rp)">
+                  <input id="nilai" type="number" min="1" required value={nilai} onChange={(event) => setNilai(event.target.value)} className={inputClass} />
+                </Field>
+                <Button type="submit">Setujui Pesanan</Button>
+              </form>
+            )}
             {NEXT[detail.status]?.includes('DITOLAK') && (
               <Field id="alasan" label="Alasan penolakan (wajib jika ditolak)">
                 <input id="alasan" value={alasan} onChange={(e) => setAlasan(e.target.value)} className={inputClass} />

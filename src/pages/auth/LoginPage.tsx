@@ -1,27 +1,27 @@
 import { useState, type FormEvent } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { errorMessage } from '../../services/apiConfig';
-import { homePath } from '../../utils/navigation';
+import { afterAuthPath } from '../../utils/navigation';
 import Button from '../../components/Button';
 
 export default function LoginPage() {
   const { user, login } = useAuth();
-  const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const jasa = params.get('jasa');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  if (user) return <Navigate to={homePath(user.role)} replace />;
+  if (user) return <Navigate to={afterAuthPath(user.role, jasa)} replace />;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError('');
     setSubmitting(true);
     try {
-      const loggedIn = await login(email, password);
-      navigate(homePath(loggedIn.role), { replace: true });
+      await login(email, password);
     } catch (err) {
       setError(errorMessage(err));
     } finally {
@@ -70,6 +70,11 @@ export default function LoginPage() {
         <Button type="submit" disabled={submitting} className="w-full">
           {submitting ? 'Memproses...' : 'Masuk'}
         </Button>
+
+        <div className="mt-4 flex flex-wrap justify-between gap-2 text-sm text-muted">
+          <Link to="/lupa-sandi" className="underline">Lupa kata sandi?</Link>
+          <Link to={jasa ? `/daftar?jasa=${encodeURIComponent(jasa)}` : '/daftar'} className="underline">Daftar sebagai klien</Link>
+        </div>
       </form>
     </div>
   );

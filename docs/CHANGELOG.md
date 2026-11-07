@@ -11,6 +11,21 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-08
+
+### Ditambah
+- Halaman `/daftar`, `/lupa-sandi`, `/reset-sandi`, dan komponen `AuthCard`.
+- Halaman ganti kata sandi di `/app/sandi` dan `/portal/sandi`.
+- Halaman Pengguna untuk Operasional: akun internal dan perbaikan email, beserta `userService`.
+- Formulir persetujuan dengan nilai kesepakatan pada modal pesanan.
+
+### Diubah
+- Tombol pesan di katalog menuju `/daftar` untuk pengunjung yang belum masuk; jasa pilihan terbawa setelah daftar atau login.
+- Halaman Klien hanya untuk melihat dan menonaktifkan klien.
+
+### Dihapus
+- Formulir Tambah Klien di halaman Marketing.
+
 ## 2026-11-07
 
 ### Ditambah

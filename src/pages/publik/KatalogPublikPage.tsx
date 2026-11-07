@@ -39,7 +39,7 @@ export default function KatalogPublikPage() {
               <p className="text-sm text-muted">Perkiraan {service.estimasiHari} hari</p>
               {(!user || user.role === 'KLIEN') && (
                 <Link
-                  to={`/portal/pesan?jasa=${service.id}`}
+                  to={`${user ? '/portal/pesan' : '/daftar'}?jasa=${service.id}`}
                   className="mt-4 self-start rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white hover:bg-primary-hover"
                 >
                   Pesan jasa ini
