@@ -5,16 +5,18 @@ Status: **Kerangka** berarti rute sudah ada tetapi isinya belum dibuat.
 | Rute | Akses | Komponen | Status |
 |---|---|---|---|
 | `/login` | Publik | `pages/auth/LoginPage` | Selesai |
-| `/katalog` | Publik | `pages/publik/KatalogPublikPage` | Kerangka |
+| `/katalog` | Publik | `pages/publik/KatalogPublikPage` | Selesai |
 | `/app` | Marketing | `pages/marketing/MarketingDashboardPage` | Kerangka |
 | `/app` | Operasional | `pages/operasional/OperasionalDashboardPage` | Kerangka |
 | `/app` | Tim | `pages/tim/TugasSayaPage` | Kerangka |
-| `/app/katalog` | Marketing | `pages/marketing/KatalogPage` | Kerangka |
-| `/app/pesanan` | Marketing | `pages/marketing/PesananPage` | Kerangka |
+| `/app/katalog` | Marketing | `pages/marketing/KatalogPage` | Selesai, portofolio belum dapat dikelola |
+| `/app/pesanan` | Marketing | `pages/marketing/PesananPage` | Selesai |
+| `/app/klien` | Marketing | `pages/marketing/KlienPage` | Selesai |
 | `/app/tagihan` | Marketing | `pages/marketing/TagihanPage` | Kerangka |
 | `/app/proyek` | Marketing, Operasional, Tim | Placeholder langsung di `App.tsx` | Kerangka, akan dipisah per role |
 | `/app/pengguna` | Operasional | `pages/operasional/PenggunaPage` | Kerangka |
-| `/portal` | Klien | `pages/klien/ProyekSayaPage` | Kerangka |
+| `/portal` | Klien | `pages/klien/ProyekSayaPage` | Selesai untuk pesanan; proyek menyusul |
+| `/portal/pesan` | Klien | `pages/klien/PesanPage` | Selesai |
 | `/403` | Publik | `pages/ErrorPages` | Selesai |
 | Lainnya | Publik | `pages/ErrorPages` | Selesai |
 

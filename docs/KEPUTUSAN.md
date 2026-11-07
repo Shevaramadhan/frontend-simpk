@@ -14,4 +14,5 @@ Format: nomor, tanggal, keputusan, alasan, status.
 | F-06 | 7 Nov 2026 | Backend dan frontend dua repo terpisah | Repo sudah disiapkan di GitHub | Berlaku |
 | F-07 | 7 Nov 2026 | Token JWT di `sessionStorage`, dikirim lewat header | Sederhana untuk API terpisah; sesi berakhir saat tab ditutup | Berlaku |
 | F-08 | 7 Nov 2026 | Mock data tidak dipakai | Satu orang mengerjakan frontend dan backend sehingga API langsung tersedia | Berlaku |
+| F-10 | 7 Nov 2026 | Tampilan sementara mengacu situs profil Neo Telemetri, warna terpusat sebagai token | Prototype belum ada; token memudahkan penggantian | Sementara, sampai prototype tersedia |
 | F-09 | 7 Nov 2026 | Tagihan PDF memakai cetak browser | Sesuai BRS, tanpa mesin PDF di backend | Berlaku |

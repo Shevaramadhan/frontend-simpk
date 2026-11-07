@@ -14,6 +14,15 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 ## 2026-11-07
 
 ### Ditambah
+- Halaman daftar jasa publik, kelola jasa, kelola klien, pemeriksaan pesanan, form pesan, dan daftar pesanan klien.
+- `useData`, `DataState`, `Field`, `StatusBadge`, `utils/format`, serta service katalog, klien, dan pesanan.
+
+### Diubah
+- Tampilan memakai tema gelap dari situs profil Neo Telemetri, dengan token warna di `src/index.css`; halaman daftar jasa publik ditata ulang.
+- `errorMessage` menampilkan pesan validasi per kolom dari backend.
+- Menu Marketing ditambah Klien; portal klien ditambah rute `/portal/pesan`.
+
+### Ditambah
 - Folder `docs/` sebagai pusat informasi frontend, termasuk ketentuan, arsitektur, daftar halaman, status, dan catatan keputusan.
 - Kerangka proyek React, Vite, dan Tailwind.
 - Login, sesi pengguna, pembatasan rute per role, tiga layout.

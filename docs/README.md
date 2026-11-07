@@ -8,6 +8,7 @@ Folder ini adalah pusat informasi frontend Sistem Informasi Manajemen Proyek Kli
 | [01-ketentuan.md](01-ketentuan.md) | Aturan penulisan kode dan tampilan | Sebelum menulis kode |
 | [02-arsitektur.md](02-arsitektur.md) | Teknologi, struktur folder, login, pemanggilan API | Saat struktur berubah |
 | [03-halaman.md](03-halaman.md) | Daftar rute dan halaman per role | Setiap halaman atau rute berubah |
+| [04-panduan-tampilan.md](04-panduan-tampilan.md) | Warna, font, dan bentuk | Sebelum membuat tampilan |
 | [KEPUTUSAN.md](KEPUTUSAN.md) | Keputusan teknis beserta alasannya | Setiap ada keputusan baru |
 | [CHANGELOG.md](CHANGELOG.md) | Riwayat semua perubahan | Setiap perubahan |
 

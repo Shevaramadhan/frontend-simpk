@@ -22,8 +22,10 @@ api.interceptors.response.use(
 );
 
 export function errorMessage(error: unknown): string {
-  if (isAxiosError<{ message?: string }>(error) && error.response?.data?.message) {
-    return error.response.data.message;
+  if (isAxiosError<{ message?: string; errors?: Record<string, string[]> }>(error) && error.response?.data) {
+    const { message, errors } = error.response.data;
+    const firstField = errors ? Object.values(errors)[0]?.[0] : undefined;
+    if (firstField || message) return firstField ?? (message as string);
   }
   return 'Tidak dapat terhubung ke server.';
 }

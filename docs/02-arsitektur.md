@@ -18,13 +18,13 @@ frontend/
 ├── index.html           wajib di akar folder untuk Vite
 └── src/
     ├── assets/          berkas statis
-    ├── components/      Button, Table, Modal, Placeholder, ProtectedRoute
+    ├── components/      Button, Table, Modal, Field, StatusBadge, DataState, Placeholder, ProtectedRoute
     │   └── Layout/      PublicLayout, InternalLayout, ClientLayout
-    ├── hooks/           useAuth, useCurrentUser
+    ├── hooks/           useAuth, useCurrentUser, useData
     ├── pages/           auth, publik, marketing, operasional, tim, klien
     ├── services/        apiConfig, tokenAuth, *Service
     ├── types/           tipe data bersama
-    ├── utils/           navigation
+    ├── utils/           navigation, format (rupiah, tanggal, label status)
     ├── App.tsx          seluruh rute
     ├── index.css        Tailwind dan aturan cetak
     └── main.tsx         titik masuk

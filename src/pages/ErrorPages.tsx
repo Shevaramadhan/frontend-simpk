@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 
 function Message({ title, text }: { title: string; text: string }) {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4 text-center text-slate-900">
+    <div className="flex min-h-screen flex-col items-center justify-center p-4 text-center text-ink">
       <h1 className="text-xl font-semibold">{title}</h1>
-      <p className="mt-2 text-slate-600">{text}</p>
+      <p className="mt-2 text-muted">{text}</p>
       <Link to="/" className="mt-4 text-sm underline">
         Kembali ke beranda
       </Link>

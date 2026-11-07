@@ -30,10 +30,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 p-4 text-slate-900">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm rounded border border-slate-200 bg-white p-6">
+    <div className="hero-grid flex min-h-screen items-center justify-center bg-page p-4 text-ink">
+      <form onSubmit={handleSubmit} className="w-full max-w-sm rounded-2xl border border-line bg-surface p-6">
         <h1 className="text-lg font-semibold">Masuk</h1>
-        <p className="mb-4 text-sm text-slate-600">SIM Proyek Klien Neo Telemetri</p>
+        <p className="mb-4 text-sm text-muted">SIM Proyek Klien Neo Telemetri</p>
 
         <label className="block text-sm font-medium" htmlFor="email">
           Email
@@ -45,7 +45,7 @@ export default function LoginPage() {
           autoComplete="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="mb-3 mt-1 w-full rounded border border-slate-300 px-3 py-2"
+          className="mb-3 mt-1 w-full rounded-lg border border-line px-3 py-2"
         />
 
         <label className="block text-sm font-medium" htmlFor="password">
@@ -58,11 +58,11 @@ export default function LoginPage() {
           autoComplete="current-password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          className="mb-3 mt-1 w-full rounded border border-slate-300 px-3 py-2"
+          className="mb-3 mt-1 w-full rounded-lg border border-line px-3 py-2"
         />
 
         {error && (
-          <p role="alert" className="mb-3 text-sm text-red-700">
+          <p role="alert" className="mb-3 text-sm text-danger">
             {error}
           </p>
         )}

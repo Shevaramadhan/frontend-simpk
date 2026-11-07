@@ -13,6 +13,7 @@ export const INTERNAL_MENU: Partial<Record<Role, { to: string; label: string }[]
     { to: '/app', label: 'Ringkasan' },
     { to: '/app/katalog', label: 'Daftar Jasa' },
     { to: '/app/pesanan', label: 'Pesanan' },
+    { to: '/app/klien', label: 'Klien' },
     { to: '/app/tagihan', label: 'Tagihan dan Pembayaran' },
   ],
   OPERASIONAL: [

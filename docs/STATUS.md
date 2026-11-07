@@ -7,21 +7,21 @@ Terakhir diperbarui: 7 November 2026.
 | Bagian | Status |
 |---|---|
 | Struktur proyek dan TypeScript | Selesai |
-| Login, sesi, pembatasan rute per role | Selesai, belum dicoba ke API sungguhan |
+| Login, sesi, pembatasan rute per role | Selesai, teruji di browser |
 | Layout publik, internal, klien | Selesai |
-| Komponen Button, Table, Modal | Selesai; Table dan Modal belum dipakai halaman |
-| Katalog, pesanan, portal klien | Belum dibuat |
+| Komponen Button, Table, Modal, Field, StatusBadge, DataState | Selesai |
+| Katalog, kelola jasa, klien, pesanan, portal klien | Selesai, teruji di browser |
 | Proyek, tugas, progres | Belum dibuat |
 | Tagihan, pembayaran, dashboard | Belum dibuat |
 | Kelola pengguna | Belum dibuat |
 | Ulasan | Belum dibuat (fitur tambahan) |
 
-Yang sudah teruji: pengecekan tipe dan build. Tampilan belum mengikuti prototype.
+Yang sudah teruji: pengecekan tipe, build, dan alur klien memesan sampai Marketing memeriksa di Chrome, ukuran laptop dan ponsel. Tampilan sementara mengikuti situs profil Neo Telemetri, belum mengikuti prototype.
 
 ## Langkah berikutnya
 
-1. Mencoba login ke backend setelah MySQL siap.
-2. Mengerjakan katalog, pesanan, dan portal klien.
+1. Mengerjakan proyek, tugas, dan progres.
+2. Menambahkan kelola portofolio pada halaman Marketing.
 
 ## Jadwal
 

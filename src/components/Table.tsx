@@ -15,9 +15,9 @@ interface TableProps<T> {
 
 export default function Table<T>({ columns, rows, rowKey, emptyText = 'Belum ada data.' }: TableProps<T>) {
   return (
-    <div className="overflow-x-auto rounded border border-slate-200 bg-white">
+    <div className="overflow-x-auto rounded-xl border border-line bg-surface">
       <table className="w-full text-left text-sm">
-        <thead className="border-b border-slate-200 bg-slate-100">
+        <thead className="border-b border-line bg-surface-2">
           <tr>
             {columns.map((column) => (
               <th key={column.key} scope="col" className="px-3 py-2 font-medium">
@@ -29,13 +29,13 @@ export default function Table<T>({ columns, rows, rowKey, emptyText = 'Belum ada
         <tbody>
           {rows.length === 0 && (
             <tr>
-              <td colSpan={columns.length} className="px-3 py-6 text-center text-slate-600">
+              <td colSpan={columns.length} className="px-3 py-6 text-center text-muted">
                 {emptyText}
               </td>
             </tr>
           )}
           {rows.map((row) => (
-            <tr key={rowKey(row)} className="border-b border-slate-100 last:border-0">
+            <tr key={rowKey(row)} className="border-b border-line last:border-0">
               {columns.map((column) => (
                 <td key={column.key} className="px-3 py-2">
                   {column.render(row)}

@@ -12,13 +12,13 @@ export default function ClientLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      <header className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 sm:px-6">
+    <div className="min-h-screen bg-page text-ink">
+      <header className="flex items-center justify-between border-b border-line bg-page px-4 py-3 sm:px-6">
         <div>
-          <p className="font-semibold">Portal Klien Neo Telemetri</p>
-          <p className="text-sm text-slate-600">{user.name}</p>
+          <p className="font-heading font-bold">Portal Klien Neo Telemetri</p>
+          <p className="text-sm text-muted">{user.name}</p>
         </div>
-        <button type="button" onClick={handleLogout} className="text-sm text-slate-700 underline">
+        <button type="button" onClick={handleLogout} className="text-sm text-muted underline">
           Keluar
         </button>
       </header>

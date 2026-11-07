@@ -29,7 +29,9 @@ Halaman tidak memanggil axios langsung. Semua lewat `services/`.
 
 - Harus nyaman di laptop dan ponsel (REQ-NF01). Cek keduanya sebelum commit.
 - Pakai Tailwind CSS dan komponen dari `components/` sebelum membuat yang baru.
-- Setiap halaman data menangani keadaan memuat, kosong, dan gagal.
+- Warna hanya lewat token di `src/index.css`. Lihat `04-panduan-tampilan.md`.
+- Setiap halaman data menangani keadaan memuat, kosong, dan gagal: pakai `useData` dan `DataState`.
+- Nilai uang dari backend berupa string; tampilkan dengan `rupiah()`.
 - Pesan error memakai `errorMessage()` dari `services/apiConfig.ts`.
 - Form memakai `label` yang terhubung ke input.
 
@@ -38,4 +40,5 @@ Halaman tidak memanggil axios langsung. Semua lewat `services/`.
 - `main` untuk versi stabil, `dev` untuk integrasi, `feature/<nama>` untuk pekerjaan.
 - Pesan commit singkat dan menjelaskan perubahannya.
 - Sebelum commit: `npm run build`, yang sudah mencakup pengecekan tipe.
+- Commit memakai akun pengembang, tanpa baris `Co-Authored-By`.
 - Setiap perubahan dicatat di `docs/CHANGELOG.md`.

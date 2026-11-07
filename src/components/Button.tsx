@@ -4,7 +4,7 @@ export default function Button({ className = '', type = 'button', ...props }: Bu
   return (
     <button
       type={type}
-      className={`rounded bg-slate-800 px-3 py-2 font-medium text-white disabled:opacity-60 ${className}`}
+      className={`rounded-full bg-primary px-5 py-2 font-semibold text-white hover:bg-primary-hover disabled:opacity-60 ${className}`}
       {...props}
     />
   );

@@ -10,11 +10,13 @@ import LoginPage from './pages/auth/LoginPage';
 import KatalogPublikPage from './pages/publik/KatalogPublikPage';
 import MarketingDashboardPage from './pages/marketing/MarketingDashboardPage';
 import KatalogPage from './pages/marketing/KatalogPage';
+import KlienPage from './pages/marketing/KlienPage';
 import PesananPage from './pages/marketing/PesananPage';
 import TagihanPage from './pages/marketing/TagihanPage';
 import OperasionalDashboardPage from './pages/operasional/OperasionalDashboardPage';
 import PenggunaPage from './pages/operasional/PenggunaPage';
 import TugasSayaPage from './pages/tim/TugasSayaPage';
+import PesanPage from './pages/klien/PesanPage';
 import ProyekSayaPage from './pages/klien/ProyekSayaPage';
 import { ForbiddenPage, NotFoundPage } from './pages/ErrorPages';
 
@@ -43,6 +45,7 @@ export default function App() {
           <Route element={<ProtectedRoute roles={['MARKETING']} />}>
             <Route path="katalog" element={<KatalogPage />} />
             <Route path="pesanan" element={<PesananPage />} />
+            <Route path="klien" element={<KlienPage />} />
             <Route path="tagihan" element={<TagihanPage />} />
           </Route>
           <Route element={<ProtectedRoute roles={['OPERASIONAL']} />}>
@@ -54,6 +57,7 @@ export default function App() {
       <Route element={<ProtectedRoute roles={['KLIEN']} />}>
         <Route path="/portal" element={<ClientLayout />}>
           <Route index element={<ProyekSayaPage />} />
+          <Route path="pesan" element={<PesanPage />} />
         </Route>
       </Route>
 
