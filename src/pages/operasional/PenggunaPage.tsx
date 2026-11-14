@@ -126,7 +126,7 @@ export default function PenggunaPage() {
         </button>
       }
     >
-      <p className="mb-3 font-moon text-base text-cream/80">Akun internal Neo Telemetri. Akun Tim (worker) juga dapat ditambahkan dari menu Worker.</p>
+      <p className="mb-3 font-moon text-base text-cream/80">Semua akun internal Neo Telemetri. Tambah Akun untuk pengurus Marketing dan Operasional; akun Tim ditambahkan lewat menu Worker.</p>
       {actionError && <BrandError message={actionError} />}
       {users.loading && !users.data ? (
         <Loading />
@@ -138,7 +138,10 @@ export default function PenggunaPage() {
             <tr key={user.id} className={user.isActive ? '' : 'opacity-60'}>
               <td className={cell}>{user.name}</td>
               <td className={cell}>{user.email}</td>
-              <td className={cell}>{ROLE_LABEL[user.role]}</td>
+              <td className={cell}>
+                {ROLE_LABEL[user.role]}
+                {user.role === 'TIM' && user.keahlian && <span className="block text-xs text-coal-deep/60">{user.keahlian}</span>}
+              </td>
               <td className={cell}>
                 <span className={user.isActive ? 'text-[#14aa00]' : 'text-[#e60000]'}>{user.isActive ? 'Aktif' : 'Nonaktif'}</span>
                 {user.id !== me.id && (
@@ -191,9 +194,9 @@ export default function PenggunaPage() {
             <select id="u-role" value={form.role} onChange={(event) => setForm({ ...form, role: event.target.value as InternalRole })} className={brandInputSolid}>
               <option value="MARKETING">Marketing</option>
               <option value="OPERASIONAL">Operasional</option>
-              <option value="TIM">Tim</option>
             </select>
           </BrandField>
+          <p className="mb-3 font-moon text-sm text-coal-deep/70">Akun Tim (worker) ditambahkan lewat menu Worker agar keahliannya ikut tercatat.</p>
           <BrandError message={formError} />
           <button type="submit" disabled={saving} className={`${pillButton} mt-1 w-full`}>
             {saving ? 'Menyimpan...' : 'Simpan'}

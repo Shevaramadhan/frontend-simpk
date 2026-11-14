@@ -69,6 +69,8 @@ export interface InternalUser {
   isActive: boolean;
   /** Jumlah project yang pernah diikuti (kartu worker). */
   jumlahProject: number;
+  /** Keahlian utama akun Tim, misalnya "Frontend Developer"; null untuk role lain atau bila belum diisi. */
+  keahlian: string | null;
 }
 
 export interface Member {

@@ -10,13 +10,13 @@ import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
 import { getOrder } from '../../services/orderService';
 import { createProject, getProject, replaceMembers, type MemberInput } from '../../services/projectService';
-import { listWorkers } from '../../services/userService';
+import { keahlianList, listWorkers } from '../../services/userService';
 
 // Figma "Detail Page Operational": Operasional memilih worker dan menandai satu PM.
-export const POSISI = ['Project Manager', 'UI/UX Designer', 'Frontend Developer', 'Backend Developer', 'Fullstack Developer', 'Quality Assurance'];
-
-type Filter = 'SEMUA' | 'BARU' | 'BERPENGALAMAN';
-const FILTER_LABEL: Record<Filter, string> = { SEMUA: 'Semua', BARU: 'Belum pernah', BERPENGALAMAN: 'Sudah pernah' };
+// Saringan "Semua" menyaring per keahlian worker; posisi di project terisi dari keahlian dan tetap dapat diubah.
+const POSISI = ['UI/UX Designer', 'Frontend Developer', 'Backend Developer', 'Fullstack Developer', 'Quality Assurance'];
+const SEMUA = '';
+const TANPA_KEAHLIAN = '__kosong';
 
 export default function PilihWorkerPage() {
   const orderId = Number(useParams().orderId);
@@ -25,7 +25,7 @@ export default function PilihWorkerPage() {
   const { data: workers } = useData(listWorkers);
 
   const [team, setTeam] = useState<MemberInput[]>([]);
-  const [filter, setFilter] = useState<Filter>('SEMUA');
+  const [filter, setFilter] = useState(SEMUA);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState({ error: '', done: '' });
 
@@ -42,17 +42,24 @@ export default function PilihWorkerPage() {
     };
   }, [projectId]);
 
-  const names = useMemo(() => new Map((workers ?? []).map((worker) => [worker.id, worker.name])), [workers]);
+  const byId = useMemo(() => new Map((workers ?? []).map((worker) => [worker.id, worker])), [workers]);
+  const keahlian = useMemo(() => keahlianList(workers ?? []), [workers]);
+  const adaTanpaKeahlian = (workers ?? []).some((worker) => !worker.keahlian);
   const shown = (workers ?? []).filter((worker) =>
-    filter === 'SEMUA' ? true : filter === 'BARU' ? worker.jumlahProject === 0 : worker.jumlahProject > 0,
+    filter === SEMUA
+      ? true
+      : filter === TANPA_KEAHLIAN
+        ? !worker.keahlian
+        : worker.keahlian?.toLowerCase() === filter.toLowerCase(),
   );
 
   function toggle(userId: number) {
     setMessage({ error: '', done: '' });
+    const posisi = byId.get(userId)?.keahlian || 'Anggota Tim';
     setTeam((current) =>
       current.some((member) => member.userId === userId)
         ? current.filter((member) => member.userId !== userId)
-        : [...current, { userId, posisi: current.length ? 'Frontend Developer' : 'Project Manager', isPm: current.length === 0 }],
+        : [...current, { userId, posisi, isPm: current.length === 0 }],
     );
   }
 
@@ -98,6 +105,11 @@ export default function PilihWorkerPage() {
           )}
         </div>
 
+        <datalist id="saran-posisi">
+          {keahlianList([...POSISI.map((posisi) => ({ keahlian: posisi })), ...(workers ?? [])]).map((posisi) => (
+            <option key={posisi} value={posisi} />
+          ))}
+        </datalist>
         {/* Slot worker terpilih beserta posisi dan tanda PM. */}
         <div className="mt-3 rounded-[20px] bg-coal p-3">
           {team.length === 0 ? (
@@ -109,17 +121,17 @@ export default function PilihWorkerPage() {
                   <motion.li key={member.userId} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="flex items-center gap-3 rounded-[16px] bg-coal-deep p-2">
                     <Avatar size="size-12" />
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-moon text-base text-flame">{names.get(member.userId) ?? `Worker #${member.userId}`}</p>
-                      <select
-                        aria-label="Posisi"
+                      <p className="truncate font-moon text-base text-flame">{byId.get(member.userId)?.name ?? `Worker #${member.userId}`}</p>
+                      <input
+                        aria-label="Posisi di project"
+                        list="saran-posisi"
+                        required
+                        minLength={2}
+                        maxLength={60}
                         value={member.posisi}
                         onChange={(event) => patch(member.userId, { posisi: event.target.value })}
                         className="mt-1 w-full rounded-lg bg-cream px-2 py-1 font-moon text-sm text-coal-deep"
-                      >
-                        {POSISI.map((posisi) => (
-                          <option key={posisi}>{posisi}</option>
-                        ))}
-                      </select>
+                      />
                     </div>
                     <label className={`cursor-pointer rounded-xl px-3 py-1 font-moon text-sm ${member.isPm ? 'bg-flame text-coal' : 'border-2 border-flame text-flame'}`}>
                       <input type="radio" name="pm" className="sr-only" checked={member.isPm} onChange={() => patch(member.userId, { isPm: true })} />
@@ -138,12 +150,14 @@ export default function PilihWorkerPage() {
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <label className="relative inline-flex items-center">
             <span className="sr-only">Saring worker</span>
-            <select value={filter} onChange={(event) => setFilter(event.target.value as Filter)} className="appearance-none rounded-[24px] bg-coal py-2 pl-5 pr-10 font-moon text-lg text-flame">
-              {(Object.keys(FILTER_LABEL) as Filter[]).map((key) => (
-                <option key={key} value={key}>
-                  {FILTER_LABEL[key]}
+            <select value={filter} onChange={(event) => setFilter(event.target.value)} className="appearance-none rounded-[24px] bg-coal py-2 pl-5 pr-10 font-moon text-lg text-flame">
+              <option value={SEMUA}>Semua</option>
+              {keahlian.map((nama) => (
+                <option key={nama} value={nama}>
+                  {nama}
                 </option>
               ))}
+              {adaTanpaKeahlian && <option value={TANPA_KEAHLIAN}>Keahlian belum diisi</option>}
             </select>
             <img alt="" src={ikonSegitiga} className="pointer-events-none absolute right-4 h-3 w-3" />
           </label>
@@ -168,6 +182,7 @@ export default function PilihWorkerPage() {
                 <Avatar size="size-14" />
                 <span className="min-w-0">
                   <span className="block truncate font-moon text-lg text-flame">{worker.name}</span>
+                  <span className="block truncate font-moon text-sm text-cream/90">{worker.keahlian ?? 'Keahlian belum diisi'}</span>
                   <span className="block font-moon text-xs leading-snug">{workerNote(worker.jumlahProject)}</span>
                 </span>
               </button>

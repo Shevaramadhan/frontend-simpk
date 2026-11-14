@@ -11,6 +11,15 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-14 (keahlian worker)
+
+### Ditambah
+- Keahlian worker (diketik bebas, dengan saran): diisi saat Tambah Worker, dapat diubah lewat tombol Ubah di kartu worker, dan tampil di kartu.
+- Saringan "Semua" di Pilih Worker kini menyaring per keahlian; posisi di project terisi otomatis dari keahlian dan tetap dapat diketik ulang.
+
+### Diubah
+- Tambah Akun di halaman Pengguna hanya untuk Marketing dan Operasional; akun Tim lewat menu Worker. Kolom Role menampilkan keahlian akun Tim.
+
 ## 2026-11-14 (halaman Pengguna)
 
 ### Diperbaiki
