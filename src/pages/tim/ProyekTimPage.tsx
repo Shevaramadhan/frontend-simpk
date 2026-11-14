@@ -8,7 +8,7 @@ import { pillButton } from '../../components/brand/StaffParts';
 import { useCurrentUser } from '../../hooks/useAuth';
 import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
-import { addProgress, createTask, getProject, listTasks, listTeamUpdates, updateProject } from '../../services/projectService';
+import { addProgress, createTask, deleteTask, getProject, listTasks, listTeamUpdates, updateProject, updateTask } from '../../services/projectService';
 import type { Bidang, Member, ProjectDetail, ProjectStatus, Task } from '../../types';
 import { BIDANG_LABEL, PROJECT_STATUS_LABEL, tanggal, tanggalPendek, TASK_STATUS_LABEL } from '../../utils/format';
 
@@ -76,24 +76,33 @@ function PerbaruiModal({ projectId, task, onClose, onDone }: { projectId: number
 
 const emptyTask = { judul: '', deskripsi: '', bidang: 'FRONTEND' as Bidang, bobot: 1, assigneeId: '', tenggat: '' };
 
-function TambahTugasModal({ projectId, open, members, onClose, onDone }: { projectId: number; open: boolean; members: Member[]; onClose: () => void; onDone: () => void }) {
-  const [form, setForm] = useState(emptyTask);
+// Tambah tugas baru, atau ubah tugas yang ada bila `task` diisi (PM dan Operasional).
+// Persentase tidak diubah di sini; progres tetap lewat tombol Perbarui agar tercatat di riwayat.
+function TugasModal({ projectId, task, open, members, onClose, onDone }: { projectId: number; task: Task | null; open: boolean; members: Member[]; onClose: () => void; onDone: () => void }) {
+  const [form, setForm] = useState(
+    task
+      ? { judul: task.judul, deskripsi: task.deskripsi ?? '', bidang: task.bidang, bobot: task.bobot, assigneeId: task.assignee ? String(task.assignee.id) : '', tenggat: task.tenggat?.slice(0, 10) ?? '' }
+      : emptyTask,
+  );
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
+  const ubah = task !== null;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError('');
     setSaving(true);
+    const data = {
+      judul: form.judul,
+      deskripsi: form.deskripsi || null,
+      bidang: form.bidang,
+      bobot: form.bobot,
+      assigneeId: form.assigneeId ? Number(form.assigneeId) : null,
+      tenggat: form.tenggat || null,
+    };
     try {
-      await createTask(projectId, {
-        judul: form.judul,
-        deskripsi: form.deskripsi || null,
-        bidang: form.bidang,
-        bobot: form.bobot,
-        assigneeId: form.assigneeId ? Number(form.assigneeId) : null,
-        tenggat: form.tenggat || null,
-      });
+      if (task) await updateTask(projectId, task.id, data);
+      else await createTask(projectId, data);
       setForm(emptyTask);
       onDone();
     } catch (err) {
@@ -104,7 +113,7 @@ function TambahTugasModal({ projectId, open, members, onClose, onDone }: { proje
   }
 
   return (
-    <BrandModal open={open} title="Tambah Tugas" onClose={onClose}>
+    <BrandModal open={open} title={ubah ? 'Ubah Tugas' : 'Tambah Tugas'} onClose={onClose}>
       <form onSubmit={handleSubmit}>
         <BrandField id="t-judul" label="Judul tugas">
           <input id="t-judul" required minLength={3} maxLength={200} value={form.judul} onChange={(event) => setForm({ ...form, judul: event.target.value })} className={brandInputSolid} />
@@ -142,7 +151,7 @@ function TambahTugasModal({ projectId, open, members, onClose, onDone }: { proje
         <p className="mb-3 font-moon text-sm text-coal-deep/70">Bobot menentukan seberapa besar tugas ini memengaruhi progres bidangnya.</p>
         <BrandError message={error} />
         <button type="submit" disabled={saving} className={`${pillButton} w-full`}>
-          {saving ? 'Menyimpan...' : 'Tambah Tugas'}
+          {saving ? 'Menyimpan...' : ubah ? 'Simpan Perubahan' : 'Tambah Tugas'}
         </button>
       </form>
     </BrandModal>
@@ -150,7 +159,24 @@ function TambahTugasModal({ projectId, open, members, onClose, onDone }: { proje
 }
 
 // `ringkas`: Marketing hanya menerima ringkasan tugas (B-26), tanpa penanggung jawab dan tenggat.
-function TaskTable({ tasks, ringkas, canUpdate, onUpdate }: { tasks: Task[]; ringkas: boolean; canUpdate: (task: Task) => boolean; onUpdate: (task: Task) => void }) {
+// `kelola`: PM dan Operasional dapat mengubah dan menghapus tugas.
+function TaskTable({
+  tasks,
+  ringkas,
+  kelola,
+  canUpdate,
+  onUpdate,
+  onEdit,
+  onDelete,
+}: {
+  tasks: Task[];
+  ringkas: boolean;
+  kelola: boolean;
+  canUpdate: (task: Task) => boolean;
+  onUpdate: (task: Task) => void;
+  onEdit: (task: Task) => void;
+  onDelete: (task: Task) => void;
+}) {
   if (!tasks.length) return <p className="rounded-2xl bg-white p-5 text-center font-moon text-lg text-coal-deep">Belum ada tugas pada project ini.</p>;
   return (
     <div className="overflow-x-auto rounded-2xl border-[3px] border-coal/15 bg-white">
@@ -184,11 +210,28 @@ function TaskTable({ tasks, ringkas, canUpdate, onUpdate }: { tasks: Task[]; rin
                 </span>
               </td>
               <td className="px-3 py-2 text-right">
-                {canUpdate(task) && (
-                  <button type="button" onClick={() => onUpdate(task)} className="rounded-xl bg-coal px-3 py-1 text-sm text-flame hover:text-cream">
-                    Perbarui
-                  </button>
-                )}
+                <span className="inline-flex flex-wrap justify-end gap-1.5">
+                  {canUpdate(task) && (
+                    <button type="button" onClick={() => onUpdate(task)} className="rounded-xl bg-coal px-3 py-1 text-sm text-flame hover:text-cream">
+                      Perbarui
+                    </button>
+                  )}
+                  {kelola && (
+                    <>
+                      <button type="button" onClick={() => onEdit(task)} className="rounded-xl border-2 border-coal px-3 py-0.5 text-sm text-coal-deep hover:bg-coal hover:text-flame">
+                        Ubah
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onDelete(task)}
+                        aria-label={`Hapus tugas ${task.judul}`}
+                        className="rounded-xl border-2 border-[#9c2b2b] px-3 py-0.5 text-sm text-[#9c2b2b] hover:bg-[#9c2b2b] hover:text-cream"
+                      >
+                        Hapus
+                      </button>
+                    </>
+                  )}
+                </span>
               </td>
             </tr>
           ))}
@@ -326,7 +369,9 @@ export default function ProyekTimPage() {
   const { data: project, loading, error, reload: reloadProject } = useData<ProjectDetail>(loadProject);
   const { data: tasks, reload: reloadTasks } = useData(loadTasks);
   const [editing, setEditing] = useState<Task | null>(null);
-  const [adding, setAdding] = useState(false);
+  // null = jendela tugas tertutup; { task: null } = tambah; { task } = ubah.
+  const [formTugas, setFormTugas] = useState<{ task: Task | null } | null>(null);
+  const [hapusError, setHapusError] = useState('');
   const [version, setVersion] = useState(0);
 
   if (loading && !project) return <p className="p-10 text-center font-moon text-xl">Memuat...</p>;
@@ -340,6 +385,18 @@ export default function ProyekTimPage() {
     void reloadProject();
     void reloadTasks();
     setVersion((value) => value + 1);
+  }
+
+  async function hapusTugas(task: Task) {
+    const riwayat = task.persentase > 0 ? ' Riwayat progresnya ikut terhapus dan progres project dihitung ulang.' : '';
+    if (!window.confirm(`Hapus tugas "${task.judul}"?${riwayat}`)) return;
+    setHapusError('');
+    try {
+      await deleteTask(project!.id, task.id);
+      refresh();
+    } catch (err) {
+      setHapusError(errorMessage(err));
+    }
   }
 
   return (
@@ -364,13 +421,22 @@ export default function ProyekTimPage() {
         <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
           <p className="font-magic text-2xl uppercase text-flame sm:text-3xl">Daftar Tugas</p>
           {canManage && !closed && (
-            <button type="button" onClick={() => setAdding(true)} className={pillButton}>
+            <button type="button" onClick={() => setFormTugas({ task: null })} className={pillButton}>
               + Tambah Tugas
             </button>
           )}
         </div>
         <div className="mt-3">
-          <TaskTable tasks={tasks ?? []} ringkas={user.role === 'MARKETING'} canUpdate={canUpdate} onUpdate={setEditing} />
+          <BrandError message={hapusError} />
+          <TaskTable
+            tasks={tasks ?? []}
+            ringkas={user.role === 'MARKETING'}
+            kelola={canManage && !closed}
+            canUpdate={canUpdate}
+            onUpdate={setEditing}
+            onEdit={(task) => setFormTugas({ task })}
+            onDelete={(task) => void hapusTugas(task)}
+          />
         </div>
         <Riwayat projectId={project.id} version={version} />
       </ProyekInfo>
@@ -384,13 +450,16 @@ export default function ProyekTimPage() {
           refresh();
         }}
       />
-      <TambahTugasModal
+      {/* key memastikan isian terisi ulang setiap kali tugas yang dibuka berganti. */}
+      <TugasModal
+        key={formTugas?.task?.id ?? 'baru'}
         projectId={project.id}
-        open={adding}
+        task={formTugas?.task ?? null}
+        open={formTugas !== null}
         members={project.members ?? []}
-        onClose={() => setAdding(false)}
+        onClose={() => setFormTugas(null)}
         onDone={() => {
-          setAdding(false);
+          setFormTugas(null);
           refresh();
         }}
       />

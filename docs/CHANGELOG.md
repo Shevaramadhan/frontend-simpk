@@ -11,6 +11,11 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-14 (ubah dan hapus tugas)
+
+### Ditambah
+- PM dan Operasional dapat mengubah tugas (judul, deskripsi, bidang, bobot, penanggung jawab, tenggat) dan menghapus tugas dengan konfirmasi. Persentase tetap diubah lewat Perbarui agar tercatat di riwayat. Tombol tidak tampil untuk anggota biasa dan untuk project yang sudah Selesai atau Dibatalkan.
+
 ## 2026-11-14 (peran anggota di detail project)
 
 ### Ditambah

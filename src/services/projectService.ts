@@ -53,3 +53,12 @@ export async function listTeamUpdates(projectId: number) {
   const { data } = await api.get<ApiResponse<TeamUpdate[]>>(`/projects/${projectId}/updates`);
   return data.data;
 }
+
+/** Ubah isi tugas (PM dan Operasional). Persentase tetap lewat addProgress agar tercatat di riwayat. */
+export async function updateTask(projectId: number, taskId: number, input: TaskInput) {
+  await api.patch(`/projects/${projectId}/tasks/${taskId}`, input);
+}
+
+export async function deleteTask(projectId: number, taskId: number) {
+  await api.delete(`/projects/${projectId}/tasks/${taskId}`);
+}
