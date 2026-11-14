@@ -11,6 +11,11 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-14 (ikon mata kata sandi)
+
+### Ditambah
+- `components/PasswordInput.tsx`: tombol mata untuk menampilkan atau menyembunyikan ketikan kata sandi. Dipasang di Login, Sign In, Reset Sandi, Account, Ganti Kata Sandi, Tambah Worker, dan Pengguna.
+
 ## 2026-11-14 (persiapan deploy)
 
 ### Ditambah

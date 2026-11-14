@@ -11,6 +11,7 @@ import { listClients, updateClientEmail } from '../../services/clientService';
 import { createUser, listUsers, updateUser } from '../../services/userService';
 import type { Client, InternalRole, InternalUser } from '../../types';
 import { ROLE_LABEL } from '../../utils/navigation';
+import PasswordInput from '../../components/PasswordInput';
 
 const emptyUser = { name: '', email: '', password: '', role: 'TIM' as InternalRole };
 
@@ -125,7 +126,11 @@ export default function PenggunaPage() {
 
   const text = (id: 'name' | 'email' | 'password', label: string, type = 'text') => (
     <Field id={id} label={label}>
-      <input id={id} type={type} required value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={inputClass} />
+      {type === 'password' ? (
+        <PasswordInput tone="light" id={id} required value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={inputClass} />
+      ) : (
+        <input id={id} type={type} required value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={inputClass} />
+      )}
     </Field>
   );
 

@@ -4,6 +4,7 @@ import AuthShell from '../../components/brand/AuthShell';
 import { BrandError, BrandField, FramedButton, brandInput } from '../../components/brand/Brand';
 import { errorMessage } from '../../services/apiConfig';
 import { resetPassword } from '../../services/authService';
+import PasswordInput from '../../components/PasswordInput';
 
 export default function ResetSandiPage() {
   const [params] = useSearchParams();
@@ -41,10 +42,10 @@ export default function ResetSandiPage() {
       ) : (
         <form onSubmit={handleSubmit}>
           <BrandField id="baru" label="Kata sandi baru (minimal 8 karakter)">
-            <input id="baru" type="password" required autoComplete="new-password" value={baru} onChange={(event) => setBaru(event.target.value)} className={brandInput} />
+            <PasswordInput id="baru" required autoComplete="new-password" value={baru} onChange={(event) => setBaru(event.target.value)} className={brandInput} />
           </BrandField>
           <BrandField id="ulang" label="Ulangi kata sandi baru">
-            <input id="ulang" type="password" required autoComplete="new-password" value={ulang} onChange={(event) => setUlang(event.target.value)} className={brandInput} />
+            <PasswordInput id="ulang" required autoComplete="new-password" value={ulang} onChange={(event) => setUlang(event.target.value)} className={brandInput} />
           </BrandField>
           <BrandError message={error} />
           <div className="flex justify-center"><FramedButton type="submit" disabled={saving}>{saving ? 'Menyimpan...' : 'Simpan'}</FramedButton></div>

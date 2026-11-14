@@ -6,6 +6,7 @@ import GoogleButton from '../../components/brand/GoogleButton';
 import { useAuth } from '../../hooks/useAuth';
 import { errorMessage } from '../../services/apiConfig';
 import { afterAuthPath } from '../../utils/navigation';
+import PasswordInput from '../../components/PasswordInput';
 
 // Sign In = pendaftaran akun. Semua akun dari halaman ini adalah Klien (role ditentukan backend).
 const empty = { name: '', email: '', password: '', noWhatsapp: '' };
@@ -43,7 +44,11 @@ export default function DaftarPage() {
 
   const text = (id: keyof typeof empty, label: string, type: string, autoComplete: string) => (
     <BrandField id={id} label={label}>
-      <input id={id} type={type} required autoComplete={autoComplete} value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={brandInput} />
+      {type === 'password' ? (
+        <PasswordInput id={id} required autoComplete={autoComplete} value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={brandInput} />
+      ) : (
+        <input id={id} type={type} required autoComplete={autoComplete} value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={brandInput} />
+      )}
     </BrandField>
   );
 

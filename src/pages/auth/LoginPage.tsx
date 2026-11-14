@@ -5,6 +5,7 @@ import { BrandError, BrandField, FramedButton, brandInput } from '../../componen
 import { useAuth } from '../../hooks/useAuth';
 import { errorMessage } from '../../services/apiConfig';
 import { afterAuthPath } from '../../utils/navigation';
+import PasswordInput from '../../components/PasswordInput';
 
 // Satu halaman login untuk semua akun. Tujuan setelah masuk ditentukan role dari database:
 // Klien ke /portal, Marketing, Operasional, dan Tim ke /app.
@@ -38,7 +39,7 @@ export default function LoginPage() {
           <input id="email" type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className={brandInput} />
         </BrandField>
         <BrandField id="password" label="Password">
-          <input id="password" type="password" required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className={brandInput} />
+          <PasswordInput id="password" required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className={brandInput} />
         </BrandField>
         <div className="mb-[clamp(8px,2.4vh,24px)] text-right">
           <Link to="/lupa-sandi" className="font-moon text-[clamp(13px,2vh,16px)] text-coal-deep underline underline-offset-4">

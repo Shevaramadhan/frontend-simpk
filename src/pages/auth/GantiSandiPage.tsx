@@ -3,6 +3,7 @@ import Button from '../../components/Button';
 import Field, { inputClass } from '../../components/Field';
 import { errorMessage } from '../../services/apiConfig';
 import { changePassword } from '../../services/authService';
+import PasswordInput from '../../components/PasswordInput';
 
 const empty = { lama: '', baru: '', ulang: '' };
 
@@ -34,7 +35,7 @@ export default function GantiSandiPage() {
 
   const text = (id: keyof typeof empty, label: string, autoComplete: string) => (
     <Field id={id} label={label}>
-      <input id={id} type="password" required autoComplete={autoComplete} value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={inputClass} />
+      <PasswordInput tone="light" id={id} required autoComplete={autoComplete} value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={inputClass} />
     </Field>
   );
 

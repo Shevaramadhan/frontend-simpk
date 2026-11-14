@@ -6,6 +6,7 @@ import { Avatar, EmptyState, LoadError, Loading, StaffPanel, pillButton, workerN
 import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
 import { createUser, listWorkers } from '../../services/userService';
+import PasswordInput from '../../components/PasswordInput';
 
 // Wireframe "Worker" dan "Tambah Worker": Operasional membuat akun Tim (B-29: akun internal dibuat Operasional).
 const empty = { name: '', email: '', password: '' };
@@ -32,7 +33,11 @@ function TambahWorker({ open, onClose, onDone }: { open: boolean; onClose: () =>
 
   const input = (id: keyof typeof empty, label: string, type: string, autoComplete: string) => (
     <BrandField id={`w-${id}`} label={label}>
-      <input id={`w-${id}`} type={type} required autoComplete={autoComplete} minLength={id === 'password' ? 8 : 2} value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={brandInputSolid} />
+      {type === 'password' ? (
+        <PasswordInput id={`w-${id}`} required autoComplete={autoComplete} minLength={8} value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={brandInputSolid} />
+      ) : (
+        <input id={`w-${id}`} type={type} required autoComplete={autoComplete} minLength={2} value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={brandInputSolid} />
+      )}
     </BrandField>
   );
 

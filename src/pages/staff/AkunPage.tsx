@@ -5,6 +5,7 @@ import { useCurrentUser } from '../../hooks/useAuth';
 import { errorMessage } from '../../services/apiConfig';
 import { changePassword } from '../../services/authService';
 import { ROLE_LABEL } from '../../utils/navigation';
+import PasswordInput from '../../components/PasswordInput';
 
 // Wireframe "Account": profil singkat dan ganti kata sandi. Foto profil belum didukung Backend.
 const empty = { lama: '', baru: '', ulang: '' };
@@ -35,7 +36,7 @@ export default function AkunPage() {
 
   const input = (id: keyof typeof empty, label: string, autoComplete: string) => (
     <BrandField id={`a-${id}`} label={label}>
-      <input id={`a-${id}`} type="password" required autoComplete={autoComplete} value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={brandInputSolid} />
+      <PasswordInput id={`a-${id}`} required autoComplete={autoComplete} value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={brandInputSolid} />
     </BrandField>
   );
 
