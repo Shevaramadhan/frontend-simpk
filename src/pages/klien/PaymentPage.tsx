@@ -1,5 +1,5 @@
 import { useCallback, useState, type FormEvent } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { BrandError, dashedBox } from '../../components/brand/Brand';
 import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
@@ -12,6 +12,7 @@ import ProyekInfo from '../../components/brand/ProyekInfo';
 function invoiceState(invoice: Invoice) {
   const last = invoice.payments[0];
   if (invoice.status === 'LUNAS') return { label: 'Lunas', tone: 'bg-[#8fd694]', canPay: false, note: '' };
+  if (invoice.status === 'DIBATALKAN') return { label: 'Dibatalkan', tone: 'bg-coal/15', canPay: false, note: '' };
   if (last?.statusVerifikasi === 'MENUNGGU_VERIFIKASI') return { label: 'Bukti sedang diperiksa', tone: 'bg-[#ffd27a]', canPay: false, note: '' };
   if (last?.statusVerifikasi === 'DITOLAK') return { label: 'Bukti ditolak', tone: 'bg-[#f19b9b]', canPay: true, note: last.alasanDitolak ?? '' };
   return { label: 'Belum dibayar', tone: 'bg-[#bdbdbd]', canPay: true, note: '' };
@@ -70,13 +71,18 @@ function UploadForm({ invoice, onDone }: { invoice: Invoice; onDone: () => void 
   );
 }
 
-function InvoiceCard({ invoice, onChange }: { invoice: Invoice; onChange: () => void }) {
+function InvoiceCard({ orderId, invoice, onChange }: { orderId: number; invoice: Invoice; onChange: () => void }) {
   const state = invoiceState(invoice);
   return (
     <div className="rounded-[22px] border-[3px] border-coal/10 bg-white p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="font-magic text-xl uppercase text-coal-deep">{invoice.keterangan}</p>
-        <span className={`rounded-xl px-3 py-1 font-moon text-sm text-coal-deep ${state.tone}`}>{state.label}</span>
+        <span className="flex items-center gap-2">
+          <Link to={`/tagihan/${orderId}/${invoice.id}`} className="rounded-xl border-2 border-coal px-3 py-0.5 font-moon text-sm text-coal-deep hover:bg-coal hover:text-flame">
+            Cetak Tagihan
+          </Link>
+          <span className={`rounded-xl px-3 py-1 font-moon text-sm text-coal-deep ${state.tone}`}>{state.label}</span>
+        </span>
       </div>
       <dl className="mt-2 flex flex-wrap gap-x-8 gap-y-1 font-moon text-lg">
         <div className="flex gap-2">
@@ -90,6 +96,11 @@ function InvoiceCard({ invoice, onChange }: { invoice: Invoice; onChange: () => 
       </dl>
       <p className="font-moon text-xs text-coal-deep/60">{invoice.nomor}</p>
       {state.note && <p className="mt-2 rounded-xl bg-[#f19b9b55] px-3 py-1.5 font-moon text-sm text-coal-deep">Alasan ditolak: {state.note}</p>}
+      {invoice.status === 'DIBATALKAN' && (
+        <p className="mt-2 rounded-xl bg-coal/10 px-3 py-1.5 font-moon text-sm text-coal-deep">
+          Tagihan ini dibatalkan Marketing dan tidak perlu dibayar.{invoice.alasanBatal ? ` Alasan: ${invoice.alasanBatal}` : ''}
+        </p>
+      )}
       {state.canPay && <UploadForm invoice={invoice} onDone={onChange} />}
     </div>
   );
@@ -115,7 +126,7 @@ export default function PaymentPage() {
                 : 'Tagihan diterbitkan setelah pengajuan disetujui Marketing.'}
             </p>
           ) : (
-            order.invoices.map((invoice) => <InvoiceCard key={invoice.id} invoice={invoice} onChange={() => void reload()} />)
+            order.invoices.map((invoice) => <InvoiceCard key={invoice.id} orderId={order.id} invoice={invoice} onChange={() => void reload()} />)
           )}
         </div>
         <div className="mx-auto w-[220px] rounded-[20px] bg-flame p-3">

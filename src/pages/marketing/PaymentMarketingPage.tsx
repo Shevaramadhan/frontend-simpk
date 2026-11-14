@@ -1,5 +1,5 @@
 import { useCallback, useState, type FormEvent } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { BrandError, BrandField, brandInputSolid } from '../../components/brand/Brand';
 import BrandModal from '../../components/brand/BrandModal';
 import ProyekInfo from '../../components/brand/ProyekInfo';
@@ -7,7 +7,7 @@ import { StatusPill, linkButton, pillButton } from '../../components/brand/Staff
 import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
 import { openProtectedFile } from '../../services/fileService';
-import { createInvoice, getOrder, verifyPayment } from '../../services/orderService';
+import { cancelInvoice, createInvoice, getOrder, updateInvoice, verifyPayment } from '../../services/orderService';
 import type { Invoice, Payment } from '../../types';
 import { rupiahPendek, tanggalPendek } from '../../utils/format';
 
@@ -69,13 +69,54 @@ function TerbitkanForm({ orderId, sisa, onDone }: { orderId: number; sisa: numbe
   );
 }
 
-function InvoiceCard({ invoice, onReview }: { invoice: Invoice; onReview: (payment: Payment) => void }) {
+const INVOICE_STATUS: Record<Invoice['status'], { label: string; className: string }> = {
+  DRAF: { label: 'Draf', className: 'bg-[#bdbdbd] text-coal-deep' },
+  DITERBITKAN: { label: 'Belum lunas', className: 'bg-[#bdbdbd] text-coal-deep' },
+  LUNAS: { label: 'Lunas', className: 'bg-[#8fd694] text-coal-deep' },
+  DIBATALKAN: { label: 'Dibatalkan', className: 'bg-coal/15 text-coal-deep line-through' },
+};
+
+// Ubah atau batalkan hanya selama belum ada bukti yang diterima atau sedang diperiksa (aturan sama dengan Backend).
+const bisaDiperbaiki = (invoice: Invoice) =>
+  invoice.status === 'DITERBITKAN' && !invoice.payments.some((p) => p.statusVerifikasi === 'DITERIMA' || p.statusVerifikasi === 'MENUNGGU_VERIFIKASI');
+
+function InvoiceCard({
+  orderId,
+  invoice,
+  onReview,
+  onEdit,
+  onCancel,
+}: {
+  orderId: number;
+  invoice: Invoice;
+  onReview: (payment: Payment) => void;
+  onEdit: (invoice: Invoice) => void;
+  onCancel: (invoice: Invoice) => void;
+}) {
+  const status = INVOICE_STATUS[invoice.status];
+  const batal = invoice.status === 'DIBATALKAN';
   return (
-    <div className="rounded-[22px] border-[3px] border-coal/10 bg-white p-4">
+    <div className={`rounded-[22px] border-[3px] border-coal/10 p-4 ${batal ? 'bg-white/60' : 'bg-white'}`}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="font-magic text-xl uppercase text-coal-deep">{invoice.keterangan}</p>
-        <StatusPill label={invoice.status === 'LUNAS' ? 'Lunas' : 'Belum lunas'} className={invoice.status === 'LUNAS' ? 'bg-[#8fd694] text-coal-deep' : 'bg-[#bdbdbd] text-coal-deep'} />
+        <p className={`font-magic text-xl uppercase text-coal-deep ${batal ? 'line-through opacity-60' : ''}`}>{invoice.keterangan}</p>
+        <span className="flex flex-wrap items-center gap-2">
+          {bisaDiperbaiki(invoice) && (
+            <>
+              <button type="button" onClick={() => onEdit(invoice)} className="rounded-xl border-2 border-coal px-3 py-0.5 font-moon text-sm text-coal-deep hover:bg-coal hover:text-flame">
+                Ubah
+              </button>
+              <button type="button" onClick={() => onCancel(invoice)} className="rounded-xl border-2 border-[#9c2b2b] px-3 py-0.5 font-moon text-sm text-[#9c2b2b] hover:bg-[#9c2b2b] hover:text-cream">
+                Batalkan
+              </button>
+            </>
+          )}
+          <Link to={`/tagihan/${orderId}/${invoice.id}`} className="rounded-xl border-2 border-coal px-3 py-0.5 font-moon text-sm text-coal-deep hover:bg-coal hover:text-flame">
+            Cetak Tagihan
+          </Link>
+          <StatusPill label={status.label} className={status.className} />
+        </span>
       </div>
+      {batal && invoice.alasanBatal && <p className="mt-1 font-moon text-sm text-coal-deep/70">Alasan dibatalkan: {invoice.alasanBatal}</p>}
       <dl className="mt-1 flex flex-wrap gap-x-8 gap-y-1 font-moon text-lg">
         <div className="flex gap-2">
           <dt className="text-flame">Tagihan :</dt>
@@ -119,12 +160,38 @@ export default function PaymentMarketingPage() {
   const [alasan, setAlasan] = useState('');
   const [actionError, setActionError] = useState('');
   const [saving, setSaving] = useState(false);
+  const [mengubah, setMengubah] = useState<Invoice | null>(null);
+  const [membatalkan, setMembatalkan] = useState<Invoice | null>(null);
+  const [formUbah, setFormUbah] = useState({ keterangan: '', total: '', jatuhTempo: '' });
+  const [alasanBatal, setAlasanBatal] = useState('');
 
   if (loading && !order) return <p className="p-10 text-center font-moon text-xl">Memuat...</p>;
   if (error || !order) return <p role="alert" className="p-10 text-center font-moon text-xl text-[#9c2b2b]">{error || 'Request tidak ditemukan.'}</p>;
 
   const nilai = Number(order.nilaiDisepakati ?? 0);
-  const ditagih = order.invoices.reduce((n, invoice) => n + Number(invoice.total), 0);
+  // Tagihan yang dibatalkan tidak dihitung sebagai sudah ditagih.
+  const ditagih = order.invoices.filter((invoice) => invoice.status !== 'DIBATALKAN').reduce((n, invoice) => n + Number(invoice.total), 0);
+
+  function bukaUbah(invoice: Invoice) {
+    setActionError('');
+    setFormUbah({ keterangan: invoice.keterangan, total: String(Number(invoice.total)), jatuhTempo: invoice.jatuhTempo?.slice(0, 10) ?? '' });
+    setMengubah(invoice);
+  }
+
+  async function jalankan(aksi: () => Promise<void>) {
+    setActionError('');
+    setSaving(true);
+    try {
+      await aksi();
+      setMengubah(null);
+      setMembatalkan(null);
+      await reload();
+    } catch (err) {
+      setActionError(errorMessage(err));
+    } finally {
+      setSaving(false);
+    }
+  }
   const dibayar = order.invoices.flatMap((invoice) => invoice.payments).filter((p) => p.statusVerifikasi === 'DITERIMA').reduce((n, p) => n + Number(p.jumlah), 0);
   const bisaTagih = order.status === 'DISETUJUI' || order.status === 'MENJADI_PROYEK';
 
@@ -165,11 +232,18 @@ export default function PaymentMarketingPage() {
           {order.invoices.map((invoice) => (
             <InvoiceCard
               key={invoice.id}
+              orderId={order.id}
               invoice={invoice}
               onReview={(payment) => {
                 setAlasan('');
                 setActionError('');
                 setReview({ invoice, payment });
+              }}
+              onEdit={bukaUbah}
+              onCancel={(item) => {
+                setActionError('');
+                setAlasanBatal('');
+                setMembatalkan(item);
               }}
             />
           ))}
@@ -180,6 +254,57 @@ export default function PaymentMarketingPage() {
           )}
         </div>
       </ProyekInfo>
+
+      <BrandModal open={mengubah !== null} title="Ubah Tagihan" onClose={() => setMengubah(null)}>
+        {mengubah && (
+          <form
+            onSubmit={(event: FormEvent<HTMLFormElement>) => {
+              event.preventDefault();
+              void jalankan(() => updateInvoice(mengubah.id, { keterangan: formUbah.keterangan, total: Number(formUbah.total), jatuhTempo: formUbah.jatuhTempo || null }));
+            }}
+          >
+            <p className="mb-3 font-moon text-sm text-coal-deep/70">{mengubah.nomor}</p>
+            <BrandField id="u-ket" label="Keterangan">
+              <input id="u-ket" required maxLength={160} value={formUbah.keterangan} onChange={(e) => setFormUbah({ ...formUbah, keterangan: e.target.value })} className={brandInputSolid} />
+            </BrandField>
+            <div className="grid gap-x-3 sm:grid-cols-2">
+              <BrandField id="u-total" label="Nominal (Rp)">
+                <input id="u-total" type="number" min="1" required value={formUbah.total} onChange={(e) => setFormUbah({ ...formUbah, total: e.target.value })} className={brandInputSolid} />
+              </BrandField>
+              <BrandField id="u-tempo" label="Tenggat pembayaran">
+                <input id="u-tempo" type="date" value={formUbah.jatuhTempo} onChange={(e) => setFormUbah({ ...formUbah, jatuhTempo: e.target.value })} className={brandInputSolid} />
+              </BrandField>
+            </div>
+            <BrandError message={actionError} />
+            <button type="submit" disabled={saving} className={`${pillButton} w-full`}>
+              {saving ? 'Menyimpan...' : 'Simpan Perubahan'}
+            </button>
+          </form>
+        )}
+      </BrandModal>
+
+      <BrandModal open={membatalkan !== null} title="Batalkan Tagihan" onClose={() => setMembatalkan(null)}>
+        {membatalkan && (
+          <form
+            onSubmit={(event: FormEvent<HTMLFormElement>) => {
+              event.preventDefault();
+              void jalankan(() => cancelInvoice(membatalkan.id, alasanBatal));
+            }}
+          >
+            <p className="mb-3 font-moon text-base text-coal-deep">
+              {membatalkan.keterangan} · {rupiahPendek(membatalkan.total)} ({membatalkan.nomor})
+            </p>
+            <p className="mb-3 font-moon text-sm text-coal-deep/70">Tagihan tidak dihapus, tetapi ditandai Dibatalkan dan tidak dapat dibayar. Klien melihat alasannya. Terbitkan tagihan baru bila perlu.</p>
+            <BrandField id="b-alasan" label="Alasan pembatalan">
+              <textarea id="b-alasan" required minLength={5} maxLength={255} rows={3} value={alasanBatal} onChange={(e) => setAlasanBatal(e.target.value)} className={`${brandInputSolid} resize-y`} />
+            </BrandField>
+            <BrandError message={actionError} />
+            <button type="submit" disabled={saving} className="w-full rounded-[24px] bg-[#9c2b2b] px-6 py-2 font-moon text-lg text-cream disabled:opacity-60">
+              {saving ? 'Menyimpan...' : 'Batalkan Tagihan'}
+            </button>
+          </form>
+        )}
+      </BrandModal>
 
       <BrandModal open={Boolean(review)} title="Bukti Transfer" onClose={() => setReview(null)}>
         {review && (

@@ -11,6 +11,25 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-14 (pengaturan dan perbaikan tagihan)
+
+### Ditambah
+- Halaman Pengaturan Marketing (`/app/pengaturan`) untuk identitas dan rekening Neo Telemetri yang tercetak di tagihan; menggantikan berkas `data/neoTelemetri.ts`.
+- Tombol Ubah dan Batalkan tagihan di halaman Payment Marketing, hanya untuk tagihan yang belum dibayar dan tanpa bukti yang sedang diperiksa. Tagihan dibatalkan dicoret, tidak dihitung sebagai sudah ditagih, dan ditandai di tagihan cetak serta halaman Payment klien.
+
+### Diperbaiki
+- Pesan "Pengaturan disimpan" tidak hilang setelah data dimuat ulang.
+
+### Dihapus
+- `data/neoTelemetri.ts` (diganti API Pengaturan).
+
+## 2026-11-14 (tagihan cetak)
+
+### Ditambah
+- Halaman tagihan siap cetak `/tagihan/:orderId/:invoiceId` (FR-12, UC-16, Charter Tujuan 4) untuk klien pemilik, Marketing, dan Operasional: identitas Neo Telemetri, nomor, tanggal terbit, jatuh tempo, status, data klien, project, rincian, total, sudah dibayar, sisa, pembayaran diterima, dan rekening tujuan. Tombol Cetak / Simpan PDF memakai fitur cetak browser; ukuran A4 satu halaman.
+- Tombol Cetak Tagihan pada setiap tagihan di halaman Payment klien dan Marketing.
+- `data/neoTelemetri.ts`: identitas dan rekening Neo Telemetri. Masih data contoh (DUMMY), sehingga tagihan menampilkan peringatan agar tidak ada transfer ke rekening contoh.
+
 ## 2026-11-14 (ubah dan hapus tugas)
 
 ### Ditambah

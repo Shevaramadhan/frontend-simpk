@@ -130,8 +130,18 @@
   background-size: 80px 80px;
 }
 
-/* Tagihan dicetak hitam di atas putih. */
+/* Tagihan dicetak hitam di atas putih pada A4. */
+@page {
+  size: A4;
+  margin: 14mm;
+}
+
 @media print {
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
   .no-print {
     display: none;
   }

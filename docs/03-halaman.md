@@ -29,6 +29,8 @@ Status: **Kerangka** berarti rute sudah ada tetapi isinya belum dibuat.
 | `/portal/proyek/:id/payment` | Klien | `pages/klien/PaymentPage` | Selesai, desain Figma |
 | `/portal/pesan` | Klien | `pages/klien/PesanPage` | Selesai, form pengajuan desain Figma |
 | `/portal/profil` | Klien | `pages/klien/ProfilPage` | Selesai, data diri dan ganti kata sandi; `/portal/sandi` dialihkan ke sini |
+| `/tagihan/:orderId/:invoiceId` | Klien pemilik, Marketing, Operasional | `pages/TagihanCetakPage` | Selesai; identitas dan rekening dari halaman Pengaturan |
+| `/app/pengaturan` | Marketing | `pages/marketing/PengaturanPage` | Selesai, identitas dan rekening untuk tagihan |
 | `/403` | Publik | `pages/ErrorPages` | Selesai |
 | Lainnya | Publik | `pages/ErrorPages` | Selesai |
 

@@ -14,6 +14,7 @@ import DashboardPage from './pages/marketing/DashboardPage';
 import KatalogPage from './pages/marketing/KatalogPage';
 import KlienPage from './pages/marketing/KlienPage';
 import PaymentMarketingPage from './pages/marketing/PaymentMarketingPage';
+import PengaturanPage from './pages/marketing/PengaturanPage';
 import ProjekPage from './pages/marketing/ProjekPage';
 import RequestDetailPage from './pages/marketing/RequestDetailPage';
 import RequestPage from './pages/marketing/RequestPage';
@@ -32,6 +33,7 @@ import PesanPage from './pages/klien/PesanPage';
 import ProfilPage from './pages/klien/ProfilPage';
 import ProyekSayaPage from './pages/klien/ProyekSayaPage';
 import { ForbiddenPage, NotFoundPage } from './pages/ErrorPages';
+import TagihanCetakPage from './pages/TagihanCetakPage';
 
 const INTERNAL: Role[] = ['MARKETING', 'OPERASIONAL', 'TIM'];
 
@@ -52,6 +54,11 @@ export default function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/katalog" element={<KatalogPublikPage />} />
 
+      {/* Tagihan cetak tanpa tata letak agar bersih saat dicetak atau disimpan PDF. */}
+      <Route element={<ProtectedRoute roles={['KLIEN', 'MARKETING', 'OPERASIONAL']} />}>
+        <Route path="/tagihan/:orderId/:invoiceId" element={<TagihanCetakPage />} />
+      </Route>
+
       {/* Semua pengurus memakai sidebar sesuai Figma (StaffLayout). */}
       <Route element={<ProtectedRoute roles={INTERNAL} />}>
         <Route path="/app" element={<StaffLayout />}>
@@ -68,6 +75,7 @@ export default function App() {
             <Route path="review" element={<ReviewPage />} />
             <Route path="katalog" element={<KatalogPage />} />
             <Route path="klien" element={<KlienPage />} />
+            <Route path="pengaturan" element={<PengaturanPage />} />
             <Route path="pesanan" element={<Navigate to="/app/request" replace />} />
             <Route path="tagihan" element={<Navigate to="/app/request" replace />} />
           </Route>

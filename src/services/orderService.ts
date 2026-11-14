@@ -51,6 +51,15 @@ export async function payInvoice(invoiceId: number, input: { jumlah: number; tgl
   return data.data;
 }
 
+/** Ubah tagihan selama belum ada bukti yang diterima atau sedang diperiksa. */
+export async function updateInvoice(invoiceId: number, input: { keterangan: string; total: number; jatuhTempo: string | null }) {
+  await api.patch(`/invoices/${invoiceId}`, input);
+}
+
+export async function cancelInvoice(invoiceId: number, alasan: string) {
+  await api.post(`/invoices/${invoiceId}/batal`, { alasan });
+}
+
 export async function verifyPayment(paymentId: number, status: 'DITERIMA' | 'DITOLAK', alasanDitolak?: string) {
   await api.patch(`/payments/${paymentId}`, { status, alasanDitolak });
 }

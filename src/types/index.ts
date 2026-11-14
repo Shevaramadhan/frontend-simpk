@@ -146,7 +146,7 @@ export interface Order {
 export type ProjectStatus = 'PERSIAPAN' | 'BERJALAN' | 'DITUNDA' | 'SELESAI' | 'DIBATALKAN';
 export type TaskStatus = 'BELUM_DIKERJAKAN' | 'DIKERJAKAN' | 'REVIEW' | 'SELESAI';
 export type Bidang = 'UI_UX' | 'FRONTEND' | 'BACKEND' | 'INTEGRASI';
-export type InvoiceStatus = 'DRAF' | 'DITERBITKAN' | 'LUNAS';
+export type InvoiceStatus = 'DRAF' | 'DITERBITKAN' | 'LUNAS' | 'DIBATALKAN';
 export type PaymentStatus = 'MENUNGGU_VERIFIKASI' | 'DITERIMA' | 'DITOLAK';
 
 export interface Payment {
@@ -167,6 +167,8 @@ export interface Invoice {
   tglTerbit: string;
   jatuhTempo: string | null;
   status: InvoiceStatus;
+  /** Alasan bila Marketing membatalkan tagihan. */
+  alasanBatal: string | null;
   payments: Payment[];
 }
 
@@ -182,7 +184,8 @@ export interface OrderDocument {
 }
 
 /** Isi halaman Payment dan Detail klien. Catatan teknis tidak pernah ikut. */
-export interface OrderDetail extends Omit<Order, 'projects'> {
+export interface OrderDetail extends Omit<Order, 'projects' | 'client'> {
+  client: { id: number; namaInstansi: string; noWhatsapp: string | null; alamat: string | null; user: { name: string; email: string } };
   documents: OrderDocument[];
   invoices: Invoice[];
   project: {
@@ -239,4 +242,17 @@ export interface ApiResponse<T> {
   success: boolean;
   message: string;
   data: T;
+}
+
+/** Identitas dan rekening Neo Telemetri untuk tagihan. `contoh` true selama Marketing belum menyimpan data resmi. */
+export interface Pengaturan {
+  nama: string;
+  alamat: string;
+  telepon: string;
+  email: string;
+  bank: string;
+  nomorRekening: string;
+  atasNama: string;
+  updatedAt: string | null;
+  contoh: boolean;
 }

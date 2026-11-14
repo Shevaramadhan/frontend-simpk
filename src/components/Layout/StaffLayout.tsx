@@ -69,6 +69,8 @@ function LineIcon({ d }: { d: string }) {
 }
 const DASHBOARD_ICON = <LineIcon d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z" />;
 const JASA_ICON = <LineIcon d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8zM7.5 7.5h.01" />;
+// Pengaturan tagihan: ikon bangunan bank.
+const BANK_ICON = <LineIcon d="M3 10 12 4l9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18" />;
 const icon = (src: string) => <Icon src={src} className="size-6 lg:size-7" />;
 
 const MENU: Partial<Record<Role, { to: string; label: string; icon: ReactNode; end?: boolean }[]>> = {
@@ -79,6 +81,7 @@ const MENU: Partial<Record<Role, { to: string; label: string; icon: ReactNode; e
     { to: '/app/review', label: 'Review', icon: REVIEW_ICON },
     { to: '/app/katalog', label: 'Daftar Jasa', icon: JASA_ICON },
     { to: '/app/klien', label: 'Klien', icon: icon(ikonProfil) },
+    { to: '/app/pengaturan', label: 'Pengaturan', icon: BANK_ICON },
     { to: '/app/akun', label: 'Account', icon: icon(ikonAccount) },
   ],
   OPERASIONAL: [
