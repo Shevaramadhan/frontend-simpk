@@ -4,6 +4,5 @@ dist/
 .env.local
 *.log
 
-# Font berlisensi pemakaian pribadi dan berkas desain (PNG Figma, zip font) tidak dibagikan lewat repo
-public/fonts/
+# Berkas desain (PNG Figma, zip font) hanya disimpan lokal. Font ikut di repo agar build Vercel memakainya.
 docs/desain/

@@ -67,6 +67,59 @@ export interface InternalUser {
   email: string;
   role: InternalRole;
   isActive: boolean;
+  /** Jumlah project yang pernah diikuti (kartu worker). */
+  jumlahProject: number;
+}
+
+export interface Member {
+  userId: number;
+  name: string;
+  posisi: string;
+  isPm: boolean;
+}
+
+export interface ProjectSummary {
+  id: number;
+  kode: string;
+  nama: string;
+  status: ProjectStatus;
+  tglMulai: string | null;
+  targetSelesai: string | null;
+  klien: string;
+  nomorPesanan: string;
+  kebutuhan: string;
+  tenggatDiharapkan: string | null;
+  progres: number;
+  progresBidang: Record<Bidang, number | null>;
+  nilai?: string;
+  isPm: boolean;
+}
+
+export interface ProjectDetail extends ProjectSummary {
+  documents: OrderDocument[];
+  members?: Member[];
+}
+
+export interface Task {
+  id: number;
+  judul: string;
+  status: TaskStatus;
+  persentase: number;
+  bidang: Bidang;
+  bobot: number;
+  deskripsi: string | null;
+  tenggat: string | null;
+  assignee: { id: number; name: string } | null;
+}
+
+export interface TeamUpdate {
+  id: number;
+  persentase: number;
+  catatanTeknis: string | null;
+  catatanKlien: string | null;
+  createdAt: string;
+  task: { id: number; judul: string };
+  author: { name: string };
 }
 
 export interface Order {
@@ -82,10 +135,11 @@ export interface Order {
   createdAt: string;
   client: { id: number; namaInstansi: string };
   service: { id: number; nama: string } | null;
-  projects: { id: number; status: ProjectStatus }[];
+  projects: { id: number; status: ProjectStatus; _count?: { members: number } }[];
 }
 
 export type ProjectStatus = 'PERSIAPAN' | 'BERJALAN' | 'DITUNDA' | 'SELESAI' | 'DIBATALKAN';
+export type TaskStatus = 'BELUM_DIKERJAKAN' | 'DIKERJAKAN' | 'REVIEW' | 'SELESAI';
 export type Bidang = 'UI_UX' | 'FRONTEND' | 'BACKEND' | 'INTEGRASI';
 export type InvoiceStatus = 'DRAF' | 'DITERBITKAN' | 'LUNAS';
 export type PaymentStatus = 'MENUNGGU_VERIFIKASI' | 'DITERIMA' | 'DITOLAK';

@@ -2,9 +2,9 @@ import { Route, Routes } from 'react-router-dom';
 import { useCurrentUser } from './hooks/useAuth';
 import type { Role } from './types';
 import ProtectedRoute from './components/ProtectedRoute';
-import Placeholder from './components/Placeholder';
 import PublicLayout from './components/Layout/PublicLayout';
 import InternalLayout from './components/Layout/InternalLayout';
+import StaffLayout from './components/Layout/StaffLayout';
 import ClientLayout from './components/Layout/ClientLayout';
 import DaftarPage from './pages/auth/DaftarPage';
 import GantiSandiPage from './pages/auth/GantiSandiPage';
@@ -19,6 +19,12 @@ import KlienPage from './pages/marketing/KlienPage';
 import PesananPage from './pages/marketing/PesananPage';
 import TagihanPage from './pages/marketing/TagihanPage';
 import OperasionalDashboardPage from './pages/operasional/OperasionalDashboardPage';
+import PilihWorkerPage from './pages/operasional/PilihWorkerPage';
+import ProjectOpsPage from './pages/operasional/ProjectOpsPage';
+import WorkerPage from './pages/operasional/WorkerPage';
+import AkunPage from './pages/staff/AkunPage';
+import ProjectTimPage from './pages/tim/ProjectTimPage';
+import ProyekTimPage from './pages/tim/ProyekTimPage';
 import PenggunaPage from './pages/operasional/PenggunaPage';
 import TugasSayaPage from './pages/tim/TugasSayaPage';
 import BerandaKlienPage from './pages/klien/BerandaKlienPage';
@@ -33,8 +39,14 @@ const INTERNAL: Role[] = ['MARKETING', 'OPERASIONAL', 'TIM'];
 function InternalHome() {
   const user = useCurrentUser();
   if (user.role === 'MARKETING') return <MarketingDashboardPage />;
-  if (user.role === 'OPERASIONAL') return <OperasionalDashboardPage />;
-  return <TugasSayaPage />;
+  if (user.role === 'OPERASIONAL') return <ProjectOpsPage />;
+  return <ProjectTimPage />;
+}
+
+// Marketing memakai tata letak lama; Operasional dan Tim memakai sidebar sesuai Figma.
+function AppLayout() {
+  const user = useCurrentUser();
+  return user.role === 'MARKETING' ? <InternalLayout /> : <StaffLayout />;
 }
 
 export default function App() {
@@ -50,10 +62,16 @@ export default function App() {
       </Route>
 
       <Route element={<ProtectedRoute roles={INTERNAL} />}>
-        <Route path="/app" element={<InternalLayout />}>
+        <Route path="/app" element={<AppLayout />}>
           <Route index element={<InternalHome />} />
-          <Route path="proyek" element={<Placeholder title="Proyek" />} />
           <Route path="sandi" element={<GantiSandiPage />} />
+          <Route element={<ProtectedRoute roles={['OPERASIONAL', 'TIM']} />}>
+            <Route path="akun" element={<AkunPage />} />
+            <Route path="proyek/:projectId" element={<ProyekTimPage />} />
+          </Route>
+          <Route element={<ProtectedRoute roles={['TIM']} />}>
+            <Route path="tugas" element={<TugasSayaPage />} />
+          </Route>
           <Route element={<ProtectedRoute roles={['MARKETING']} />}>
             <Route path="katalog" element={<KatalogPage />} />
             <Route path="pesanan" element={<PesananPage />} />
@@ -61,6 +79,9 @@ export default function App() {
             <Route path="tagihan" element={<TagihanPage />} />
           </Route>
           <Route element={<ProtectedRoute roles={['OPERASIONAL']} />}>
+            <Route path="pengajuan/:orderId" element={<PilihWorkerPage />} />
+            <Route path="worker" element={<WorkerPage />} />
+            <Route path="ringkasan" element={<OperasionalDashboardPage />} />
             <Route path="pengguna" element={<PenggunaPage />} />
           </Route>
         </Route>

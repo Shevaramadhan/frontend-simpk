@@ -6,7 +6,7 @@ import { errorMessage } from '../../services/apiConfig';
 import { getOrder, payInvoice } from '../../services/orderService';
 import type { Invoice } from '../../types';
 import { rupiahPendek, tanggalPendek } from '../../utils/format';
-import ProyekInfo from './ProyekInfo';
+import ProyekInfo from '../../components/brand/ProyekInfo';
 
 // Figma "Payment Page": tabel pembayaran, QR, dan unggah bukti. Skema DP lalu pelunasan = beberapa tagihan.
 function invoiceState(invoice: Invoice) {
@@ -104,7 +104,7 @@ export default function PaymentPage() {
   if (error || !order) return <p role="alert" className="p-10 text-center font-moon text-xl text-[#9c2b2b]">{error || 'Project tidak ditemukan.'}</p>;
 
   return (
-    <ProyekInfo title="Payment" order={order}>
+    <ProyekInfo title="Payment" judul={order.judul || order.nomor} deskripsi={order.kebutuhan} estimasi={order.tenggatDiharapkan} anggaran={order.anggaran} documents={order.documents} backTo="/portal/proyek">
       <p className="text-center font-magic text-2xl uppercase text-flame sm:text-3xl">Tabel Pembayaran</p>
       <div className="mt-4 grid gap-5 lg:grid-cols-[1fr_auto]">
         <div className="space-y-4">

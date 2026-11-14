@@ -11,6 +11,29 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-14 (persiapan deploy)
+
+### Ditambah
+- `vercel.json`: build Vite dan pengalihan semua alamat ke `index.html` agar rute seperti `/portal` dapat dibuka langsung.
+- Menu Pengguna di sidebar Operasional untuk membuat akun Marketing dan Operasional.
+- Font Magic Hat dan Seven Moon kembali masuk repo (`public/fonts/`) agar build Vercel memakainya. Lisensi komersial tetap perlu diselesaikan sebelum serah terima.
+
+## 2026-11-14 (halaman Operasional dan Tim)
+
+### Ditambah
+- `StaffLayout`: sidebar gelap sesuai Figma "Project Page Operational" (SIMPK, menu Project, Worker, Account, Log Out) untuk Operasional dan Tim; di ponsel menjadi bar atas.
+- Operasional: daftar pengajuan yang disetujui dengan keterangan "Belum ada worker yang mengerjakan" (`/app`), halaman Detail dengan Pilih Worker, saringan, dan tanda PM (`/app/pengajuan/:orderId`), halaman Worker dengan Tambah Worker (`/app/worker`).
+- Tim: daftar project yang diikuti (`/app`) dan detail project (`/app/proyek/:projectId`) berisi total progres, progres per bidang, tabel tugas, Tambah Tugas (PM dan Operasional), Perbarui progres dengan catatan klien dan catatan teknis, serta riwayat progres.
+- Halaman Account (`/app/akun`) untuk ganti kata sandi.
+- Komponen `brand/Progress`, `brand/ProyekInfo` (dipakai bersama halaman klien), `brand/BrandModal`, `brand/StaffParts`; `services/projectService.ts`; ikon di `assets/staff/`.
+
+### Diubah
+- `ProyekInfo` dan panel progres dipindah dari `pages/klien` ke `components/brand` agar dipakai halaman klien, Operasional, dan Tim.
+- Marketing tetap memakai `InternalLayout`.
+
+### Dihapus
+- Rute kerangka `/app/proyek`. Ringkasan lama Operasional dipindah ke `/app/ringkasan` dan Tugas Saya ke `/app/tugas` (tanpa menu) sampai dashboard dibuat.
+
 ## 2026-11-14
 
 ### Diubah (revisi tampilan)

@@ -11,14 +11,19 @@ Status: **Kerangka** berarti rute sudah ada tetapi isinya belum dibuat.
 | `/reset-sandi` | Publik, dari tautan email | `pages/auth/ResetSandiPage` | Selesai |
 | `/katalog` | Publik | `pages/publik/KatalogPublikPage` | Selesai |
 | `/app` | Marketing | `pages/marketing/MarketingDashboardPage` | Kerangka |
-| `/app` | Operasional | `pages/operasional/OperasionalDashboardPage` | Kerangka |
-| `/app` | Tim | `pages/tim/TugasSayaPage` | Kerangka |
+| `/app` | Operasional | `pages/operasional/ProjectOpsPage` | Selesai, desain Figma |
+| `/app/pengajuan/:orderId` | Operasional | `pages/operasional/PilihWorkerPage` | Selesai, desain Figma |
+| `/app/worker` | Operasional | `pages/operasional/WorkerPage` | Selesai, mengikuti wireframe |
+| `/app/ringkasan` | Operasional | `pages/operasional/OperasionalDashboardPage` | Kerangka, tanpa menu |
+| `/app` | Tim | `pages/tim/ProjectTimPage` | Selesai, bergaya desain Operasional |
+| `/app/proyek/:projectId` | Operasional, Tim | `pages/tim/ProyekTimPage` | Selesai, bergaya Detail klien |
+| `/app/tugas` | Tim | `pages/tim/TugasSayaPage` | Kerangka, tanpa menu |
+| `/app/akun` | Operasional, Tim | `pages/staff/AkunPage` | Selesai, mengikuti wireframe; foto profil belum didukung |
 | `/app/katalog` | Marketing | `pages/marketing/KatalogPage` | Selesai, portofolio belum dapat dikelola |
 | `/app/pesanan` | Marketing | `pages/marketing/PesananPage` | Selesai, termasuk persetujuan dengan nilai |
 | `/app/klien` | Marketing | `pages/marketing/KlienPage` | Selesai, lihat dan nonaktifkan klien |
 | `/app/tagihan` | Marketing | `pages/marketing/TagihanPage` | Selesai: terbitkan tagihan, verifikasi bukti |
-| `/app/proyek` | Marketing, Operasional, Tim | Placeholder langsung di `App.tsx` | Kerangka, akan dipisah per role |
-| `/app/pengguna` | Operasional | `pages/operasional/PenggunaPage` | Selesai, akun internal dan perbaikan email |
+| `/app/pengguna` | Operasional | `pages/operasional/PenggunaPage` | Selesai, akun internal dan perbaikan email; tampilan lama |
 | `/portal` | Klien | `pages/klien/BerandaKlienPage` | Selesai, desain Figma |
 | `/portal/proyek` | Klien | `pages/klien/ProyekSayaPage` | Selesai, desain Figma |
 | `/portal/proyek/:id` | Klien | `pages/klien/DetailPage` | Selesai, desain Figma |
@@ -28,4 +33,4 @@ Status: **Kerangka** berarti rute sudah ada tetapi isinya belum dibuat.
 | `/403` | Publik | `pages/ErrorPages` | Selesai |
 | Lainnya | Publik | `pages/ErrorPages` | Selesai |
 
-Pengguna yang sudah masuk diarahkan ke `/portal` untuk Klien dan `/app` untuk role lain. Klien yang datang dari tombol pesan di katalog dilanjutkan ke form pesan dengan jasa pilihannya (`afterAuthPath`).
+Pengguna yang sudah masuk diarahkan ke `/portal` untuk Klien dan `/app` untuk role lain. Di `/app`, Marketing memakai `InternalLayout`, sedangkan Operasional dan Tim memakai `StaffLayout`. Klien yang datang dari tombol pesan di katalog dilanjutkan ke form pesan dengan jasa pilihannya (`afterAuthPath`).

@@ -1,4 +1,4 @@
-import type { Bidang, OrderStatus } from '../types';
+import type { Bidang, OrderStatus, ProjectStatus, TaskStatus } from '../types';
 
 export function rupiah(value: string | number | null): string {
   if (value === null) return '-';
@@ -48,4 +48,19 @@ export const BIDANG_LABEL: Record<Bidang, string> = {
   FRONTEND: 'FrontEnd',
   BACKEND: 'BackEnd',
   INTEGRASI: 'Integrasi',
+};
+
+export const PROJECT_STATUS_LABEL: Record<ProjectStatus, string> = {
+  PERSIAPAN: 'Persiapan',
+  BERJALAN: 'Berjalan',
+  DITUNDA: 'Ditunda',
+  SELESAI: 'Selesai',
+  DIBATALKAN: 'Dibatalkan',
+};
+
+export const TASK_STATUS_LABEL: Record<TaskStatus, string> = {
+  BELUM_DIKERJAKAN: 'Belum dikerjakan',
+  DIKERJAKAN: 'Dikerjakan',
+  REVIEW: 'Review',
+  SELESAI: 'Selesai',
 };

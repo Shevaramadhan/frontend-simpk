@@ -54,4 +54,4 @@ Font: Magic Hat (`font-magic`, judul dan menu), Seven Moon (`font-moon`, teks is
 
 Posisi elemen di `components/landing/` memakai angka koordinat Figma lewat `box(x, y, lebar, tinggi)`. Jangan mengubahnya tanpa mengubah desain.
 
-**Berkas font tidak ada di repo.** Salin `Magic Hat.ttf` menjadi `public/fonts/MagicHat.ttf` dan `Seven Moon.ttf` menjadi `public/fonts/SevenMoon.ttf` (dari zip yang diberikan UI/UX Designer). Tanpa berkas itu tampilan memakai huruf cadangan (Impact dan Trebuchet MS). PNG desain di `docs/desain/` juga hanya disimpan lokal; sumber utamanya file Figma "SIMPK By Neotelemetri".
+Berkas font ada di `public/fonts/` (`MagicHat.ttf`, `SevenMoon.ttf`) agar ikut ter-build di Vercel. Lisensinya hanya untuk pemakaian pribadi, jadi lisensi komersial harus dibeli, atau font diganti, sebelum sistem dipakai resmi oleh Neo Telemetri. Tanpa berkas itu tampilan memakai huruf cadangan (Impact dan Trebuchet MS). PNG desain di `docs/desain/` juga hanya disimpan lokal; sumber utamanya file Figma "SIMPK By Neotelemetri".

@@ -10,6 +10,10 @@ export async function createUser(input: { name: string; email: string; password:
   await api.post('/users', input);
 }
 
+export async function listWorkers() {
+  return (await listUsers()).filter((user) => user.role === 'TIM' && user.isActive);
+}
+
 export async function updateUser(id: number, input: { email?: string; isActive?: boolean }) {
   await api.patch(`/users/${id}`, input);
 }

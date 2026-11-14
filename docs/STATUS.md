@@ -16,7 +16,7 @@ Terakhir diperbarui: 14 November 2026.
 | Sign In, Login, lupa dan reset kata sandi sesuai desain Figma | Selesai, teruji di Chrome |
 | Portal klien sesuai desain: beranda galeri, My Project, form pengajuan, Payment, Detail | Selesai, teruji di Chrome (laptop dan ponsel) |
 | Tagihan dan verifikasi pembayaran untuk Marketing | Selesai, tampilan lama |
-| Halaman Operasional (bentuk proyek, pilih worker) dan Tim (tugas) | Belum dibuat |
+| Halaman Operasional (project, pilih worker dan PM, worker, account) dan Tim (project, tugas, perbarui progres) | Selesai, teruji di Chrome (laptop dan ponsel) |
 | Dashboard ringkasan | Belum dibuat |
 | Ulasan | Belum dibuat (fitur tambahan) |
 
@@ -24,8 +24,9 @@ Yang sudah teruji: pengecekan tipe, build, dan alur klien mendaftar, memesan, di
 
 ## Langkah berikutnya
 
-1. Mengerjakan proyek, tugas, dan progres.
-2. Menambahkan kelola portofolio pada halaman Marketing.
+1. Dashboard ringkasan (REQ-F06).
+2. Menyesuaikan halaman Marketing dengan desain.
+3. Menambahkan kelola portofolio pada halaman Marketing.
 
 ## Jadwal
 
