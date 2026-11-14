@@ -33,6 +33,24 @@ export function rupiahPendek(value: string | number | null): string {
   return `Rp.${new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(Number(value))}`;
 }
 
+/** Status pengajuan dari sisi Marketing (Figma Request Page). */
+export const MARKETING_ORDER_STATUS: Record<OrderStatus, { label: string; className: string }> = {
+  BARU: { label: 'Baru', className: 'bg-[#bdbdbd] text-coal-deep' },
+  DITINJAU: { label: 'Diskusi Lanjut', className: 'bg-[#ffd27a] text-coal-deep' },
+  DISETUJUI: { label: 'Diterima', className: 'bg-[#8fd694] text-coal-deep' },
+  MENJADI_PROYEK: { label: 'Dikerjakan', className: 'bg-[#8fd694] text-coal-deep' },
+  DITOLAK: { label: 'Ditolak', className: 'bg-[#f19b9b] text-coal-deep' },
+  DIBATALKAN: { label: 'Dibatalkan', className: 'bg-[#f19b9b] text-coal-deep' },
+};
+
+/** Rupiah ringkas untuk kartu angka besar: 18 JT, 2,5 JT, 750 RB. */
+export function rupiahRingkas(value: number): string {
+  if (value >= 1_000_000_000) return `${(value / 1_000_000_000).toLocaleString('id-ID', { maximumFractionDigits: 1 })} M`;
+  if (value >= 1_000_000) return `${(value / 1_000_000).toLocaleString('id-ID', { maximumFractionDigits: 1 })} JT`;
+  if (value >= 1_000) return `${Math.round(value / 1_000)} RB`;
+  return String(value);
+}
+
 /** Status pengajuan yang dilihat klien (desain My Project). */
 export const CLIENT_ORDER_STATUS: Record<OrderStatus, { label: string; className: string }> = {
   BARU: { label: 'Menunggu Persetujuan', className: 'bg-[#bdbdbd] text-coal-deep border-[#5c5c5c]' },

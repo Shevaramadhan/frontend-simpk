@@ -1,4 +1,4 @@
-import type { ApiResponse, Bidang, Member, ProjectDetail, ProjectSummary, Task, TeamUpdate } from '../types';
+import type { ApiResponse, Bidang, Member, ProjectDetail, ProjectStatus, ProjectSummary, Task, TeamUpdate } from '../types';
 import api from './apiConfig';
 
 export async function listProjects() {
@@ -17,6 +17,10 @@ export type MemberInput = Pick<Member, 'userId' | 'posisi' | 'isPm'>;
 export async function createProject(input: { orderId: number; nama: string; members: MemberInput[] }) {
   const { data } = await api.post<ApiResponse<{ id: number }>>('/projects', input);
   return data.data;
+}
+
+export async function updateProject(projectId: number, input: { status?: ProjectStatus; targetSelesai?: string | null }) {
+  await api.patch(`/projects/${projectId}`, input);
 }
 
 export async function replaceMembers(projectId: number, members: MemberInput[]) {

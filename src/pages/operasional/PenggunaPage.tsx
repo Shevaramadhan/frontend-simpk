@@ -1,7 +1,7 @@
-import { useState, type FormEvent, type ReactNode } from 'react';
+import { useState, type FormEvent } from 'react';
 import { BrandError, BrandField, brandInputSolid } from '../../components/brand/Brand';
 import BrandModal from '../../components/brand/BrandModal';
-import { LoadError, Loading, StaffPanel, pillButton } from '../../components/brand/StaffParts';
+import { BrandTable, LoadError, Loading, StaffPanel, linkButton, pillButton, tableCell as cell } from '../../components/brand/StaffParts';
 import PasswordInput from '../../components/PasswordInput';
 import { useCurrentUser } from '../../hooks/useAuth';
 import { useData } from '../../hooks/useData';
@@ -19,30 +19,6 @@ interface EmailTarget {
   email: string;
   save: (email: string) => Promise<void>;
 }
-
-const linkButton = 'font-moon text-sm text-flame underline underline-offset-4 hover:text-coal-deep';
-
-function BrandTable({ head, children, empty }: { head: string[]; children: ReactNode; empty?: string }) {
-  return (
-    <div className="overflow-x-auto rounded-2xl border-[3px] border-flame bg-cream">
-      <table className="w-full min-w-[640px] font-moon text-base text-coal-deep">
-        <thead className="bg-coal text-left text-flame">
-          <tr>
-            {head.map((label) => (
-              <th key={label} className="px-4 py-2 font-normal">
-                {label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>{children}</tbody>
-      </table>
-      {empty && <p className="px-4 py-4 text-center font-moon text-coal-deep/70">{empty}</p>}
-    </div>
-  );
-}
-
-const cell = 'border-t border-coal/10 px-4 py-2 align-middle';
 
 export default function PenggunaPage() {
   const me = useCurrentUser();

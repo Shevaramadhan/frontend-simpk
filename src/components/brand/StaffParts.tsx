@@ -60,6 +60,35 @@ export function workerNote(jumlah: number) {
   );
 }
 
+/** Tabel krem berbingkai oranye dengan kepala gelap, untuk halaman pengurus. */
+export function BrandTable({ head, children, empty, minWidth = 'min-w-[640px]' }: { head: string[]; children: ReactNode; empty?: string; minWidth?: string }) {
+  return (
+    <div className="overflow-x-auto rounded-2xl border-[3px] border-flame bg-cream">
+      <table className={`w-full ${minWidth} font-moon text-base text-coal-deep`}>
+        <thead className="bg-coal text-left text-flame">
+          <tr>
+            {head.map((label) => (
+              <th key={label} className="px-4 py-2 font-normal">
+                {label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>{children}</tbody>
+      </table>
+      {empty && <p className="px-4 py-4 text-center font-moon text-coal-deep/70">{empty}</p>}
+    </div>
+  );
+}
+
+export const tableCell = 'border-t border-coal/10 px-4 py-2 align-middle';
+export const linkButton = 'font-moon text-sm text-flame underline underline-offset-4 hover:text-coal-deep';
+
+/** Label status berwarna; warna selalu disertai teks. */
+export function StatusPill({ label, className }: { label: string; className: string }) {
+  return <span className={`inline-block whitespace-nowrap rounded-xl px-3 py-1 font-moon text-sm ${className}`}>{label}</span>;
+}
+
 export function EmptyState({ children }: { children: ReactNode }) {
   return <p className="rounded-[24px] border-[3px] border-dashed border-flame/60 px-5 py-8 text-center font-moon text-lg text-cream/80">{children}</p>;
 }

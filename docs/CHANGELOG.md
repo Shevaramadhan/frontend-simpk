@@ -11,6 +11,23 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-14 (halaman Marketing, dashboard, ulasan)
+
+### Ditambah
+- Marketing memakai sidebar seperti Operasional (Figma "Project Dashboard Page Marketing") dengan menu Dashboard, Request, Projek, Review, ditambah Daftar Jasa, Klien, dan Account. Ikon Request, Projek, Review diambil dari Figma.
+- Dashboard: empat kartu angka (Request Masuk, Total Projek Masuk, Total Projek Selesai, Keuntungan) dan grafik pita per bulan. Tiap pita berskala sendiri karena jumlah dan rupiah tidak boleh berbagi satu sumbu; nilai asli tampil saat diarahkan, dan ada tabel untuk pembaca layar.
+- Request: daftar bertab (Perlu Ditinjau, Diterima, Ditolak/Batal, Semua) dengan penanda bukti transfer menunggu; Detail dengan tombol Tolak, Diskusi Lebih Lanjut, Terima; Payment per request untuk menerbitkan tagihan dan memeriksa bukti.
+- Projek: daftar dan detail (ringkasan tugas tanpa penanggung jawab dan catatan teknis). Review: daftar ulasan dengan bintang dan rata-rata.
+- Klien memberi ulasan (bintang dan komentar) di halaman Detail setelah project Selesai.
+- Operasional menetapkan status dan target selesai project di halaman detail project.
+
+### Diubah
+- Daftar Jasa dan Klien bergaya halaman pengurus; nomor WhatsApp klien dapat diklik.
+- Alamat lama `/app/pesanan`, `/app/tagihan`, dan `/app/sandi` dialihkan ke halaman baru.
+
+### Dihapus
+- `InternalLayout`, halaman Pesanan dan Tagihan lama, Ganti Kata Sandi lama, serta kerangka Ringkasan Operasional dan Tugas Saya.
+
 ## 2026-11-14 (profil klien)
 
 ### Ditambah

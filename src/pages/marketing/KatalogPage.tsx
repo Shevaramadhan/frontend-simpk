@@ -1,15 +1,14 @@
 import { useState, type FormEvent } from 'react';
-import Button from '../../components/Button';
-import DataState from '../../components/DataState';
-import Field, { inputClass } from '../../components/Field';
-import Modal from '../../components/Modal';
-import Table, { type Column } from '../../components/Table';
+import { BrandError, BrandField, brandInputSolid } from '../../components/brand/Brand';
+import BrandModal from '../../components/brand/BrandModal';
+import { BrandTable, LoadError, Loading, StaffPanel, StatusPill, linkButton, pillButton, tableCell as cell } from '../../components/brand/StaffParts';
 import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
 import { listAllServices, saveService } from '../../services/catalogService';
 import type { Service } from '../../types';
-import { rupiah } from '../../utils/format';
+import { rupiahPendek } from '../../utils/format';
 
+// Daftar jasa yang tampil di katalog publik. Menu tambahan di luar desain Figma, bergaya halaman pengurus.
 const empty = { nama: '', deskripsi: '', hargaMin: '', hargaMax: '', estimasiHari: '', isVisible: true };
 
 export default function KatalogPage() {
@@ -18,85 +17,99 @@ export default function KatalogPage() {
   const [editId, setEditId] = useState<number>();
   const [form, setForm] = useState(empty);
   const [formError, setFormError] = useState('');
+  const [saving, setSaving] = useState(false);
 
   function edit(service?: Service) {
     setEditId(service?.id);
-    setForm(service ? { ...service, estimasiHari: String(service.estimasiHari) } : empty);
+    setForm(service ? { ...service, hargaMin: String(Number(service.hargaMin)), hargaMax: String(Number(service.hargaMax)), estimasiHari: String(service.estimasiHari) } : empty);
     setFormError('');
     setOpen(true);
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setFormError('');
+    setSaving(true);
     try {
       await saveService(
-        {
-          nama: form.nama,
-          deskripsi: form.deskripsi,
-          hargaMin: Number(form.hargaMin),
-          hargaMax: Number(form.hargaMax),
-          estimasiHari: Number(form.estimasiHari),
-          isVisible: form.isVisible,
-        },
+        { nama: form.nama, deskripsi: form.deskripsi, hargaMin: Number(form.hargaMin), hargaMax: Number(form.hargaMax), estimasiHari: Number(form.estimasiHari), isVisible: form.isVisible },
         editId,
       );
       setOpen(false);
       await reload();
     } catch (err) {
       setFormError(errorMessage(err));
+    } finally {
+      setSaving(false);
     }
   }
 
-  const columns: Column<Service>[] = [
-    { key: 'nama', label: 'Nama', render: (service) => service.nama },
-    { key: 'biaya', label: 'Perkiraan Biaya', render: (service) => `${rupiah(service.hargaMin)} - ${rupiah(service.hargaMax)}` },
-    { key: 'waktu', label: 'Waktu', render: (service) => `${service.estimasiHari} hari` },
-    { key: 'tampil', label: 'Tampil', render: (service) => (service.isVisible ? 'Ya' : 'Tidak') },
-    {
-      key: 'aksi',
-      label: 'Aksi',
-      render: (service) => (
-        <button type="button" className="underline" onClick={() => edit(service)}>
-          Ubah
-        </button>
-      ),
-    },
-  ];
+  const field = (id: 'nama' | 'hargaMin' | 'hargaMax' | 'estimasiHari', label: string, type = 'text') => (
+    <BrandField id={`j-${id}`} label={label}>
+      <input id={`j-${id}`} type={type} min={type === 'number' ? (id === 'estimasiHari' ? 1 : 0) : undefined} required value={form[id]} onChange={(e) => setForm({ ...form, [id]: e.target.value })} className={brandInputSolid} />
+    </BrandField>
+  );
 
   return (
-    <section>
-      <div className="mb-4 flex items-center justify-between gap-4">
-        <h1 className="text-xl font-semibold">Daftar Jasa</h1>
-        <Button onClick={() => edit()}>Tambah Jasa</Button>
-      </div>
-      <DataState loading={loading} error={error} />
-      {data && <Table columns={columns} rows={data} rowKey={(service) => service.id} />}
+    <StaffPanel
+      title="Daftar Jasa"
+      action={
+        <button type="button" onClick={() => edit()} className={pillButton}>
+          + Tambah Jasa
+        </button>
+      }
+    >
+      <p className="mb-3 font-moon text-base text-cream/80">Jasa yang ditandai tampil muncul di katalog publik dan dapat dipilih klien saat mengajukan project.</p>
+      {loading && !data ? (
+        <Loading />
+      ) : error ? (
+        <LoadError message={error} />
+      ) : (
+        <BrandTable head={['Nama', 'Perkiraan Biaya', 'Waktu', 'Katalog', 'Aksi']} empty={data?.length ? undefined : 'Belum ada jasa.'}>
+          {(data ?? []).map((service) => (
+            <tr key={service.id}>
+              <td className={cell}>
+                {service.nama}
+                <span className="line-clamp-1 block text-xs text-coal-deep/60">{service.deskripsi}</span>
+              </td>
+              <td className={cell}>
+                {rupiahPendek(service.hargaMin)} - {rupiahPendek(service.hargaMax)}
+              </td>
+              <td className={cell}>{service.estimasiHari} hari</td>
+              <td className={cell}>
+                <StatusPill label={service.isVisible ? 'Tampil' : 'Disembunyikan'} className={service.isVisible ? 'bg-[#8fd694] text-coal-deep' : 'bg-[#bdbdbd] text-coal-deep'} />
+              </td>
+              <td className={cell}>
+                <button type="button" className={linkButton} onClick={() => edit(service)}>
+                  Ubah
+                </button>
+              </td>
+            </tr>
+          ))}
+        </BrandTable>
+      )}
 
-      <Modal open={open} title={editId ? 'Ubah Jasa' : 'Tambah Jasa'} onClose={() => setOpen(false)}>
+      <BrandModal open={open} title={editId ? 'Ubah Jasa' : 'Tambah Jasa'} onClose={() => setOpen(false)}>
         <form onSubmit={handleSubmit}>
-          <Field id="nama" label="Nama jasa">
-            <input id="nama" required value={form.nama} onChange={(e) => setForm({ ...form, nama: e.target.value })} className={inputClass} />
-          </Field>
-          <Field id="deskripsi" label="Deskripsi">
-            <textarea id="deskripsi" required rows={3} value={form.deskripsi} onChange={(e) => setForm({ ...form, deskripsi: e.target.value })} className={inputClass} />
-          </Field>
-          <Field id="hargaMin" label="Harga minimum (Rp)">
-            <input id="hargaMin" type="number" min="0" required value={form.hargaMin} onChange={(e) => setForm({ ...form, hargaMin: e.target.value })} className={inputClass} />
-          </Field>
-          <Field id="hargaMax" label="Harga maksimum (Rp)">
-            <input id="hargaMax" type="number" min="0" required value={form.hargaMax} onChange={(e) => setForm({ ...form, hargaMax: e.target.value })} className={inputClass} />
-          </Field>
-          <Field id="estimasiHari" label="Perkiraan waktu (hari)">
-            <input id="estimasiHari" type="number" min="1" required value={form.estimasiHari} onChange={(e) => setForm({ ...form, estimasiHari: e.target.value })} className={inputClass} />
-          </Field>
-          <label className="mb-3 flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={form.isVisible} onChange={(e) => setForm({ ...form, isVisible: e.target.checked })} />
-            Tampilkan di daftar jasa
+          {field('nama', 'Nama jasa')}
+          <BrandField id="j-deskripsi" label="Deskripsi">
+            <textarea id="j-deskripsi" required rows={3} value={form.deskripsi} onChange={(e) => setForm({ ...form, deskripsi: e.target.value })} className={`${brandInputSolid} resize-y`} />
+          </BrandField>
+          <div className="grid gap-x-3 sm:grid-cols-3">
+            {field('hargaMin', 'Harga minimum (Rp)', 'number')}
+            {field('hargaMax', 'Harga maksimum (Rp)', 'number')}
+            {field('estimasiHari', 'Waktu (hari)', 'number')}
+          </div>
+          <label className="mb-3 flex items-center gap-2 font-moon text-base text-coal-deep">
+            <input type="checkbox" className="size-5 accent-[#ff6200]" checked={form.isVisible} onChange={(e) => setForm({ ...form, isVisible: e.target.checked })} />
+            Tampilkan di katalog publik
           </label>
-          {formError && <p role="alert" className="mb-3 text-sm text-danger">{formError}</p>}
-          <Button type="submit">Simpan</Button>
+          <BrandError message={formError} />
+          <button type="submit" disabled={saving} className={`${pillButton} w-full`}>
+            {saving ? 'Menyimpan...' : 'Simpan'}
+          </button>
         </form>
-      </Modal>
-    </section>
+      </BrandModal>
+    </StaffPanel>
   );
 }

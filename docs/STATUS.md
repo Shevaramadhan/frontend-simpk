@@ -15,18 +15,17 @@ Terakhir diperbarui: 14 November 2026.
 | Landing page publik sesuai desain Figma | Selesai, dibandingkan dengan desain di Chrome (1440 px, 768 px, 390 px) |
 | Sign In, Login, lupa dan reset kata sandi sesuai desain Figma | Selesai, teruji di Chrome |
 | Portal klien sesuai desain: beranda galeri, My Project, form pengajuan, Payment, Detail | Selesai, teruji di Chrome (laptop dan ponsel) |
-| Tagihan dan verifikasi pembayaran untuk Marketing | Selesai, tampilan lama |
+| Tagihan dan verifikasi pembayaran untuk Marketing | Selesai, lewat Payment di halaman Request |
 | Halaman Operasional (project, pilih worker dan PM, worker, account) dan Tim (project, tugas, perbarui progres) | Selesai, teruji di Chrome (laptop dan ponsel) |
-| Dashboard ringkasan | Belum dibuat |
-| Ulasan | Belum dibuat (fitur tambahan) |
+| Halaman Marketing sesuai desain: Dashboard, Request, Payment, Projek, Review, Daftar Jasa, Klien | Selesai, teruji di Chrome (laptop dan ponsel) |
+| Ulasan klien | Selesai, teruji di Chrome |
 
 Yang sudah teruji: pengecekan tipe, build, dan alur klien mendaftar, memesan, disetujui Marketing, sampai reset kata sandi di Chrome, ukuran laptop dan ponsel. Tampilan sementara mengikuti situs profil Neo Telemetri, belum mengikuti prototype.
 
 ## Langkah berikutnya
 
-1. Dashboard ringkasan (REQ-F06).
-2. Menyesuaikan halaman Marketing dengan desain.
-3. Menambahkan kelola portofolio pada halaman Marketing.
+1. Ubah dan hapus tugas untuk PM.
+2. Menambahkan kelola portofolio pada halaman Marketing.
 
 ## Jadwal
 

@@ -121,7 +121,8 @@ export interface TeamUpdate {
   catatanKlien: string | null;
   createdAt: string;
   task: { id: number; judul: string };
-  author: { name: string };
+  /** Tidak dikirim untuk Marketing, yang juga tidak menerima catatan teknis. */
+  author?: { name: string };
 }
 
 export interface Order {
@@ -138,6 +139,8 @@ export interface Order {
   client: { id: number; namaInstansi: string };
   service: { id: number; nama: string } | null;
   projects: { id: number; status: ProjectStatus; _count?: { members: number } }[];
+  /** Tagihan ringkas; `payments` hanya berisi bukti yang menunggu diperiksa. */
+  invoices?: { status: InvoiceStatus; payments: { id: number }[] }[];
 }
 
 export type ProjectStatus = 'PERSIAPAN' | 'BERJALAN' | 'DITUNDA' | 'SELESAI' | 'DIBATALKAN';
@@ -188,7 +191,30 @@ export interface OrderDetail extends Omit<Order, 'projects'> {
     status: ProjectStatus;
     progres: number;
     progresBidang: Record<Bidang, number | null>;
+    review: ProjectReview | null;
   } | null;
+}
+
+export interface ProjectReview {
+  rating: number;
+  komentar: string | null;
+  createdAt: string;
+}
+
+export interface Review extends ProjectReview {
+  id: number;
+  project: { id: number; kode: string; nama: string; order: { kebutuhan: string } };
+  client: { namaInstansi: string };
+}
+
+export interface DashboardSummary {
+  requestMasuk: number;
+  projekMasuk: number;
+  projekSelesai: number;
+  /** Total pembayaran yang sudah diverifikasi (B-34). */
+  keuntungan: number;
+  buktiMenunggu: number;
+  bulanan: { bulan: string; request: number; projek: number; selesai: number; pemasukan: number }[];
 }
 
 export interface ClientUpdate {

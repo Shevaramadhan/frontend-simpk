@@ -1,31 +1,95 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import ikonAccount from '../../assets/staff/ikon-account.svg';
 import ikonLogoutA from '../../assets/staff/ikon-logout-a.svg';
 import ikonLogoutB from '../../assets/staff/ikon-logout-b.svg';
 import ikonProfil from '../../assets/staff/ikon-profil.svg';
 import ikonProject from '../../assets/staff/ikon-project.svg';
+import ikonProjekA from '../../assets/staff/ikon-projek-a.svg';
+import ikonProjekB from '../../assets/staff/ikon-projek-b.svg';
+import ikonProjekC from '../../assets/staff/ikon-projek-c.svg';
+import ikonRequestA from '../../assets/staff/ikon-request-a.svg';
+import ikonRequestB from '../../assets/staff/ikon-request-b.svg';
+import ikonReviewA from '../../assets/staff/ikon-review-a.svg';
+import ikonReviewB from '../../assets/staff/ikon-review-b.svg';
+import ikonReviewC from '../../assets/staff/ikon-review-c.svg';
 import { useAuth, useCurrentUser } from '../../hooks/useAuth';
 import type { Role } from '../../types';
 import { ROLE_LABEL } from '../../utils/navigation';
 
 // Figma "Project Page Operational": sidebar gelap dengan SIMPK, menu, dan Log Out di bawah.
 // Dipakai Operasional dan Tim. Ikon diwarnai lewat mask agar ikut warna teks (oranye atau gelap saat aktif).
-function Icon({ src, className = 'size-7' }: { src: string; className?: string }) {
-  const style: CSSProperties = { maskImage: `url("${src}")`, WebkitMaskImage: `url("${src}")`, maskSize: 'contain', WebkitMaskSize: 'contain', maskRepeat: 'no-repeat', WebkitMaskRepeat: 'no-repeat', maskPosition: 'center', WebkitMaskPosition: 'center' };
-  return <span aria-hidden="true" className={`inline-block shrink-0 bg-current ${className}`} style={style} />;
+function Icon({ src, className = 'size-7', style }: { src: string; className?: string; style?: CSSProperties }) {
+  const mask: CSSProperties = { maskImage: `url("${src}")`, WebkitMaskImage: `url("${src}")`, maskSize: 'contain', WebkitMaskSize: 'contain', maskRepeat: 'no-repeat', WebkitMaskRepeat: 'no-repeat', maskPosition: 'center', WebkitMaskPosition: 'center' };
+  return <span aria-hidden="true" className={`inline-block shrink-0 bg-current ${className}`} style={{ ...mask, ...style }} />;
 }
 
-const MENU: Partial<Record<Role, { to: string; label: string; icon: string; end?: boolean }[]>> = {
+/** Ikon berlapis dari Figma: tiap lapisan diletakkan sesuai posisinya di desain (persen terhadap kotak ikon). */
+type Part = { src: string; left: number; top: number; width: number; height: number };
+function LayeredIcon({ parts, ratio }: { parts: Part[]; ratio: string }) {
+  return (
+    <span aria-hidden="true" className="relative inline-block h-6 shrink-0 lg:h-8" style={{ aspectRatio: ratio }}>
+      {parts.map((part) => (
+        <Icon key={part.src} src={part.src} className="absolute" style={{ left: `${part.left}%`, top: `${part.top}%`, width: `${part.width}%`, height: `${part.height}%` }} />
+      ))}
+    </span>
+  );
+}
+
+// Figma "Project Dashboard Page Marketing" (144:768-147:775).
+const REQUEST_ICON = <LayeredIcon ratio="46 / 46" parts={[{ src: ikonRequestA, left: 0, top: 0, width: 100, height: 100 }, { src: ikonRequestB, left: 15.4, top: 13.3, width: 54.3, height: 69.6 }]} />;
+const PROJEK_ICON = (
+  <LayeredIcon
+    ratio="44 / 56"
+    parts={[
+      { src: ikonProjekA, left: 18, top: 0, width: 63.9, height: 23.2 },
+      { src: ikonProjekB, left: 9.2, top: 17.9, width: 81.9, height: 75 },
+      { src: ikonProjekC, left: 0, top: 10.8, width: 100, height: 89.2 },
+    ]}
+  />
+);
+const REVIEW_ICON = (
+  <LayeredIcon
+    ratio="51 / 53"
+    parts={[
+      { src: ikonReviewA, left: 47.2, top: 0, width: 50.9, height: 49 },
+      { src: ikonReviewB, left: 0, top: 15.1, width: 53, height: 49.2 },
+      { src: ikonReviewC, left: 25.4, top: 51, width: 53, height: 49 },
+    ]}
+  />
+);
+
+// Menu tambahan di luar desain Figma memakai ikon garis sederhana yang ikut warna teks.
+function LineIcon({ d }: { d: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="size-6 shrink-0 lg:size-7">
+      <path d={d} />
+    </svg>
+  );
+}
+const DASHBOARD_ICON = <LineIcon d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z" />;
+const JASA_ICON = <LineIcon d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8zM7.5 7.5h.01" />;
+const icon = (src: string) => <Icon src={src} className="size-6 lg:size-7" />;
+
+const MENU: Partial<Record<Role, { to: string; label: string; icon: ReactNode; end?: boolean }[]>> = {
+  MARKETING: [
+    { to: '/app', label: 'Dashboard', icon: DASHBOARD_ICON, end: true },
+    { to: '/app/request', label: 'Request', icon: REQUEST_ICON },
+    { to: '/app/projek', label: 'Projek', icon: PROJEK_ICON },
+    { to: '/app/review', label: 'Review', icon: REVIEW_ICON },
+    { to: '/app/katalog', label: 'Daftar Jasa', icon: JASA_ICON },
+    { to: '/app/klien', label: 'Klien', icon: icon(ikonProfil) },
+    { to: '/app/akun', label: 'Account', icon: icon(ikonAccount) },
+  ],
   OPERASIONAL: [
-    { to: '/app', label: 'Project', icon: ikonProject, end: true },
-    { to: '/app/worker', label: 'Worker', icon: ikonProfil },
-    { to: '/app/pengguna', label: 'Pengguna', icon: ikonProfil },
-    { to: '/app/akun', label: 'Account', icon: ikonAccount },
+    { to: '/app', label: 'Project', icon: icon(ikonProject), end: true },
+    { to: '/app/worker', label: 'Worker', icon: icon(ikonProfil) },
+    { to: '/app/pengguna', label: 'Pengguna', icon: icon(ikonProfil) },
+    { to: '/app/akun', label: 'Account', icon: icon(ikonAccount) },
   ],
   TIM: [
-    { to: '/app', label: 'Project', icon: ikonProject, end: true },
-    { to: '/app/akun', label: 'Account', icon: ikonAccount },
+    { to: '/app', label: 'Project', icon: icon(ikonProject), end: true },
+    { to: '/app/akun', label: 'Account', icon: icon(ikonAccount) },
   ],
 };
 
@@ -76,7 +140,7 @@ export default function StaffLayout() {
         <nav className="mt-2 flex gap-1 overflow-x-auto lg:mt-[clamp(20px,7vh,90px)] lg:flex-col lg:gap-[clamp(6px,1.6vh,16px)] lg:overflow-visible">
           {menu.map((entry) => (
             <NavLink key={entry.to} to={entry.to} end={entry.end} className={item}>
-              <Icon src={entry.icon} className="size-5 lg:size-7" />
+              {entry.icon}
               {entry.label}
             </NavLink>
           ))}

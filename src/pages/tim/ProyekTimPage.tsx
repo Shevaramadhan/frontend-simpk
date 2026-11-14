@@ -8,9 +8,9 @@ import { pillButton } from '../../components/brand/StaffParts';
 import { useCurrentUser } from '../../hooks/useAuth';
 import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
-import { addProgress, createTask, getProject, listTasks, listTeamUpdates } from '../../services/projectService';
-import type { Bidang, Member, ProjectDetail, Task } from '../../types';
-import { BIDANG_LABEL, tanggal, tanggalPendek, TASK_STATUS_LABEL } from '../../utils/format';
+import { addProgress, createTask, getProject, listTasks, listTeamUpdates, updateProject } from '../../services/projectService';
+import type { Bidang, Member, ProjectDetail, ProjectStatus, Task } from '../../types';
+import { BIDANG_LABEL, PROJECT_STATUS_LABEL, tanggal, tanggalPendek, TASK_STATUS_LABEL } from '../../utils/format';
 
 // Detail project untuk Tim (dan Operasional): bergaya halaman Detail klien, ditambah tabel tugas.
 // PM membuat tugas; anggota memperbarui progres tugas miliknya. Catatan teknis hanya untuk tim (REQ-F05).
@@ -149,17 +149,18 @@ function TambahTugasModal({ projectId, open, members, onClose, onDone }: { proje
   );
 }
 
-function TaskTable({ tasks, canUpdate, onUpdate }: { tasks: Task[]; canUpdate: (task: Task) => boolean; onUpdate: (task: Task) => void }) {
+// `ringkas`: Marketing hanya menerima ringkasan tugas (B-26), tanpa penanggung jawab dan tenggat.
+function TaskTable({ tasks, ringkas, canUpdate, onUpdate }: { tasks: Task[]; ringkas: boolean; canUpdate: (task: Task) => boolean; onUpdate: (task: Task) => void }) {
   if (!tasks.length) return <p className="rounded-2xl bg-white p-5 text-center font-moon text-lg text-coal-deep">Belum ada tugas pada project ini.</p>;
   return (
     <div className="overflow-x-auto rounded-2xl border-[3px] border-coal/15 bg-white">
-      <table className="w-full min-w-[720px] font-moon text-base text-coal-deep">
+      <table className={`w-full ${ringkas ? 'min-w-[480px]' : 'min-w-[720px]'} font-moon text-base text-coal-deep`}>
         <thead className="bg-coal text-left text-flame">
           <tr>
             <th className="px-3 py-2 font-normal">Tugas</th>
             <th className="px-3 py-2 font-normal">Bidang</th>
-            <th className="px-3 py-2 font-normal">Penanggung jawab</th>
-            <th className="px-3 py-2 font-normal">Tenggat</th>
+            {!ringkas && <th className="px-3 py-2 font-normal">Penanggung jawab</th>}
+            {!ringkas && <th className="px-3 py-2 font-normal">Tenggat</th>}
             <th className="w-48 px-3 py-2 font-normal">Progres</th>
             <th className="px-3 py-2" />
           </tr>
@@ -174,8 +175,8 @@ function TaskTable({ tasks, canUpdate, onUpdate }: { tasks: Task[]; canUpdate: (
                 </p>
               </td>
               <td className="px-3 py-2">{BIDANG_LABEL[task.bidang]}</td>
-              <td className="px-3 py-2">{task.assignee?.name ?? <span className="text-coal-deep/50">Belum ditentukan</span>}</td>
-              <td className="px-3 py-2">{tanggalPendek(task.tenggat)}</td>
+              {!ringkas && <td className="px-3 py-2">{task.assignee?.name ?? <span className="text-coal-deep/50">Belum ditentukan</span>}</td>}
+              {!ringkas && <td className="px-3 py-2">{tanggalPendek(task.tenggat)}</td>}
               <td className="px-3 py-2">
                 <span className="flex items-center gap-2">
                   <span className="w-11 text-flame">{task.persentase}%</span>
@@ -209,7 +210,8 @@ function Riwayat({ projectId, version }: { projectId: number; version: number })
         {data.slice(0, 10).map((update) => (
           <li key={update.id} className="rounded-2xl border-[3px] border-coal/15 bg-white px-4 py-3">
             <p className="font-moon text-sm text-coal-deep/70">
-              {tanggal(update.createdAt)} · {update.author.name} · {update.task.judul} · {update.persentase}%
+              {tanggal(update.createdAt)} · {update.author ? `${update.author.name} · ` : ''}
+              {update.task.judul} · {update.persentase}%
             </p>
             {update.catatanKlien && <p className="mt-1 font-moon text-base text-coal-deep">Untuk klien: {update.catatanKlien}</p>}
             {update.catatanTeknis && <p className="mt-1 font-moon text-base text-coal-deep/80">Teknis: {update.catatanTeknis}</p>}
@@ -229,6 +231,58 @@ function Members({ members }: { members: Member[] }) {
         </span>
       ))}
     </div>
+  );
+}
+
+// Operasional menetapkan target selesai dan status project; Selesai membuka ulasan untuk klien.
+const STATUS_PILIHAN: ProjectStatus[] = ['PERSIAPAN', 'BERJALAN', 'DITUNDA', 'SELESAI', 'DIBATALKAN'];
+
+function StatusProject({ project, onSaved }: { project: ProjectDetail; onSaved: () => void }) {
+  const [status, setStatus] = useState<ProjectStatus>(project.status);
+  const [target, setTarget] = useState(project.targetSelesai?.slice(0, 10) ?? '');
+  const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
+  const berubah = status !== project.status || target !== (project.targetSelesai?.slice(0, 10) ?? '');
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (status === 'SELESAI' && project.progres < 100 && !window.confirm(`Progres baru ${project.progres}%. Tetap tandai project Selesai?`)) return;
+    setError('');
+    setSaving(true);
+    try {
+      await updateProject(project.id, { status, targetSelesai: target || null });
+      onSaved();
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="mb-6 rounded-[22px] bg-coal p-4">
+      <div className="flex flex-wrap items-end gap-3">
+        <label className="font-moon text-sm text-flame">
+          Status project
+          <select value={status} onChange={(event) => setStatus(event.target.value as ProjectStatus)} className="mt-1 block rounded-xl bg-cream px-3 py-2 font-moon text-base text-coal-deep">
+            {STATUS_PILIHAN.map((item) => (
+              <option key={item} value={item}>
+                {PROJECT_STATUS_LABEL[item]}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="font-moon text-sm text-flame">
+          Target selesai
+          <input type="date" value={target} onChange={(event) => setTarget(event.target.value)} className="mt-1 block rounded-xl bg-cream px-3 py-1.5 font-moon text-base text-coal-deep" />
+        </label>
+        <button type="submit" disabled={saving || !berubah} className={pillButton}>
+          {saving ? 'Menyimpan...' : 'Simpan'}
+        </button>
+      </div>
+      <p className="mt-2 font-moon text-xs text-cream/70">Project Selesai atau Dibatalkan tidak menerima progres lagi. Setelah Selesai, klien dapat memberi ulasan.</p>
+      <BrandError message={error} />
+    </form>
   );
 }
 
@@ -262,10 +316,14 @@ export default function ProyekTimPage() {
         judul={project.nama}
         deskripsi={project.kebutuhan}
         estimasi={project.targetSelesai ?? project.tenggatDiharapkan}
-        anggaran={user.role === 'OPERASIONAL' ? (project.nilai ?? null) : undefined}
+        anggaran={user.role === 'TIM' ? undefined : (project.nilai ?? null)}
         documents={project.documents}
-        backTo="/app"
+        backTo={user.role === 'MARKETING' ? '/app/projek' : '/app'}
       >
+        <p className="mb-3 text-center font-moon text-sm text-coal-deep/70">
+          {project.klien} · {project.kode} · {PROJECT_STATUS_LABEL[project.status]}
+        </p>
+        {user.role === 'OPERASIONAL' && <StatusProject key={`${project.status}-${project.targetSelesai}`} project={project} onSaved={refresh} />}
         <Members members={project.members ?? []} />
         <ProgressPanel progres={project.progres} progresBidang={project.progresBidang} />
 
@@ -278,7 +336,7 @@ export default function ProyekTimPage() {
           )}
         </div>
         <div className="mt-3">
-          <TaskTable tasks={tasks ?? []} canUpdate={canUpdate} onUpdate={setEditing} />
+          <TaskTable tasks={tasks ?? []} ringkas={user.role === 'MARKETING'} canUpdate={canUpdate} onUpdate={setEditing} />
         </div>
         <Riwayat projectId={project.id} version={version} />
       </ProyekInfo>
