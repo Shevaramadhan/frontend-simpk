@@ -73,12 +73,16 @@ function Desktop() {
 
       <div aria-hidden="true" className="absolute bg-coal" style={box(-1000, 728, 3440, 296)} />
       <footer className="absolute bg-coal" style={box(0, 728, 1440, 296)}>
+        <div className="edge-l pointer-events-none absolute inset-0">
         <Reveal y={30} className="absolute" style={box(46, 27, 538, 81)}>
           <p className="text-center font-magic text-[48px] uppercase leading-[normal] text-sand [text-shadow:0px_4px_5px_rgba(0,0,0,0.25)]">SIMPK NEOTELEMETRI</p>
         </Reveal>
+      </div>
+        <div className="edge-l pointer-events-none absolute inset-0">
         <Reveal y={30} delay={0.1} className="absolute" style={box(29, 89, 573)}>
           <p className="text-justify font-poppins text-[22px] leading-[normal] text-cream">{SIMPK_DESCRIPTION}</p>
         </Reveal>
+      </div>
 
         <Reveal y={30} delay={0.15} className="absolute inset-0">
           <p className="absolute whitespace-nowrap font-poppins text-[24px] font-bold leading-[normal] text-cream" style={box(700, 32)}>
@@ -89,6 +93,7 @@ function Desktop() {
           ))}
         </Reveal>
 
+        <div className="edge-r pointer-events-none absolute inset-0">
         <Reveal y={30} delay={0.25} className="absolute inset-0">
           <p className="absolute whitespace-nowrap font-spartan text-[27px] font-bold leading-[normal] text-cream" style={box(1079, 43)}>
             CONTACT US
@@ -105,6 +110,7 @@ function Desktop() {
             {COPYRIGHT}
           </p>
         </Reveal>
+      </div>
       </footer>
     </Stage>
   );

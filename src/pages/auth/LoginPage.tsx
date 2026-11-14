@@ -40,19 +40,19 @@ export default function LoginPage() {
         <BrandField id="password" label="Password">
           <input id="password" type="password" required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className={brandInput} />
         </BrandField>
-        <div className="mb-6 text-right">
-          <Link to="/lupa-sandi" className="font-moon text-base text-coal-deep underline underline-offset-4">
+        <div className="mb-[clamp(8px,2.4vh,24px)] text-right">
+          <Link to="/lupa-sandi" className="font-moon text-[clamp(13px,2vh,16px)] text-coal-deep underline underline-offset-4">
             Lupa kata sandi?
           </Link>
         </div>
         <BrandError message={error} />
         <div className="flex justify-center">
-          <FramedButton type="submit" disabled={submitting} size="text-3xl">
+          <FramedButton type="submit" disabled={submitting} size="text-[clamp(1.25rem,4vh,1.875rem)]">
             {submitting ? 'Memproses...' : 'Login'}
           </FramedButton>
         </div>
       </form>
-      <p className="mt-6 text-center font-moon text-lg text-coal-deep">
+      <p className="mt-[clamp(8px,2vh,24px)] text-center font-moon text-[clamp(14px,2.2vh,18px)] text-coal-deep">
         Belum punya akun?{' '}
         <Link to={jasa ? `/daftar?jasa=${encodeURIComponent(jasa)}` : '/daftar'} className="text-flame underline underline-offset-4">
           Sign In

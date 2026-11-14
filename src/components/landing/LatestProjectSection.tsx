@@ -80,15 +80,19 @@ function Collage() {
 function Desktop() {
   return (
     <Stage framed className="bg-cream">
-      <Reveal x={100} className="absolute rounded-[30px] bg-coal" style={box(781, 251, 585, 694)} />
+      <div className="edge-r2 absolute inset-0">
+        <Reveal x={100} className="absolute rounded-[30px] bg-coal" style={box(781, 251, 585, 694)} />
+      </div>
 
       <h2 className={`absolute text-flame ${TITLE_TEXT}`} style={box(68, 57)}>
         <SplitWords text={TITLE} />
       </h2>
 
-      <Reveal y={30} delay={0.35} className="absolute" style={box(817, 371, 509)}>
+      <div className="edge-r2 pointer-events-none absolute inset-0">
+        <Reveal y={30} delay={0.35} className="absolute" style={box(817, 371, 509)}>
         <p className="text-justify font-moon text-[48px] leading-[normal] text-cream">{PROJECT_TEXT}</p>
       </Reveal>
+      </div>
 
       <Triangle />
 
@@ -109,11 +113,15 @@ function Desktop() {
         </div>
       </div>
 
-      <Reveal y={-30} scale={0.9} delay={0.2} className="absolute" style={box(768, 214, 607)}>
+      <div className="edge-r2 pointer-events-none absolute inset-0">
+        <Reveal y={-30} scale={0.9} delay={0.2} className="absolute" style={box(768, 214, 607)}>
         <h3 className="text-outline-lg text-center font-moon text-[65px] leading-[normal] tracking-[3.25px] text-flame">{PROJECT_NAME}</h3>
       </Reveal>
+      </div>
 
-      <Collage />
+      <div className="edge-l2 absolute inset-0">
+        <Collage />
+      </div>
     </Stage>
   );
 }

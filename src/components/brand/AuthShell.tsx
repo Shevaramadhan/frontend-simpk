@@ -47,36 +47,45 @@ function Backdrop() {
     return () => window.removeEventListener('resize', update);
   }, []);
 
+  // Tiga lapis dengan skala yang sama: unsur atas menempel ke tepi atas layar, unsur bawah ke tepi bawah.
+  // Di layar lebar latar terpotong atas-bawah, jadi tanpa ini ornamen di tepi bawah (Figma 94:6) hilang.
+  const layer = 'absolute left-1/2 h-[1024px] w-[1440px]';
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden bg-flame">
-      <div className="absolute left-1/2 top-1/2 h-[1024px] w-[1440px]" style={{ transform: `translate(-50%, -50%) scale(${scale})` }}>
-        <div className="absolute flex items-center justify-center" style={box(-96, -41, 190.844, 329.261)}>
-          <div className="flex-none" style={isometric(30, 30)}>
-            <img alt="" className="block h-[219px] w-[220px] max-w-none object-cover" src={ornamenBawah} />
-          </div>
-        </div>
-        <div className="absolute flex items-center justify-center" style={box(151, 845, 468.67, 270.587)}>
-          <div className="flex-none" style={isometric(-30, 30)}>
-            <img alt="" className="block h-[270px] w-[271px] max-w-none object-cover" src={ornamenAtas} />
-          </div>
-        </div>
+      <div className={`${layer} top-1/2`} style={{ transform: `translate(-50%, -50%) scale(${scale})` }}>
         <div className="absolute flex items-center justify-center" style={box(1159, 229, 559.838, 429.579)}>
           <div className="flex-none" style={isometric(-15, 15)}>
             <img alt="" className="block size-[382px] max-w-none rounded-[30px] object-cover" src={ornamenKanan} />
           </div>
         </div>
-        <Stroke src={sapuanA} frame={box(572, 843, 469, 215.376)} rotate={180} width={469} height={215.376} />
         <Stroke src={sapuanA} frame={box(-198, 526, 513.854, 421.021)} rotate={-150} width={469} height={215.376} />
         <Stroke src={sapuanA} frame={box(-390, 355, 513.854, 421.021)} rotate={-150} width={469} height={215.376} />
         <Stroke src={sapuanA} frame={box(1300, 583, 513.854, 421.021)} rotate={-150} width={469} height={215.376} />
         <Stroke src={sapuanA} frame={box(-69, 166, 497.716, 466.455)} rotate={-140} width={469} height={215.376} />
+      </div>
+
+      <div className={`${layer} top-0 origin-top`} style={{ transform: `translateX(-50%) scale(${scale})` }}>
+        <div className="absolute flex items-center justify-center" style={box(-96, -41, 190.844, 329.261)}>
+          <div className="flex-none" style={isometric(30, 30)}>
+            <img alt="" className="block h-[219px] w-[220px] max-w-none object-cover" src={ornamenBawah} />
+          </div>
+        </div>
         <Stroke src={sapuanB} frame={box(793, 31, 470.211, 203.5)} rotate={180} width={470.211} height={203.5} />
         <Stroke src={sapuanB} frame={box(483, -166, 203.5, 470.211)} rotate={90} width={470.211} height={203.5} />
-        <Stroke src={sapuanB} frame={box(1125, 659, 203.5, 470.211)} rotate={-90} width={470.211} height={203.5} />
         <Line src={garis9} frame={box(165, -60, 248, 182)} rotate={143.73} width={307.617} thickness={20} />
+        <Line src={garis8} frame={box(1191, -1, 248, 182)} rotate={143.73} width={307.617} thickness={15} />
+      </div>
+
+      <div className={`${layer} bottom-0 origin-bottom`} style={{ transform: `translateX(-50%) scale(${scale})` }}>
+        <div className="absolute flex items-center justify-center" style={box(151, 845, 468.67, 270.587)}>
+          <div className="flex-none" style={isometric(-30, 30)}>
+            <img alt="" className="block h-[270px] w-[271px] max-w-none object-cover" src={ornamenAtas} />
+          </div>
+        </div>
+        <Stroke src={sapuanA} frame={box(572, 843, 469, 215.376)} rotate={180} width={469} height={215.376} />
+        <Stroke src={sapuanB} frame={box(1125, 659, 203.5, 470.211)} rotate={-90} width={470.211} height={203.5} />
         <Line src={garis10} frame={box(-29, 845, 248, 182)} rotate={143.73} width={307.617} thickness={50} />
         <Line src={garis11} frame={box(1142, 805, 352, 253)} rotate={144.29} width={433.489} thickness={30} />
-        <Line src={garis8} frame={box(1191, -1, 248, 182)} rotate={143.73} width={307.617} thickness={15} />
       </div>
     </div>
   );
@@ -85,15 +94,15 @@ function Backdrop() {
 /** Halaman masuk, daftar, dan lupa kata sandi: kartu krem di atas latar oranye. */
 export default function AuthShell({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className="relative min-h-screen px-4 py-8 sm:py-12">
+    <div className="relative flex min-h-dvh items-center px-4 py-[clamp(8px,2.5vh,48px)]">
       <Backdrop />
-      <Reveal immediate y={40} duration={0.6} className="relative mx-auto w-full max-w-2xl rounded-[30px] bg-cream px-6 py-8 shadow-[0_10px_40px_rgba(0,0,0,0.25)] sm:px-12">
+      <Reveal immediate y={40} duration={0.6} className="relative mx-auto w-full max-w-2xl rounded-[30px] bg-cream px-6 py-[clamp(14px,3.2vh,32px)] shadow-[0_10px_40px_rgba(0,0,0,0.25)] sm:px-12">
         <Link to="/" className="absolute left-5 top-5 font-moon text-sm text-coal-deep/70 underline-offset-4 hover:underline">
           Beranda
         </Link>
-        <div className="mb-6 flex flex-col items-center">
-          <OutlinedTitle className="text-center text-5xl tracking-wide sm:text-6xl">{title}</OutlinedTitle>
-          <img alt="" className="mt-3 h-[8px] w-48 max-w-full" src={garisJudul} />
+        <div className="mb-[clamp(8px,2.4vh,24px)] flex flex-col items-center">
+          <OutlinedTitle className="text-center text-[clamp(2.1rem,7.5vh,3.75rem)] tracking-wide">{title}</OutlinedTitle>
+          <img alt="" className="mt-[clamp(4px,1vh,12px)] h-[clamp(5px,0.9vh,8px)] w-48 max-w-full" src={garisJudul} />
         </div>
         {children}
       </Reveal>

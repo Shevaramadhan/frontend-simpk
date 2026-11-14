@@ -50,28 +50,31 @@ export default function DaftarPage() {
   return (
     <AuthShell title="Sign In">
       <form onSubmit={handleSubmit}>
-        {text('name', 'Nama', 'text', 'name')}
-        {text('email', 'Email', 'email', 'email')}
-        {text('noWhatsapp', 'Nomor WhatsApp', 'tel', 'tel')}
-        {text('password', 'Password', 'password', 'new-password')}
+        {/* Layar pendek (laptop, zoom besar): dua kolom agar halaman muat tanpa digulir. */}
+        <div className="grid gap-x-6 [@media(min-width:640px)_and_(max-height:820px)]:grid-cols-2">
+          {text('name', 'Nama', 'text', 'name')}
+          {text('email', 'Email', 'email', 'email')}
+          {text('noWhatsapp', 'Nomor WhatsApp', 'tel', 'tel')}
+          {text('password', 'Password', 'password', 'new-password')}
+        </div>
         <BrandError message={error} />
         <div className="mt-2 flex justify-center">
-          <FramedButton type="submit" disabled={saving} size="text-3xl">
+          <FramedButton type="submit" disabled={saving} size="text-[clamp(1.25rem,4vh,1.875rem)]">
             {saving ? 'Memproses...' : 'Sign In'}
           </FramedButton>
         </div>
       </form>
 
-      <div className="my-6 flex items-center gap-5">
+      <div className="my-[clamp(8px,2vh,24px)] flex items-center gap-5">
         <span className="h-[5px] flex-1 bg-coal" />
-        <span className="font-magic text-2xl uppercase text-coal-deep">or</span>
+        <span className="font-magic text-[clamp(18px,3vh,24px)] uppercase text-coal-deep">or</span>
         <span className="h-[5px] flex-1 bg-coal" />
       </div>
       <div className="mx-auto max-w-md">
         <GoogleButton onCredential={handleGoogle} label="Sign in with Google" />
       </div>
 
-      <p className="mt-6 text-center font-moon text-lg text-coal-deep">
+      <p className="mt-[clamp(8px,2vh,24px)] text-center font-moon text-[clamp(14px,2.2vh,18px)] text-coal-deep">
         Sudah punya akun?{' '}
         <Link to={jasa ? `/login?jasa=${encodeURIComponent(jasa)}` : '/login'} className="text-flame underline underline-offset-4">
           Login

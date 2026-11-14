@@ -30,7 +30,7 @@ function loadScript(): Promise<void> {
   return loading;
 }
 
-const LOOK = 'relative flex h-14 w-full items-center justify-center gap-4 rounded-[18px] bg-coal px-6 font-magic text-xl uppercase text-white';
+const LOOK = 'relative flex h-[clamp(40px,6vh,56px)] w-full items-center justify-center gap-4 rounded-[18px] bg-coal px-6 font-magic text-[clamp(15px,2.4vh,20px)] uppercase text-white';
 
 export default function GoogleButton({ onCredential, label = 'Sign in with Google' }: { onCredential: (credential: string) => void; label?: string }) {
   const slot = useRef<HTMLDivElement>(null);
@@ -57,7 +57,7 @@ export default function GoogleButton({ onCredential, label = 'Sign in with Googl
     return (
       <>
         <button type="button" className={LOOK} onClick={() => setNotice('Masuk dengan Google belum tersedia. Silakan daftar dengan email.')}>
-          <img alt="" className="size-8" src={ikonGoogle} />
+          <img alt="" className="size-[clamp(22px,3.6vh,32px)]" src={ikonGoogle} />
           {label}
         </button>
         {notice && <p className="mt-2 text-center font-moon text-sm text-coal-deep">{notice}</p>}
@@ -68,7 +68,7 @@ export default function GoogleButton({ onCredential, label = 'Sign in with Googl
   return (
     <>
       <div className={LOOK}>
-        <img alt="" className="size-8" src={ikonGoogle} />
+        <img alt="" className="size-[clamp(22px,3.6vh,32px)]" src={ikonGoogle} />
         {label}
         {/* Tombol resmi Google transparan di atas tampilan desain agar klik diterima Google. */}
         <div ref={slot} className={`absolute inset-0 overflow-hidden rounded-[18px] ${ready ? 'opacity-[0.01]' : 'pointer-events-none opacity-0'}`} />

@@ -13,6 +13,15 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 
 ## 2026-11-14
 
+### Diubah (revisi tampilan)
+- Landing page: tiap bagian setinggi satu layar dan artboard diskalakan agar muat utuh, sehingga pas pada zoom 100% dan ikut menyesuaikan saat zoom atau jendela berubah.
+- Header landing (logo, menu, Sign In) dipisah dari artboard: logo selalu di sudut kiri atas layar.
+- Ornamen logo di hero digeser agar tidak menempel pada tulisan dan bayangan SIMPK.
+- Di layar lebar, unsur tepi (ornamen, deskripsi, tombol Lets Make A Project, kolase dan kartu Latest Project, isi footer) bergeser ke tepi layar lewat variabel `--edge` agar isi tidak menumpuk di tengah.
+- Beranda klien muat satu layar tanpa digulir (laptop, monitor, ponsel); kartu galeri sama tinggi dengan deskripsi dikunci empat baris, dan gambar miring tidak lagi terpotong. Header dan isi halaman klien setinggi satu layar, footer setelahnya.
+- Latar Sign In dan Login dibagi tiga lapis (tengah, menempel atas, menempel bawah) agar ornamen di tepi bawah tetap terlihat di layar lebar.
+- Sign In dan Login muat satu layar tanpa digulir; ukuran mengikuti tinggi layar, dan di layar pendek isian Sign In menjadi dua kolom.
+
 ### Ditambah
 - Halaman klien sesuai Figma: beranda dengan galeri karya yang bergerak ke samping, My Project (kosong dan berisi), form pengajuan dengan dokumen pendukung, Payment (tagihan DP dan pelunasan, unggah bukti), Detail (total progres, progres per bidang, catatan perkembangan).
 - Sign In dan Login sesuai Figma dengan latar oranye; tombol Google (aktif bila `VITE_GOOGLE_CLIENT_ID` diisi).

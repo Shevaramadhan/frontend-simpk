@@ -13,7 +13,7 @@ export function Framed({ className = '', children }: { className?: string; child
   );
 }
 
-const FRAMED_TEXT = 'block px-6 py-3 text-center font-magic uppercase text-flame transition-colors group-hover:text-cream';
+const FRAMED_TEXT = 'block px-6 py-[clamp(6px,1.3vh,12px)] text-center font-magic uppercase text-flame transition-colors group-hover:text-cream';
 
 export function FramedLink({ to, children, size = 'text-2xl' }: { to: string; children: ReactNode; size?: string }) {
   return (
@@ -40,7 +40,7 @@ export function OutlinedTitle({ as: Tag = 'h1', className = '', children }: { as
   return <Tag className={`text-outline-dark font-magic uppercase leading-none text-flame ${className}`}>{children}</Tag>;
 }
 
-const INPUT_BASE = 'mt-1 w-full rounded-[16px] border-[4px] border-coal-deep px-4 py-2.5 font-moon text-lg text-coal-deep outline-none transition focus:border-flame';
+const INPUT_BASE = 'mt-1 w-full rounded-[16px] border-[4px] border-coal-deep px-4 py-[clamp(4px,0.9vh,10px)] font-moon text-[clamp(15px,2.3vh,18px)] text-coal-deep outline-none transition focus:border-flame';
 
 /** Input di atas kartu krem (Sign In, Login). */
 export const brandInput = `${INPUT_BASE} bg-[#ffc49f66] focus:bg-[#ffc49f99]`;
@@ -50,8 +50,8 @@ export const brandInputSolid = `${INPUT_BASE} bg-cream focus:bg-white`;
 
 export function BrandField({ id, label, tone = 'flame', children }: { id: string; label: string; tone?: 'flame' | 'cream'; children: ReactNode }) {
   return (
-    <div className="mb-4">
-      <label htmlFor={id} className={`block font-moon text-xl ${tone === 'flame' ? 'text-flame' : 'text-cream'}`}>
+    <div className="mb-[clamp(6px,1.6vh,16px)]">
+      <label htmlFor={id} className={`block font-moon text-[clamp(15px,2.5vh,20px)] ${tone === 'flame' ? 'text-flame' : 'text-cream'}`}>
         {label}
       </label>
       {children}

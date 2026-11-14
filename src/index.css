@@ -79,6 +79,28 @@
   paint-order: stroke fill;
 }
 
+/* Unsur tepi landing page bergeser ke tepi layar sejauh ruang kosong (--edge diisi Stage). */
+.edge-l {
+  translate: calc(var(--edge, 0px) * -1) 0;
+}
+
+.edge-r {
+  translate: var(--edge, 0px) 0;
+}
+
+.edge-l2 {
+  translate: calc(var(--edge, 0px) * -0.5) 0;
+}
+
+.edge-r2 {
+  translate: calc(var(--edge, 0px) * 0.5) 0;
+}
+
+/* Deskripsi hero harus tetap di atas bidang gelap. */
+.edge-l3 {
+  translate: calc(var(--edge, 0px) * -0.3) 0;
+}
+
 /* Galeri karya di beranda klien bergerak ke samping dan berhenti saat disentuh. */
 @keyframes marquee {
   to {

@@ -24,3 +24,4 @@ Format: nomor, tanggal, keputusan, alasan, status.
 | F-16 | 14 Nov 2026 | Halaman klien dan halaman masuk memakai tata letak responsif biasa (bukan artboard berskala) dengan huruf sekitar 70% ukuran Figma | Masukan PM: ukuran desain terasa terlalu besar di web | Berlaku |
 | F-17 | 14 Nov 2026 | Tombol Google memakai tombol resmi Google Identity Services yang dibuat transparan di atas tampilan desain | Hanya tombol resmi yang boleh menghasilkan ID token | Berlaku |
 | F-18 | 14 Nov 2026 | Kode QR pada desain Payment tidak dipakai; kotak QR menunggu QRIS resmi Neo Telemetri | QR pada desain hanya contoh; klien bisa salah transfer | Sementara |
+| F-19 | 14 Nov 2026 | Artboard landing diskalakan agar muat lebar dan tinggi layar (menggantikan batas lebar 1200 px); header landing di luar artboard | Masukan PM: pas pada zoom 100%, logo di sudut, menyesuaikan zoom | Berlaku |

@@ -1,13 +1,12 @@
 import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 
-// Desain Figma berupa artboard 1440 x 1024. Di layar lebar artboard diskalakan mengikuti lebar halaman,
-// sehingga posisi dan proporsi setiap elemen sama persis dengan desain pada lebar berapa pun.
+// Desain Figma berupa artboard 1440 x 1024. Tiap bagian halaman setinggi layar paling tinggi, lalu artboard
+// diskalakan agar muat utuh (lebar dan tinggi) dan berada di tengah. Hasilnya pas pada zoom 100% dan ikut
+// menyesuaikan saat zoom atau ukuran jendela berubah (masukan PM 14 Nov).
 const ARTBOARD_WIDTH = 1440;
 const ARTBOARD_HEIGHT = 1024;
-// Artboard paling lebar 1200 px agar huruf tidak terlalu besar (masukan PM 14 Nov). Di layar lebih lebar
-// artboard berada di tengah, dan latar serta bentuk di tepi tetap memenuhi layar.
-const MAX_WIDTH = 1200;
-const SCALE = `min(var(--vw), ${MAX_WIDTH}) / ${ARTBOARD_WIDTH}`;
+/** Pergeseran paling jauh unsur tepi, dalam satuan artboard. */
+const MAX_EDGE = 320;
 
 /** Posisi elemen dalam koordinat artboard, sama dengan angka di Figma. */
 export function box(left: number, top: number, width?: number, height?: number): CSSProperties {
@@ -32,28 +31,68 @@ export function usePageWidth() {
   return { ref, style: { '--vw': width } as CSSProperties };
 }
 
+interface View {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
 interface StageProps {
   /** Frame Figma yang bergaris tepi 1 px: isinya dihitung dari sisi dalam garis, jadi bergeser 1 px. */
   framed?: boolean;
+  /** Bagian artboard yang harus muat di layar. Bawaan: seluruh artboard. */
+  view?: View;
+  /** Tinggi diatur induk (misalnya flex-1). Bawaan: setinggi layar, tidak lebih tinggi dari proporsi artboard. */
+  fill?: boolean;
   className?: string;
   children: ReactNode;
 }
 
-/** Satu artboard penuh. Hanya tampil di layar lebar; layar kecil memakai tata letak tersendiri. */
-export function Stage({ framed = false, className = '', children }: StageProps) {
+const FULL: View = { x: 0, y: 0, w: ARTBOARD_WIDTH, h: ARTBOARD_HEIGHT };
+
+/** Satu artboard. Hanya tampil di layar lebar; layar kecil memakai tata letak tersendiri. */
+export function Stage({ framed = false, view = FULL, fill = false, className = '', children }: StageProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [fit, setFit] = useState({ scale: 0, left: 0, top: 0, edge: 0 });
+
+  useLayoutEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+    const update = () => {
+      const { clientWidth: width, clientHeight: height } = element;
+      if (!width || !height) return;
+      const scale = Math.min(width / view.w, height / view.h);
+      const slack = (width - view.w * scale) / 2 / scale;
+      setFit({
+        scale,
+        left: (width - view.w * scale) / 2 - view.x * scale,
+        top: (height - view.h * scale) / 2 - view.y * scale,
+        edge: Math.min(Math.max(slack - 24, 0), MAX_EDGE),
+      });
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [view.x, view.y, view.w, view.h]);
+
+  const height = fill ? undefined : `min(100dvh, calc(var(--vw) * ${(view.h / view.w).toFixed(5)} * 1px))`;
   return (
     <div
-      className={`relative hidden overflow-hidden lg:block ${className}`}
+      ref={ref}
+      className={`relative overflow-hidden ${fill ? '' : 'hidden lg:block'} ${className}`}
       // Tumpang 1 px dengan bagian sebelumnya agar tidak muncul garis tipis akibat pembulatan skala.
-      style={{ height: `calc(${ARTBOARD_HEIGHT}px * ${SCALE})`, marginTop: -1 }}
+      style={{ height, marginTop: fill ? undefined : -1 }}
     >
       <div
-        className="absolute top-0 origin-top-left"
+        className="absolute left-0 top-0 origin-top-left"
         style={{
-          left: `calc((var(--vw) * 1px - min(var(--vw) * 1px, ${MAX_WIDTH}px)) / 2)`,
           width: ARTBOARD_WIDTH,
           height: ARTBOARD_HEIGHT,
-          transform: `scale(calc(${SCALE}))`,
+          transform: `translate(${fit.left}px, ${fit.top}px) scale(${fit.scale})`,
+          visibility: fit.scale ? 'visible' : 'hidden',
+          ['--edge' as string]: `${fit.edge}px`,
         }}
       >
         {framed ? <div className="absolute inset-px">{children}</div> : children}

@@ -7,12 +7,10 @@ import judulSimpk from '../../assets/landing/hero-simpk.png';
 import subjudul from '../../assets/landing/hero-subjudul.png';
 import logo from '../../assets/landing/logo-hitam.webp';
 import { Float, Magnet, Reveal } from './Motion';
-import { Framed, NAV_ITEMS, PillLayers, SECTION, Separator, SIMPK_DESCRIPTION } from './Parts';
+import LandingHeader from './LandingHeader';
+import { Framed, NAV_ITEMS, SECTION, SIMPK_DESCRIPTION } from './Parts';
 import { box, Crop, Stage } from './Stage';
 
-const NAV_LINK = 'absolute whitespace-nowrap font-magic text-[24px] uppercase leading-[normal] text-flame transition-colors hover:text-cream';
-// Posisi teks menu relatif terhadap pil (365, 18) di Figma.
-const NAV_POSITION = [box(65, 28), box(174, 28), box(393, 27), box(576, 27)];
 const FILL = 'pointer-events-none absolute inset-0 size-full max-w-none object-cover';
 // Transformasi ornamen dari Figma: skala, lalu miring, lalu putar. Urutan kelas Tailwind berbeda, jadi ditulis langsung.
 const isometric = (rotate: number, skew: number) => ({ transform: `rotate(${rotate}deg) skewX(${skew}deg) scaleY(${Math.cos((skew * Math.PI) / 180)})` });
@@ -40,26 +38,18 @@ function Title() {
   );
 }
 
+// Bagian artboard di bawah menu Figma (y 110 sampai 1024) harus muat di sisa tinggi layar.
+const HERO_VIEW = { x: 0, y: 110, w: 1440, h: 914 };
+
 function Desktop() {
   return (
-    <Stage framed className="bg-cream">
+    <div className="hidden h-dvh min-h-[560px] flex-col bg-cream lg:flex">
+    <LandingHeader />
+    <Stage framed fill view={HERO_VIEW} className="min-h-0 flex-1">
       <Backdrop />
 
-      <Reveal immediate y={-50} className="absolute" style={box(365, 18, 708, 85)}>
-        <nav aria-label="Bagian halaman">
-          <PillLayers />
-          {NAV_ITEMS.map((item, index) => (
-            <a key={item.id} href={`#${item.id}`} className={NAV_LINK} style={NAV_POSITION[index]}>
-              {item.label}
-            </a>
-          ))}
-          <Separator left={156} top={23} />
-          <Separator left={377} top={23} />
-          <Separator left={562} top={23} />
-        </nav>
-      </Reveal>
-
-      <Reveal immediate y={40} delay={0.9} className="absolute" style={box(883, 856, 505, 132)}>
+      <div className="edge-r pointer-events-none absolute inset-0">
+        <Reveal immediate y={40} delay={0.9} className="pointer-events-auto absolute" style={box(883, 856, 505, 132)}>
         <Magnet className="size-full" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
           <Link to="/katalog" className="group absolute inset-0 block">
             <span className="absolute border-5 border-coal bg-coal" style={box(0, 0, 505, 132)} />
@@ -71,21 +61,10 @@ function Desktop() {
           </Link>
         </Magnet>
       </Reveal>
+      </div>
 
-      <Reveal immediate y={-50} delay={0.15} className="absolute" style={box(1162, 24, 249, 65)}>
-        <Magnet className="size-full" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-          <Link to="/login" className="group absolute inset-0 block">
-            <span className="absolute border-5 border-coal bg-coal" style={box(0, 0, 249, 65)} />
-            <span className="absolute border-5 border-cream bg-coal transition-colors group-hover:border-flame" style={box(3, 2, 243, 60)} />
-            <span className="absolute border-5 border-coal bg-coal" style={box(8, 6, 234, 53)} />
-            <span className="absolute font-magic text-[24px] uppercase leading-[normal] text-flame" style={box(78, 19, 93, 27)}>
-              SIGN IN
-            </span>
-          </Link>
-        </Magnet>
-      </Reveal>
-
-      <Reveal immediate scale={0.6} delay={0.6} className="pointer-events-none absolute flex items-center justify-center" style={box(1110, 190, 468.67, 270.587)}>
+      <div className="edge-r2 pointer-events-none absolute inset-0">
+        <Reveal immediate scale={0.6} delay={0.6} className="pointer-events-none absolute flex items-center justify-center" style={box(1100, 150, 468.67, 270.587)}>
         <Float amplitude={12} rotate={2} duration={7}>
           <div className="flex-none" style={isometric(-30, 30)}>
             <div className="relative h-[269.792px] w-[271.382px]">
@@ -94,7 +73,9 @@ function Desktop() {
           </div>
         </Float>
       </Reveal>
-      <Reveal immediate scale={0.6} delay={0.75} className="pointer-events-none absolute flex items-center justify-center" style={box(1186, 537, 151, 260.518)}>
+      </div>
+      <div className="edge-r2 pointer-events-none absolute inset-0">
+        <Reveal immediate scale={0.6} delay={0.75} className="pointer-events-none absolute flex items-center justify-center" style={box(1186, 537, 151, 260.518)}>
         <Float amplitude={10} rotate={-3} duration={6} delay={0.8}>
           <div className="flex-none" style={isometric(30, 30)}>
             <div className="relative h-[173.338px] w-[174.36px]">
@@ -103,12 +84,10 @@ function Desktop() {
           </div>
         </Float>
       </Reveal>
+      </div>
 
-      <Reveal immediate x={-40} className="absolute" style={box(20, 30, 287, 50)}>
-        <img alt="Neo Telemetri, IT For The Future" className={FILL} src={logo} />
-      </Reveal>
-
-      <Reveal immediate scale={0.6} delay={0.5} className="pointer-events-none absolute flex items-center justify-center" style={box(-90, 160, 429.516, 329.579)}>
+      <div className="edge-l2 pointer-events-none absolute inset-0">
+        <Reveal immediate scale={0.6} delay={0.5} className="pointer-events-none absolute flex items-center justify-center" style={box(-70, 110, 429.516, 329.579)}>
         <Float amplitude={8} rotate={1.5} duration={8} delay={0.4}>
           <div className="flex-none" style={isometric(-15, 15)}>
             <div className="relative size-[293px] rounded-[30px]">
@@ -119,13 +98,17 @@ function Desktop() {
           </div>
         </Float>
       </Reveal>
+      </div>
 
       <Title />
 
-      <Reveal immediate y={30} delay={0.8} className="absolute" style={box(21, 833, 681)}>
+      <div className="edge-l3 pointer-events-none absolute inset-0">
+        <Reveal immediate y={30} delay={0.8} className="absolute" style={box(21, 833, 681)}>
         <p className="text-justify font-moon text-[32px] leading-[normal] text-cream">{SIMPK_DESCRIPTION}</p>
       </Reveal>
+      </div>
     </Stage>
+    </div>
   );
 }
 
