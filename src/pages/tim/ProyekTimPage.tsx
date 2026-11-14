@@ -222,14 +222,46 @@ function Riwayat({ projectId, version }: { projectId: number; version: number })
   );
 }
 
-function Members({ members }: { members: Member[] }) {
+// Peran anggota yang sedang login di project ini, beserta apa yang boleh ia lakukan.
+function PeranSaya({ member, jumlahTugas }: { member: Member; jumlahTugas: number }) {
   return (
-    <div className="mb-6 flex flex-wrap justify-center gap-2">
-      {members.map((member) => (
-        <span key={member.userId} className={`rounded-xl px-3 py-1 font-moon text-sm ${member.isPm ? 'bg-flame text-coal' : 'bg-coal text-flame'}`}>
-          {member.name} · {member.isPm ? 'PM' : member.posisi}
-        </span>
-      ))}
+    <div className="mb-4 flex flex-col gap-3 rounded-[22px] bg-coal p-4 sm:flex-row sm:items-center">
+      <div className="min-w-0 flex-1">
+        <p className="font-moon text-sm text-cream/70">Peran Anda di project ini</p>
+        <p className="mt-0.5 flex flex-wrap items-center gap-2">
+          <span className="font-magic text-2xl uppercase leading-tight text-flame sm:text-3xl">{member.posisi}</span>
+          {member.isPm && <span className="rounded-lg bg-flame px-2.5 py-0.5 font-moon text-sm text-coal">Project Manager</span>}
+        </p>
+        <p className="mt-1 font-moon text-sm text-cream/80">
+          {member.isPm
+            ? 'Sebagai PM, Anda menambah tugas, membagi tugas ke anggota, dan dapat memperbarui progres semua tugas.'
+            : 'Anda memperbarui progres tugas yang ditugaskan kepada Anda.'}
+        </p>
+      </div>
+      <p className="shrink-0 rounded-2xl bg-coal-deep px-4 py-2 text-center font-moon text-cream">
+        <span className="block font-magic text-3xl leading-none text-flame">{jumlahTugas}</span>
+        <span className="text-sm">tugas Anda</span>
+      </p>
+    </div>
+  );
+}
+
+function Members({ members, myId }: { members: Member[]; myId: number }) {
+  return (
+    <div className="mb-6">
+      <p className="mb-2 text-center font-moon text-sm text-coal-deep/70">Susunan tim</p>
+      <div className="flex flex-wrap justify-center gap-2">
+        {members.map((member) => (
+          <span
+            key={member.userId}
+            className={`rounded-xl px-3 py-1 font-moon text-sm ${member.isPm ? 'bg-flame text-coal' : 'bg-coal text-flame'} ${member.userId === myId ? 'ring-2 ring-coal ring-offset-2 ring-offset-cream' : ''}`}
+          >
+            {member.name}
+            {member.userId === myId && ' (Anda)'} · {member.posisi}
+            {member.isPm && ' · PM'}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
@@ -301,6 +333,7 @@ export default function ProyekTimPage() {
   if (error || !project) return <p role="alert" className="p-10 text-center font-moon text-xl text-[#9c2b2b]">{error || 'Project tidak ditemukan.'}</p>;
 
   const canManage = project.isPm || user.role === 'OPERASIONAL';
+  const saya = project.members?.find((member) => member.userId === user.id);
   const closed = project.status === 'SELESAI' || project.status === 'DIBATALKAN';
   const canUpdate = (task: Task) => !closed && (canManage || task.assignee?.id === user.id);
   function refresh() {
@@ -324,7 +357,8 @@ export default function ProyekTimPage() {
           {project.klien} · {project.kode} · {PROJECT_STATUS_LABEL[project.status]}
         </p>
         {user.role === 'OPERASIONAL' && <StatusProject key={`${project.status}-${project.targetSelesai}`} project={project} onSaved={refresh} />}
-        <Members members={project.members ?? []} />
+        {saya && <PeranSaya member={saya} jumlahTugas={(tasks ?? []).filter((task) => task.assignee?.id === user.id).length} />}
+        <Members members={project.members ?? []} myId={user.id} />
         <ProgressPanel progres={project.progres} progresBidang={project.progresBidang} />
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-3">

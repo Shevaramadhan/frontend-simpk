@@ -11,6 +11,12 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-14 (peran anggota di detail project)
+
+### Ditambah
+- Detail project untuk Tim menampilkan kotak "Peran Anda di project ini": posisi, tanda Project Manager bila PM, penjelasan hak (PM menambah dan membagi tugas; anggota memperbarui tugas miliknya), dan jumlah tugas miliknya.
+- Susunan tim menandai "(Anda)" dan kini menampilkan posisi PM juga (sebelumnya hanya tertulis PM).
+
 ## 2026-11-14 (Daftar Jasa publik dan halaman galat)
 
 ### Diubah
