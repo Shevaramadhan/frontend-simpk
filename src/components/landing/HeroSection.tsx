@@ -6,7 +6,7 @@ import ornamenKiri from '../../assets/landing/hero-ornamen-kiri.webp';
 import judulSimpk from '../../assets/landing/hero-simpk.png';
 import subjudul from '../../assets/landing/hero-subjudul.png';
 import logo from '../../assets/landing/logo-hitam.webp';
-import { Magnet, Ornament, Reveal } from './Motion';
+import { Magnet, Ornament, Reveal, RollingText, useHoverFocus } from './Motion';
 import LandingHeader from './LandingHeader';
 import { Framed, NAV_ITEMS, SECTION, SIMPK_DESCRIPTION } from './Parts';
 import { box, Crop, Stage } from './Stage';
@@ -42,6 +42,7 @@ function Title() {
 const HERO_VIEW = { x: 0, y: 110, w: 1440, h: 914 };
 
 function Desktop() {
+  const cta = useHoverFocus();
   return (
     <div className="hidden h-dvh min-h-[560px] flex-col bg-cream lg:flex">
     <LandingHeader />
@@ -51,12 +52,12 @@ function Desktop() {
       <div className="edge-r pointer-events-none absolute inset-0">
         <Reveal immediate y={40} delay={0.9} className="pointer-events-auto absolute" style={box(883, 856, 505, 132)}>
         <Magnet className="size-full" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-          <Link to="/katalog" className="group absolute inset-0 block">
+          <Link to="/katalog" className="group absolute inset-0 block" {...cta.handlers}>
             <span className="absolute border-5 border-coal bg-coal" style={box(0, 0, 505, 132)} />
             <span className="absolute border-5 border-cream bg-coal transition-colors group-hover:border-flame" style={box(6, 5, 493, 120)} />
             <span className="absolute border-5 border-coal bg-coal" style={box(17, 12, 472, 106)} />
             <span className="absolute whitespace-nowrap font-magic text-[36px] uppercase leading-[normal] text-flame" style={box(52, 45)}>
-              Lets Make A project
+              <RollingText text="Lets Make A project" active={cta.active} />
             </span>
           </Link>
         </Magnet>
@@ -65,7 +66,7 @@ function Desktop() {
 
       <div className="edge-r2 pointer-events-none absolute inset-0">
         <div className="pointer-events-none absolute flex items-center justify-center" style={box(1100, 150, 468.67, 270.587)}>
-        <Ornament depth={34} tilt={16} enterRotate={120} delay={0.6} float={{ amplitude: 12, rotate: 2, duration: 7 }}>
+        <Ornament depth={34} tilt={16} enterRotate={120} delay={0.6} naikMaks={16} float={{ amplitude: 12, rotate: 2, duration: 7 }}>
           <div className="flex-none" style={isometric(-30, 30)}>
             <div className="relative h-[269.792px] w-[271.382px]">
               <img alt="" className={FILL} src={ornamenKananAtas} />
@@ -87,8 +88,9 @@ function Desktop() {
       </div>
 
       <div className="edge-l2 pointer-events-none absolute inset-0">
-        <div className="pointer-events-none absolute flex items-center justify-center" style={box(-70, 110, 429.516, 329.579)}>
-        <Ornament depth={26} tilt={12} enterRotate={-100} delay={0.45} float={{ amplitude: 8, rotate: 1.5, duration: 8, delay: 0.4 }}>
+        <div className="pointer-events-none absolute flex items-center justify-center" style={box(-70, 140, 429.516, 329.579)}>
+        {/* Menempel di tepi atas hero: hanya boleh bergeser dan mengambang ke bawah agar tidak terpotong. */}
+        <Ornament depth={26} tilt={10} enterRotate={-100} delay={0.45} naikMaks={0} float={{ amplitude: -8, rotate: 1.5, duration: 8, delay: 0.4 }}>
           <div className="flex-none" style={isometric(-15, 15)}>
             <div className="relative size-[293px] rounded-[30px]">
               <div className="absolute inset-0 overflow-hidden rounded-[30px]">

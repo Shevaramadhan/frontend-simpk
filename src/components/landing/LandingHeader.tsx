@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import logo from '../../assets/landing/logo-hitam.webp';
-import { Magnet, Reveal } from './Motion';
+import { Magnet, Reveal, RollingText, useHoverFocus } from './Motion';
 import { NAV_ITEMS } from './Parts';
 
 // Header landing page di layar lebar. Bukan bagian artboard agar logo selalu di sudut kiri atas layar dan
@@ -8,6 +8,7 @@ import { NAV_ITEMS } from './Parts';
 const TEXT = 'font-magic uppercase leading-none text-flame text-[clamp(13px,2.3vh,24px)]';
 
 export default function LandingHeader() {
+  const signIn = useHoverFocus();
   return (
     <header className="relative z-10 grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-[clamp(12px,1.6vw,28px)] py-[clamp(8px,1.8vh,20px)]">
       <Reveal immediate x={-40} className="justify-self-start">
@@ -34,9 +35,11 @@ export default function LandingHeader() {
 
       <Reveal immediate y={-40} delay={0.15} className="justify-self-end">
         <Magnet whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-          <Link to="/login" className="group block bg-coal p-[3px]">
+          <Link to="/login" className="group block bg-coal p-[3px]" {...signIn.handlers}>
             <span className="block border-[clamp(3px,0.45vh,5px)] border-cream bg-coal px-[clamp(18px,2.6vw,48px)] py-[clamp(7px,1.4vh,14px)] transition-colors group-hover:border-flame">
-              <span className={TEXT}>Sign in</span>
+              <span className={TEXT}>
+                <RollingText text="Sign in" active={signIn.active} />
+              </span>
             </span>
           </Link>
         </Magnet>

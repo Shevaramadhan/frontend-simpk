@@ -1,4 +1,4 @@
-import { useEffect, type PointerEvent, type ReactNode } from 'react';
+import { useEffect, useState, type PointerEvent, type ReactNode } from 'react';
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform, type HTMLMotionProps } from 'motion/react';
 
 // Animasi landing page. Semua berakhir tepat di posisi desain, jadi tata letak tidak berubah.
@@ -68,7 +68,7 @@ export function SplitWords({ text, delay = 0, stagger = 0.09, immediate = false 
   );
 }
 
-/** Gerakan mengambang pelan dan berulang untuk ornamen. */
+/** Gerakan mengambang pelan dan berulang untuk ornamen. Amplitudo negatif membuat ornamen mengambang ke bawah. */
 export function Float({ amplitude = 10, rotate = 2, duration = 6, delay = 0, children }: { amplitude?: number; rotate?: number; duration?: number; delay?: number; children: ReactNode }) {
   const reduced = useReducedMotion();
   if (reduced) return <>{children}</>;
@@ -93,6 +93,7 @@ export function Ornament({
   enterRotate = -90,
   delay = 0,
   float = {},
+  naikMaks = Infinity,
   children,
 }: {
   depth?: number;
@@ -100,6 +101,8 @@ export function Ornament({
   enterRotate?: number;
   delay?: number;
   float?: { amplitude?: number; rotate?: number; duration?: number; delay?: number };
+  /** Batas geser parallax ke atas (px). Dipakai ornamen yang menempel di tepi atas hero agar tidak terpotong. */
+  naikMaks?: number;
   children: ReactNode;
 }) {
   const reduced = useReducedMotion();
@@ -108,7 +111,7 @@ export function Ornament({
   const sx = useSpring(px, { stiffness: 60, damping: 14 });
   const sy = useSpring(py, { stiffness: 60, damping: 14 });
   const x = useTransform(sx, (v) => v * depth);
-  const y = useTransform(sy, (v) => v * depth);
+  const y = useTransform(sy, (v) => Math.max(v * depth, -naikMaks));
   const rotateY = useTransform(sx, (v) => v * tilt);
   const rotateX = useTransform(sy, (v) => -v * tilt);
 
@@ -143,6 +146,51 @@ export function Ornament({
     >
       <Float {...float}>{children}</Float>
     </motion.div>
+  );
+}
+
+/** Status aktif tombol: kursor di atasnya atau tombol sedang difokus keyboard. Sebarkan `handlers` ke elemen tombol. */
+export function useHoverFocus() {
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  return {
+    active: hovered || focused,
+    handlers: {
+      onPointerEnter: () => setHovered(true),
+      onPointerLeave: () => setHovered(false),
+      onFocus: () => setFocused(true),
+      onBlur: () => setFocused(false),
+    },
+  };
+}
+
+const ROLL = { duration: 0.3, ease: [0.338, 0.015, 0.395, 0.959] as const };
+
+/**
+ * Teks tombol yang bergulir: salinan lama turun keluar, salinan baru masuk dari atas.
+ * Satu guliran selalu selesai dulu sebelum arah berikutnya dijalankan, agar tidak tersendat saat kursor keluar-masuk cepat.
+ */
+export function RollingText({ text, active }: { text: string; active: boolean }) {
+  const reduced = useReducedMotion();
+  const [shown, setShown] = useState(false);
+  const [busy, setBusy] = useState(false);
+  // Status tampil mengejar status aktif hanya ketika tidak sedang bergulir.
+  if (!reduced && !busy && shown !== active) {
+    setShown(active);
+    setBusy(true);
+  }
+  if (reduced) return <>{text}</>;
+  const copy = 'block whitespace-nowrap py-[0.15em]';
+  return (
+    // Padding vertikal memberi ruang huruf yang melewati tinggi baris; margin negatif menjaga ukuran tombol tetap.
+    <span className="relative -my-[0.15em] inline-block overflow-hidden align-top">
+      <motion.span className={copy} initial={false} animate={{ y: shown ? '100%' : '0%' }} transition={ROLL} onAnimationComplete={() => setBusy(false)}>
+        {text}
+      </motion.span>
+      <motion.span aria-hidden="true" className={`${copy} absolute inset-0 select-none`} initial={false} animate={{ y: shown ? '0%' : '-100%' }} transition={ROLL}>
+        {text}
+      </motion.span>
+    </span>
   );
 }
 

@@ -11,6 +11,14 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-15 (ornamen hero terpotong, teks tombol bergulir)
+
+### Ditambah
+- Teks tombol "Lets Make A Project" dan "Sign In" di landing page layar lebar bergulir saat diarahkan atau difokus keyboard (`RollingText` dan `useHoverFocus` di `landing/Motion.tsx`). Satu guliran selesai dulu sebelum berbalik arah; pembaca layar tetap membaca teksnya sekali; mati bila pengguna memilih kurangi gerakan. Menu navbar sengaja tidak memakai efek ini agar tidak bersaing dengan tombol aksi.
+
+### Diperbaiki
+- Ornamen kiri hero terpotong di tepi atas saat bergeser mengikuti kursor. Ornamen kiri kini hanya bergeser dan mengambang ke bawah, dengan posisi diturunkan 30 px (skala desain). Geser ke atas ornamen kanan atas dibatasi 16 px (prop baru `naikMaks` pada `Ornament`).
+
 ## 2026-11-15 (animasi landing page)
 
 ### Diubah
