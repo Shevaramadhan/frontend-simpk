@@ -18,6 +18,7 @@ export async function createOrder(input: OrderInput) {
   form.append('kebutuhan', input.kebutuhan);
   if (input.anggaran !== null) form.append('anggaran', String(input.anggaran));
   if (input.tenggatDiharapkan) form.append('tenggatDiharapkan', input.tenggatDiharapkan);
+  if (input.serviceId) form.append('serviceId', String(input.serviceId));
   input.dokumen.forEach((file) => form.append('dokumen', file));
   const { data } = await api.post<ApiResponse<Order>>('/orders', form);
   return data.data;

@@ -1,8 +1,11 @@
 import { useRef, useState, type FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { BrandError, BrandField, FramedButton, brandInputSolid, dashedBox } from '../../components/brand/Brand';
+import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
+import { listServices } from '../../services/catalogService';
 import { createOrder } from '../../services/orderService';
+import { rupiahPendek } from '../../utils/format';
 
 // Figma "Form Pengajuan project": Nama Project, Ekspetasi Selesai, Anggaran, Deskripsi, Dokumen Pendukung, Submit.
 const MAX_FILES = 5;
@@ -12,6 +15,11 @@ const ACCEPT = '.pdf,.png,.jpg,.jpeg,.docx';
 export default function PesanPage() {
   const navigate = useNavigate();
   const fileInput = useRef<HTMLInputElement>(null);
+  // Jasa dari tombol "Pesan jasa ini" di Daftar Jasa publik (?jasa=id); boleh dilepas klien.
+  const [params, setParams] = useSearchParams();
+  const jasaId = Number(params.get('jasa')) || null;
+  const { data: services } = useData(listServices);
+  const jasa = services?.find((service) => service.id === jasaId) ?? null;
   const [form, setForm] = useState({ judul: '', tenggat: '', anggaran: '', kebutuhan: '' });
   const [files, setFiles] = useState<File[]>([]);
   const [error, setError] = useState('');
@@ -41,6 +49,7 @@ export default function PesanPage() {
         anggaran: form.anggaran ? Number(form.anggaran) : null,
         tenggatDiharapkan: form.tenggat || null,
         dokumen: files,
+        serviceId: jasa?.id ?? null,
       });
       navigate('/portal/proyek', { replace: true });
     } catch (err) {
@@ -60,6 +69,16 @@ export default function PesanPage() {
           </Link>
           <h1 className="font-magic text-3xl uppercase text-flame sm:text-5xl">Form Pengajuan project</h1>
         </div>
+        {jasa && (
+          <p className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-2xl border-2 border-flame px-4 py-2 font-moon text-base text-cream">
+            <span>
+              Jasa dipilih: <span className="text-flame">{jasa.nama}</span> ({rupiahPendek(jasa.hargaMin)} - {rupiahPendek(jasa.hargaMax)}, sekitar {jasa.estimasiHari} hari)
+            </span>
+            <button type="button" onClick={() => setParams({}, { replace: true })} className="text-sm text-cream/70 underline underline-offset-4 hover:text-flame">
+              Lepas pilihan
+            </button>
+          </p>
+        )}
         <form onSubmit={handleSubmit}>
           <BrandField id="judul" label="Nama Project" tone="cream">
             <input id="judul" required minLength={3} maxLength={160} value={form.judul} onChange={set('judul')} className={brandInputSolid} />

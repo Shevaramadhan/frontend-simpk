@@ -9,7 +9,7 @@ Status: **Kerangka** berarti rute sudah ada tetapi isinya belum dibuat.
 | `/daftar` | Publik | `pages/auth/DaftarPage` | Selesai |
 | `/lupa-sandi` | Publik | `pages/auth/LupaSandiPage` | Selesai |
 | `/reset-sandi` | Publik, dari tautan email | `pages/auth/ResetSandiPage` | Selesai |
-| `/katalog` | Publik | `pages/publik/KatalogPublikPage` | Selesai |
+| `/katalog` | Publik | `pages/publik/KatalogPublikPage` | Selesai, bergaya halaman klien (tidak ada di Figma) |
 | `/app` | Operasional | `pages/operasional/ProjectOpsPage` | Selesai, desain Figma |
 | `/app/pengajuan/:orderId` | Operasional | `pages/operasional/PilihWorkerPage` | Selesai, desain Figma |
 | `/app/worker` | Operasional | `pages/operasional/WorkerPage` | Selesai, mengikuti wireframe |

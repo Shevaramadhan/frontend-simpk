@@ -11,6 +11,21 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-14 (Daftar Jasa publik dan halaman galat)
+
+### Diubah
+- Daftar Jasa publik (`/katalog`, tujuan tombol LETS MAKE A PROJECT) mengikuti gaya halaman klien: header logo dan SIMPK, kartu jasa krem berbingkai oranye, footer situs. Tombol header menyesuaikan pengunjung (Sign In), klien (Project Saya), atau pengurus (Dashboard).
+- Jasa yang dipilih lewat "Pesan jasa ini" kini terbawa ke form pengajuan (dapat dilepas) dan tersimpan sebagai jasa pesanan.
+- Halaman 404, 403, dan layar memuat bergaya desain.
+
+### Dihapus
+- `PublicLayout` dan komponen tema lama yang tidak dipakai lagi (Button, Table, Modal, Field, DataState, StatusBadge, Placeholder).
+
+## 2026-11-14 (perbaikan kartu dashboard)
+
+### Diperbaiki
+- Nilai panjang di kartu dashboard (misalnya "25,2 JT") terlipat dan keluar dari kartu; kini tetap satu baris dan mengecil otomatis.
+
 ## 2026-11-14 (sidebar dapat diperkecil, kartu dashboard sejajar)
 
 ### Ditambah

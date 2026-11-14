@@ -16,7 +16,14 @@ function StatCard({ value, label, to, index }: { value: string; label: string; t
         to={to}
         className="flex h-[clamp(120px,24vh,231px)] flex-col items-center justify-center rounded-[30px] bg-coal-deep px-3 text-center transition-transform hover:-translate-y-1"
       >
-        <span className="font-magic text-[clamp(44px,min(12vh,7vw),130px)] leading-[0.9] text-flame">{value}</span>
+        {/* Nilai panjang seperti "25,2 JT" dikecilkan agar tetap satu baris di dalam kartu. */}
+        <span
+          className={`whitespace-nowrap font-magic leading-[0.9] text-flame ${
+            value.length > 4 ? 'text-[clamp(32px,min(8vh,4.2vw),96px)]' : 'text-[clamp(44px,min(12vh,7vw),130px)]'
+          }`}
+        >
+          {value}
+        </span>
         <span className="mt-2 font-magic text-[clamp(16px,min(3vh,1.9vw),32px)] uppercase leading-tight text-flame">{label}</span>
       </Link>
     </motion.div>

@@ -231,6 +231,8 @@ export interface OrderInput {
   anggaran: number | null;
   tenggatDiharapkan: string | null;
   dokumen: File[];
+  /** Jasa yang dipilih dari Daftar Jasa publik, bila ada. */
+  serviceId?: number | null;
 }
 
 export interface ApiResponse<T> {

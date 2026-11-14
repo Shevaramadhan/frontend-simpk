@@ -2,7 +2,6 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { useCurrentUser } from './hooks/useAuth';
 import type { Role } from './types';
 import ProtectedRoute from './components/ProtectedRoute';
-import PublicLayout from './components/Layout/PublicLayout';
 import StaffLayout from './components/Layout/StaffLayout';
 import ClientLayout from './components/Layout/ClientLayout';
 import DaftarPage from './pages/auth/DaftarPage';
@@ -51,9 +50,7 @@ export default function App() {
       <Route path="/lupa-sandi" element={<LupaSandiPage />} />
       <Route path="/reset-sandi" element={<ResetSandiPage />} />
       <Route path="/" element={<LandingPage />} />
-      <Route element={<PublicLayout />}>
-        <Route path="/katalog" element={<KatalogPublikPage />} />
-      </Route>
+      <Route path="/katalog" element={<KatalogPublikPage />} />
 
       {/* Semua pengurus memakai sidebar sesuai Figma (StaffLayout). */}
       <Route element={<ProtectedRoute roles={INTERNAL} />}>
