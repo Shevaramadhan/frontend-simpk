@@ -29,7 +29,8 @@ Status: **Kerangka** berarti rute sudah ada tetapi isinya belum dibuat.
 | `/portal/proyek/:id` | Klien | `pages/klien/DetailPage` | Selesai, desain Figma |
 | `/portal/proyek/:id/payment` | Klien | `pages/klien/PaymentPage` | Selesai, desain Figma |
 | `/portal/pesan` | Klien | `pages/klien/PesanPage` | Selesai, form pengajuan desain Figma |
-| `/app/sandi`, `/portal/sandi` | Semua role yang masuk | `pages/auth/GantiSandiPage` | Selesai |
+| `/portal/profil` | Klien | `pages/klien/ProfilPage` | Selesai, data diri dan ganti kata sandi; `/portal/sandi` dialihkan ke sini |
+| `/app/sandi` | Marketing | `pages/auth/GantiSandiPage` | Selesai, tampilan lama |
 | `/403` | Publik | `pages/ErrorPages` | Selesai |
 | Lainnya | Publik | `pages/ErrorPages` | Selesai |
 

@@ -11,6 +11,14 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-14 (profil klien)
+
+### Ditambah
+- Halaman Profil klien (`/portal/profil`) bergaya desain: Data Diri (nama, email hanya dibaca, nomor WhatsApp, nama instansi, jenis klien, alamat) dan Ganti Kata Sandi. Peringatan tampil bila nomor WhatsApp belum diisi. Sapaan HALLO ikut berubah setelah nama disimpan (`refreshUser` di `useAuth`).
+
+### Diubah
+- Menu HALLO klien: Ganti Kata Sandi diganti Profil; alamat lama `/portal/sandi` dialihkan ke `/portal/profil`.
+
 ## 2026-11-14 (keahlian worker)
 
 ### Ditambah

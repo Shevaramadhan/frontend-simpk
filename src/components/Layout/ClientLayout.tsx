@@ -9,7 +9,7 @@ import SiteFooter from '../brand/SiteFooter';
 const MENU = [
   { to: '/portal', label: 'Beranda', end: true },
   { to: '/portal/proyek', label: 'Project Saya', end: false },
-  { to: '/portal/sandi', label: 'Ganti Kata Sandi', end: false },
+  { to: '/portal/profil', label: 'Profil', end: false },
 ];
 
 function UserMenu() {

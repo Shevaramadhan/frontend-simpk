@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { useCurrentUser } from './hooks/useAuth';
 import type { Role } from './types';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -31,6 +31,7 @@ import BerandaKlienPage from './pages/klien/BerandaKlienPage';
 import DetailPage from './pages/klien/DetailPage';
 import PaymentPage from './pages/klien/PaymentPage';
 import PesanPage from './pages/klien/PesanPage';
+import ProfilPage from './pages/klien/ProfilPage';
 import ProyekSayaPage from './pages/klien/ProyekSayaPage';
 import { ForbiddenPage, NotFoundPage } from './pages/ErrorPages';
 
@@ -94,7 +95,9 @@ export default function App() {
           <Route path="proyek/:id" element={<DetailPage />} />
           <Route path="proyek/:id/payment" element={<PaymentPage />} />
           <Route path="pesan" element={<PesanPage />} />
-          <Route path="sandi" element={<GantiSandiPage />} />
+          <Route path="profil" element={<ProfilPage />} />
+          {/* Alamat lama tetap berfungsi. */}
+          <Route path="sandi" element={<Navigate to="/portal/profil" replace />} />
         </Route>
       </Route>
 

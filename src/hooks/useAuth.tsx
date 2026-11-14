@@ -10,6 +10,8 @@ interface AuthValue {
   register: (input: RegisterInput) => Promise<User>;
   loginWithGoogle: (credential: string) => Promise<User>;
   logout: () => void;
+  /** Memuat ulang data pengguna dari server, misalnya setelah nama diubah di halaman Profil. */
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthValue | null>(null);
@@ -52,9 +54,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }, []);
 
+  const refreshUser = useCallback(async () => {
+    setUser(await authService.me());
+  }, []);
+
   const value = useMemo(
-    () => ({ user, loading, login, register, loginWithGoogle, logout }),
-    [user, loading, login, register, loginWithGoogle, logout],
+    () => ({ user, loading, login, register, loginWithGoogle, logout, refreshUser }),
+    [user, loading, login, register, loginWithGoogle, logout, refreshUser],
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
