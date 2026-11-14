@@ -2,18 +2,18 @@ import { useState } from 'react';
 import type { DashboardSummary } from '../../types';
 import { rupiah } from '../../utils/format';
 
-// Grafik pita di Dashboard Marketing (Figma 148:820-148:824): empat pita bertumpuk, 01-04 sesuai kartu.
+// Grafik pita di Dashboard Marketing (Figma 148:820-148:824): empat pita bertumpuk, satu per kartu angka.
 // Tiap pita berskala sendiri (small multiples), karena jumlah request dan rupiah tidak boleh berbagi satu sumbu.
 // Tinggi pita = nilai bulan itu dibanding nilai tertinggi pita tersebut. Nilai asli tampil saat diarahkan.
 
 type Row = DashboardSummary['bulanan'][number];
 type Key = 'request' | 'projek' | 'selesai' | 'pemasukan';
 
-const SERIES: { key: Key; no: string; label: string; format: (n: number) => string }[] = [
-  { key: 'pemasukan', no: '04', label: 'Keuntungan', format: (n) => rupiah(n) },
-  { key: 'selesai', no: '03', label: 'Projek selesai', format: (n) => `${n} projek` },
-  { key: 'projek', no: '02', label: 'Projek masuk', format: (n) => `${n} projek` },
-  { key: 'request', no: '01', label: 'Request masuk', format: (n) => `${n} request` },
+const SERIES: { key: Key; short: string; label: string; format: (n: number) => string }[] = [
+  { key: 'pemasukan', short: 'Keuntungan', label: 'Keuntungan', format: (n) => rupiah(n) },
+  { key: 'selesai', short: 'Selesai', label: 'Projek selesai', format: (n) => `${n} projek` },
+  { key: 'projek', short: 'Projek', label: 'Projek masuk', format: (n) => `${n} projek` },
+  { key: 'request', short: 'Request', label: 'Request masuk', format: (n) => `${n} request` },
 ];
 
 const BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Juni', 'Juli', 'Agus', 'Sept', 'Oct', 'Nov', 'Des'];
@@ -21,7 +21,7 @@ const W = 1000;
 const BAND = 80;
 const GAP = 2;
 const H = SERIES.length * BAND;
-const LABEL_W = 70;
+const LABEL_W = 150;
 
 function bandPath(values: number[], top: number) {
   const max = Math.max(...values, 0);
@@ -81,10 +81,10 @@ export default function TrendBands({ bulanan }: { bulanan: Row[] }) {
           <span
             key={series.key}
             aria-hidden="true"
-            className="pointer-events-none absolute right-2 -translate-y-1/2 font-moon text-[clamp(16px,3.2vh,34px)] leading-none text-cream"
+            className="pointer-events-none absolute right-2 -translate-y-1/2 font-moon text-[clamp(13px,2.4vh,24px)] leading-none text-cream"
             style={{ top: `${((index + 0.5) / SERIES.length) * 100}%` }}
           >
-            {series.no}
+            {series.short}
           </span>
         ))}
         {hover !== null && (
@@ -96,7 +96,7 @@ export default function TrendBands({ bulanan }: { bulanan: Row[] }) {
             {[...SERIES].reverse().map((series) => (
               <p key={series.key} className="flex justify-between gap-3">
                 <span>
-                  {series.no} {series.label}
+                  {series.label}
                 </span>
                 <span>{series.format(bulanan[hover][series.key])}</span>
               </p>
@@ -104,7 +104,7 @@ export default function TrendBands({ bulanan }: { bulanan: Row[] }) {
           </div>
         )}
       </div>
-      <div className="mt-1 flex justify-between pr-[7%] font-moon text-[clamp(14px,2.4vh,26px)] text-flame">
+      <div className="mt-1 flex justify-between pr-[15%] font-moon text-[clamp(14px,2.4vh,26px)] text-flame">
         {bulanan.map((row) => (
           <span key={row.bulan}>{nama(row.bulan)}</span>
         ))}

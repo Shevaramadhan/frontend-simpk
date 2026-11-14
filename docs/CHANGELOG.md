@@ -11,6 +11,14 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-14 (sidebar dapat diperkecil, kartu dashboard sejajar)
+
+### Ditambah
+- Tombol perkecil/perbesar sidebar di layar lebar untuk semua pengurus: saat diperkecil hanya ikon menu yang tampil (nama menu muncul saat diarahkan), logo menjadi "S", menu aktif berupa kotak dengan garis penanda di kiri. Pilihan diingat di peramban.
+
+### Diubah
+- Dashboard Marketing: keempat kartu sejajar satu baris dan nomor 01-04 dihilangkan atas permintaan PM; pita grafik diberi nama (Request, Projek, Selesai, Keuntungan).
+
 ## 2026-11-14 (halaman Marketing, dashboard, ulasan)
 
 ### Ditambah
