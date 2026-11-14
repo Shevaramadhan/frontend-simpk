@@ -1,10 +1,13 @@
 import { useState, type FormEvent } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
+import AuthShell from '../../components/brand/AuthShell';
+import { BrandError, BrandField, FramedButton, brandInput } from '../../components/brand/Brand';
 import { useAuth } from '../../hooks/useAuth';
 import { errorMessage } from '../../services/apiConfig';
 import { afterAuthPath } from '../../utils/navigation';
-import Button from '../../components/Button';
 
+// Satu halaman login untuk semua akun. Tujuan setelah masuk ditentukan role dari database:
+// Klien ke /portal, Marketing, Operasional, dan Tim ke /app.
 export default function LoginPage() {
   const { user, login } = useAuth();
   const [params] = useSearchParams();
@@ -24,58 +27,37 @@ export default function LoginPage() {
       await login(email, password);
     } catch (err) {
       setError(errorMessage(err));
-    } finally {
       setSubmitting(false);
     }
   }
 
   return (
-    <div className="hero-grid flex min-h-screen items-center justify-center bg-page p-4 text-ink">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm rounded-2xl border border-line bg-surface p-6">
-        <h1 className="text-lg font-semibold">Masuk</h1>
-        <p className="mb-4 text-sm text-muted">SIM Proyek Klien Neo Telemetri</p>
-
-        <label className="block text-sm font-medium" htmlFor="email">
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          required
-          autoComplete="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          className="mb-3 mt-1 w-full rounded-lg border border-line px-3 py-2"
-        />
-
-        <label className="block text-sm font-medium" htmlFor="password">
-          Kata sandi
-        </label>
-        <input
-          id="password"
-          type="password"
-          required
-          autoComplete="current-password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          className="mb-3 mt-1 w-full rounded-lg border border-line px-3 py-2"
-        />
-
-        {error && (
-          <p role="alert" className="mb-3 text-sm text-danger">
-            {error}
-          </p>
-        )}
-
-        <Button type="submit" disabled={submitting} className="w-full">
-          {submitting ? 'Memproses...' : 'Masuk'}
-        </Button>
-
-        <div className="mt-4 flex flex-wrap justify-between gap-2 text-sm text-muted">
-          <Link to="/lupa-sandi" className="underline">Lupa kata sandi?</Link>
-          <Link to={jasa ? `/daftar?jasa=${encodeURIComponent(jasa)}` : '/daftar'} className="underline">Daftar sebagai klien</Link>
+    <AuthShell title="Login">
+      <form onSubmit={handleSubmit}>
+        <BrandField id="email" label="Email">
+          <input id="email" type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className={brandInput} />
+        </BrandField>
+        <BrandField id="password" label="Password">
+          <input id="password" type="password" required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className={brandInput} />
+        </BrandField>
+        <div className="mb-6 text-right">
+          <Link to="/lupa-sandi" className="font-moon text-base text-coal-deep underline underline-offset-4">
+            Lupa kata sandi?
+          </Link>
+        </div>
+        <BrandError message={error} />
+        <div className="flex justify-center">
+          <FramedButton type="submit" disabled={submitting} size="text-3xl">
+            {submitting ? 'Memproses...' : 'Login'}
+          </FramedButton>
         </div>
       </form>
-    </div>
+      <p className="mt-6 text-center font-moon text-lg text-coal-deep">
+        Belum punya akun?{' '}
+        <Link to={jasa ? `/daftar?jasa=${encodeURIComponent(jasa)}` : '/daftar'} className="text-flame underline underline-offset-4">
+          Sign In
+        </Link>
+      </p>
+    </AuthShell>
   );
 }

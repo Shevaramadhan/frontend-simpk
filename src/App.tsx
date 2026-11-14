@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { useCurrentUser } from './hooks/useAuth';
 import type { Role } from './types';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -12,6 +12,7 @@ import LoginPage from './pages/auth/LoginPage';
 import LupaSandiPage from './pages/auth/LupaSandiPage';
 import ResetSandiPage from './pages/auth/ResetSandiPage';
 import KatalogPublikPage from './pages/publik/KatalogPublikPage';
+import LandingPage from './pages/publik/LandingPage';
 import MarketingDashboardPage from './pages/marketing/MarketingDashboardPage';
 import KatalogPage from './pages/marketing/KatalogPage';
 import KlienPage from './pages/marketing/KlienPage';
@@ -20,6 +21,9 @@ import TagihanPage from './pages/marketing/TagihanPage';
 import OperasionalDashboardPage from './pages/operasional/OperasionalDashboardPage';
 import PenggunaPage from './pages/operasional/PenggunaPage';
 import TugasSayaPage from './pages/tim/TugasSayaPage';
+import BerandaKlienPage from './pages/klien/BerandaKlienPage';
+import DetailPage from './pages/klien/DetailPage';
+import PaymentPage from './pages/klien/PaymentPage';
 import PesanPage from './pages/klien/PesanPage';
 import ProyekSayaPage from './pages/klien/ProyekSayaPage';
 import { ForbiddenPage, NotFoundPage } from './pages/ErrorPages';
@@ -40,8 +44,8 @@ export default function App() {
       <Route path="/daftar" element={<DaftarPage />} />
       <Route path="/lupa-sandi" element={<LupaSandiPage />} />
       <Route path="/reset-sandi" element={<ResetSandiPage />} />
+      <Route path="/" element={<LandingPage />} />
       <Route element={<PublicLayout />}>
-        <Route path="/" element={<Navigate to="/katalog" replace />} />
         <Route path="/katalog" element={<KatalogPublikPage />} />
       </Route>
 
@@ -64,7 +68,10 @@ export default function App() {
 
       <Route element={<ProtectedRoute roles={['KLIEN']} />}>
         <Route path="/portal" element={<ClientLayout />}>
-          <Route index element={<ProyekSayaPage />} />
+          <Route index element={<BerandaKlienPage />} />
+          <Route path="proyek" element={<ProyekSayaPage />} />
+          <Route path="proyek/:id" element={<DetailPage />} />
+          <Route path="proyek/:id/payment" element={<PaymentPage />} />
           <Route path="pesan" element={<PesanPage />} />
           <Route path="sandi" element={<GantiSandiPage />} />
         </Route>

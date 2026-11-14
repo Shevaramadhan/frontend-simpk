@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import Button from '../../components/Button';
 import DataState from '../../components/DataState';
 import Field, { inputClass } from '../../components/Field';
@@ -7,8 +7,9 @@ import StatusBadge from '../../components/StatusBadge';
 import Table, { type Column } from '../../components/Table';
 import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
-import { approveOrder, listOrders, updateOrderStatus } from '../../services/orderService';
-import type { Order, OrderStatus } from '../../types';
+import { openProtectedFile } from '../../services/fileService';
+import { approveOrder, getOrder, listOrders, updateOrderStatus } from '../../services/orderService';
+import type { Order, OrderDocument, OrderStatus } from '../../types';
 import { ORDER_STATUS_LABEL, rupiah, tanggal } from '../../utils/format';
 
 // Persetujuan punya formulir sendiri karena wajib disertai nilai kesepakatan.
@@ -24,6 +25,20 @@ export default function PesananPage() {
   const [alasan, setAlasan] = useState('');
   const [actionError, setActionError] = useState('');
   const [nilai, setNilai] = useState('');
+  const [documents, setDocuments] = useState<OrderDocument[]>([]);
+
+  // Dokumen pendukung dimuat saat modal dibuka.
+  useEffect(() => {
+    setDocuments([]);
+    if (!detail) return;
+    let active = true;
+    getOrder(detail.id)
+      .then((full) => active && setDocuments(full.documents))
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [detail]);
 
   function openDetail(order: Order) {
     setDetail(order);
@@ -58,8 +73,8 @@ export default function PesananPage() {
 
   const columns: Column<Order>[] = [
     { key: 'nomor', label: 'Nomor', render: (order) => order.nomor },
+    { key: 'judul', label: 'Project', render: (order) => order.judul || '-' },
     { key: 'klien', label: 'Klien', render: (order) => order.client.namaInstansi },
-    { key: 'jasa', label: 'Jasa', render: (order) => order.service?.nama ?? '-' },
     { key: 'tanggal', label: 'Tanggal', render: (order) => tanggal(order.createdAt) },
     { key: 'status', label: 'Status', render: (order) => <StatusBadge status={order.status} /> },
     {
@@ -85,12 +100,24 @@ export default function PesananPage() {
             <dl className="text-sm">
               <dt className="font-medium">Klien</dt>
               <dd className="mb-2">{detail.client.namaInstansi}</dd>
-              <dt className="font-medium">Kebutuhan</dt>
+              <dt className="font-medium">Nama project</dt>
+              <dd className="mb-2">{detail.judul || '-'}</dd>
+              <dt className="font-medium">Deskripsi</dt>
               <dd className="mb-2 whitespace-pre-wrap">{detail.kebutuhan}</dd>
               <dt className="font-medium">Anggaran</dt>
               <dd className="mb-2">{rupiah(detail.anggaran)}</dd>
               <dt className="font-medium">Tenggat</dt>
               <dd className="mb-2">{tanggal(detail.tenggatDiharapkan)}</dd>
+              <dt className="font-medium">Dokumen pendukung</dt>
+              <dd className="mb-2">
+                {documents.length === 0
+                  ? '-'
+                  : documents.map((doc) => (
+                      <button key={doc.id} type="button" className="mr-3 underline" onClick={() => void openProtectedFile(`/files/dokumen/${doc.id}`, doc.namaFile)}>
+                        {doc.namaFile}
+                      </button>
+                    ))}
+              </dd>
               {detail.nilaiDisepakati && (
                 <>
                   <dt className="font-medium">Nilai disepakati</dt>
@@ -98,13 +125,14 @@ export default function PesananPage() {
                 </>
               )}
             </dl>
-            {detail.status === 'DITINJAU' && (
+            {(detail.status === 'BARU' || detail.status === 'DITINJAU') && (
               <form onSubmit={handleApprove} className="mb-4 border-t border-line pt-3">
                 <h3 className="mb-2 font-semibold">Setujui setelah MoU disepakati</h3>
                 <Field id="nilai" label="Nilai disepakati (Rp)">
                   <input id="nilai" type="number" min="1" required value={nilai} onChange={(event) => setNilai(event.target.value)} className={inputClass} />
                 </Field>
                 <Button type="submit">Setujui Pesanan</Button>
+                <p className="mt-2 text-xs text-muted">Setelah disetujui, terbitkan tagihan DP di menu Tagihan dan Pembayaran.</p>
               </form>
             )}
             {NEXT[detail.status]?.includes('DITOLAK') && (

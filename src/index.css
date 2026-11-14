@@ -1,5 +1,18 @@
 @import 'tailwindcss';
 
+/* Font desain berlisensi pemakaian pribadi; berkasnya di public/fonts/ dan tidak masuk Git. Lihat docs/04-panduan-tampilan.md. */
+@font-face {
+  font-family: 'Magic Hat';
+  src: url('/fonts/MagicHat.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Seven Moon';
+  src: url('/fonts/SevenMoon.ttf') format('truetype');
+  font-display: swap;
+}
+
 /* Satu-satunya tempat warna dan font. Lihat docs/04-panduan-tampilan.md. */
 @theme {
   --color-page: #0f1322;
@@ -14,6 +27,17 @@
   --color-danger: #fca5a5;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-heading: 'Plus Jakarta Sans', 'Inter', sans-serif;
+
+  /* Landing page publik, dari Figma "SIMPK By Neotelemetri". */
+  --color-cream: #fffff5;
+  --color-coal: #292929;
+  --color-coal-deep: #262626;
+  --color-flame: #ff6200;
+  --color-sand: #f6eddd;
+  --font-magic: 'Magic Hat', Impact, sans-serif;
+  --font-moon: 'Seven Moon', 'Trebuchet MS', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+  --font-spartan: 'League Spartan', sans-serif;
 }
 
 @layer base {
@@ -35,6 +59,45 @@
     background-color: var(--color-page);
     color: var(--color-ink);
     color-scheme: dark;
+  }
+}
+
+/* Garis tepi krem pada judul landing page. */
+@utility text-outline {
+  -webkit-text-stroke: 7px var(--color-cream);
+  paint-order: stroke fill;
+}
+
+/* Garis tepi gelap, misalnya judul SIMPK dan SIGN IN pada halaman klien. */
+@utility text-outline-dark {
+  -webkit-text-stroke: 6px var(--color-coal-deep);
+  paint-order: stroke fill;
+}
+
+@utility text-outline-lg {
+  -webkit-text-stroke: 9px var(--color-cream);
+  paint-order: stroke fill;
+}
+
+/* Galeri karya di beranda klien bergerak ke samping dan berhenti saat disentuh. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 

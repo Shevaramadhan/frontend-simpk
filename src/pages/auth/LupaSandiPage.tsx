@@ -1,8 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import AuthCard from '../../components/AuthCard';
-import Button from '../../components/Button';
-import Field, { inputClass } from '../../components/Field';
+import AuthShell from '../../components/brand/AuthShell';
+import { BrandError, BrandField, FramedButton, brandInput } from '../../components/brand/Brand';
 import { errorMessage } from '../../services/apiConfig';
 import { forgotPassword } from '../../services/authService';
 
@@ -27,23 +26,23 @@ export default function LupaSandiPage() {
   }
 
   return (
-    <AuthCard title="Lupa Kata Sandi">
+    <AuthShell title="Lupa Kata Sandi">
       {sent ? (
-        <p role="status" className="text-sm">
+        <p role="status" className="font-moon text-lg text-coal-deep">
           Jika email tersebut terdaftar, tautan untuk membuat kata sandi baru sudah dikirim. Tautan berlaku 30 menit. Periksa juga folder spam.
         </p>
       ) : (
         <form onSubmit={handleSubmit}>
-          <Field id="email" label="Email akun Anda">
-            <input id="email" type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className={inputClass} />
-          </Field>
-          {error && <p role="alert" className="mb-3 text-sm text-danger">{error}</p>}
-          <Button type="submit" disabled={saving} className="w-full">{saving ? 'Mengirim...' : 'Kirim Tautan'}</Button>
+          <BrandField id="email" label="Email akun Anda">
+            <input id="email" type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className={brandInput} />
+          </BrandField>
+          <BrandError message={error} />
+          <div className="flex justify-center"><FramedButton type="submit" disabled={saving}>{saving ? 'Mengirim...' : 'Kirim Tautan'}</FramedButton></div>
         </form>
       )}
-      <p className="mt-4 text-sm text-muted">
-        <Link to="/login" className="underline">Kembali ke halaman masuk</Link>
+      <p className="mt-6 text-center font-moon text-lg text-coal-deep">
+        <Link to="/login" className="text-flame underline underline-offset-4">Kembali ke halaman masuk</Link>
       </p>
-    </AuthCard>
+    </AuthShell>
   );
 }

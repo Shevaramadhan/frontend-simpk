@@ -1,4 +1,4 @@
-import type { ApiResponse, RegisterInput, User } from '../types';
+import type { ApiResponse, AuthResult, RegisterInput, User } from '../types';
 import api from './apiConfig';
 
 export async function login(email: string, password: string) {
@@ -7,7 +7,12 @@ export async function login(email: string, password: string) {
 }
 
 export async function register(input: RegisterInput) {
-  const { data } = await api.post<ApiResponse<{ token: string; user: User }>>('/auth/register', input);
+  const { data } = await api.post<ApiResponse<AuthResult>>('/auth/register', input);
+  return data.data;
+}
+
+export async function loginWithGoogle(credential: string) {
+  const { data } = await api.post<ApiResponse<AuthResult>>('/auth/google', { credential });
   return data.data;
 }
 

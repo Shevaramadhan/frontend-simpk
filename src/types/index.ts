@@ -51,9 +51,12 @@ export interface RegisterInput {
   name: string;
   email: string;
   password: string;
-  namaInstansi: string;
-  jenisKlien: string;
   noWhatsapp: string;
+}
+
+export interface AuthResult {
+  token: string;
+  user: User;
 }
 
 export type InternalRole = Exclude<Role, 'KLIEN'>;
@@ -69,6 +72,7 @@ export interface InternalUser {
 export interface Order {
   id: number;
   nomor: string;
+  judul: string;
   kebutuhan: string;
   anggaran: string | null;
   nilaiDisepakati: string | null;
@@ -78,13 +82,73 @@ export interface Order {
   createdAt: string;
   client: { id: number; namaInstansi: string };
   service: { id: number; nama: string } | null;
+  projects: { id: number; status: ProjectStatus }[];
+}
+
+export type ProjectStatus = 'PERSIAPAN' | 'BERJALAN' | 'DITUNDA' | 'SELESAI' | 'DIBATALKAN';
+export type Bidang = 'UI_UX' | 'FRONTEND' | 'BACKEND' | 'INTEGRASI';
+export type InvoiceStatus = 'DRAF' | 'DITERBITKAN' | 'LUNAS';
+export type PaymentStatus = 'MENUNGGU_VERIFIKASI' | 'DITERIMA' | 'DITOLAK';
+
+export interface Payment {
+  id: number;
+  jumlah: string;
+  tglTransfer: string;
+  statusVerifikasi: PaymentStatus;
+  alasanDitolak: string | null;
+  verifiedAt: string | null;
+  createdAt: string;
+}
+
+export interface Invoice {
+  id: number;
+  nomor: string;
+  keterangan: string;
+  total: string;
+  tglTerbit: string;
+  jatuhTempo: string | null;
+  status: InvoiceStatus;
+  payments: Payment[];
+}
+
+export interface InvoiceWithOrder extends Invoice {
+  order: { id: number; nomor: string; judul: string; client: { namaInstansi: string } };
+}
+
+export interface OrderDocument {
+  id: number;
+  namaFile: string;
+  mime: string;
+  ukuran: number;
+}
+
+/** Isi halaman Payment dan Detail klien. Catatan teknis tidak pernah ikut. */
+export interface OrderDetail extends Omit<Order, 'projects'> {
+  documents: OrderDocument[];
+  invoices: Invoice[];
+  project: {
+    id: number;
+    kode: string;
+    status: ProjectStatus;
+    progres: number;
+    progresBidang: Record<Bidang, number | null>;
+  } | null;
+}
+
+export interface ClientUpdate {
+  id: number;
+  persentase: number;
+  catatanKlien: string;
+  createdAt: string;
+  task: { id: number; judul: string };
 }
 
 export interface OrderInput {
-  serviceId: number | null;
+  judul: string;
   kebutuhan: string;
   anggaran: number | null;
   tenggatDiharapkan: string | null;
+  dokumen: File[];
 }
 
 export interface ApiResponse<T> {

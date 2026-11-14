@@ -1,8 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import AuthCard from '../../components/AuthCard';
-import Button from '../../components/Button';
-import Field, { inputClass } from '../../components/Field';
+import AuthShell from '../../components/brand/AuthShell';
+import { BrandError, BrandField, FramedButton, brandInput } from '../../components/brand/Brand';
 import { errorMessage } from '../../services/apiConfig';
 import { resetPassword } from '../../services/authService';
 
@@ -34,23 +33,23 @@ export default function ResetSandiPage() {
   }
 
   return (
-    <AuthCard title="Buat Kata Sandi Baru">
+    <AuthShell title="Buat Kata Sandi Baru">
       {done ? (
-        <p role="status" className="text-sm">
-          Kata sandi diperbarui. <Link to="/login" className="underline">Masuk sekarang</Link>
+        <p role="status" className="font-moon text-lg text-coal-deep">
+          Kata sandi diperbarui. <Link to="/login" className="text-flame underline underline-offset-4">Masuk sekarang</Link>
         </p>
       ) : (
         <form onSubmit={handleSubmit}>
-          <Field id="baru" label="Kata sandi baru (minimal 8 karakter)">
-            <input id="baru" type="password" required autoComplete="new-password" value={baru} onChange={(event) => setBaru(event.target.value)} className={inputClass} />
-          </Field>
-          <Field id="ulang" label="Ulangi kata sandi baru">
-            <input id="ulang" type="password" required autoComplete="new-password" value={ulang} onChange={(event) => setUlang(event.target.value)} className={inputClass} />
-          </Field>
-          {error && <p role="alert" className="mb-3 text-sm text-danger">{error}</p>}
-          <Button type="submit" disabled={saving} className="w-full">{saving ? 'Menyimpan...' : 'Simpan'}</Button>
+          <BrandField id="baru" label="Kata sandi baru (minimal 8 karakter)">
+            <input id="baru" type="password" required autoComplete="new-password" value={baru} onChange={(event) => setBaru(event.target.value)} className={brandInput} />
+          </BrandField>
+          <BrandField id="ulang" label="Ulangi kata sandi baru">
+            <input id="ulang" type="password" required autoComplete="new-password" value={ulang} onChange={(event) => setUlang(event.target.value)} className={brandInput} />
+          </BrandField>
+          <BrandError message={error} />
+          <div className="flex justify-center"><FramedButton type="submit" disabled={saving}>{saving ? 'Menyimpan...' : 'Simpan'}</FramedButton></div>
         </form>
       )}
-    </AuthCard>
+    </AuthShell>
   );
 }

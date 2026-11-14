@@ -1,22 +1,34 @@
-import { useState, type FormEvent } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import Button from '../../components/Button';
-import Field, { inputClass } from '../../components/Field';
-import { useData } from '../../hooks/useData';
+import { useRef, useState, type FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { BrandError, BrandField, FramedButton, brandInputSolid, dashedBox } from '../../components/brand/Brand';
 import { errorMessage } from '../../services/apiConfig';
-import { listServices } from '../../services/catalogService';
 import { createOrder } from '../../services/orderService';
+
+// Figma "Form Pengajuan project": Nama Project, Ekspetasi Selesai, Anggaran, Deskripsi, Dokumen Pendukung, Submit.
+const MAX_FILES = 5;
+const MAX_MB = 5;
+const ACCEPT = '.pdf,.png,.jpg,.jpeg,.docx';
 
 export default function PesanPage() {
   const navigate = useNavigate();
-  const [params] = useSearchParams();
-  const services = useData(listServices);
-  const [serviceId, setServiceId] = useState(params.get('jasa') ?? '');
-  const [kebutuhan, setKebutuhan] = useState('');
-  const [anggaran, setAnggaran] = useState('');
-  const [tenggat, setTenggat] = useState('');
+  const fileInput = useRef<HTMLInputElement>(null);
+  const [form, setForm] = useState({ judul: '', tenggat: '', anggaran: '', kebutuhan: '' });
+  const [files, setFiles] = useState<File[]>([]);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
+
+  function addFiles(list: FileList | null) {
+    if (!list) return;
+    const picked = [...files, ...Array.from(list)];
+    const tooBig = picked.find((file) => file.size > MAX_MB * 1024 * 1024);
+    if (tooBig) setError(`${tooBig.name} lebih dari ${MAX_MB} MB.`);
+    else if (picked.length > MAX_FILES) setError(`Maksimal ${MAX_FILES} dokumen.`);
+    else {
+      setError('');
+      setFiles(picked);
+    }
+    if (fileInput.current) fileInput.current.value = '';
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -24,48 +36,76 @@ export default function PesanPage() {
     setSaving(true);
     try {
       await createOrder({
-        serviceId: serviceId ? Number(serviceId) : null,
-        kebutuhan,
-        anggaran: anggaran ? Number(anggaran) : null,
-        tenggatDiharapkan: tenggat || null,
+        judul: form.judul,
+        kebutuhan: form.kebutuhan,
+        anggaran: form.anggaran ? Number(form.anggaran) : null,
+        tenggatDiharapkan: form.tenggat || null,
+        dokumen: files,
       });
-      navigate('/portal', { replace: true });
+      navigate('/portal/proyek', { replace: true });
     } catch (err) {
       setError(errorMessage(err));
-    } finally {
       setSaving(false);
     }
   }
 
+  const set = (key: keyof typeof form) => (event: { target: { value: string } }) => setForm({ ...form, [key]: event.target.value });
+
   return (
-    <section className="max-w-xl">
-      <h1 className="text-xl font-semibold">Pesan Proyek</h1>
-      <p className="mb-4 mt-1 text-sm text-muted">
-        Marketing akan memeriksa pesanan Anda. Lihat <Link to="/katalog" className="underline">daftar jasa</Link>.
-      </p>
-      <form onSubmit={handleSubmit} className="rounded-2xl border border-line bg-surface p-5">
-        <Field id="jasa" label="Jasa">
-          <select id="jasa" value={serviceId} onChange={(event) => setServiceId(event.target.value)} className={inputClass}>
-            <option value="">Belum tahu, konsultasikan</option>
-            {services.data?.map((service) => (
-              <option key={service.id} value={service.id}>
-                {service.nama}
-              </option>
-            ))}
-          </select>
-        </Field>
-        <Field id="kebutuhan" label="Kebutuhan">
-          <textarea id="kebutuhan" required minLength={10} rows={5} value={kebutuhan} onChange={(event) => setKebutuhan(event.target.value)} className={inputClass} />
-        </Field>
-        <Field id="anggaran" label="Anggaran (Rp, opsional)">
-          <input id="anggaran" type="number" min="0" value={anggaran} onChange={(event) => setAnggaran(event.target.value)} className={inputClass} />
-        </Field>
-        <Field id="tenggat" label="Tenggat yang diharapkan (opsional)">
-          <input id="tenggat" type="date" value={tenggat} onChange={(event) => setTenggat(event.target.value)} className={inputClass} />
-        </Field>
-        {error && <p role="alert" className="mb-3 text-sm text-danger">{error}</p>}
-        <Button type="submit" disabled={saving}>{saving ? 'Mengirim...' : 'Kirim Pesanan'}</Button>
-      </form>
+    <section className="px-3 pb-10 sm:px-6">
+      <div className="mx-auto max-w-5xl rounded-[30px] bg-coal-deep p-5 sm:p-8">
+        <div className="mb-6 flex items-center gap-4">
+          <Link to="/portal/proyek" aria-label="Kembali ke project saya" className="font-magic text-3xl text-flame hover:text-cream">
+            ←
+          </Link>
+          <h1 className="font-magic text-3xl uppercase text-flame sm:text-5xl">Form Pengajuan project</h1>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <BrandField id="judul" label="Nama Project" tone="cream">
+            <input id="judul" required minLength={3} maxLength={160} value={form.judul} onChange={set('judul')} className={brandInputSolid} />
+          </BrandField>
+          <div className="grid gap-x-6 sm:grid-cols-2">
+            <BrandField id="tenggat" label="Ekspetasi Selesai" tone="cream">
+              <input id="tenggat" type="date" value={form.tenggat} onChange={set('tenggat')} className={brandInputSolid} />
+            </BrandField>
+            <BrandField id="anggaran" label="Anggaran (Rp)" tone="cream">
+              <input id="anggaran" type="number" min="0" step="1000" value={form.anggaran} onChange={set('anggaran')} className={brandInputSolid} />
+            </BrandField>
+          </div>
+          <BrandField id="kebutuhan" label="Deskripsi Project" tone="cream">
+            <textarea id="kebutuhan" required minLength={10} rows={5} value={form.kebutuhan} onChange={set('kebutuhan')} className={brandInputSolid} />
+          </BrandField>
+
+          <p className="mb-1 font-moon text-xl text-cream">Dokumen-Dokumen Pendukung</p>
+          <input ref={fileInput} id="dokumen" type="file" multiple accept={ACCEPT} className="sr-only" onChange={(event) => addFiles(event.target.files)} />
+          <label htmlFor="dokumen" className={`${dashedBox} flex cursor-pointer items-center justify-center gap-3 bg-cream py-6 font-moon text-xl text-flame hover:bg-[#ffe7d6]`}>
+            <span className="grid size-10 place-items-center rounded-full bg-flame font-magic text-3xl leading-none text-cream">+</span>
+            tambah document
+          </label>
+          <p className="mt-1 font-moon text-sm text-cream/80">PDF, PNG, JPG, atau DOCX, maksimal {MAX_FILES} berkas dan {MAX_MB} MB per berkas.</p>
+          {files.length > 0 && (
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {files.map((file, index) => (
+                <li key={`${file.name}-${index}`} className="flex items-center gap-2 rounded-xl bg-cream px-3 py-1.5 font-moon text-sm text-coal-deep">
+                  {file.name}
+                  <button type="button" aria-label={`Hapus ${file.name}`} className="font-bold text-flame" onClick={() => setFiles(files.filter((_, i) => i !== index))}>
+                    ×
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <div className="mt-6">
+            <BrandError message={error} />
+          </div>
+          <div className="flex justify-end">
+            <FramedButton type="submit" disabled={saving} size="text-2xl sm:text-3xl">
+              {saving ? 'Mengirim...' : 'Submit'}
+            </FramedButton>
+          </div>
+        </form>
+      </div>
     </section>
   );
 }
