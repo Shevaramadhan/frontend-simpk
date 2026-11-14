@@ -1,25 +1,48 @@
-import { useState, type FormEvent } from 'react';
-import Button from '../../components/Button';
-import DataState from '../../components/DataState';
-import Field, { inputClass } from '../../components/Field';
-import Modal from '../../components/Modal';
-import Table, { type Column } from '../../components/Table';
+import { useState, type FormEvent, type ReactNode } from 'react';
+import { BrandError, BrandField, brandInputSolid } from '../../components/brand/Brand';
+import BrandModal from '../../components/brand/BrandModal';
+import { LoadError, Loading, StaffPanel, pillButton } from '../../components/brand/StaffParts';
+import PasswordInput from '../../components/PasswordInput';
 import { useCurrentUser } from '../../hooks/useAuth';
 import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
 import { listClients, updateClientEmail } from '../../services/clientService';
 import { createUser, listUsers, updateUser } from '../../services/userService';
-import type { Client, InternalRole, InternalUser } from '../../types';
+import type { InternalRole } from '../../types';
 import { ROLE_LABEL } from '../../utils/navigation';
-import PasswordInput from '../../components/PasswordInput';
 
-const emptyUser = { name: '', email: '', password: '', role: 'TIM' as InternalRole };
+// Kelola semua akun internal (Marketing, Operasional, Tim) dan perbaikan email klien, bergaya halaman Operasional.
+const emptyUser = { name: '', email: '', password: '', role: 'MARKETING' as InternalRole };
 
 interface EmailTarget {
   label: string;
   email: string;
   save: (email: string) => Promise<void>;
 }
+
+const linkButton = 'font-moon text-sm text-flame underline underline-offset-4 hover:text-coal-deep';
+
+function BrandTable({ head, children, empty }: { head: string[]; children: ReactNode; empty?: string }) {
+  return (
+    <div className="overflow-x-auto rounded-2xl border-[3px] border-flame bg-cream">
+      <table className="w-full min-w-[640px] font-moon text-base text-coal-deep">
+        <thead className="bg-coal text-left text-flame">
+          <tr>
+            {head.map((label) => (
+              <th key={label} className="px-4 py-2 font-normal">
+                {label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>{children}</tbody>
+      </table>
+      {empty && <p className="px-4 py-4 text-center font-moon text-coal-deep/70">{empty}</p>}
+    </div>
+  );
+}
+
+const cell = 'border-t border-coal/10 px-4 py-2 align-middle';
 
 export default function PenggunaPage() {
   const me = useCurrentUser();
@@ -31,6 +54,7 @@ export default function PenggunaPage() {
   const [email, setEmail] = useState('');
   const [formError, setFormError] = useState('');
   const [actionError, setActionError] = useState('');
+  const [saving, setSaving] = useState(false);
 
   function openEmail(next: EmailTarget) {
     setTarget(next);
@@ -41,6 +65,7 @@ export default function PenggunaPage() {
   async function handleAdd(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setFormError('');
+    setSaving(true);
     try {
       await createUser(form);
       setAdding(false);
@@ -48,6 +73,8 @@ export default function PenggunaPage() {
       await users.reload();
     } catch (err) {
       setFormError(errorMessage(err));
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -55,126 +82,136 @@ export default function PenggunaPage() {
     event.preventDefault();
     if (!target) return;
     setFormError('');
+    setSaving(true);
     try {
       await target.save(email);
       setTarget(null);
       await Promise.all([users.reload(), clients.reload()]);
     } catch (err) {
       setFormError(errorMessage(err));
+    } finally {
+      setSaving(false);
     }
   }
 
-  async function toggle(user: InternalUser) {
+  async function toggle(id: number, isActive: boolean) {
     setActionError('');
     try {
-      await updateUser(user.id, { isActive: !user.isActive });
+      await updateUser(id, { isActive: !isActive });
       await users.reload();
     } catch (err) {
       setActionError(errorMessage(err));
     }
   }
 
-  const userColumns: Column<InternalUser>[] = [
-    { key: 'nama', label: 'Nama', render: (user) => user.name },
-    { key: 'email', label: 'Email', render: (user) => user.email },
-    { key: 'role', label: 'Role', render: (user) => ROLE_LABEL[user.role] },
-    {
-      key: 'aktif',
-      label: 'Status',
-      render: (user) =>
-        user.id === me.id ? (
-          'Aktif'
-        ) : (
-          <button type="button" className="underline" onClick={() => void toggle(user)}>
-            {user.isActive ? 'Aktif, nonaktifkan' : 'Nonaktif, aktifkan'}
-          </button>
-        ),
-    },
-    {
-      key: 'aksi',
-      label: 'Aksi',
-      render: (user) => (
-        <button
-          type="button"
-          className="underline"
-          onClick={() => openEmail({ label: user.name, email: user.email, save: (value) => updateUser(user.id, { email: value }) })}
-        >
-          Ubah email
-        </button>
-      ),
-    },
-  ];
-
-  const clientColumns: Column<Client>[] = [
-    { key: 'instansi', label: 'Instansi', render: (client) => client.namaInstansi },
-    { key: 'nama', label: 'Kontak', render: (client) => client.user.name },
-    { key: 'email', label: 'Email', render: (client) => client.user.email },
-    {
-      key: 'aksi',
-      label: 'Aksi',
-      render: (client) => (
-        <button
-          type="button"
-          className="underline"
-          onClick={() => openEmail({ label: client.namaInstansi, email: client.user.email, save: (value) => updateClientEmail(client.id, value) })}
-        >
-          Ubah email
-        </button>
-      ),
-    },
-  ];
-
-  const text = (id: 'name' | 'email' | 'password', label: string, type = 'text') => (
-    <Field id={id} label={label}>
-      {type === 'password' ? (
-        <PasswordInput tone="light" id={id} required value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={inputClass} />
-      ) : (
-        <input id={id} type={type} required value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={inputClass} />
-      )}
-    </Field>
+  const text = (id: 'name' | 'email', label: string, type = 'text') => (
+    <BrandField id={`u-${id}`} label={label}>
+      <input id={`u-${id}`} type={type} required autoComplete="off" value={form[id]} onChange={(event) => setForm({ ...form, [id]: event.target.value })} className={brandInputSolid} />
+    </BrandField>
   );
 
   return (
-    <section>
-      <div className="mb-4 flex items-center justify-between gap-4">
-        <h1 className="text-xl font-semibold">Pengguna</h1>
-        <Button onClick={() => { setFormError(''); setAdding(true); }}>Tambah Akun</Button>
-      </div>
-      <DataState loading={users.loading} error={users.error} />
-      {actionError && <p role="alert" className="mb-3 text-sm text-danger">{actionError}</p>}
-      {users.data && <Table columns={userColumns} rows={users.data} rowKey={(user) => user.id} />}
+    <StaffPanel
+      title="Pengguna"
+      action={
+        <button
+          type="button"
+          className={pillButton}
+          onClick={() => {
+            setFormError('');
+            setAdding(true);
+          }}
+        >
+          + Tambah Akun
+        </button>
+      }
+    >
+      <p className="mb-3 font-moon text-base text-cream/80">Akun internal Neo Telemetri. Akun Tim (worker) juga dapat ditambahkan dari menu Worker.</p>
+      {actionError && <BrandError message={actionError} />}
+      {users.loading && !users.data ? (
+        <Loading />
+      ) : users.error ? (
+        <LoadError message={users.error} />
+      ) : (
+        <BrandTable head={['Nama', 'Email', 'Role', 'Status', 'Aksi']}>
+          {(users.data ?? []).map((user) => (
+            <tr key={user.id} className={user.isActive ? '' : 'opacity-60'}>
+              <td className={cell}>{user.name}</td>
+              <td className={cell}>{user.email}</td>
+              <td className={cell}>{ROLE_LABEL[user.role]}</td>
+              <td className={cell}>
+                <span className={user.isActive ? 'text-[#14aa00]' : 'text-[#e60000]'}>{user.isActive ? 'Aktif' : 'Nonaktif'}</span>
+                {user.id !== me.id && (
+                  <button type="button" className={`${linkButton} ml-3`} onClick={() => void toggle(user.id, user.isActive)}>
+                    {user.isActive ? 'Nonaktifkan' : 'Aktifkan'}
+                  </button>
+                )}
+              </td>
+              <td className={cell}>
+                <button type="button" className={linkButton} onClick={() => openEmail({ label: user.name, email: user.email, save: (value) => updateUser(user.id, { email: value }) })}>
+                  Ubah email
+                </button>
+              </td>
+            </tr>
+          ))}
+        </BrandTable>
+      )}
 
-      <h2 className="mb-1 mt-8 font-semibold">Akun Klien</h2>
-      <p className="mb-3 text-sm text-muted">Klien mendaftar sendiri. Perbaiki email hanya jika klien salah ketik dan tidak menerima tautan lupa kata sandi.</p>
-      <DataState loading={clients.loading} error={clients.error} />
-      {clients.data && <Table columns={clientColumns} rows={clients.data} rowKey={(client) => client.id} emptyText="Belum ada klien." />}
+      <h2 className="mt-8 font-magic text-2xl uppercase text-flame">Akun Klien</h2>
+      <p className="mb-3 font-moon text-base text-cream/80">Klien mendaftar sendiri. Perbaiki email hanya jika klien salah ketik dan tidak menerima tautan lupa kata sandi.</p>
+      {clients.loading && !clients.data ? (
+        <Loading />
+      ) : clients.error ? (
+        <LoadError message={clients.error} />
+      ) : (
+        <BrandTable head={['Instansi', 'Kontak', 'Email', 'Aksi']} empty={clients.data?.length ? undefined : 'Belum ada klien.'}>
+          {(clients.data ?? []).map((client) => (
+            <tr key={client.id}>
+              <td className={cell}>{client.namaInstansi}</td>
+              <td className={cell}>{client.user.name}</td>
+              <td className={cell}>{client.user.email}</td>
+              <td className={cell}>
+                <button type="button" className={linkButton} onClick={() => openEmail({ label: client.namaInstansi, email: client.user.email, save: (value) => updateClientEmail(client.id, value) })}>
+                  Ubah email
+                </button>
+              </td>
+            </tr>
+          ))}
+        </BrandTable>
+      )}
 
-      <Modal open={adding} title="Tambah Akun" onClose={() => setAdding(false)}>
+      <BrandModal open={adding} title="Tambah Akun" onClose={() => setAdding(false)}>
         <form onSubmit={handleAdd}>
           {text('name', 'Nama')}
-          {text('email', 'Email', 'email')}
-          {text('password', 'Kata sandi awal (minimal 8 karakter)', 'password')}
-          <Field id="role" label="Role">
-            <select id="role" value={form.role} onChange={(event) => setForm({ ...form, role: event.target.value as InternalRole })} className={inputClass}>
-              <option value="TIM">Tim</option>
+          {text('email', 'Email login', 'email')}
+          <BrandField id="u-password" label="Kata sandi awal (minimal 8 karakter)">
+            <PasswordInput id="u-password" required minLength={8} autoComplete="new-password" value={form.password} onChange={(event) => setForm({ ...form, password: event.target.value })} className={brandInputSolid} />
+          </BrandField>
+          <BrandField id="u-role" label="Role">
+            <select id="u-role" value={form.role} onChange={(event) => setForm({ ...form, role: event.target.value as InternalRole })} className={brandInputSolid}>
               <option value="MARKETING">Marketing</option>
               <option value="OPERASIONAL">Operasional</option>
+              <option value="TIM">Tim</option>
             </select>
-          </Field>
-          {formError && <p role="alert" className="mb-3 text-sm text-danger">{formError}</p>}
-          <Button type="submit">Simpan</Button>
+          </BrandField>
+          <BrandError message={formError} />
+          <button type="submit" disabled={saving} className={`${pillButton} mt-1 w-full`}>
+            {saving ? 'Menyimpan...' : 'Simpan'}
+          </button>
         </form>
-      </Modal>
+      </BrandModal>
 
-      <Modal open={Boolean(target)} title={`Ubah Email ${target?.label ?? ''}`} onClose={() => setTarget(null)}>
+      <BrandModal open={Boolean(target)} title={`Ubah Email ${target?.label ?? ''}`} onClose={() => setTarget(null)}>
         <form onSubmit={handleEmail}>
-          <Field id="email-baru" label="Email">
-            <input id="email-baru" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} className={inputClass} />
-          </Field>
-          {formError && <p role="alert" className="mb-3 text-sm text-danger">{formError}</p>}
-          <Button type="submit">Simpan</Button>
+          <BrandField id="email-baru" label="Email baru">
+            <input id="email-baru" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} className={brandInputSolid} />
+          </BrandField>
+          <BrandError message={formError} />
+          <button type="submit" disabled={saving} className={`${pillButton} mt-1 w-full`}>
+            {saving ? 'Menyimpan...' : 'Simpan'}
+          </button>
         </form>
-      </Modal>
-    </section>
+      </BrandModal>
+    </StaffPanel>
   );
 }

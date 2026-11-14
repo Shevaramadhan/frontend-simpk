@@ -11,6 +11,11 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-14 (halaman Pengguna)
+
+### Diperbaiki
+- Halaman Pengguna tidak terbaca di sidebar baru (teks gelap di atas tabel biru tua). Kini bergaya halaman Operasional: panel gelap, tabel krem berbingkai oranye, jendela isian krem. Bawaan role saat Tambah Akun menjadi Marketing karena akun Tim sudah punya menu Worker.
+
 ## 2026-11-14 (ikon mata kata sandi)
 
 ### Ditambah
