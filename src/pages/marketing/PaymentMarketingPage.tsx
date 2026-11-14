@@ -212,7 +212,7 @@ export default function PaymentMarketingPage() {
 
   return (
     <div className="-mx-3 sm:-mx-6">
-      <ProyekInfo title="Payment" judul={order.judul || order.nomor} deskripsi={order.kebutuhan} estimasi={order.tenggatDiharapkan} anggaran={order.anggaran} documents={order.documents} backTo="/app/request">
+      <ProyekInfo title="Payment" judul={order.judul || order.nomor} deskripsi={order.kebutuhan} estimasi={order.tenggatDiharapkan} anggaran={order.anggaran} documents={order.documents} kelolaDokumen={{ orderId: order.id, bisaTambah: order.status !== 'DITOLAK' && order.status !== 'DIBATALKAN', onChange: () => void reload() }} backTo="/app/request">
         <p className="text-center font-magic text-2xl uppercase text-flame sm:text-3xl">Tabel Pembayaran</p>
         <dl className="mx-auto mt-3 grid max-w-3xl gap-2 text-center font-moon sm:grid-cols-3">
           {[

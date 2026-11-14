@@ -6,7 +6,7 @@ import ornamenKiri from '../../assets/landing/hero-ornamen-kiri.webp';
 import judulSimpk from '../../assets/landing/hero-simpk.png';
 import subjudul from '../../assets/landing/hero-subjudul.png';
 import logo from '../../assets/landing/logo-hitam.webp';
-import { Float, Magnet, Reveal } from './Motion';
+import { Magnet, Ornament, Reveal } from './Motion';
 import LandingHeader from './LandingHeader';
 import { Framed, NAV_ITEMS, SECTION, SIMPK_DESCRIPTION } from './Parts';
 import { box, Crop, Stage } from './Stage';
@@ -64,31 +64,31 @@ function Desktop() {
       </div>
 
       <div className="edge-r2 pointer-events-none absolute inset-0">
-        <Reveal immediate scale={0.6} delay={0.6} className="pointer-events-none absolute flex items-center justify-center" style={box(1100, 150, 468.67, 270.587)}>
-        <Float amplitude={12} rotate={2} duration={7}>
+        <div className="pointer-events-none absolute flex items-center justify-center" style={box(1100, 150, 468.67, 270.587)}>
+        <Ornament depth={34} tilt={16} enterRotate={120} delay={0.6} float={{ amplitude: 12, rotate: 2, duration: 7 }}>
           <div className="flex-none" style={isometric(-30, 30)}>
             <div className="relative h-[269.792px] w-[271.382px]">
               <img alt="" className={FILL} src={ornamenKananAtas} />
             </div>
           </div>
-        </Float>
-      </Reveal>
+        </Ornament>
+      </div>
       </div>
       <div className="edge-r2 pointer-events-none absolute inset-0">
-        <Reveal immediate scale={0.6} delay={0.75} className="pointer-events-none absolute flex items-center justify-center" style={box(1186, 537, 151, 260.518)}>
-        <Float amplitude={10} rotate={-3} duration={6} delay={0.8}>
+        <div className="pointer-events-none absolute flex items-center justify-center" style={box(1186, 537, 151, 260.518)}>
+        <Ornament depth={-20} tilt={20} enterRotate={-150} delay={0.8} float={{ amplitude: 10, rotate: -3, duration: 6, delay: 0.8 }}>
           <div className="flex-none" style={isometric(30, 30)}>
             <div className="relative h-[173.338px] w-[174.36px]">
               <img alt="" className={FILL} src={ornamenKananBawah} />
             </div>
           </div>
-        </Float>
-      </Reveal>
+        </Ornament>
+      </div>
       </div>
 
       <div className="edge-l2 pointer-events-none absolute inset-0">
-        <Reveal immediate scale={0.6} delay={0.5} className="pointer-events-none absolute flex items-center justify-center" style={box(-70, 110, 429.516, 329.579)}>
-        <Float amplitude={8} rotate={1.5} duration={8} delay={0.4}>
+        <div className="pointer-events-none absolute flex items-center justify-center" style={box(-70, 110, 429.516, 329.579)}>
+        <Ornament depth={26} tilt={12} enterRotate={-100} delay={0.45} float={{ amplitude: 8, rotate: 1.5, duration: 8, delay: 0.4 }}>
           <div className="flex-none" style={isometric(-15, 15)}>
             <div className="relative size-[293px] rounded-[30px]">
               <div className="absolute inset-0 overflow-hidden rounded-[30px]">
@@ -96,8 +96,8 @@ function Desktop() {
               </div>
             </div>
           </div>
-        </Float>
-      </Reveal>
+        </Ornament>
+      </div>
       </div>
 
       <Title />

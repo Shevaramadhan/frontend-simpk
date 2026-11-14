@@ -1,5 +1,5 @@
-import type { PointerEvent, ReactNode } from 'react';
-import { motion, useMotionValue, useReducedMotion, useSpring, type HTMLMotionProps } from 'motion/react';
+import { useEffect, type PointerEvent, type ReactNode } from 'react';
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform, type HTMLMotionProps } from 'motion/react';
 
 // Animasi landing page. Semua berakhir tepat di posisi desain, jadi tata letak tidak berubah.
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -78,6 +78,70 @@ export function Float({ amplitude = 10, rotate = 2, duration = 6, delay = 0, chi
       transition={{ duration, delay, repeat: Infinity, ease: 'easeInOut' }}
     >
       {children}
+    </motion.div>
+  );
+}
+
+/**
+ * Ornamen hero: masuk berputar dari blur lalu memantul, bergeser dan miring 3D mengikuti kursor di seluruh layar
+ * (parallax, `depth` = jarak geser), bergoyang elastis saat diarahkan, dan tetap mengambang saat diam.
+ * Seluruh efek mati bila pengguna memilih kurangi gerakan.
+ */
+export function Ornament({
+  depth = 24,
+  tilt = 14,
+  enterRotate = -90,
+  delay = 0,
+  float = {},
+  children,
+}: {
+  depth?: number;
+  tilt?: number;
+  enterRotate?: number;
+  delay?: number;
+  float?: { amplitude?: number; rotate?: number; duration?: number; delay?: number };
+  children: ReactNode;
+}) {
+  const reduced = useReducedMotion();
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const sx = useSpring(px, { stiffness: 60, damping: 14 });
+  const sy = useSpring(py, { stiffness: 60, damping: 14 });
+  const x = useTransform(sx, (v) => v * depth);
+  const y = useTransform(sy, (v) => v * depth);
+  const rotateY = useTransform(sx, (v) => v * tilt);
+  const rotateX = useTransform(sy, (v) => -v * tilt);
+
+  useEffect(() => {
+    if (reduced) return;
+    // Posisi kursor dinormalkan ke -1..1 terhadap tengah layar.
+    const move = (event: globalThis.PointerEvent) => {
+      if (event.pointerType !== 'mouse') return;
+      px.set((event.clientX / window.innerWidth - 0.5) * 2);
+      py.set((event.clientY / window.innerHeight - 0.5) * 2);
+    };
+    window.addEventListener('pointermove', move);
+    return () => window.removeEventListener('pointermove', move);
+  }, [reduced, px, py]);
+
+  if (reduced) return <>{children}</>;
+  return (
+    <motion.div
+      className="pointer-events-auto"
+      style={{ x, y, rotateX, rotateY, transformPerspective: 900 }}
+      initial={{ opacity: 0, scale: 0.2, rotate: enterRotate, filter: 'blur(16px)' }}
+      animate={{ opacity: 1, scale: 1, rotate: 0, filter: 'blur(0px)' }}
+      transition={{
+        type: 'spring',
+        stiffness: 110,
+        damping: 11,
+        delay,
+        opacity: { duration: 0.5, delay },
+        filter: { duration: 0.8, delay },
+      }}
+      whileHover={{ scale: 1.12, rotate: [0, -9, 7, -4, 2, 0], transition: { duration: 0.7, ease: 'easeOut' } }}
+    >
+      <Float {...float}>{children}</Float>
     </motion.div>
   );
 }

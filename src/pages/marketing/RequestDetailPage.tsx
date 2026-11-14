@@ -51,7 +51,7 @@ export default function RequestDetailPage() {
 
   return (
     <div className="-mx-3 sm:-mx-6">
-      <ProyekInfo title="Detail" judul={order.judul || order.nomor} deskripsi={order.kebutuhan} estimasi={order.tenggatDiharapkan} anggaran={order.anggaran} documents={order.documents} backTo="/app/request">
+      <ProyekInfo title="Detail" judul={order.judul || order.nomor} deskripsi={order.kebutuhan} estimasi={order.tenggatDiharapkan} anggaran={order.anggaran} documents={order.documents} kelolaDokumen={{ orderId: order.id, bisaTambah: order.status !== 'DITOLAK' && order.status !== 'DIBATALKAN', onChange: () => void reload() }} backTo="/app/request">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="font-moon text-sm text-coal-deep/70">

@@ -51,6 +51,17 @@ export async function payInvoice(invoiceId: number, input: { jumlah: number; tgl
   return data.data;
 }
 
+/** Tambah dokumen pendukung: klien selama pengajuan belum diterima, Marketing selama pesanan belum ditutup. */
+export async function addDocuments(orderId: number, files: File[]) {
+  const form = new FormData();
+  files.forEach((file) => form.append('dokumen', file));
+  await api.post(`/orders/${orderId}/documents`, form);
+}
+
+export async function deleteDocument(orderId: number, docId: number) {
+  await api.delete(`/orders/${orderId}/documents/${docId}`);
+}
+
 /** Ubah tagihan selama belum ada bukti yang diterima atau sedang diperiksa. */
 export async function updateInvoice(invoiceId: number, input: { keterangan: string; total: number; jatuhTempo: string | null }) {
   await api.patch(`/invoices/${invoiceId}`, input);

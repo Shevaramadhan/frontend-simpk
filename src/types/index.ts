@@ -181,6 +181,9 @@ export interface OrderDocument {
   namaFile: string;
   mime: string;
   ukuran: number;
+  createdAt: string;
+  uploadedById: number | null;
+  uploadedBy: { name: string; role: Role } | null;
 }
 
 /** Isi halaman Payment dan Detail klien. Catatan teknis tidak pernah ikut. */

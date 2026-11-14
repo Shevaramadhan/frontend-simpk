@@ -11,6 +11,17 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-15 (animasi landing page)
+
+### Diubah
+- Ornamen hero (`Ornament` di `landing/Motion.tsx`): masuk berputar dari blur lalu memantul, bergeser dan miring 3D mengikuti kursor dengan kedalaman berbeda (parallax), bergoyang elastis saat diarahkan, dan tetap mengambang saat diam. Posisi akhir sama dengan desain; mati bila pengguna memilih kurangi gerakan.
+- Kolase Latest Project: gambar yang diarahkan kursor naik ke depan sehingga dua gambar belakang dapat dilihat utuh, dan klik membuka tampilan penuh dengan tombol sebelumnya/berikutnya (Esc dan panah keyboard).
+
+## 2026-11-15 (dokumen pendukung tambahan)
+
+### Ditambah
+- Tombol "+ Tambah Dokumen" pada bagian Document Pendukung di Detail dan Payment klien (selama pengajuan belum diterima) serta di Detail Request dan Payment Marketing (misalnya MoU). Setiap dokumen menampilkan pengunggahnya, dan pengunggah dapat menghapus dokumennya selama masih diizinkan.
+
 ## 2026-11-14 (pengaturan dan perbaikan tagihan)
 
 ### Ditambah

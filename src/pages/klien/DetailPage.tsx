@@ -104,7 +104,7 @@ export default function DetailPage() {
   const project = order.project;
 
   return (
-    <ProyekInfo title="Detail" judul={order.judul || order.nomor} deskripsi={order.kebutuhan} estimasi={order.tenggatDiharapkan} anggaran={order.anggaran} documents={order.documents} backTo="/portal/proyek">
+    <ProyekInfo title="Detail" judul={order.judul || order.nomor} deskripsi={order.kebutuhan} estimasi={order.tenggatDiharapkan} anggaran={order.anggaran} documents={order.documents} kelolaDokumen={{ orderId: order.id, bisaTambah: order.status === 'BARU' || order.status === 'DITINJAU', onChange: () => void reload() }} backTo="/portal/proyek">
       {project ? (
         <>
           <ProgressPanel progres={project.progres} progresBidang={project.progresBidang} />
