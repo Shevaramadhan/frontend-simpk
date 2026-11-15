@@ -112,8 +112,8 @@ function Desktop() {
   return (
     <Stage className="bg-cream">
       <h2
-        className="absolute whitespace-nowrap font-magic text-[64px] uppercase leading-[normal] tracking-[3.2px] text-flame"
-        style={box(169, 59)}
+        className="absolute whitespace-nowrap text-center font-magic text-[64px] uppercase leading-[normal] tracking-[3.2px] text-flame"
+        style={box(0, 59, 1440)}
       >
         <SplitWords text={TITLE} />
       </h2>
