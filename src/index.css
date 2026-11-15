@@ -73,6 +73,16 @@
   }
 }
 
+/* Kilatan yang berjalan mengelilingi bingkai kartu (BorderBeam di landing/Motion.tsx). */
+@keyframes simpk-beam {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
+}
+
 /* Garis tepi krem pada judul landing page. */
 @utility text-outline {
   -webkit-text-stroke: 7px var(--color-cream);

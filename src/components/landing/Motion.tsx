@@ -149,6 +149,54 @@ export function Ornament({
   );
 }
 
+// Lingkar bingkai: hanya area padding (tebal garis) yang terlihat, bagian dalam dilubangi.
+const RING_MASK = {
+  maskImage: 'linear-gradient(#000 0 0), linear-gradient(#000 0 0)',
+  WebkitMaskImage: 'linear-gradient(#000 0 0), linear-gradient(#000 0 0)',
+  maskClip: 'content-box, border-box',
+  WebkitMaskClip: 'content-box, border-box',
+  maskComposite: 'exclude',
+  WebkitMaskComposite: 'xor',
+} as const;
+
+/**
+ * Kilatan oranye yang berjalan mengelilingi bingkai kartu, muncul saat induknya berada pada varian "hover"
+ * (pasang `whileHover="hover"` pada kartu). Kartu harus `relative`/`absolute` dan membulat; `radius` mengikuti sudutnya.
+ * Bila pengguna memilih kurangi gerakan, diganti bingkai oranye diam.
+ */
+export function BorderBeam({ radius = 20, width = 5, size = 220, duration = 4.5 }: { radius?: number; width?: number; size?: number; duration?: number }) {
+  const reduced = useReducedMotion();
+  const ring = { ...RING_MASK, padding: width, borderRadius: radius };
+  return (
+    <motion.div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0"
+      style={ring}
+      initial={false}
+      variants={{ hover: { opacity: 1 } }}
+      animate={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      {reduced ? (
+        <div className="absolute inset-0 bg-flame" />
+      ) : (
+        <div
+          className="absolute left-0 top-0 bg-gradient-to-l from-cream via-flame to-transparent"
+          // Bergerak di sepanjang tepi kotak membulat; arah gradasi ikut berputar sehingga ekornya selalu di belakang.
+          // Animasi CSS (keyframes simpk-beam di index.css) karena offset-distance lewat motion tidak berulang.
+          style={{
+            width: size,
+            height: width * 6,
+            offsetPath: `rect(0 auto auto 0 round ${radius}px)`,
+            offsetAnchor: 'center',
+            animation: `simpk-beam ${duration}s linear infinite`,
+          }}
+        />
+      )}
+    </motion.div>
+  );
+}
+
 /** Status aktif tombol: kursor di atasnya atau tombol sedang difokus keyboard. Sebarkan `handlers` ke elemen tombol. */
 export function useHoverFocus() {
   const [hovered, setHovered] = useState(false);

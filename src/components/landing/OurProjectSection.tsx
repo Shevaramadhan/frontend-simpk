@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { PROJECTS, type Division, type Project } from '../../data/portofolio';
-import { Reveal, SplitWords } from './Motion';
+import { BorderBeam, Reveal, SplitWords } from './Motion';
 import { Framed, PillLayers, SECTION, Separator } from './Parts';
 import { box, Stage } from './Stage';
 
@@ -62,6 +62,7 @@ function Desktop({ active, projects, toggle }: Filter) {
           >
             <Reveal x={index % 2 === 0 ? -60 : 60} delay={0.1 + Math.floor(index / 2) * 0.12} className="absolute inset-0">
               <div className="absolute inset-0 rounded-[20px] bg-coal" />
+              <BorderBeam />
               <h3 className="absolute whitespace-nowrap font-magic text-[36px] uppercase leading-[normal] text-flame" style={box(247, 22)}>
                 {project.title}
               </h3>
@@ -143,6 +144,7 @@ function Mobile({ active, projects, toggle }: Filter) {
               whileHover="hover"
               className="relative mb-6 flex min-h-[120px] items-center rounded-[20px] bg-coal py-4 pl-[126px] pr-4 last:mb-0 sm:pl-[170px]"
             >
+              <BorderBeam />
               <div className="absolute left-[-14px] top-1/2 flex w-[130px] origin-center -translate-y-1/2 scale-[0.52] items-center justify-center sm:left-0 sm:w-[170px] sm:scale-[0.7]">
                 <Thumbnail project={project} />
               </div>

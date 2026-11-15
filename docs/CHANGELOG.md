@@ -11,6 +11,11 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-15 (kilatan bingkai Our Project)
+
+### Ditambah
+- Kartu Our Project di landing page (layar lebar dan ponsel): kilatan oranye berekor memudar berjalan mengelilingi bingkai saat kartu diarahkan (`BorderBeam` di `landing/Motion.tsx`, keyframes `simpk-beam` di `index.css`). Memakai `offset-path` dan animasi CSS karena animasi offset-distance lewat motion tidak berulang. Bila pengguna memilih kurangi gerakan, diganti bingkai oranye diam.
+
 ## 2026-11-15 (ukuran halaman setelah login)
 
 ### Diubah
