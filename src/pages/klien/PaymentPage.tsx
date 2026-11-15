@@ -7,6 +7,7 @@ import { getOrder, payInvoice } from '../../services/orderService';
 import type { Invoice } from '../../types';
 import { rupiahPendek, tanggalPendek } from '../../utils/format';
 import ProyekInfo from '../../components/brand/ProyekInfo';
+import DateInput, { hariIni } from '../../components/DateInput';
 
 // Figma "Payment Page": tabel pembayaran, QR, dan unggah bukti. Skema DP lalu pelunasan = beberapa tagihan.
 function invoiceState(invoice: Invoice) {
@@ -53,7 +54,7 @@ function UploadForm({ invoice, onDone }: { invoice: Invoice; onDone: () => void 
         </label>
         <label className="font-moon text-sm text-flame">
           Tanggal transfer
-          <input type="date" required value={tgl} onChange={(event) => setTgl(event.target.value)} className={small} />
+          <DateInput required max={hariIni()} value={tgl} onChange={(event) => setTgl(event.target.value)} className={small} />
         </label>
       </div>
       <input id={inputId} type="file" accept=".pdf,.png,.jpg,.jpeg" className="sr-only" onChange={(event) => setFile(event.target.files?.[0] ?? null)} />

@@ -11,6 +11,15 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-15 (kolom tanggal)
+
+### Diperbaiki
+- Ikon kalender pada kolom tanggal tidak terlihat karena input mewarisi `color-scheme: dark` dari tema lama sehingga ikon tergambar putih di atas latar krem. Kolom tanggal kini memakai skema terang dan ikon kalender oranye (`index.css`).
+
+### Ditambah
+- Komponen `DateInput` (`components/DateInput.tsx`): klik di bagian mana pun kolom membuka kalender, bukan hanya pada ikon. Dipakai di keenam kolom tanggal: ekspektasi selesai pesanan, tanggal transfer, tenggat tugas, target selesai proyek, serta jatuh tempo tagihan baru dan ubah tagihan.
+- Batas tanggal: ekspektasi selesai pesanan dan jatuh tempo tagihan baru tidak dapat sebelum hari ini; tanggal transfer tidak dapat melewati hari ini. Kolom ubah tagihan, tenggat tugas, dan target proyek tanpa batas agar data lama tetap dapat disimpan.
+
 ## 2026-11-15 (kilatan bingkai Our Project)
 
 ### Ditambah

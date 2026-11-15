@@ -6,6 +6,7 @@ import { errorMessage } from '../../services/apiConfig';
 import { listServices } from '../../services/catalogService';
 import { createOrder } from '../../services/orderService';
 import { rupiahPendek } from '../../utils/format';
+import DateInput, { hariIni } from '../../components/DateInput';
 
 // Figma "Form Pengajuan project": Nama Project, Ekspetasi Selesai, Anggaran, Deskripsi, Dokumen Pendukung, Submit.
 const MAX_FILES = 5;
@@ -85,7 +86,7 @@ export default function PesanPage() {
           </BrandField>
           <div className="grid gap-x-6 sm:grid-cols-2">
             <BrandField id="tenggat" label="Ekspetasi Selesai" tone="cream">
-              <input id="tenggat" type="date" value={form.tenggat} onChange={set('tenggat')} className={brandInputSolid} />
+              <DateInput id="tenggat" min={hariIni()} value={form.tenggat} onChange={set('tenggat')} className={brandInputSolid} />
             </BrandField>
             <BrandField id="anggaran" label="Anggaran (Rp)" tone="cream">
               <input id="anggaran" type="number" min="0" step="1000" value={form.anggaran} onChange={set('anggaran')} className={brandInputSolid} />

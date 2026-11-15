@@ -11,6 +11,7 @@ import { errorMessage } from '../../services/apiConfig';
 import { addProgress, createTask, deleteTask, getProject, listTasks, listTeamUpdates, updateProject, updateTask } from '../../services/projectService';
 import type { Bidang, Member, ProjectDetail, ProjectStatus, Task } from '../../types';
 import { BIDANG_LABEL, PROJECT_STATUS_LABEL, tanggal, tanggalPendek, TASK_STATUS_LABEL } from '../../utils/format';
+import DateInput from '../../components/DateInput';
 
 // Detail project untuk Tim (dan Operasional): bergaya halaman Detail klien, ditambah tabel tugas.
 // PM membuat tugas; anggota memperbarui progres tugas miliknya. Catatan teknis hanya untuk tim (REQ-F05).
@@ -145,7 +146,7 @@ function TugasModal({ projectId, task, open, members, onClose, onDone }: { proje
             </select>
           </BrandField>
           <BrandField id="t-tenggat" label="Tenggat (opsional)">
-            <input id="t-tenggat" type="date" value={form.tenggat} onChange={(event) => setForm({ ...form, tenggat: event.target.value })} className={brandInputSolid} />
+            <DateInput id="t-tenggat" value={form.tenggat} onChange={(event) => setForm({ ...form, tenggat: event.target.value })} className={brandInputSolid} />
           </BrandField>
         </div>
         <p className="mb-3 font-moon text-sm text-coal-deep/70">Bobot menentukan seberapa besar tugas ini memengaruhi progres bidangnya.</p>
@@ -349,7 +350,7 @@ function StatusProject({ project, onSaved }: { project: ProjectDetail; onSaved: 
         </label>
         <label className="font-moon text-sm text-flame">
           Target selesai
-          <input type="date" value={target} onChange={(event) => setTarget(event.target.value)} className="mt-1 block rounded-xl bg-cream px-3 py-1.5 font-moon text-base text-coal-deep" />
+          <DateInput value={target} onChange={(event) => setTarget(event.target.value)} className="mt-1 block rounded-xl bg-cream px-3 py-1.5 font-moon text-base text-coal-deep" />
         </label>
         <button type="submit" disabled={saving || !berubah} className={pillButton}>
           {saving ? 'Menyimpan...' : 'Simpan'}

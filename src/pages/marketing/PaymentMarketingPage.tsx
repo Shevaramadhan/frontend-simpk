@@ -10,6 +10,7 @@ import { openProtectedFile } from '../../services/fileService';
 import { cancelInvoice, createInvoice, getOrder, updateInvoice, verifyPayment } from '../../services/orderService';
 import type { Invoice, Payment } from '../../types';
 import { rupiahPendek, tanggalPendek } from '../../utils/format';
+import DateInput, { hariIni } from '../../components/DateInput';
 
 // Tombol Payment di Figma "Request Page Marketing" (BPMN 3): terbitkan tagihan DP lalu pelunasan, periksa bukti transfer.
 const PAYMENT_STATUS: Record<Payment['statusVerifikasi'], { label: string; className: string }> = {
@@ -53,7 +54,7 @@ function TerbitkanForm({ orderId, sisa, onDone }: { orderId: number; sisa: numbe
           <input id="t-total" type="number" min="1" required value={form.total} onChange={(e) => setForm({ ...form, total: e.target.value })} className={brandInputSolid} />
         </BrandField>
         <BrandField id="t-tempo" label="Tenggat pembayaran">
-          <input id="t-tempo" type="date" value={form.jatuhTempo} onChange={(e) => setForm({ ...form, jatuhTempo: e.target.value })} className={brandInputSolid} />
+          <DateInput id="t-tempo" min={hariIni()} value={form.jatuhTempo} onChange={(e) => setForm({ ...form, jatuhTempo: e.target.value })} className={brandInputSolid} />
         </BrandField>
       </div>
       {sisa > 0 && (
@@ -272,7 +273,7 @@ export default function PaymentMarketingPage() {
                 <input id="u-total" type="number" min="1" required value={formUbah.total} onChange={(e) => setFormUbah({ ...formUbah, total: e.target.value })} className={brandInputSolid} />
               </BrandField>
               <BrandField id="u-tempo" label="Tenggat pembayaran">
-                <input id="u-tempo" type="date" value={formUbah.jatuhTempo} onChange={(e) => setFormUbah({ ...formUbah, jatuhTempo: e.target.value })} className={brandInputSolid} />
+                <DateInput id="u-tempo" value={formUbah.jatuhTempo} onChange={(e) => setFormUbah({ ...formUbah, jatuhTempo: e.target.value })} className={brandInputSolid} />
               </BrandField>
             </div>
             <BrandError message={actionError} />
