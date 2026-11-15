@@ -68,7 +68,7 @@ export default function RequestPage() {
                   <StatusPill label={status.label} className={status.className} />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h2 className="line-clamp-2 break-words font-magic text-[clamp(20px,3.2vh,32px)] uppercase leading-tight text-flame">{order.judul || order.nomor}</h2>
+                  <h2 className="line-clamp-2 break-words font-magic text-[clamp(17px,2.4vh,24px)] uppercase leading-tight text-flame">{order.judul || order.nomor}</h2>
                   <p className="font-moon text-sm text-coal-deep/70">
                     {order.client.namaInstansi} · {tanggal(order.createdAt)} · {order.nomor}
                   </p>

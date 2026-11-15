@@ -45,7 +45,7 @@ export default function TrendBands({ bulanan }: { bulanan: Row[] }) {
       <figcaption className="sr-only">Perkembangan request, projek, projek selesai, dan keuntungan per bulan</figcaption>
       <div className="relative">
         {/* Tinggi mengikuti layar agar dashboard muat satu layar; label 01-04 berupa HTML supaya tidak ikut melar. */}
-        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="block h-[clamp(140px,27vh,340px)] w-full" role="img" aria-label="Grafik perkembangan per bulan">
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="block h-[clamp(160px,40vh,440px)] w-full" role="img" aria-label="Grafik perkembangan per bulan">
           {SERIES.map((series, index) => {
             const top = index * BAND;
             const { area, line } = bandPath(bulanan.map((row) => row[series.key]), top);
@@ -81,7 +81,7 @@ export default function TrendBands({ bulanan }: { bulanan: Row[] }) {
           <span
             key={series.key}
             aria-hidden="true"
-            className="pointer-events-none absolute right-2 -translate-y-1/2 font-moon text-[clamp(13px,2.4vh,24px)] leading-none text-cream"
+            className="pointer-events-none absolute right-2 -translate-y-1/2 font-moon text-[clamp(12px,1.8vh,17px)] leading-none text-cream"
             style={{ top: `${((index + 0.5) / SERIES.length) * 100}%` }}
           >
             {series.short}
@@ -104,7 +104,7 @@ export default function TrendBands({ bulanan }: { bulanan: Row[] }) {
           </div>
         )}
       </div>
-      <div className="mt-1 flex justify-between pr-[15%] font-moon text-[clamp(14px,2.4vh,26px)] text-flame">
+      <div className="mt-1 flex justify-between pr-[15%] font-moon text-[clamp(12px,1.8vh,18px)] text-flame">
         {bulanan.map((row) => (
           <span key={row.bulan}>{nama(row.bulan)}</span>
         ))}

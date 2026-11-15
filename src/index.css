@@ -62,6 +62,17 @@
   }
 }
 
+/*
+ * Halaman setelah login (StaffLayout dan ClientLayout, ditandai data-app-shell) sedikit lebih kecil di layar lebar
+ * atas masukan PM 15 Nov. Semua ukuran rem (teks, jarak, ikon, modal) ikut mengecil. Ponsel tetap 100% agar teks
+ * isian minimal 16px dan tidak memicu zoom otomatis.
+ */
+@media (min-width: 64rem) {
+  html:has([data-app-shell]) {
+    font-size: 87.5%;
+  }
+}
+
 /* Garis tepi krem pada judul landing page. */
 @utility text-outline {
   -webkit-text-stroke: 7px var(--color-cream);

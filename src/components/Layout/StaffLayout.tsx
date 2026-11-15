@@ -28,7 +28,7 @@ function Icon({ src, className = 'size-7', style }: { src: string; className?: s
 type Part = { src: string; left: number; top: number; width: number; height: number };
 function LayeredIcon({ parts, ratio }: { parts: Part[]; ratio: string }) {
   return (
-    <span aria-hidden="true" className="relative inline-block h-6 shrink-0 lg:h-8" style={{ aspectRatio: ratio }}>
+    <span aria-hidden="true" className="relative inline-block h-6 shrink-0" style={{ aspectRatio: ratio }}>
       {parts.map((part) => (
         <Icon key={part.src} src={part.src} className="absolute" style={{ left: `${part.left}%`, top: `${part.top}%`, width: `${part.width}%`, height: `${part.height}%` }} />
       ))}
@@ -62,7 +62,7 @@ const REVIEW_ICON = (
 // Menu tambahan di luar desain Figma memakai ikon garis sederhana yang ikut warna teks.
 function LineIcon({ d }: { d: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="size-6 shrink-0 lg:size-7">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="size-6 shrink-0">
       <path d={d} />
     </svg>
   );
@@ -71,7 +71,7 @@ const DASHBOARD_ICON = <LineIcon d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13
 const JASA_ICON = <LineIcon d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8zM7.5 7.5h.01" />;
 // Pengaturan tagihan: ikon bangunan bank.
 const BANK_ICON = <LineIcon d="M3 10 12 4l9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18" />;
-const icon = (src: string) => <Icon src={src} className="size-6 lg:size-7" />;
+const icon = (src: string) => <Icon src={src} className="size-6" />;
 
 const MENU: Partial<Record<Role, { to: string; label: string; icon: ReactNode; end?: boolean }[]>> = {
   MARKETING: [
@@ -150,13 +150,13 @@ export default function StaffLayout() {
   }
 
   // Ponsel: bar atas ringkas (logo + Log Out, lalu menu); layar lebar: sidebar setinggi layar.
-  const size = 'text-lg lg:text-[clamp(18px,3.2vh,30px)]';
+  const size = 'text-lg lg:text-[clamp(15px,2.3vh,20px)]';
   // Saat diperkecil: tiap menu jadi kotak ikon membulat; menu aktif diberi garis penanda di tepi kiri sidebar.
   const item = ({ isActive }: { isActive: boolean }) =>
     `relative flex items-center gap-2 whitespace-nowrap rounded-[24px] px-3 py-1 font-moon transition-colors lg:gap-3 lg:py-2 ${
-      collapsed ? 'lg:mx-auto lg:size-14 lg:justify-center lg:rounded-2xl lg:px-0' : 'lg:px-5'
+      collapsed ? 'lg:mx-auto lg:size-12 lg:justify-center lg:rounded-2xl lg:px-0' : 'lg:px-5'
     } ${size} ${isActive ? 'bg-flame text-coal' : 'text-flame hover:bg-flame/15'} ${
-      collapsed && isActive ? 'lg:before:absolute lg:before:-left-5 lg:before:top-1/2 lg:before:h-9 lg:before:w-1.5 lg:before:-translate-y-1/2 lg:before:rounded-r-full lg:before:bg-flame' : ''
+      collapsed && isActive ? 'lg:before:absolute lg:before:-left-4 lg:before:top-1/2 lg:before:h-8 lg:before:w-1.5 lg:before:-translate-y-1/2 lg:before:rounded-r-full lg:before:bg-flame' : ''
     }`;
   const logoutButton = (extra: string, iconOnly = false) => (
     <button
@@ -184,19 +184,19 @@ export default function StaffLayout() {
   );
 
   return (
-    <div className="min-h-dvh bg-cream text-coal-deep lg:flex">
+    <div data-app-shell className="min-h-dvh bg-cream text-coal-deep lg:flex">
       <aside
-        className={`flex flex-col bg-coal px-4 py-3 transition-[width] duration-300 lg:sticky lg:top-0 lg:h-dvh lg:shrink-0 lg:py-[clamp(16px,3vh,32px)] ${
-          collapsed ? 'lg:w-[96px] lg:px-3' : 'lg:w-[clamp(230px,22vw,330px)] lg:px-7'
+        className={`flex flex-col bg-coal px-4 py-3 transition-[width] duration-300 lg:sticky lg:top-0 lg:h-dvh lg:shrink-0 lg:py-[clamp(14px,2.4vh,24px)] ${
+          collapsed ? 'lg:w-[84px] lg:px-3' : 'lg:w-[clamp(200px,15vw,250px)] lg:px-5'
         }`}
       >
         <div className={`flex items-center justify-between gap-4 ${collapsed ? 'lg:flex-col lg:gap-3' : 'lg:items-start'}`}>
           <div className="leading-none">
             {collapsed ? (
               <>
-                <p className="font-magic text-[clamp(28px,5vh,48px)] tracking-[0.1em] text-flame lg:hidden">SIMPK</p>
+                <p className="font-magic text-[clamp(24px,3.8vh,36px)] tracking-[0.1em] text-flame lg:hidden">SIMPK</p>
                 <p
-                  className="hidden size-14 place-items-center rounded-2xl border-2 border-flame/40 bg-coal-deep font-magic text-[34px] leading-none text-flame lg:grid"
+                  className="hidden size-12 place-items-center rounded-2xl border-2 border-flame/40 bg-coal-deep font-magic text-[28px] leading-none text-flame lg:grid"
                   title="SIMPK by neotelemetri"
                 >
                   S
@@ -204,7 +204,7 @@ export default function StaffLayout() {
               </>
             ) : (
               <>
-                <p className="font-magic text-[clamp(28px,5vh,48px)] tracking-[0.1em] text-flame">SIMPK</p>
+                <p className="font-magic text-[clamp(24px,3.8vh,36px)] tracking-[0.1em] text-flame">SIMPK</p>
                 <p className="mt-1 text-right font-moon text-[11px] tracking-[0.1em] text-flame lg:pr-6">by neotelemetri</p>
                 <p className="mt-2 hidden font-moon text-sm text-cream/80 lg:block">{ROLE_LABEL[user.role]}</p>
               </>
@@ -215,7 +215,7 @@ export default function StaffLayout() {
         </div>
         <nav
           aria-label="Menu utama"
-          className={`mt-2 flex gap-1 overflow-x-auto lg:flex-col lg:gap-[clamp(6px,1.6vh,16px)] lg:overflow-visible ${collapsed ? 'lg:mt-[clamp(16px,4vh,48px)]' : 'lg:mt-[clamp(20px,7vh,90px)]'}`}
+          className={`mt-2 flex gap-1 overflow-x-auto lg:flex-col lg:gap-[clamp(4px,1vh,10px)] lg:overflow-visible ${collapsed ? 'lg:mt-[clamp(14px,3vh,32px)]' : 'lg:mt-[clamp(16px,4.5vh,48px)]'}`}
         >
           {menu.map((entry) => (
             <NavLink key={entry.to} to={entry.to} end={entry.end} className={item} title={collapsed ? entry.label : undefined}>
@@ -233,15 +233,15 @@ export default function StaffLayout() {
       <div className="min-w-0 flex-1">
         <div className="flex justify-end px-4 pt-3 sm:px-6">
           <div className="flex items-center gap-3">
-            <span className="hidden font-moon text-base text-coal-deep sm:inline">{user.name}</span>
-            <span className="grid size-12 place-items-center bg-coal p-[3px]" title={user.name}>
+            <span className="hidden font-moon text-sm text-coal-deep sm:inline">{user.name}</span>
+            <span className="grid size-11 place-items-center bg-coal p-[3px]" title={user.name}>
               <span className="grid size-full place-items-center border-[3px] border-cream text-cream">
                 <Icon src={ikonProfil} className="size-6" />
               </span>
             </span>
           </div>
         </div>
-        <main className="px-3 pb-8 pt-3 sm:px-6">
+        <main className="px-3 pb-6 pt-2 sm:px-6">
           <Outlet />
         </main>
       </div>

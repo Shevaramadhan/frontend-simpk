@@ -15,7 +15,7 @@ const JENIS = ['Perorangan', 'Organisasi', 'Instansi', 'Perusahaan'];
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="rounded-[24px] bg-cream p-5 sm:p-6">
-      <h2 className="mb-4 font-magic text-2xl uppercase text-flame sm:text-3xl">{title}</h2>
+      <h2 className="mb-3 font-magic text-xl uppercase text-flame sm:text-2xl">{title}</h2>
       {children}
     </div>
   );
@@ -70,18 +70,21 @@ function DataDiri({ client, onSaved }: { client: Client; onSaved: () => Promise<
           Lengkapi nomor WhatsApp agar Marketing dapat menghubungi Anda tentang project.
         </p>
       )}
-      <form onSubmit={handleSubmit}>
+      {/* Dua kolom di layar lebar agar profil muat satu layar tanpa digulir. */}
+      <form onSubmit={handleSubmit} className="grid gap-x-4 sm:grid-cols-2">
         <BrandField id="p-nama" label="Nama">
           <input id="p-nama" required minLength={2} maxLength={120} value={form.name} onChange={set('name')} className={brandInputSolid} />
         </BrandField>
-        <BrandField id="p-email" label="Email">
-          <input id="p-email" value={client.user.email} readOnly disabled className={`${brandInputSolid} cursor-not-allowed opacity-70`} />
-        </BrandField>
-        <p className="-mt-2 mb-3 font-moon text-xs text-coal-deep/60">Email dipakai untuk masuk. Bila salah, hubungi pengurus Neo Telemetri.</p>
+        <div>
+          <BrandField id="p-email" label="Email">
+            <input id="p-email" value={client.user.email} readOnly disabled className={`${brandInputSolid} cursor-not-allowed opacity-70`} />
+          </BrandField>
+          <p className="-mt-1 mb-3 font-moon text-xs text-coal-deep/60">Email dipakai untuk masuk. Bila salah, hubungi pengurus Neo Telemetri.</p>
+        </div>
         <BrandField id="p-wa" label="Nomor WhatsApp">
           <input id="p-wa" type="tel" required inputMode="tel" pattern="[0-9+\-\s]{8,25}" placeholder="08xxxxxxxxxx" value={form.noWhatsapp} onChange={set('noWhatsapp')} className={brandInputSolid} />
         </BrandField>
-        <div className="grid gap-x-3 sm:grid-cols-2">
+        <div className="contents">
           <BrandField id="p-instansi" label="Nama instansi / organisasi">
             <input id="p-instansi" required minLength={2} maxLength={160} value={form.namaInstansi} onChange={set('namaInstansi')} className={brandInputSolid} />
           </BrandField>
@@ -93,6 +96,7 @@ function DataDiri({ client, onSaved }: { client: Client; onSaved: () => Promise<
             </select>
           </BrandField>
         </div>
+        <div className="sm:col-span-2">
         <BrandField id="p-alamat" label="Alamat (opsional)">
           <textarea id="p-alamat" maxLength={255} rows={2} value={form.alamat} onChange={set('alamat')} className={`${brandInputSolid} resize-y`} />
         </BrandField>
@@ -101,6 +105,7 @@ function DataDiri({ client, onSaved }: { client: Client; onSaved: () => Promise<
         <button type="submit" disabled={saving} className={pillButton}>
           {saving ? 'Menyimpan...' : 'Simpan Profil'}
         </button>
+        </div>
       </form>
     </Card>
   );
@@ -164,9 +169,9 @@ export default function ProfilPage() {
   }
 
   return (
-    <section className="px-3 pb-10 sm:px-6">
-      <div className="mx-auto max-w-6xl rounded-[30px] bg-coal-deep p-5 sm:p-8">
-        <h1 className="mb-6 text-center font-magic text-4xl uppercase text-flame sm:text-5xl">Profil</h1>
+    <section className="px-3 pb-6 sm:px-6">
+      <div className="mx-auto max-w-6xl rounded-[30px] bg-coal-deep p-5 sm:p-6">
+        <h1 className="mb-4 text-center font-magic text-3xl uppercase text-flame sm:text-4xl">Profil</h1>
         {loading && !data ? (
           <p className="py-10 text-center font-moon text-xl text-cream/80">Memuat...</p>
         ) : error || !data ? (

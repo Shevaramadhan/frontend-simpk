@@ -11,6 +11,14 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-15 (ukuran halaman setelah login)
+
+### Diubah
+- Semua halaman setelah login (Marketing, Operasional, Tim, dan klien) sekitar 12,5% lebih kecil di layar mulai 1024 px: ukuran dasar huruf 87,5% lewat penanda `data-app-shell` di StaffLayout dan ClientLayout (F-20). Ponsel tetap 100%.
+- Ukuran yang mengikuti tinggi layar ikut dikecilkan: sidebar (lebar, huruf menu, jarak), judul panel, judul kartu project, avatar, judul tabel, label grafik, dan judul SIMPK di header klien. Batas ukuran input dan label formulir di `Brand.tsx` kini dalam rem; halaman masuk tidak berubah.
+- Kartu dashboard Marketing lebih pendek dan diberi ikon (request, projek, selesai, keuntungan); grafik dipertinggi agar dashboard terisi satu layar.
+- Profil klien memakai dua kolom, dan Pengaturan serta Payment klien dirapatkan, sehingga ketiganya muat satu layar tanpa digulir pada 1366 x 768. Halaman daftar dan detail yang isinya bertambah (daftar project, pengguna, worker, tugas) tetap dapat digulir.
+
 ## 2026-11-15 (ornamen hero terpotong, teks tombol bergulir)
 
 ### Ditambah

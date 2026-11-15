@@ -116,9 +116,9 @@ export default function PaymentPage() {
 
   return (
     <ProyekInfo title="Payment" judul={order.judul || order.nomor} deskripsi={order.kebutuhan} estimasi={order.tenggatDiharapkan} anggaran={order.anggaran} documents={order.documents} kelolaDokumen={{ orderId: order.id, bisaTambah: order.status === 'BARU' || order.status === 'DITINJAU', onChange: () => void reload() }} backTo="/portal/proyek">
-      <p className="text-center font-magic text-2xl uppercase text-flame sm:text-3xl">Tabel Pembayaran</p>
-      <div className="mt-4 grid gap-5 lg:grid-cols-[1fr_auto]">
-        <div className="space-y-4">
+      <p className="text-center font-magic text-xl uppercase text-flame sm:text-2xl">Tabel Pembayaran</p>
+      <div className="mt-3 grid gap-4 lg:grid-cols-[1fr_auto]">
+        <div className="space-y-3">
           {order.invoices.length === 0 ? (
             <p className="rounded-2xl bg-white p-5 text-center font-moon text-lg text-coal-deep">
               {order.status === 'DISETUJUI' || order.status === 'MENJADI_PROYEK'
@@ -129,7 +129,7 @@ export default function PaymentPage() {
             order.invoices.map((invoice) => <InvoiceCard key={invoice.id} orderId={order.id} invoice={invoice} onChange={() => void reload()} />)
           )}
         </div>
-        <div className="mx-auto w-[220px] rounded-[20px] bg-flame p-3">
+        <div className="mx-auto w-[190px] rounded-[20px] bg-flame p-3">
           {/* Kode QRIS resmi Neo Telemetri belum tersedia; QR pada desain hanya contoh dan tidak dipakai. */}
           <div className="grid aspect-square place-items-center rounded-xl bg-white p-4 text-center font-moon text-sm text-coal-deep">
             Kode QRIS Neo Telemetri akan tampil di sini. Sementara, transfer sesuai arahan Marketing.

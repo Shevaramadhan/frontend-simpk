@@ -72,7 +72,7 @@ function UserMenu() {
 
 export default function ClientLayout() {
   return (
-    <div className="bg-cream text-coal-deep">
+    <div data-app-shell className="bg-cream text-coal-deep">
       {/* Header dan isi halaman setinggi satu layar; footer berada setelahnya. */}
       <div className="flex min-h-dvh flex-col">
       <header className="relative z-20 grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 pb-[clamp(4px,1vh,8px)] pt-[clamp(6px,1.4vh,12px)] sm:px-5">
@@ -80,7 +80,7 @@ export default function ClientLayout() {
           <img alt="Neo Telemetri, IT For The Future" className="h-auto max-h-11 w-full max-w-[280px] object-contain" src={logo} />
         </Link>
         <Link to="/portal" className="flex flex-col items-end leading-none">
-          <OutlinedTitle as="p" className="text-[clamp(1.5rem,min(7vh,10vw),3.75rem)] tracking-[0.12em]">
+          <OutlinedTitle as="p" className="text-[clamp(1.5rem,min(5.5vh,9vw),3.25rem)] tracking-[0.12em]">
             SIMPK
           </OutlinedTitle>
           <span className="mt-0.5 font-moon text-[10px] tracking-[0.12em] text-flame sm:text-xs">by neotelemetri</span>

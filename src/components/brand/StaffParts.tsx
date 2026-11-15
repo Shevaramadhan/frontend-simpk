@@ -8,9 +8,9 @@ import ikonProfilOranye from '../../assets/staff/ikon-profil-oranye.svg';
 /** Panel gelap pembungkus isi halaman, dengan judul Magic Hat di tengah. */
 export function StaffPanel({ title, action, children }: { title: string; action?: ReactNode; children: ReactNode }) {
   return (
-    <section className="rounded-[30px] bg-coal-deep px-4 pb-6 pt-5 sm:px-7">
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-magic text-[clamp(30px,5vh,48px)] uppercase leading-none text-flame">{title}</h1>
+    <section className="rounded-[26px] bg-coal-deep px-4 pb-5 pt-4 sm:px-6">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 className="font-magic text-[clamp(24px,3.6vh,36px)] uppercase leading-none text-flame">{title}</h1>
         {action}
       </div>
       {children}
@@ -28,10 +28,10 @@ export function ProjectCard({ index, title, subtitle, note, to }: { index: numbe
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: Math.min(index, 8) * 0.05, duration: 0.4 }}
-      className="flex flex-col gap-3 rounded-[24px] border-[3px] border-flame bg-cream px-5 py-4 sm:flex-row sm:items-center"
+      className="flex flex-col gap-3 rounded-[22px] border-[3px] border-flame bg-cream px-5 py-3 sm:flex-row sm:items-center"
     >
       <div className="min-w-0 flex-1">
-        <h2 className="line-clamp-2 break-words font-magic text-[clamp(22px,3.6vh,36px)] uppercase leading-tight text-flame" title={title}>
+        <h2 className="line-clamp-2 break-words font-magic text-[clamp(18px,2.6vh,26px)] uppercase leading-tight text-flame" title={title}>
           {title}
         </h2>
         <p className="font-moon text-sm text-coal-deep/70">{subtitle}</p>
@@ -44,7 +44,7 @@ export function ProjectCard({ index, title, subtitle, note, to }: { index: numbe
   );
 }
 
-export function Avatar({ size = 'size-[clamp(48px,8vh,72px)]' }: { size?: string }) {
+export function Avatar({ size = 'size-[clamp(40px,6vh,56px)]' }: { size?: string }) {
   return (
     <span className={`grid shrink-0 place-items-center rounded-[16px] border-[3px] border-flame bg-[rgba(41,41,41,0.7)] ${size}`}>
       <img alt="" src={ikonProfilOranye} className="h-1/2 w-1/2" />
