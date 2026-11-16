@@ -180,16 +180,15 @@ function TaskTable({
 }) {
   if (!tasks.length) return <p className="rounded-2xl bg-white p-5 text-center font-moon text-lg text-coal-deep">Belum ada tugas pada project ini.</p>;
   return (
-    // Di layar lebar tinggi tabel mengikuti isi dan digulir di dalam kolom bila tugas banyak; kepala tabel tetap terlihat.
-    <div className="overflow-x-auto rounded-2xl border-[3px] border-coal/15 bg-white lg:min-h-0 lg:overflow-y-auto">
-      <table className={`w-full ${ringkas ? 'min-w-[480px]' : 'min-w-[680px]'} font-moon text-base text-coal-deep`}>
-        <thead className="sticky top-0 z-10 bg-coal text-left text-flame">
+    <div className="overflow-x-auto rounded-2xl border-[3px] border-coal/15 bg-white">
+      <table className={`w-full ${ringkas ? 'min-w-[480px]' : 'min-w-[720px]'} font-moon text-base text-coal-deep`}>
+        <thead className="bg-coal text-left text-flame">
           <tr>
             <th className="px-3 py-2 font-normal">Tugas</th>
             <th className="px-3 py-2 font-normal">Bidang</th>
             {!ringkas && <th className="px-3 py-2 font-normal">Penanggung jawab</th>}
             {!ringkas && <th className="px-3 py-2 font-normal">Tenggat</th>}
-            <th className="w-32 px-3 py-2 font-normal">Progres</th>
+            <th className="w-48 px-3 py-2 font-normal">Progres</th>
             <th className="px-3 py-2" />
           </tr>
         </thead>
@@ -212,7 +211,7 @@ function TaskTable({
                 </span>
               </td>
               <td className="px-3 py-2 text-right">
-                <span className="inline-flex flex-nowrap justify-end gap-1.5">
+                <span className="inline-flex flex-wrap justify-end gap-1.5">
                   {canUpdate(task) && (
                     <button type="button" onClick={() => onUpdate(task)} className="rounded-xl bg-coal px-3 py-1 text-sm text-flame hover:text-cream">
                       Perbarui
@@ -247,10 +246,11 @@ function Riwayat({ projectId, version }: { projectId: number; version: number })
   // `version` memicu muat ulang setelah progres disimpan.
   const load = useCallback(() => listTeamUpdates(projectId), [projectId, version]);
   const { data } = useData(load);
-  if (!data?.length) return <p className="rounded-2xl bg-white p-5 text-center font-moon text-lg text-coal-deep">Belum ada riwayat progres.</p>;
+  if (!data?.length) return null;
   return (
-    <div className="lg:min-h-0 lg:flex-1 lg:overflow-y-auto">
-      <ul className="space-y-2">
+    <div className="mt-8">
+      <p className="text-center font-magic text-2xl uppercase text-flame">Riwayat Progres</p>
+      <ul className="mt-3 space-y-2">
         {data.slice(0, 10).map((update) => (
           <li key={update.id} className="rounded-2xl border-[3px] border-coal/15 bg-white px-4 py-3">
             <p className="font-moon text-sm text-coal-deep/70">
@@ -269,11 +269,11 @@ function Riwayat({ projectId, version }: { projectId: number; version: number })
 // Peran anggota yang sedang login di project ini, beserta apa yang boleh ia lakukan.
 function PeranSaya({ member, jumlahTugas }: { member: Member; jumlahTugas: number }) {
   return (
-    <div className="mb-3 flex flex-col gap-3 rounded-[22px] bg-coal px-4 py-3 sm:flex-row sm:items-center">
+    <div className="mb-4 flex flex-col gap-3 rounded-[22px] bg-coal p-4 sm:flex-row sm:items-center">
       <div className="min-w-0 flex-1">
         <p className="font-moon text-sm text-cream/70">Peran Anda di project ini</p>
         <p className="mt-0.5 flex flex-wrap items-center gap-2">
-          <span className="font-magic text-2xl uppercase leading-tight text-flame">{member.posisi}</span>
+          <span className="font-magic text-2xl uppercase leading-tight text-flame sm:text-3xl">{member.posisi}</span>
           {member.isPm && <span className="rounded-lg bg-flame px-2.5 py-0.5 font-moon text-sm text-coal">Project Manager</span>}
         </p>
         <p className="mt-1 font-moon text-sm text-cream/80">
@@ -292,8 +292,8 @@ function PeranSaya({ member, jumlahTugas }: { member: Member; jumlahTugas: numbe
 
 function Members({ members, myId }: { members: Member[]; myId: number }) {
   return (
-    <div className="mb-4">
-      <p className="mb-1.5 text-center font-moon text-sm text-coal-deep/70">Susunan tim</p>
+    <div className="mb-6">
+      <p className="mb-2 text-center font-moon text-sm text-coal-deep/70">Susunan tim</p>
       <div className="flex flex-wrap justify-center gap-2">
         {members.map((member) => (
           <span
@@ -336,7 +336,7 @@ function StatusProject({ project, onSaved }: { project: ProjectDetail; onSaved: 
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mb-3 rounded-[22px] bg-coal p-4">
+    <form onSubmit={handleSubmit} className="mb-6 rounded-[22px] bg-coal p-4">
       <div className="flex flex-wrap items-end gap-3">
         <label className="font-moon text-sm text-flame">
           Status project
@@ -362,8 +362,6 @@ function StatusProject({ project, onSaved }: { project: ProjectDetail; onSaved: 
   );
 }
 
-type Tab = 'tugas' | 'riwayat';
-
 export default function ProyekTimPage() {
   const projectId = Number(useParams().projectId);
   const user = useCurrentUser();
@@ -376,7 +374,6 @@ export default function ProyekTimPage() {
   const [formTugas, setFormTugas] = useState<{ task: Task | null } | null>(null);
   const [hapusError, setHapusError] = useState('');
   const [version, setVersion] = useState(0);
-  const [tab, setTab] = useState<Tab>('tugas');
 
   if (loading && !project) return <p className="p-10 text-center font-moon text-xl">Memuat...</p>;
   if (error || !project) return <p role="alert" className="p-10 text-center font-moon text-xl text-[#9c2b2b]">{error || 'Project tidak ditemukan.'}</p>;
@@ -413,49 +410,6 @@ export default function ProyekTimPage() {
         anggaran={user.role === 'TIM' ? undefined : (project.nilai ?? null)}
         documents={project.documents}
         backTo={user.role === 'MARKETING' ? '/app/projek' : '/app'}
-        samping={
-          <>
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div role="tablist" aria-label="Isi project" className="flex gap-1 rounded-2xl bg-coal p-1">
-                {(['tugas', 'riwayat'] as Tab[]).map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    role="tab"
-                    aria-selected={tab === item}
-                    onClick={() => setTab(item)}
-                    className={`rounded-xl px-4 py-1.5 font-magic text-lg uppercase transition-colors ${tab === item ? 'bg-flame text-coal' : 'text-flame hover:text-cream'}`}
-                  >
-                    {item === 'tugas' ? `Daftar Tugas (${tasks?.length ?? 0})` : 'Riwayat Progres'}
-                  </button>
-                ))}
-              </div>
-              {tab === 'tugas' && canManage && !closed && (
-                <button type="button" onClick={() => setFormTugas({ task: null })} className={pillButton}>
-                  + Tambah Tugas
-                </button>
-              )}
-            </div>
-            <div role="tabpanel" className="mt-3 flex flex-col lg:min-h-0 lg:flex-1">
-              {tab === 'tugas' ? (
-                <>
-                  <BrandError message={hapusError} />
-                  <TaskTable
-                    tasks={tasks ?? []}
-                    ringkas={user.role === 'MARKETING'}
-                    kelola={canManage && !closed}
-                    canUpdate={canUpdate}
-                    onUpdate={setEditing}
-                    onEdit={(task) => setFormTugas({ task })}
-                    onDelete={(task) => void hapusTugas(task)}
-                  />
-                </>
-              ) : (
-                <Riwayat projectId={project.id} version={version} />
-              )}
-            </div>
-          </>
-        }
       >
         <p className="mb-3 text-center font-moon text-sm text-coal-deep/70">
           {project.klien} · {project.kode} · {PROJECT_STATUS_LABEL[project.status]}
@@ -463,7 +417,29 @@ export default function ProyekTimPage() {
         {user.role === 'OPERASIONAL' && <StatusProject key={`${project.status}-${project.targetSelesai}`} project={project} onSaved={refresh} />}
         {saya && <PeranSaya member={saya} jumlahTugas={(tasks ?? []).filter((task) => task.assignee?.id === user.id).length} />}
         <Members members={project.members ?? []} myId={user.id} />
-        <ProgressPanel padat progres={project.progres} progresBidang={project.progresBidang} />
+        <ProgressPanel progres={project.progres} progresBidang={project.progresBidang} />
+
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
+          <p className="font-magic text-2xl uppercase text-flame sm:text-3xl">Daftar Tugas</p>
+          {canManage && !closed && (
+            <button type="button" onClick={() => setFormTugas({ task: null })} className={pillButton}>
+              + Tambah Tugas
+            </button>
+          )}
+        </div>
+        <div className="mt-3">
+          <BrandError message={hapusError} />
+          <TaskTable
+            tasks={tasks ?? []}
+            ringkas={user.role === 'MARKETING'}
+            kelola={canManage && !closed}
+            canUpdate={canUpdate}
+            onUpdate={setEditing}
+            onEdit={(task) => setFormTugas({ task })}
+            onDelete={(task) => void hapusTugas(task)}
+          />
+        </div>
+        <Riwayat projectId={project.id} version={version} />
       </ProyekInfo>
 
       <PerbaruiModal

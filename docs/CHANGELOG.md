@@ -11,12 +11,10 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
-## 2026-11-16 (detail project tanpa gulir)
+## 2026-11-16 (detail project dikembalikan)
 
-### Diubah
-- Detail project Tim, Operasional, dan Marketing (`/app/proyek/:id`) di layar lebar dibagi dua kolom setinggi layar sehingga halaman tidak perlu digulir: kiri berisi info project, peran, susunan tim, dan progres (versi ringkas); kanan berisi tab Daftar Tugas dan Riwayat Progres. Isi yang panjang digulir di dalam kolomnya, dengan kepala tabel tugas tetap terlihat. Di ponsel tetap bertumpuk.
-- `ProyekInfo` mendapat prop `samping` untuk tata letak dua kolom; halaman klien tidak berubah. `ProgressPanel` mendapat prop `padat`.
-- Tombol aksi tugas (Perbarui, Ubah, Hapus) selalu satu baris; di laptop 1366 px kolom tugas dilebarkan (rasio 1 : 2, menjadi 4 : 7 mulai 1536 px).
+### Dihapus
+- Tata letak dua kolom setinggi layar pada detail project (commit ae1bfb0) dikembalikan ke tampilan satu kolom sebelumnya atas masukan PM: kolom kiri yang harus digulir sendiri terasa kurang nyaman.
 
 ## 2026-11-16 (footer halaman klien)
 

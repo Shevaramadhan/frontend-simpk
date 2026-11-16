@@ -21,11 +21,6 @@ interface ProyekInfoProps {
   kelolaDokumen?: KelolaDokumen;
   backTo: string;
   children: ReactNode;
-  /**
-   * Kolom kanan (misalnya daftar tugas). Bila diisi, di layar lebar halaman dibagi dua kolom setinggi layar
-   * sehingga halaman tidak perlu digulir; isi yang panjang digulir di dalam kolomnya sendiri. Di ponsel tetap bertumpuk.
-   */
-  samping?: ReactNode;
 }
 
 interface KelolaDokumen {
@@ -129,41 +124,7 @@ function Dokumen({ documents, kelola }: { documents: OrderDocument[]; kelola?: K
 }
 
 /** Bagian atas halaman Payment dan Detail (Figma 111:561, 111:614, 116:235). */
-export default function ProyekInfo({ title, judul, deskripsi, estimasi, anggaran, documents, kelolaDokumen, backTo, children, samping }: ProyekInfoProps) {
-  if (samping) {
-    return (
-      // 5.5rem = bar nama pengguna dan jarak atas-bawah area isi StaffLayout.
-      <section className="px-3 pb-10 sm:px-6 lg:h-[calc(100dvh-5.5rem)] lg:pb-0">
-        <div className="relative mx-auto flex max-w-6xl flex-col rounded-[30px] bg-coal-deep px-5 pb-6 pt-5 sm:px-8 lg:h-full lg:max-w-none lg:pb-5 lg:pt-4">
-          <Link to={backTo} aria-label="Kembali" className="absolute left-5 top-6 transition-transform hover:-translate-x-1 sm:left-8 lg:top-5">
-            <img alt="" className="h-7 w-auto sm:h-8" src={ikonKembali} />
-          </Link>
-          <h1 className="text-center font-magic text-4xl uppercase text-flame">{title}</h1>
-          <div className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-5 lg:min-h-0 lg:flex-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] 2xl:grid-cols-[minmax(0,4fr)_minmax(0,7fr)]">
-            <div className="lg:min-h-0 lg:overflow-y-auto lg:pr-1">
-              <h2 className="font-magic text-2xl uppercase leading-tight text-flame sm:text-3xl">{judul}</h2>
-              <p className="mt-1 whitespace-pre-wrap text-justify font-moon text-base leading-relaxed text-cream">{deskripsi}</p>
-              <dl className="mt-2 flex flex-wrap gap-x-6 gap-y-1 font-moon text-base">
-                <div className="flex gap-2">
-                  <dt className="text-flame">Estimasi Selesai :</dt>
-                  <dd className="text-cream">{tanggalPendek(estimasi)}</dd>
-                </div>
-                {anggaran !== undefined && (
-                  <div className="flex gap-2">
-                    <dt className="text-flame">Anggaran :</dt>
-                    <dd className="text-cream">{rupiahPendek(anggaran)}</dd>
-                  </div>
-                )}
-              </dl>
-              <Dokumen documents={documents} kelola={kelolaDokumen} />
-              <div className="mt-4 rounded-[26px] bg-cream p-4">{children}</div>
-            </div>
-            <div className="flex flex-col rounded-[26px] bg-cream p-4 lg:min-h-0">{samping}</div>
-          </div>
-        </div>
-      </section>
-    );
-  }
+export default function ProyekInfo({ title, judul, deskripsi, estimasi, anggaran, documents, kelolaDokumen, backTo, children }: ProyekInfoProps) {
   return (
     <section className="px-3 pb-10 sm:px-6">
       <div className="relative mx-auto max-w-6xl rounded-[30px] bg-coal-deep px-5 pb-6 pt-5 sm:px-8">
