@@ -11,6 +11,11 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-16 (footer halaman klien)
+
+### Diubah
+- `SiteFooter` (halaman klien dan Daftar Jasa publik) disamakan dengan footer landing page: membentang selebar layar dengan judul dan deskripsi menempel di kiri, FOLLOW US di tengah, dan CONTACT US dekat tepi kanan (proporsi kolom 28 : 40 : 30), menggantikan kotak selebar 6xl di tengah. Ukuran huruf dan ikon mengikuti lebar layar seperti landing page; di ponsel tetap bertumpuk.
+
 ## 2026-11-15 (kolom tanggal)
 
 ### Diperbaiki
