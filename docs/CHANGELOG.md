@@ -11,6 +11,14 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-17 (grafik dashboard modern dan font Poppins setelah login)
+
+### Diubah
+- Seluruh halaman setelah login (`[data-app-shell]` pada `StaffLayout` dan `ClientLayout`) kini memakai font **Poppins** (`400`/`500`/`600`/`700`) menggantikan `Seven Moon` dan `Magic Hat` yang melelahkan mata pada ukuran teks antarmuka; landing page publik tetap memakai font dekoratif Figma (F-23).
+- Grafik di Dashboard Marketing (`TrendBands.tsx`, `DashboardPage.tsx`) diperbarui menjadi dua panel analitik modern berdampingan:
+  - **Tren Aktivitas Proyek**: kurva halus (*cubic-bezier*) dengan gradasi lembut, garis bantu sumbu Y, titik data interaktif, dan warna berbeda yang nyaman di mata untuk *Request Masuk* (kuning amber), *Projek Masuk* (oranye), dan *Projek Selesai* (hijau zamrud).
+  - **Tren Keuntungan Bulanan**: diagram batang membulat bergradasi dengan kurva penghubung, label sumbu Y dalam Rupiah ringkas, dan tooltip rincian per bulan.
+
 ## 2026-11-17 (paginasi daftar agar muat satu layar)
 
 ### Ditambah

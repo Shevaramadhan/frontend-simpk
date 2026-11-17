@@ -35,12 +35,12 @@ function StatCard({ value, label, to, index, ikon }: { value: string; label: str
           {/* Nilai panjang seperti "25,2 JT" dikecilkan agar tetap satu baris di dalam kartu. */}
           <span
             className={`whitespace-nowrap font-magic leading-none text-flame ${
-              value.length > 4 ? 'text-[clamp(24px,min(5vh,2.4vw),44px)]' : 'text-[clamp(30px,min(7vh,3.4vw),60px)]'
+              value.length > 4 ? 'text-[clamp(22px,min(4.2vh,2.1vw),36px)]' : 'text-[clamp(26px,min(5.5vh,2.8vw),46px)]'
             }`}
           >
             {value}
           </span>
-          <span className="mt-1 font-magic text-[clamp(12px,min(1.9vh,1.05vw),17px)] uppercase leading-tight text-cream/90">{label}</span>
+          <span className="mt-1.5 font-moon text-[clamp(11px,min(1.6vh,0.9vw),14px)] font-medium uppercase tracking-wide text-cream/85">{label}</span>
         </span>
       </Link>
     </motion.div>
@@ -67,8 +67,8 @@ export default function DashboardPage() {
         <StatCard index={3} value={rupiahRingkas(data.keuntungan)} label="Keuntungan" to="/app/request" ikon="keuntungan" />
       </div>
       <TrendBands bulanan={data.bulanan} />
-      <p className="font-moon text-xs text-coal-deep/60">
-        Projek masuk dihitung saat tim dibentuk; keuntungan dari pembayaran yang sudah diverifikasi. Tiap pita berskala sendiri; arahkan kursor untuk melihat angkanya.
+      <p className="font-moon text-xs text-coal-deep/65">
+        Projek masuk dihitung saat tim dibentuk; keuntungan dari pembayaran yang sudah diverifikasi. Arahkan kursor pada grafik untuk melihat rincian tiap bulan.
       </p>
     </div>
   );

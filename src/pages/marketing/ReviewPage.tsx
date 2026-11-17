@@ -46,9 +46,9 @@ export default function ReviewPage() {
                   <p className="font-moon text-xs text-coal-deep/60">{tanggal(review.createdAt)}</p>
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h2 className="line-clamp-1 break-words font-magic text-[clamp(17px,2.4vh,24px)] uppercase leading-tight text-flame">{review.project.nama}</h2>
-                  <p className="font-moon text-sm text-coal-deep/70">{review.client.namaInstansi}</p>
-                  <p className="mt-1 whitespace-pre-wrap font-moon text-base text-coal-deep">{review.komentar ?? <span className="text-coal-deep/50">Tanpa komentar.</span>}</p>
+                  <h2 className="line-clamp-1 break-words font-magic text-[clamp(14px,1.9vh,18px)] uppercase leading-tight text-flame">{review.project.nama}</h2>
+                  <p className="font-moon text-xs text-coal-deep/70">{review.client.namaInstansi}</p>
+                  <p className="mt-0.5 line-clamp-1 font-moon text-sm text-coal-deep">{review.komentar ?? <span className="text-coal-deep/50">Tanpa komentar.</span>}</p>
                 </div>
                 <Link to={`/app/proyek/${review.project.id}`} className={pillButton}>
                   Detail

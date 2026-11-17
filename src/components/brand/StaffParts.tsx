@@ -5,12 +5,12 @@ import ikonProfilOranye from '../../assets/staff/ikon-profil-oranye.svg';
 
 // Potongan tampilan halaman Operasional dan Tim (Figma 115:162 dan 116:235).
 
-/** Panel gelap pembungkus isi halaman, dengan judul Magic Hat di tengah. */
+/** Panel gelap pembungkus isi halaman, dengan judul di kiri atas. */
 export function StaffPanel({ title, action, children }: { title: string; action?: ReactNode; children: ReactNode }) {
   return (
     <section className="flex flex-1 flex-col rounded-[26px] bg-coal-deep px-4 pb-4 pt-4 sm:px-6">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-magic text-[clamp(24px,3.6vh,36px)] uppercase leading-none text-flame">{title}</h1>
+        <h1 className="font-magic text-[clamp(20px,2.8vh,26px)] uppercase leading-none text-flame">{title}</h1>
         {action}
       </div>
       {children}
@@ -19,7 +19,7 @@ export function StaffPanel({ title, action, children }: { title: string; action?
 }
 
 export const pillButton =
-  'inline-flex items-center justify-center gap-2 rounded-[24px] bg-flame px-6 py-2 font-moon text-lg text-coal transition-colors hover:bg-[#e05600] disabled:opacity-60';
+  'inline-flex items-center justify-center gap-2 rounded-[20px] bg-flame px-5 py-1.5 font-moon text-sm font-semibold text-coal transition-colors hover:bg-[#e05600] disabled:opacity-60';
 
 /** Kartu project krem berbingkai oranye dengan tombol Detail. */
 export function ProjectCard({ index, title, subtitle, note, to }: { index: number; title: string; subtitle: string; note: ReactNode; to: string }) {
@@ -31,11 +31,11 @@ export function ProjectCard({ index, title, subtitle, note, to }: { index: numbe
       className="flex flex-col gap-3 rounded-[22px] border-[3px] border-flame bg-cream px-5 py-2.5 sm:flex-row sm:items-center"
     >
       <div className="min-w-0 flex-1">
-        <h2 className="line-clamp-2 break-words font-magic text-[clamp(18px,2.6vh,26px)] uppercase leading-tight text-flame" title={title}>
+        <h2 className="line-clamp-1 break-words font-magic text-[clamp(15px,2vh,18px)] uppercase leading-tight text-flame" title={title}>
           {title}
         </h2>
-        <p className="font-moon text-sm text-coal-deep/70">{subtitle}</p>
-        <div className="mt-1 font-moon text-base">{note}</div>
+        <p className="font-moon text-xs text-coal-deep/70 sm:text-sm">{subtitle}</p>
+        <div className="mt-0.5 font-moon text-xs sm:text-sm">{note}</div>
       </div>
       <Link to={to} className={pillButton}>
         Detail

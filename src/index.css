@@ -74,6 +74,30 @@
 }
 
 /*
+ * Halaman setelah login (Marketing, Operasional, Tim, dan Klien) memakai font Poppins agar nyaman dibaca
+ * dan tidak melelahkan mata, sedangkan landing page publik tetap memakai font dekoratif desain Figma.
+ */
+[data-app-shell] {
+  --font-moon: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-magic: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-poppins);
+}
+
+[data-app-shell] .font-magic {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+[data-app-shell] .font-moon {
+  font-weight: 500;
+}
+
+[data-app-shell] .text-outline-dark {
+  -webkit-text-stroke: 3px var(--color-coal-deep);
+  paint-order: stroke fill;
+}
+
+/*
  * Kolom tanggal (DateInput): semua kolom berlatar terang, jadi skema warna terang agar kalender bawaan terbaca,
  * dan ikon kalender diganti ikon oranye yang jelas terlihat (Chrome, Edge, Safari).
  */

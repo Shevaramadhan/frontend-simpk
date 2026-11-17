@@ -150,7 +150,7 @@ export default function StaffLayout() {
   }
 
   // Ponsel: bar atas ringkas (logo + Log Out, lalu menu); layar lebar: sidebar setinggi layar.
-  const size = 'text-lg lg:text-[clamp(15px,2.3vh,20px)]';
+  const size = 'text-sm lg:text-[clamp(13px,1.85vh,15px)]';
   // Saat diperkecil: tiap menu jadi kotak ikon membulat; menu aktif diberi garis penanda di tepi kiri sidebar.
   const item = ({ isActive }: { isActive: boolean }) =>
     `relative flex items-center gap-2 whitespace-nowrap rounded-[24px] px-3 py-1 font-moon transition-colors lg:gap-3 lg:py-2 ${

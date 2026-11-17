@@ -44,9 +44,9 @@ export default function ProjekPage() {
                   <StatusPill label={PROJECT_STATUS_LABEL[project.status]} className={TONE[project.status]} />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h2 className="line-clamp-1 break-words font-magic text-[clamp(17px,2.4vh,24px)] uppercase leading-tight text-flame">{project.nama}</h2>
-                  <p className="line-clamp-1 font-moon text-sm text-coal-deep/80">{project.kebutuhan}</p>
-                  <div className="mt-1 flex max-w-sm items-center gap-3 font-moon text-sm text-coal-deep/70">
+                  <h2 className="line-clamp-1 break-words font-magic text-[clamp(14px,1.9vh,18px)] uppercase leading-tight text-flame">{project.nama}</h2>
+                  <p className="line-clamp-1 font-moon text-xs text-coal-deep/80 sm:text-sm">{project.kebutuhan}</p>
+                  <div className="mt-1 flex max-w-sm items-center gap-3 font-moon text-xs text-coal-deep/70">
                     <span>{project.klien}</span>
                     <span className="w-10 text-flame">{project.progres}%</span>
                     <Bar value={project.progres} track="bg-coal/15" fill="bg-flame" />
