@@ -50,13 +50,13 @@ function Form({ awal, onSaved }: { awal: Pengaturan; onSaved: () => void }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-xl border border-zinc-200/90 bg-zinc-50/50 p-5 sm:p-6">
+    <form onSubmit={handleSubmit} className="rounded-[24px] bg-cream p-5 sm:p-6">
       {awal.contoh ? (
-        <p className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5 font-moon text-xs font-medium text-amber-900 sm:text-sm">
+        <p className="mb-3 rounded-xl bg-[#ffd27a] px-4 py-2 font-moon text-sm text-coal-deep">
           Data di bawah masih contoh. Selama belum disimpan, setiap tagihan menampilkan peringatan agar klien tidak mentransfer ke rekening contoh.
         </p>
       ) : (
-        <p className="mb-4 font-moon text-xs text-zinc-500">Terakhir diubah {tanggal(awal.updatedAt)}. Perubahan langsung berlaku di semua tagihan, termasuk yang sudah terbit.</p>
+        <p className="mb-4 font-moon text-sm text-coal-deep/70">Terakhir diubah {tanggal(awal.updatedAt)}. Perubahan langsung berlaku di semua tagihan, termasuk yang sudah terbit.</p>
       )}
       <div className="grid gap-x-4 sm:grid-cols-2">
         {FIELDS.map((field) => (
@@ -94,7 +94,7 @@ export default function PengaturanPage() {
   const { data, loading, error, reload } = useData(getPengaturan);
   return (
     <StaffPanel title="Pengaturan">
-      <p className="mb-3 font-moon text-xs text-zinc-500 sm:text-sm">Identitas dan rekening Neo Telemetri yang tercetak pada tagihan klien.</p>
+      <p className="mb-3 font-moon text-sm text-cream/80">Identitas dan rekening Neo Telemetri yang tercetak pada tagihan klien.</p>
       {loading && !data ? <Loading /> : error || !data ? <LoadError message={error || 'Pengaturan tidak tersedia.'} /> : <Form awal={data} onSaved={() => void reload()} />}
     </StaffPanel>
   );

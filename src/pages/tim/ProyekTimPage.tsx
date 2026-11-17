@@ -181,56 +181,56 @@ function TaskTable({
   onDelete: (task: Task) => void;
 }) {
   const { paged, page, totalPages, setPage } = usePagination(tasks, 5);
-  if (!tasks.length) return <p className="rounded-xl border border-zinc-200 bg-zinc-50/50 p-5 text-center font-moon text-sm text-zinc-500">Belum ada tugas pada project ini.</p>;
+  if (!tasks.length) return <p className="rounded-2xl bg-white p-5 text-center font-moon text-lg text-coal-deep">Belum ada tugas pada project ini.</p>;
   return (
     <>
-      <div className="overflow-x-auto rounded-xl border border-zinc-200 bg-white">
-        <table className={`w-full ${ringkas ? 'min-w-[480px]' : 'min-w-[720px]'} font-moon text-sm text-zinc-700`}>
-          <thead className="border-b border-zinc-200 bg-zinc-50/80 text-left text-xs font-semibold uppercase tracking-wider text-zinc-500">
+      <div className="overflow-x-auto rounded-2xl border-[3px] border-coal/15 bg-white">
+        <table className={`w-full ${ringkas ? 'min-w-[480px]' : 'min-w-[720px]'} font-moon text-base text-coal-deep`}>
+          <thead className="bg-coal text-left text-flame">
             <tr>
-              <th className="px-3.5 py-2.5">Tugas</th>
-              <th className="px-3.5 py-2.5">Bidang</th>
-              {!ringkas && <th className="px-3.5 py-2.5">Penanggung jawab</th>}
-              {!ringkas && <th className="px-3.5 py-2.5">Tenggat</th>}
-              <th className="w-48 px-3.5 py-2.5">Progres</th>
-              <th className="px-3.5 py-2.5" />
+              <th className="px-3 py-2 font-normal">Tugas</th>
+              <th className="px-3 py-2 font-normal">Bidang</th>
+              {!ringkas && <th className="px-3 py-2 font-normal">Penanggung jawab</th>}
+              {!ringkas && <th className="px-3 py-2 font-normal">Tenggat</th>}
+              <th className="w-48 px-3 py-2 font-normal">Progres</th>
+              <th className="px-3 py-2" />
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-100">
+          <tbody>
             {paged.map((task) => (
-              <tr key={task.id} className="align-middle hover:bg-zinc-50/70">
-                <td className="px-3.5 py-2.5">
-                  <p className="font-semibold text-zinc-900">{task.judul}</p>
-                  <p className="text-xs text-zinc-500">
+              <tr key={task.id} className="border-t border-coal/10 align-middle">
+                <td className="px-3 py-2">
+                  <p>{task.judul}</p>
+                  <p className="text-xs text-coal-deep/60">
                     {TASK_STATUS_LABEL[task.status]} · bobot {task.bobot}
                   </p>
                 </td>
-                <td className="px-3.5 py-2.5">{BIDANG_LABEL[task.bidang]}</td>
-                {!ringkas && <td className="px-3.5 py-2.5">{task.assignee?.name ?? <span className="text-zinc-400">Belum ditentukan</span>}</td>}
-                {!ringkas && <td className="px-3.5 py-2.5">{tanggalPendek(task.tenggat)}</td>}
-                <td className="px-3.5 py-2.5">
+                <td className="px-3 py-2">{BIDANG_LABEL[task.bidang]}</td>
+                {!ringkas && <td className="px-3 py-2">{task.assignee?.name ?? <span className="text-coal-deep/50">Belum ditentukan</span>}</td>}
+                {!ringkas && <td className="px-3 py-2">{tanggalPendek(task.tenggat)}</td>}
+                <td className="px-3 py-2">
                   <span className="flex items-center gap-2">
-                    <span className="w-10 font-semibold text-flame">{task.persentase}%</span>
-                    <Bar value={task.persentase} track="bg-zinc-200/80" fill={task.persentase === 100 ? 'bg-emerald-500' : 'bg-flame'} />
+                    <span className="w-11 text-flame">{task.persentase}%</span>
+                    <Bar value={task.persentase} track="bg-coal/15" fill="bg-flame" />
                   </span>
                 </td>
-                <td className="px-3.5 py-2.5 text-right">
+                <td className="px-3 py-2 text-right">
                   <span className="inline-flex flex-wrap justify-end gap-1.5">
                     {canUpdate(task) && (
-                      <button type="button" onClick={() => onUpdate(task)} className="rounded-lg bg-flame px-3 py-1 text-xs font-semibold text-white hover:bg-[#e05600]">
+                      <button type="button" onClick={() => onUpdate(task)} className="rounded-xl bg-coal px-3 py-1 text-sm text-flame hover:text-cream">
                         Perbarui
                       </button>
                     )}
                     {kelola && (
                       <>
-                        <button type="button" onClick={() => onEdit(task)} className="rounded-lg border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-700 hover:border-flame/40 hover:text-flame">
+                        <button type="button" onClick={() => onEdit(task)} className="rounded-xl border-2 border-coal px-3 py-0.5 text-sm text-coal-deep hover:bg-coal hover:text-flame">
                           Ubah
                         </button>
                         <button
                           type="button"
                           onClick={() => onDelete(task)}
                           aria-label={`Hapus tugas ${task.judul}`}
-                          className="rounded-lg border border-red-200 bg-red-50 px-2.5 py-1 text-xs font-medium text-red-700 hover:bg-red-100"
+                          className="rounded-xl border-2 border-[#9c2b2b] px-3 py-0.5 text-sm text-[#9c2b2b] hover:bg-[#9c2b2b] hover:text-cream"
                         >
                           Hapus
                         </button>
@@ -249,22 +249,23 @@ function TaskTable({
 }
 
 function Riwayat({ projectId, version }: { projectId: number; version: number }) {
+  // `version` memicu muat ulang setelah progres disimpan.
   const load = useCallback(() => listTeamUpdates(projectId), [projectId, version]);
   const { data } = useData(load);
   const { paged, page, totalPages, setPage } = usePagination(data ?? [], 3);
   if (!data?.length) return null;
   return (
-    <div className="mt-6 border-t border-zinc-100 pt-5">
-      <p className="font-magic text-base font-bold text-zinc-900 sm:text-lg">Riwayat Progres</p>
+    <div className="mt-8">
+      <p className="text-center font-magic text-2xl uppercase text-flame">Riwayat Progres</p>
       <ul className="mt-3 space-y-2">
         {paged.map((update) => (
-          <li key={update.id} className="rounded-xl border border-zinc-200 bg-zinc-50/60 px-4 py-3">
-            <p className="font-moon text-xs text-zinc-500">
+          <li key={update.id} className="rounded-2xl border-[3px] border-coal/15 bg-white px-4 py-3">
+            <p className="font-moon text-sm text-coal-deep/70">
               {tanggal(update.createdAt)} · {update.author ? `${update.author.name} · ` : ''}
-              {update.task.judul} · <span className="font-semibold text-flame">{update.persentase}%</span>
+              {update.task.judul} · {update.persentase}%
             </p>
-            {update.catatanKlien && <p className="mt-1 font-moon text-sm text-zinc-800">Untuk klien: {update.catatanKlien}</p>}
-            {update.catatanTeknis && <p className="mt-1 font-moon text-sm text-zinc-600">Teknis: {update.catatanTeknis}</p>}
+            {update.catatanKlien && <p className="mt-1 font-moon text-base text-coal-deep">Untuk klien: {update.catatanKlien}</p>}
+            {update.catatanTeknis && <p className="mt-1 font-moon text-base text-coal-deep/80">Teknis: {update.catatanTeknis}</p>}
           </li>
         ))}
       </ul>
@@ -273,24 +274,25 @@ function Riwayat({ projectId, version }: { projectId: number; version: number })
   );
 }
 
+// Peran anggota yang sedang login di project ini, beserta apa yang boleh ia lakukan.
 function PeranSaya({ member, jumlahTugas }: { member: Member; jumlahTugas: number }) {
   return (
-    <div className="mb-4 flex flex-col gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-4 sm:flex-row sm:items-center">
+    <div className="mb-4 flex flex-col gap-3 rounded-[22px] bg-coal p-4 sm:flex-row sm:items-center">
       <div className="min-w-0 flex-1">
-        <p className="font-moon text-xs text-zinc-500">Peran Anda di project ini</p>
+        <p className="font-moon text-sm text-cream/70">Peran Anda di project ini</p>
         <p className="mt-0.5 flex flex-wrap items-center gap-2">
-          <span className="font-magic text-base font-bold text-zinc-900 sm:text-lg">{member.posisi}</span>
-          {member.isPm && <span className="rounded-md bg-flame px-2 py-0.5 font-moon text-xs font-semibold text-white">Project Manager</span>}
+          <span className="font-magic text-2xl uppercase leading-tight text-flame sm:text-3xl">{member.posisi}</span>
+          {member.isPm && <span className="rounded-lg bg-flame px-2.5 py-0.5 font-moon text-sm text-coal">Project Manager</span>}
         </p>
-        <p className="mt-1 font-moon text-xs text-zinc-600">
+        <p className="mt-1 font-moon text-sm text-cream/80">
           {member.isPm
             ? 'Sebagai PM, Anda menambah tugas, membagi tugas ke anggota, dan dapat memperbarui progres semua tugas.'
             : 'Anda memperbarui progres tugas yang ditugaskan kepada Anda.'}
         </p>
       </div>
-      <p className="shrink-0 rounded-xl border border-flame/20 bg-white px-4 py-2 text-center font-moon text-zinc-700 shadow-2xs">
-        <span className="block font-magic text-2xl font-bold leading-none text-flame">{jumlahTugas}</span>
-        <span className="text-xs text-zinc-500">tugas Anda</span>
+      <p className="shrink-0 rounded-2xl bg-coal-deep px-4 py-2 text-center font-moon text-cream">
+        <span className="block font-magic text-3xl leading-none text-flame">{jumlahTugas}</span>
+        <span className="text-sm">tugas Anda</span>
       </p>
     </div>
   );
@@ -298,15 +300,13 @@ function PeranSaya({ member, jumlahTugas }: { member: Member; jumlahTugas: numbe
 
 function Members({ members, myId }: { members: Member[]; myId: number }) {
   return (
-    <div className="mb-5">
-      <p className="mb-2 font-moon text-xs font-medium text-zinc-500">Susunan tim</p>
-      <div className="flex flex-wrap gap-2">
+    <div className="mb-6">
+      <p className="mb-2 text-center font-moon text-sm text-coal-deep/70">Susunan tim</p>
+      <div className="flex flex-wrap justify-center gap-2">
         {members.map((member) => (
           <span
             key={member.userId}
-            className={`rounded-lg border px-3 py-1 font-moon text-xs font-medium ${
-              member.isPm ? 'border-flame/30 bg-flame/10 text-flame' : 'border-zinc-200 bg-zinc-50 text-zinc-700'
-            } ${member.userId === myId ? 'ring-2 ring-flame/30' : ''}`}
+            className={`rounded-xl px-3 py-1 font-moon text-sm ${member.isPm ? 'bg-flame text-coal' : 'bg-coal text-flame'} ${member.userId === myId ? 'ring-2 ring-coal ring-offset-2 ring-offset-cream' : ''}`}
           >
             {member.name}
             {member.userId === myId && ' (Anda)'} · {member.posisi}
@@ -344,11 +344,11 @@ function StatusProject({ project, onSaved }: { project: ProjectDetail; onSaved: 
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mb-5 rounded-xl border border-zinc-200 bg-zinc-50 p-4">
+    <form onSubmit={handleSubmit} className="mb-6 rounded-[22px] bg-coal p-4">
       <div className="flex flex-wrap items-end gap-3">
-        <label className="font-moon text-xs font-semibold text-zinc-700">
+        <label className="font-moon text-sm text-flame">
           Status project
-          <select value={status} onChange={(event) => setStatus(event.target.value as ProjectStatus)} className="mt-1 block rounded-xl border border-zinc-300 bg-white px-3 py-2 font-moon text-sm text-zinc-900">
+          <select value={status} onChange={(event) => setStatus(event.target.value as ProjectStatus)} className="mt-1 block rounded-xl bg-cream px-3 py-2 font-moon text-base text-coal-deep">
             {STATUS_PILIHAN.map((item) => (
               <option key={item} value={item}>
                 {PROJECT_STATUS_LABEL[item]}
@@ -356,15 +356,15 @@ function StatusProject({ project, onSaved }: { project: ProjectDetail; onSaved: 
             ))}
           </select>
         </label>
-        <label className="font-moon text-xs font-semibold text-zinc-700">
+        <label className="font-moon text-sm text-flame">
           Target selesai
-          <DateInput value={target} onChange={(event) => setTarget(event.target.value)} className="mt-1 block rounded-xl border border-zinc-300 bg-white px-3 py-1.5 font-moon text-sm text-zinc-900" />
+          <DateInput value={target} onChange={(event) => setTarget(event.target.value)} className="mt-1 block rounded-xl bg-cream px-3 py-1.5 font-moon text-base text-coal-deep" />
         </label>
         <button type="submit" disabled={saving || !berubah} className={pillButton}>
           {saving ? 'Menyimpan...' : 'Simpan'}
         </button>
       </div>
-      <p className="mt-2 font-moon text-xs text-zinc-500">Project Selesai atau Dibatalkan tidak menerima progres lagi. Setelah Selesai, klien dapat memberi ulasan.</p>
+      <p className="mt-2 font-moon text-xs text-cream/70">Project Selesai atau Dibatalkan tidak menerima progres lagi. Setelah Selesai, klien dapat memberi ulasan.</p>
       <BrandError message={error} />
     </form>
   );
@@ -427,8 +427,8 @@ export default function ProyekTimPage() {
         <Members members={project.members ?? []} myId={user.id} />
         <ProgressPanel progres={project.progres} progresBidang={project.progresBidang} />
 
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-100 pt-5">
-          <p className="font-magic text-base font-bold text-zinc-900 sm:text-lg">Daftar Tugas</p>
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
+          <p className="font-magic text-2xl uppercase text-flame sm:text-3xl">Daftar Tugas</p>
           {canManage && !closed && (
             <button type="button" onClick={() => setFormTugas({ task: null })} className={pillButton}>
               + Tambah Tugas

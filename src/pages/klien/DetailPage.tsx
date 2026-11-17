@@ -1,34 +1,34 @@
 import { useCallback, useState, type FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import { BrandError, brandInputSolid } from '../../components/brand/Brand';
-import OrderComments from '../../components/brand/OrderComments';
-import Pagination, { usePagination } from '../../components/brand/Pagination';
-import { ProgressPanel } from '../../components/brand/Progress';
-import ProyekInfo from '../../components/brand/ProyekInfo';
-import { pillButton } from '../../components/brand/StaffParts';
 import { StarsInput, StarsView } from '../../components/brand/Stars';
 import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
 import { createReview } from '../../services/dashboardService';
 import { getOrder, listClientUpdates } from '../../services/orderService';
 import type { ProjectReview } from '../../types';
+import { ProgressPanel } from '../../components/brand/Progress';
 import { tanggal } from '../../utils/format';
+import OrderComments from '../../components/brand/OrderComments';
+import Pagination, { usePagination } from '../../components/brand/Pagination';
+import ProyekInfo from '../../components/brand/ProyekInfo';
 
+// Figma "Detail Page": total progres dan progres per bidang. Klien tidak pernah menerima catatan teknis.
 function Updates({ projectId }: { projectId: number }) {
   const load = useCallback(() => listClientUpdates(projectId), [projectId]);
   const { data } = useData(load);
   const { paged, page, totalPages, setPage } = usePagination(data ?? [], 3);
   if (!data?.length) return null;
   return (
-    <div className="mt-6 border-t border-zinc-100 pt-5">
-      <p className="font-magic text-base font-bold text-zinc-900 sm:text-lg">Catatan Perkembangan</p>
+    <div className="mt-8">
+      <p className="text-center font-magic text-2xl uppercase text-flame">Catatan Perkembangan</p>
       <ul className="mt-3 space-y-2">
         {paged.map((update) => (
-          <li key={update.id} className="rounded-xl border border-zinc-200 bg-zinc-50/60 px-4 py-3">
-            <p className="font-moon text-xs text-zinc-500">
-              {tanggal(update.createdAt)} · <span className="font-medium text-zinc-700">{update.task.judul}</span> · <span className="font-semibold text-flame">{update.persentase}%</span>
+          <li key={update.id} className="rounded-2xl border-[3px] border-coal/15 bg-white px-4 py-3">
+            <p className="font-moon text-sm text-coal-deep/70">
+              {tanggal(update.createdAt)} · {update.task.judul} · {update.persentase}%
             </p>
-            <p className="mt-1 font-moon text-sm text-zinc-800">{update.catatanKlien}</p>
+            <p className="mt-1 font-moon text-base text-coal-deep">{update.catatanKlien}</p>
           </li>
         ))}
       </ul>
@@ -37,6 +37,7 @@ function Updates({ projectId }: { projectId: number }) {
   );
 }
 
+// Ulasan klien setelah project Selesai (Figma "Review Page Marketing" menampilkan hasilnya ke Marketing).
 function Ulasan({ projectId, review, onSaved }: { projectId: number; review: ProjectReview | null; onSaved: () => void }) {
   const [rating, setRating] = useState(0);
   const [komentar, setKomentar] = useState('');
@@ -45,13 +46,13 @@ function Ulasan({ projectId, review, onSaved }: { projectId: number; review: Pro
 
   if (review) {
     return (
-      <div className="mt-6 rounded-xl border border-emerald-200 bg-emerald-50/50 p-5 text-center">
-        <p className="font-magic text-base font-bold text-zinc-900 sm:text-lg">Ulasan Anda</p>
+      <div className="mt-8 rounded-[22px] bg-white p-5 text-center">
+        <p className="font-magic text-2xl uppercase text-flame">Ulasan Anda</p>
         <div className="mt-2">
-          <StarsView value={review.rating} size="size-7" />
+          <StarsView value={review.rating} size="size-8" />
         </div>
-        {review.komentar && <p className="mt-2 whitespace-pre-wrap font-moon text-sm text-zinc-700">{review.komentar}</p>}
-        <p className="mt-1.5 font-moon text-xs text-zinc-500">Terima kasih telah memakai jasa Neo Telemetri.</p>
+        {review.komentar && <p className="mt-2 whitespace-pre-wrap font-moon text-base text-coal-deep">{review.komentar}</p>}
+        <p className="mt-2 font-moon text-sm text-coal-deep/60">Terima kasih telah memakai jasa Neo Telemetri.</p>
       </div>
     );
   }
@@ -71,9 +72,9 @@ function Ulasan({ projectId, review, onSaved }: { projectId: number; review: Pro
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-6 rounded-xl border border-zinc-200 bg-zinc-50/70 p-5 text-center">
-      <p className="font-magic text-base font-bold text-zinc-900 sm:text-lg">Beri Ulasan</p>
-      <p className="mt-0.5 font-moon text-xs text-zinc-600 sm:text-sm">Project sudah selesai. Bagaimana hasil kerja tim Neo Telemetri?</p>
+    <form onSubmit={handleSubmit} className="mt-8 rounded-[22px] bg-white p-5 text-center">
+      <p className="font-magic text-2xl uppercase text-flame">Beri Ulasan</p>
+      <p className="font-moon text-base text-coal-deep">Project sudah selesai. Bagaimana hasil kerja tim Neo Telemetri?</p>
       <div className="mt-2">
         <StarsInput value={rating} onChange={setRating} />
       </div>
@@ -90,7 +91,7 @@ function Ulasan({ projectId, review, onSaved }: { projectId: number; review: Pro
         className={`${brandInputSolid} mx-auto mt-3 max-w-2xl resize-y text-left`}
       />
       <BrandError message={error} />
-      <button type="submit" disabled={saving} className={`mt-3 ${pillButton}`}>
+      <button type="submit" disabled={saving} className="mt-3 rounded-2xl bg-coal px-8 py-2.5 font-magic text-lg uppercase text-flame hover:text-cream disabled:opacity-60">
         {saving ? 'Mengirim...' : 'Kirim Ulasan'}
       </button>
     </form>
@@ -102,21 +103,12 @@ export default function DetailPage() {
   const load = useCallback(() => getOrder(id), [id]);
   const { data: order, loading, error, reload } = useData(load);
 
-  if (loading) return <p className="p-10 text-center font-moon text-sm text-zinc-500">Memuat...</p>;
-  if (error || !order) return <p role="alert" className="p-10 text-center font-moon text-sm text-red-600">{error || 'Project tidak ditemukan.'}</p>;
+  if (loading) return <p className="p-10 text-center font-moon text-xl text-coal-deep">Memuat...</p>;
+  if (error || !order) return <p role="alert" className="p-10 text-center font-moon text-xl text-[#9c2b2b]">{error || 'Project tidak ditemukan.'}</p>;
   const project = order.project;
 
   return (
-    <ProyekInfo
-      title="Detail Project"
-      judul={order.judul || order.nomor}
-      deskripsi={order.kebutuhan}
-      estimasi={order.tenggatDiharapkan}
-      anggaran={order.anggaran}
-      documents={order.documents}
-      kelolaDokumen={{ orderId: order.id, bisaTambah: order.status === 'BARU' || order.status === 'DITINJAU', onChange: () => void reload() }}
-      backTo="/portal/proyek"
-    >
+    <ProyekInfo title="Detail" judul={order.judul || order.nomor} deskripsi={order.kebutuhan} estimasi={order.tenggatDiharapkan} anggaran={order.anggaran} documents={order.documents} kelolaDokumen={{ orderId: order.id, bisaTambah: order.status === 'BARU' || order.status === 'DITINJAU', onChange: () => void reload() }} backTo="/portal/proyek">
       {project ? (
         <>
           <ProgressPanel progres={project.progres} progresBidang={project.progresBidang} />
@@ -124,14 +116,12 @@ export default function DetailPage() {
           <Updates projectId={project.id} />
         </>
       ) : (
-        <div className="rounded-xl border border-zinc-200 bg-zinc-50/60 p-5 text-center">
-          <p className="font-magic text-base font-bold text-zinc-900">Progres Pengerjaan</p>
-          <p className="mt-1 font-moon text-sm text-zinc-600">
-            {order.status === 'DITOLAK' || order.status === 'DIBATALKAN'
-              ? 'Pengajuan ini tidak dilanjutkan.'
-              : 'Project belum mulai dikerjakan. Progres tampil di sini setelah Operasional membentuk tim.'}
-          </p>
-        </div>
+        <p className="mt-3 text-center font-moon text-lg text-coal-deep">
+          <span className="mb-2 block font-magic text-2xl uppercase text-flame sm:text-3xl">Total Progress</span>
+          {order.status === 'DITOLAK' || order.status === 'DIBATALKAN'
+            ? 'Pengajuan ini tidak dilanjutkan.'
+            : 'Project belum mulai dikerjakan. Progres tampil di sini setelah Operasional membentuk tim.'}
+        </p>
       )}
       <OrderComments
         orderId={order.id}

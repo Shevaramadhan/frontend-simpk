@@ -100,10 +100,10 @@ export default function PilihWorkerPage() {
     <div className="-mx-3 sm:-mx-6">
       <ProyekInfo title="Detail" judul={order.judul || order.nomor} deskripsi={order.kebutuhan} estimasi={order.tenggatDiharapkan} anggaran={order.nilaiDisepakati} documents={order.documents} backTo="/app">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="font-magic text-base font-bold text-zinc-900 sm:text-lg">Pilih Worker</p>
+          <p className="font-magic text-2xl uppercase text-flame sm:text-3xl">Pilih Worker</p>
           {order.project && (
-            <Link to={`/app/proyek/${order.project.id}`} className="font-moon text-xs font-semibold text-flame underline underline-offset-4 sm:text-sm">
-              Lihat tugas project →
+            <Link to={`/app/proyek/${order.project.id}`} className="font-moon text-base text-flame underline underline-offset-4">
+              Lihat tugas project
             </Link>
           )}
         </div>
@@ -114,17 +114,17 @@ export default function PilihWorkerPage() {
           ))}
         </datalist>
         {/* Slot worker terpilih beserta posisi dan tanda PM. */}
-        <div className="mt-3 rounded-xl border border-zinc-200 bg-zinc-50/70 p-3">
+        <div className="mt-3 rounded-[20px] bg-coal p-3">
           {team.length === 0 ? (
-            <p className="py-3 text-center font-moon text-sm text-zinc-500">Belum ada worker dipilih. Klik kartu worker di bawah.</p>
+            <p className="py-3 text-center font-moon text-base text-cream/70">Belum ada worker dipilih. Klik kartu worker di bawah.</p>
           ) : (
-            <ul className="grid gap-2.5 lg:grid-cols-2">
+            <ul className="grid gap-3 lg:grid-cols-2">
               <AnimatePresence initial={false}>
                 {team.map((member) => (
-                  <motion.li key={member.userId} layout initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.96 }} className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-2.5 shadow-2xs">
-                    <Avatar size="size-11" />
+                  <motion.li key={member.userId} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="flex items-center gap-3 rounded-[16px] bg-coal-deep p-2">
+                    <Avatar size="size-12" />
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-moon text-sm font-semibold text-zinc-900">{byId.get(member.userId)?.name ?? `Worker #${member.userId}`}</p>
+                      <p className="truncate font-moon text-base text-flame">{byId.get(member.userId)?.name ?? `Worker #${member.userId}`}</p>
                       <input
                         aria-label="Posisi di project"
                         list="saran-posisi"
@@ -133,14 +133,14 @@ export default function PilihWorkerPage() {
                         maxLength={60}
                         value={member.posisi}
                         onChange={(event) => patch(member.userId, { posisi: event.target.value })}
-                        className="mt-1 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-2.5 py-1 font-moon text-xs text-zinc-800 outline-none focus:border-flame"
+                        className="mt-1 w-full rounded-lg bg-cream px-2 py-1 font-moon text-sm text-coal-deep"
                       />
                     </div>
-                    <label className={`cursor-pointer rounded-lg px-2.5 py-1 font-moon text-xs font-semibold transition-colors ${member.isPm ? 'bg-flame text-white' : 'border border-zinc-200 bg-zinc-50 text-zinc-600 hover:border-flame/40'}`}>
+                    <label className={`cursor-pointer rounded-xl px-3 py-1 font-moon text-sm ${member.isPm ? 'bg-flame text-coal' : 'border-2 border-flame text-flame'}`}>
                       <input type="radio" name="pm" className="sr-only" checked={member.isPm} onChange={() => patch(member.userId, { isPm: true })} />
                       PM
                     </label>
-                    <button type="button" onClick={() => toggle(member.userId)} aria-label="Keluarkan" className="px-1.5 text-lg text-zinc-400 hover:text-red-600">
+                    <button type="button" onClick={() => toggle(member.userId)} aria-label="Keluarkan" className="px-1 font-magic text-xl text-cream/70 hover:text-flame">
                       ×
                     </button>
                   </motion.li>
@@ -159,9 +159,9 @@ export default function PilihWorkerPage() {
                 setFilter(event.target.value);
                 setWorkerPage(1);
               }}
-              className="appearance-none rounded-xl border border-zinc-200 bg-white py-2 pl-3.5 pr-9 font-moon text-sm font-medium text-zinc-700 shadow-2xs outline-none focus:border-flame"
+              className="appearance-none rounded-[24px] bg-coal py-2 pl-5 pr-10 font-moon text-lg text-flame"
             >
-              <option value={SEMUA}>Semua Keahlian</option>
+              <option value={SEMUA}>Semua</option>
               {keahlian.map((nama) => (
                 <option key={nama} value={nama}>
                   {nama}
@@ -169,16 +169,16 @@ export default function PilihWorkerPage() {
               ))}
               {adaTanpaKeahlian && <option value={TANPA_KEAHLIAN}>Keahlian belum diisi</option>}
             </select>
-            <img alt="" src={ikonSegitiga} className="pointer-events-none absolute right-3 h-2.5 w-2.5 opacity-60" />
+            <img alt="" src={ikonSegitiga} className="pointer-events-none absolute right-4 h-3 w-3" />
           </label>
           <button type="button" onClick={() => void save()} disabled={saving || closed} className={pillButton}>
             {saving ? 'Menyimpan...' : order.project ? 'Simpan Worker' : 'Tambah Worker'}
           </button>
-          {message.done && <span role="status" className="font-moon text-sm font-medium text-emerald-600">{message.done}</span>}
+          {message.done && <span role="status" className="font-moon text-base text-[#14aa00]">{message.done}</span>}
         </div>
         <BrandError message={message.error} />
 
-        <div className="mt-3 grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {pagedWorkers.map((worker) => {
             const picked = team.some((member) => member.userId === worker.id);
             return (
@@ -187,20 +187,18 @@ export default function PilihWorkerPage() {
                 type="button"
                 aria-pressed={picked}
                 onClick={() => toggle(worker.id)}
-                className={`flex items-center gap-3 rounded-xl border p-3 text-left transition-all ${
-                  picked ? 'border-flame bg-flame/5 ring-2 ring-flame/20' : 'border-zinc-200 bg-zinc-50/60 hover:border-flame/40 hover:bg-white'
-                }`}
+                className={`flex items-center gap-3 rounded-[20px] bg-coal p-3 text-left transition ${picked ? 'ring-4 ring-flame' : 'hover:-translate-y-0.5'}`}
               >
-                <Avatar size="size-11" />
+                <Avatar size="size-14" />
                 <span className="min-w-0">
-                  <span className="block truncate font-moon text-sm font-semibold text-zinc-900">{worker.name}</span>
-                  <span className="block truncate font-moon text-xs text-zinc-500">{worker.keahlian ?? 'Keahlian belum diisi'}</span>
+                  <span className="block truncate font-moon text-lg text-flame">{worker.name}</span>
+                  <span className="block truncate font-moon text-sm text-cream/90">{worker.keahlian ?? 'Keahlian belum diisi'}</span>
                   <span className="block font-moon text-xs leading-snug">{workerNote(worker.jumlahProject)}</span>
                 </span>
               </button>
             );
           })}
-          {workers && shown.length === 0 && <p className="font-moon text-sm text-zinc-500">Tidak ada worker pada saringan ini.</p>}
+          {workers && shown.length === 0 && <p className="font-moon text-base text-coal-deep/70">Tidak ada worker pada saringan ini.</p>}
         </div>
         <Pagination page={workerPage} totalPages={workerTotalPages} onPageChange={setWorkerPage} tone="light" />
 

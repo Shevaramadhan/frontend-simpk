@@ -74,21 +74,13 @@
 }
 
 /*
- * Halaman setelah login (Marketing, Operasional, Tim, dan Klien) memakai font Poppins dan tema terang modern
- * agar nyaman dibaca dan tidak melelahkan mata, sedangkan landing page publik tetap memakai desain Figma.
+ * Halaman setelah login (Marketing, Operasional, Tim, dan Klien) memakai font Poppins agar nyaman dibaca
+ * dan tidak melelahkan mata, sedangkan landing page publik tetap memakai font dekoratif desain Figma.
  */
 [data-app-shell] {
   --font-moon: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-magic: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-family: var(--font-poppins);
-  background-color: #f4f5f7;
-  color: #18181b;
-}
-
-[data-app-shell] input,
-[data-app-shell] textarea,
-[data-app-shell] select {
-  color-scheme: light;
 }
 
 [data-app-shell] .font-magic {
@@ -101,7 +93,8 @@
 }
 
 [data-app-shell] .text-outline-dark {
-  -webkit-text-stroke: 0px transparent;
+  -webkit-text-stroke: 3px var(--color-coal-deep);
+  paint-order: stroke fill;
 }
 
 /*

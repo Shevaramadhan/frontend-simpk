@@ -6,50 +6,41 @@ import { useData } from '../../hooks/useData';
 import { getDashboard } from '../../services/dashboardService';
 import { rupiahRingkas } from '../../utils/format';
 
-// Ikon garis 24x24 untuk kartu statistik Dashboard Marketing.
+// Figma "Project Dashboard Page Marketing" (144:735): kartu angka dan grafik per bulan (REQ-F06).
+// Atas permintaan PM: keempat kartu sejajar satu baris tanpa nomor 01-04 (14 Nov), lalu diperkecil dan diberi ikon (15 Nov).
+
+// Ikon garis 24x24 yang ikut warna teks.
 const IKON = {
-  request: {
-    paths: ['M22 12h-6l-2 3h-4l-2-3H2', 'M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z'],
-    tone: 'bg-amber-50 text-amber-600 border-amber-200/70',
-  },
-  projek: {
-    paths: ['M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16', 'M4 6h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z'],
-    tone: 'bg-flame/10 text-flame border-flame/20',
-  },
-  selesai: {
-    paths: ['M22 11.08V12a10 10 0 1 1-5.93-9.14', 'm9 11 3 3L22 4'],
-    tone: 'bg-emerald-50 text-emerald-600 border-emerald-200/70',
-  },
-  keuntungan: {
-    paths: ['M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1', 'M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4'],
-    tone: 'bg-sky-50 text-sky-600 border-sky-200/70',
-  },
+  request: ['M22 12h-6l-2 3h-4l-2-3H2', 'M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z'],
+  projek: ['M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16', 'M4 6h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z'],
+  selesai: ['M22 11.08V12a10 10 0 1 1-5.93-9.14', 'm9 11 3 3L22 4'],
+  keuntungan: ['M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1', 'M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4'],
 } as const;
 
 function StatCard({ value, label, to, index, ikon }: { value: string; label: string; to: string; index: number; ikon: keyof typeof IKON }) {
-  const cfg = IKON[ikon];
   return (
-    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05, duration: 0.35 }}>
+    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.06, duration: 0.4 }}>
       <Link
         to={to}
-        className="group flex h-[clamp(88px,13.5vh,120px)] items-center gap-4 rounded-2xl border border-zinc-200/90 bg-white px-4 shadow-xs transition-all hover:-translate-y-0.5 hover:border-flame/40 hover:shadow-md sm:px-5"
+        className="group flex h-[clamp(96px,15vh,140px)] items-center gap-[clamp(10px,1.2vw,18px)] rounded-[24px] bg-coal-deep px-[clamp(14px,1.4vw,24px)] transition-transform hover:-translate-y-1"
       >
-        <span className={`grid size-[clamp(42px,min(6.5vh,3.4vw),54px)] shrink-0 place-items-center rounded-xl border transition-transform group-hover:scale-105 ${cfg.tone}`}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="size-[52%]">
-            {cfg.paths.map((d) => (
+        <span className="grid size-[clamp(44px,min(7vh,3.6vw),64px)] shrink-0 place-items-center rounded-2xl bg-flame text-coal transition-transform group-hover:-rotate-6 group-hover:scale-105">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="size-[55%]">
+            {IKON[ikon].map((d) => (
               <path key={d} d={d} />
             ))}
           </svg>
         </span>
         <span className="flex min-w-0 flex-col">
+          {/* Nilai panjang seperti "25,2 JT" dikecilkan agar tetap satu baris di dalam kartu. */}
           <span
-            className={`whitespace-nowrap font-magic font-bold leading-none text-zinc-900 ${
-              value.length > 4 ? 'text-[clamp(20px,min(3.8vh,2vw),30px)]' : 'text-[clamp(24px,min(4.6vh,2.4vw),36px)]'
+            className={`whitespace-nowrap font-magic leading-none text-flame ${
+              value.length > 4 ? 'text-[clamp(22px,min(4.2vh,2.1vw),36px)]' : 'text-[clamp(26px,min(5.5vh,2.8vw),46px)]'
             }`}
           >
             {value}
           </span>
-          <span className="mt-1.5 font-moon text-xs font-medium text-zinc-500">{label}</span>
+          <span className="mt-1.5 font-moon text-[clamp(11px,min(1.6vh,0.9vw),14px)] font-medium uppercase tracking-wide text-cream/85">{label}</span>
         </span>
       </Link>
     </motion.div>
@@ -59,18 +50,14 @@ function StatCard({ value, label, to, index, ikon }: { value: string; label: str
 export default function DashboardPage() {
   const { data, loading, error } = useData(getDashboard);
 
-  if (loading && !data) return <p className="p-10 text-center font-moon text-sm text-zinc-500">Memuat...</p>;
+  if (loading && !data) return <p className="p-10 text-center font-moon text-xl text-coal-deep">Memuat...</p>;
   if (error || !data) return <LoadError message={error || 'Data dashboard tidak tersedia.'} />;
 
   return (
-    <div className="flex flex-1 flex-col gap-4">
+    <div className="space-y-4">
       {data.buktiMenunggu > 0 && (
-        <Link
-          to="/app/request"
-          className="flex items-center justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5 font-moon text-xs font-medium text-amber-900 transition-colors hover:bg-amber-100/80 sm:text-sm"
-        >
-          <span>Ada {data.buktiMenunggu} bukti transfer yang menunggu diperiksa.</span>
-          <span className="font-semibold text-flame underline underline-offset-4">Buka Request →</span>
+        <Link to="/app/request" className="block rounded-2xl bg-[#ffd27a] px-5 py-2.5 font-moon text-sm text-coal-deep hover:bg-[#ffc35a]">
+          Ada {data.buktiMenunggu} bukti transfer yang menunggu diperiksa. Buka Request untuk memeriksanya.
         </Link>
       )}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
@@ -80,7 +67,7 @@ export default function DashboardPage() {
         <StatCard index={3} value={rupiahRingkas(data.keuntungan)} label="Keuntungan" to="/app/request" ikon="keuntungan" />
       </div>
       <TrendBands bulanan={data.bulanan} />
-      <p className="font-moon text-xs text-zinc-500">
+      <p className="font-moon text-xs text-coal-deep/65">
         Projek masuk dihitung saat tim dibentuk; keuntungan dari pembayaran yang sudah diverifikasi. Arahkan kursor pada grafik untuk melihat rincian tiap bulan.
       </p>
     </div>

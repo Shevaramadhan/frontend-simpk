@@ -14,9 +14,9 @@ import DateInput, { hariIni } from '../../components/DateInput';
 
 // Tombol Payment di Figma "Request Page Marketing" (BPMN 3): terbitkan tagihan DP lalu pelunasan, periksa bukti transfer.
 const PAYMENT_STATUS: Record<Payment['statusVerifikasi'], { label: string; className: string }> = {
-  MENUNGGU_VERIFIKASI: { label: 'Menunggu diperiksa', className: 'border border-amber-200 bg-amber-50 text-amber-800' },
-  DITERIMA: { label: 'Diterima', className: 'border border-emerald-200 bg-emerald-50 text-emerald-700' },
-  DITOLAK: { label: 'Ditolak', className: 'border border-red-200 bg-red-50 text-red-700' },
+  MENUNGGU_VERIFIKASI: { label: 'Menunggu diperiksa', className: 'bg-[#ffd27a] text-coal-deep' },
+  DITERIMA: { label: 'Diterima', className: 'bg-[#8fd694] text-coal-deep' },
+  DITOLAK: { label: 'Ditolak', className: 'bg-[#f19b9b] text-coal-deep' },
 };
 
 function TerbitkanForm({ orderId, sisa, onDone }: { orderId: number; sisa: number; onDone: () => void }) {
@@ -40,8 +40,8 @@ function TerbitkanForm({ orderId, sisa, onDone }: { orderId: number; sisa: numbe
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-xl border border-zinc-200 bg-zinc-50/70 p-4">
-      <p className="mb-3 font-magic text-base font-bold text-zinc-900">Terbitkan Tagihan Baru</p>
+    <form onSubmit={handleSubmit} className="rounded-[22px] border-[3px] border-dashed border-flame bg-white p-4">
+      <p className="mb-2 font-magic text-xl uppercase text-flame">Terbitkan Tagihan</p>
       <div className="grid gap-x-3 sm:grid-cols-3">
         <BrandField id="t-ket" label="Keterangan">
           <input id="t-ket" list="ket-umum" required maxLength={160} value={form.keterangan} onChange={(e) => setForm({ ...form, keterangan: e.target.value })} className={brandInputSolid} />
@@ -71,10 +71,10 @@ function TerbitkanForm({ orderId, sisa, onDone }: { orderId: number; sisa: numbe
 }
 
 const INVOICE_STATUS: Record<Invoice['status'], { label: string; className: string }> = {
-  DRAF: { label: 'Draf', className: 'border border-zinc-200 bg-zinc-100 text-zinc-600' },
-  DITERBITKAN: { label: 'Belum lunas', className: 'border border-amber-200 bg-amber-50 text-amber-800' },
-  LUNAS: { label: 'Lunas', className: 'border border-emerald-200 bg-emerald-50 text-emerald-700' },
-  DIBATALKAN: { label: 'Dibatalkan', className: 'border border-zinc-200 bg-zinc-100 text-zinc-500 line-through' },
+  DRAF: { label: 'Draf', className: 'bg-[#bdbdbd] text-coal-deep' },
+  DITERBITKAN: { label: 'Belum lunas', className: 'bg-[#bdbdbd] text-coal-deep' },
+  LUNAS: { label: 'Lunas', className: 'bg-[#8fd694] text-coal-deep' },
+  DIBATALKAN: { label: 'Dibatalkan', className: 'bg-coal/15 text-coal-deep line-through' },
 };
 
 // Ubah atau batalkan hanya selama belum ada bukti yang diterima atau sedang diperiksa (aturan sama dengan Backend).
@@ -97,21 +97,21 @@ function InvoiceCard({
   const status = INVOICE_STATUS[invoice.status];
   const batal = invoice.status === 'DIBATALKAN';
   return (
-    <div className={`rounded-xl border border-zinc-200 p-4 ${batal ? 'bg-zinc-50/60' : 'bg-white'}`}>
+    <div className={`rounded-[22px] border-[3px] border-coal/10 p-4 ${batal ? 'bg-white/60' : 'bg-white'}`}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className={`font-magic text-base font-bold text-zinc-900 ${batal ? 'line-through opacity-60' : ''}`}>{invoice.keterangan}</p>
+        <p className={`font-magic text-xl uppercase text-coal-deep ${batal ? 'line-through opacity-60' : ''}`}>{invoice.keterangan}</p>
         <span className="flex flex-wrap items-center gap-2">
           {bisaDiperbaiki(invoice) && (
             <>
-              <button type="button" onClick={() => onEdit(invoice)} className="rounded-lg border border-zinc-200 bg-white px-3 py-1 font-moon text-xs font-medium text-zinc-700 hover:border-flame/40 hover:text-flame">
+              <button type="button" onClick={() => onEdit(invoice)} className="rounded-xl border-2 border-coal px-3 py-0.5 font-moon text-sm text-coal-deep hover:bg-coal hover:text-flame">
                 Ubah
               </button>
-              <button type="button" onClick={() => onCancel(invoice)} className="rounded-lg border border-red-200 bg-red-50 px-3 py-1 font-moon text-xs font-medium text-red-700 hover:bg-red-100">
+              <button type="button" onClick={() => onCancel(invoice)} className="rounded-xl border-2 border-[#9c2b2b] px-3 py-0.5 font-moon text-sm text-[#9c2b2b] hover:bg-[#9c2b2b] hover:text-cream">
                 Batalkan
               </button>
             </>
           )}
-          <Link to={`/tagihan/${orderId}/${invoice.id}`} className="rounded-lg border border-zinc-200 bg-white px-3 py-1 font-moon text-xs font-medium text-zinc-700 hover:border-flame/40 hover:text-flame">
+          <Link to={`/tagihan/${orderId}/${invoice.id}`} className="rounded-xl border-2 border-coal px-3 py-0.5 font-moon text-sm text-coal-deep hover:bg-coal hover:text-flame">
             Cetak Tagihan
           </Link>
           <StatusPill label={status.label} className={status.className} />

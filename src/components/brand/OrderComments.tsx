@@ -15,10 +15,10 @@ const PERAN_LABEL: Record<Role, string> = {
 };
 
 const PERAN_BADGE: Record<Role, string> = {
-  KLIEN: 'bg-flame/15 text-flame',
-  MARKETING: 'bg-amber-100 text-amber-800',
-  OPERASIONAL: 'bg-emerald-100 text-emerald-800',
-  TIM: 'bg-sky-100 text-sky-800',
+  KLIEN: 'bg-flame text-coal',
+  MARKETING: 'bg-[#ffd27a] text-coal-deep',
+  OPERASIONAL: 'bg-[#8fd694] text-coal-deep',
+  TIM: 'bg-coal text-cream',
 };
 
 const PER_PAGE = 4;
@@ -65,6 +65,7 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
     return () => window.clearInterval(timer);
   }, [fetchComments]);
 
+  // Saat ada komentar baru masuk, arahkan ke halaman terakhir agar pesan terbaru langsung terlihat.
   useEffect(() => {
     if (comments.length > prevCount.current) {
       setPage(Math.max(1, Math.ceil(comments.length / PER_PAGE)));
@@ -101,30 +102,30 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
   }
 
   return (
-    <div className="mt-6 border-t border-zinc-100 pt-5">
+    <div className="mt-8">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <p className="font-magic text-base font-bold text-zinc-900 sm:text-lg">Diskusi &amp; Komentar</p>
-          <p className="font-moon text-xs text-zinc-500">Ruang komunikasi antara klien, Marketing, Operasional, dan tim project.</p>
+          <p className="font-magic text-2xl uppercase text-flame sm:text-3xl">Diskusi &amp; Komentar</p>
+          <p className="font-moon text-sm text-coal-deep/70">Ruang komunikasi antara klien, Marketing, Operasional, dan tim project.</p>
         </div>
         <button
           type="button"
           onClick={() => void fetchComments(false)}
-          className="rounded-lg border border-zinc-200 bg-white px-3 py-1 font-moon text-xs font-medium text-zinc-600 transition-colors hover:border-flame/50 hover:text-flame"
+          className="rounded-xl border-2 border-coal/25 bg-white px-3 py-1 font-moon text-sm text-coal-deep transition-colors hover:border-flame hover:text-flame"
         >
           Muat Ulang
         </button>
       </div>
 
-      <div className="mt-3 space-y-2.5 rounded-xl border border-zinc-200/90 bg-zinc-50/60 p-4">
+      <div className="mt-3 space-y-3 rounded-[22px] border-[3px] border-coal/15 bg-white/80 p-4">
         {loading ? (
-          <p className="py-6 text-center font-moon text-sm text-zinc-500">Memuat komentar...</p>
+          <p className="py-6 text-center font-moon text-base text-coal-deep/70">Memuat komentar...</p>
         ) : loadError ? (
-          <p role="alert" className="py-4 text-center font-moon text-sm text-red-600">
+          <p role="alert" className="py-4 text-center font-moon text-base text-[#9c2b2b]">
             {loadError}
           </p>
         ) : comments.length === 0 ? (
-          <p className="py-6 text-center font-moon text-sm text-zinc-500">
+          <p className="py-6 text-center font-moon text-base text-coal-deep/65">
             Belum ada komentar. Sampaikan pertanyaan, masukan, atau pembaruan seputar project di sini.
           </p>
         ) : (
@@ -133,20 +134,20 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
             return (
               <div key={comment.id} className={`flex ${mine ? 'justify-end' : 'justify-start'}`}>
                 <article
-                  className={`max-w-[85%] rounded-2xl px-4 py-2.5 shadow-2xs sm:max-w-[75%] ${
-                    mine ? 'bg-zinc-900 text-white' : 'border border-zinc-200 bg-white text-zinc-800'
+                  className={`max-w-[85%] rounded-[18px] px-4 py-2.5 sm:max-w-[75%] ${
+                    mine ? 'bg-coal text-cream' : 'border-2 border-coal/15 bg-cream text-coal-deep'
                   }`}
                 >
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className={`font-moon text-xs font-semibold ${mine ? 'text-flame' : 'text-zinc-900'}`}>
+                    <span className={`font-moon text-sm font-bold ${mine ? 'text-flame' : 'text-coal-deep'}`}>
                       {mine ? `${comment.author.name} (Anda)` : comment.author.name}
                     </span>
-                    <span className={`rounded-md px-2 py-0.5 font-moon text-[11px] font-medium ${PERAN_BADGE[comment.author.role]}`}>
+                    <span className={`rounded-lg px-2 py-0.5 font-moon text-xs ${PERAN_BADGE[comment.author.role]}`}>
                       {PERAN_LABEL[comment.author.role]}
                     </span>
-                    <span className={`font-moon text-[11px] ${mine ? 'text-zinc-400' : 'text-zinc-400'}`}>{tanggalJam(comment.createdAt)}</span>
+                    <span className={`font-moon text-xs ${mine ? 'text-cream/65' : 'text-coal-deep/60'}`}>{tanggalJam(comment.createdAt)}</span>
                   </div>
-                  <p className="mt-1 whitespace-pre-wrap break-words font-moon text-sm leading-relaxed">{comment.pesan}</p>
+                  <p className="mt-1 whitespace-pre-wrap break-words font-moon text-base leading-snug">{comment.pesan}</p>
                 </article>
               </div>
             );
@@ -173,20 +174,20 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
               onChange={(event) => setPesan(event.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Tulis komentar atau pertanyaan... (Enter untuk kirim, Shift+Enter untuk baris baru)"
-              className={`${brandInputSolid} mt-0 flex-1 resize-y`}
+              className={`${brandInputSolid} mt-0 flex-1 resize-y bg-white`}
             />
             <button
               type="submit"
               disabled={sending || !pesan.trim()}
-              className="shrink-0 rounded-xl bg-flame px-5 py-2.5 font-moon text-sm font-semibold text-white shadow-xs transition-colors hover:bg-[#e05600] disabled:opacity-50"
+              className="shrink-0 rounded-2xl bg-coal px-6 py-2.5 font-magic text-lg uppercase text-flame transition-colors hover:text-cream disabled:opacity-50"
             >
               {sending ? 'Mengirim...' : 'Kirim'}
             </button>
           </div>
-          <p className="mt-1 font-moon text-xs text-zinc-500">Komentar ini terlihat oleh klien, Marketing, Operasional, dan tim project.</p>
+          <p className="mt-1 font-moon text-xs text-coal-deep/65">Komentar ini terlihat oleh klien, Marketing, Operasional, dan tim project.</p>
         </form>
       ) : (
-        <p className="mt-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2 text-center font-moon text-xs text-zinc-500">
+        <p className="mt-3 rounded-xl bg-coal/10 px-4 py-2 text-center font-moon text-sm text-coal-deep/75">
           Pengajuan atau project ini sudah ditutup. Komentar baru dinonaktifkan.
         </p>
       )}

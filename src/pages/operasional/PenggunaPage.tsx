@@ -112,9 +112,7 @@ export default function PenggunaPage() {
           aria-selected={tab === 'INTERNAL'}
           type="button"
           onClick={() => setTab('INTERNAL')}
-          className={`rounded-xl px-3.5 py-1.5 font-moon text-xs font-semibold transition-all sm:text-sm ${
-            tab === 'INTERNAL' ? 'bg-flame text-white shadow-2xs' : 'border border-zinc-200 bg-zinc-50 text-zinc-600 hover:border-zinc-300 hover:bg-white hover:text-zinc-900'
-          }`}
+          className={`rounded-[20px] px-4 py-1.5 font-moon text-base transition-colors ${tab === 'INTERNAL' ? 'bg-flame text-coal' : 'border-2 border-flame text-flame hover:bg-flame/15'}`}
         >
           Akun Internal ({users.data?.length ?? 0})
         </button>
@@ -123,9 +121,7 @@ export default function PenggunaPage() {
           aria-selected={tab === 'KLIEN'}
           type="button"
           onClick={() => setTab('KLIEN')}
-          className={`rounded-xl px-3.5 py-1.5 font-moon text-xs font-semibold transition-all sm:text-sm ${
-            tab === 'KLIEN' ? 'bg-flame text-white shadow-2xs' : 'border border-zinc-200 bg-zinc-50 text-zinc-600 hover:border-zinc-300 hover:bg-white hover:text-zinc-900'
-          }`}
+          className={`rounded-[20px] px-4 py-1.5 font-moon text-base transition-colors ${tab === 'KLIEN' ? 'bg-flame text-coal' : 'border-2 border-flame text-flame hover:bg-flame/15'}`}
         >
           Akun Klien ({clients.data?.length ?? 0})
         </button>
@@ -133,7 +129,7 @@ export default function PenggunaPage() {
 
       {tab === 'INTERNAL' ? (
         <>
-          <p className="mb-3 font-moon text-xs text-zinc-500 sm:text-sm">Semua akun internal Neo Telemetri. Tambah Akun untuk pengurus Marketing dan Operasional; akun Tim ditambahkan lewat menu Worker.</p>
+          <p className="mb-3 font-moon text-base text-cream/80">Semua akun internal Neo Telemetri. Tambah Akun untuk pengurus Marketing dan Operasional; akun Tim ditambahkan lewat menu Worker.</p>
           {actionError && <BrandError message={actionError} />}
           {users.loading && !users.data ? (
             <Loading />
@@ -143,15 +139,15 @@ export default function PenggunaPage() {
             <>
               <BrandTable head={['Nama', 'Email', 'Role', 'Status', 'Aksi']}>
                 {internalPage.paged.map((user) => (
-                  <tr key={user.id} className={`hover:bg-zinc-50/70 ${user.isActive ? '' : 'opacity-60'}`}>
-                    <td className={`${cell} font-semibold text-zinc-900`}>{user.name}</td>
+                  <tr key={user.id} className={user.isActive ? '' : 'opacity-60'}>
+                    <td className={cell}>{user.name}</td>
                     <td className={cell}>{user.email}</td>
                     <td className={cell}>
                       {ROLE_LABEL[user.role]}
-                      {user.role === 'TIM' && user.keahlian && <span className="block text-xs text-zinc-500">{user.keahlian}</span>}
+                      {user.role === 'TIM' && user.keahlian && <span className="block text-xs text-coal-deep/60">{user.keahlian}</span>}
                     </td>
                     <td className={cell}>
-                      <span className={`font-semibold ${user.isActive ? 'text-emerald-600' : 'text-red-600'}`}>{user.isActive ? 'Aktif' : 'Nonaktif'}</span>
+                      <span className={user.isActive ? 'text-[#14aa00]' : 'text-[#e60000]'}>{user.isActive ? 'Aktif' : 'Nonaktif'}</span>
                       {user.id !== me.id && (
                         <button type="button" className={`${linkButton} ml-3`} onClick={() => void toggle(user.id, user.isActive)}>
                           {user.isActive ? 'Nonaktifkan' : 'Aktifkan'}
@@ -172,7 +168,7 @@ export default function PenggunaPage() {
         </>
       ) : (
         <>
-          <p className="mb-3 font-moon text-xs text-zinc-500 sm:text-sm">Klien mendaftar sendiri. Perbaiki email hanya jika klien salah ketik dan tidak menerima tautan lupa kata sandi.</p>
+          <p className="mb-3 font-moon text-base text-cream/80">Klien mendaftar sendiri. Perbaiki email hanya jika klien salah ketik dan tidak menerima tautan lupa kata sandi.</p>
           {clients.loading && !clients.data ? (
             <Loading />
           ) : clients.error ? (
@@ -181,8 +177,8 @@ export default function PenggunaPage() {
             <>
               <BrandTable head={['Instansi', 'Kontak', 'Email', 'Aksi']} empty={clients.data?.length ? undefined : 'Belum ada klien.'}>
                 {clientPage.paged.map((client) => (
-                  <tr key={client.id} className="hover:bg-zinc-50/70">
-                    <td className={`${cell} font-semibold text-zinc-900`}>{client.namaInstansi}</td>
+                  <tr key={client.id}>
+                    <td className={cell}>{client.namaInstansi}</td>
                     <td className={cell}>{client.user.name}</td>
                     <td className={cell}>{client.user.email}</td>
                     <td className={cell}>

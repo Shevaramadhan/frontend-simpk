@@ -8,9 +8,9 @@ const BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'O
 const namaBulan = (bulan: string) => BULAN[Number(bulan.slice(5)) - 1] ?? bulan;
 
 const ACTIVITY_SERIES = [
-  { key: 'request' as const, label: 'Request Masuk', color: '#f59e0b', gradId: 'grad-request' },
+  { key: 'request' as const, label: 'Request Masuk', color: '#fbbf24', gradId: 'grad-request' },
   { key: 'projek' as const, label: 'Projek Masuk', color: '#ff6200', gradId: 'grad-projek' },
-  { key: 'selesai' as const, label: 'Projek Selesai', color: '#10b981', gradId: 'grad-selesai' },
+  { key: 'selesai' as const, label: 'Projek Selesai', color: '#34d399', gradId: 'grad-selesai' },
 ];
 
 interface Point {
@@ -54,6 +54,7 @@ function ActivityChart({ bulanan }: { bulanan: Row[] }) {
     4,
     ...bulanan.flatMap((row) => [row.request, row.projek, row.selesai]),
   );
+  // Bulatkan batas atas ke bilangan genap agar garis bantu rapi.
   const maxVal = rawMax <= 4 ? 4 : Math.ceil(rawMax / 2) * 2;
   const ticks = [0, Math.round(maxVal * 0.25), Math.round(maxVal * 0.5), Math.round(maxVal * 0.75), maxVal];
   const uniqueTicks = Array.from(new Set(ticks));
@@ -67,13 +68,13 @@ function ActivityChart({ bulanan }: { bulanan: Row[] }) {
     }));
 
   return (
-    <div className="flex flex-1 flex-col justify-between rounded-2xl border border-zinc-200/90 bg-white p-4 shadow-xs sm:p-5">
+    <div className="flex flex-col justify-between rounded-[22px] border border-white/10 bg-coal-deep p-4 sm:p-5">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h2 className="text-sm font-semibold text-zinc-900 sm:text-base">Tren Aktivitas Proyek</h2>
-          <p className="text-xs text-zinc-500">Perbandingan request, projek berjalan, dan projek selesai tiap bulan</p>
+          <h2 className="text-base font-semibold text-cream sm:text-lg">Tren Aktivitas Proyek</h2>
+          <p className="text-xs text-cream/60">Perbandingan request, projek berjalan, dan projek selesai tiap bulan</p>
         </div>
-        <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-zinc-600">
+        <div className="flex flex-wrap items-center gap-3 text-xs text-cream/85">
           {ACTIVITY_SERIES.map((series) => (
             <span key={series.key} className="inline-flex items-center gap-1.5">
               <span className="size-2.5 rounded-full" style={{ backgroundColor: series.color }} />
@@ -84,16 +85,17 @@ function ActivityChart({ bulanan }: { bulanan: Row[] }) {
       </div>
 
       <div className="relative">
-        <svg viewBox={`0 0 ${W} ${H}`} className="block h-[clamp(185px,35vh,285px)] w-full overflow-visible" role="img" aria-label="Grafik tren aktivitas proyek per bulan">
+        <svg viewBox={`0 0 ${W} ${H}`} className="block h-[clamp(180px,34vh,280px)] w-full overflow-visible" role="img" aria-label="Grafik tren aktivitas proyek per bulan">
           <defs>
             {ACTIVITY_SERIES.map((series) => (
               <linearGradient key={series.gradId} id={series.gradId} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={series.color} stopOpacity="0.16" />
+                <stop offset="0%" stopColor={series.color} stopOpacity="0.22" />
                 <stop offset="100%" stopColor={series.color} stopOpacity="0.0" />
               </linearGradient>
             ))}
           </defs>
 
+          {/* Garis bantu horizontal dan angka sumbu Y */}
           {uniqueTicks.map((tick) => {
             const y = baseY - (tick / maxVal) * plotH;
             return (
@@ -103,16 +105,17 @@ function ActivityChart({ bulanan }: { bulanan: Row[] }) {
                   x2={W - PAD.right}
                   y1={y}
                   y2={y}
-                  stroke="#e4e4e7"
+                  stroke="rgba(255,255,245,0.08)"
                   strokeDasharray={tick === 0 ? undefined : '4 4'}
                 />
-                <text x={PAD.left - 10} y={y + 4} textAnchor="end" className="fill-zinc-400 text-[11px]">
+                <text x={PAD.left - 10} y={y + 4} textAnchor="end" className="fill-cream/50 text-[11px]">
                   {tick}
                 </text>
               </g>
             );
           })}
 
+          {/* Kurva area dan garis */}
           {ACTIVITY_SERIES.map((series) => {
             const pts = toPoints(series.key);
             return (
@@ -123,17 +126,19 @@ function ActivityChart({ bulanan }: { bulanan: Row[] }) {
             );
           })}
 
+          {/* Garis vertikal saat kursor diarahkan */}
           {hover !== null && (
             <line
               x1={PAD.left + hover * stepX}
               x2={PAD.left + hover * stepX}
               y1={PAD.top}
               y2={baseY}
-              stroke="#a1a1aa"
+              stroke="rgba(255,255,245,0.25)"
               strokeDasharray="3 3"
             />
           )}
 
+          {/* Titik data dan label bulan di sumbu X */}
           {bulanan.map((row, idx) => {
             const x = PAD.left + idx * stepX;
             const isHover = hover === idx;
@@ -143,7 +148,7 @@ function ActivityChart({ bulanan }: { bulanan: Row[] }) {
                   x={x}
                   y={H - 8}
                   textAnchor="middle"
-                  className={`text-[11px] transition-colors ${isHover ? 'fill-flame font-semibold' : 'fill-zinc-500'}`}
+                  className={`text-[11px] transition-colors ${isHover ? 'fill-flame font-semibold' : 'fill-cream/65'}`}
                 >
                   {namaBulan(row.bulan)}
                 </text>
@@ -155,7 +160,7 @@ function ActivityChart({ bulanan }: { bulanan: Row[] }) {
                       cx={x}
                       cy={y}
                       r={isHover ? 5 : 3.2}
-                      fill="#ffffff"
+                      fill="#1e1e1e"
                       stroke={series.color}
                       strokeWidth={isHover ? 2.8 : 2}
                     />
@@ -182,19 +187,19 @@ function ActivityChart({ bulanan }: { bulanan: Row[] }) {
 
         {hover !== null && (
           <div
-            className="pointer-events-none absolute top-1 z-10 w-48 rounded-xl border border-zinc-200 bg-white/95 p-3 text-xs text-zinc-700 shadow-lg backdrop-blur-sm"
+            className="pointer-events-none absolute top-1 z-10 w-48 rounded-xl border border-white/15 bg-[#1b1b1d]/95 p-3 text-xs text-cream shadow-xl backdrop-blur-sm"
             style={{ left: `clamp(0px, calc(${((PAD.left + hover * stepX) / W) * 100}% - 6rem), calc(100% - 12rem))` }}
           >
-            <p className="mb-1.5 font-semibold text-zinc-900">
+            <p className="mb-1.5 font-semibold text-flame">
               {namaBulan(bulanan[hover].bulan)} {bulanan[hover].bulan.slice(0, 4)}
             </p>
             {ACTIVITY_SERIES.map((series) => (
               <div key={series.key} className="flex items-center justify-between py-0.5">
-                <span className="inline-flex items-center gap-1.5 text-zinc-600">
+                <span className="inline-flex items-center gap-1.5 text-cream/80">
                   <span className="size-2 rounded-full" style={{ backgroundColor: series.color }} />
                   {series.label}
                 </span>
-                <span className="font-semibold text-zinc-900">{bulanan[hover][series.key]}</span>
+                <span className="font-semibold text-cream">{bulanan[hover][series.key]}</span>
               </div>
             ))}
           </div>
@@ -215,6 +220,7 @@ function RevenueChart({ bulanan }: { bulanan: Row[] }) {
 
   const values = bulanan.map((row) => row.pemasukan);
   const rawMax = Math.max(1_000_000, ...values);
+  // Bulatkan ke jutaan terdekat agar label sumbu Y mudah dibaca.
   const stepMillion = rawMax <= 5_000_000 ? 1_000_000 : rawMax <= 20_000_000 ? 5_000_000 : 10_000_000;
   const maxVal = Math.ceil(rawMax / stepMillion) * stepMillion;
   const ticks = [0, Math.round(maxVal * 0.5), maxVal];
@@ -229,24 +235,24 @@ function RevenueChart({ bulanan }: { bulanan: Row[] }) {
   }));
 
   return (
-    <div className="flex flex-1 flex-col justify-between rounded-2xl border border-zinc-200/90 bg-white p-4 shadow-xs sm:p-5">
+    <div className="flex flex-col justify-between rounded-[22px] border border-white/10 bg-coal-deep p-4 sm:p-5">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h2 className="text-sm font-semibold text-zinc-900 sm:text-base">Tren Keuntungan Bulanan</h2>
-          <p className="text-xs text-zinc-500">Total pembayaran terverifikasi yang masuk tiap bulan</p>
+          <h2 className="text-base font-semibold text-cream sm:text-lg">Tren Keuntungan Bulanan</h2>
+          <p className="text-xs text-cream/60">Total pembayaran terverifikasi yang masuk tiap bulan</p>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-flame/20 bg-flame/10 px-3 py-0.5 text-xs font-medium text-flame">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-flame/15 px-3 py-1 text-xs font-medium text-flame">
           <span className="size-2 rounded-full bg-flame" />
           Pemasukan (Rp)
         </span>
       </div>
 
       <div className="relative">
-        <svg viewBox={`0 0 ${W} ${H}`} className="block h-[clamp(185px,35vh,285px)] w-full overflow-visible" role="img" aria-label="Grafik keuntungan bulanan">
+        <svg viewBox={`0 0 ${W} ${H}`} className="block h-[clamp(180px,34vh,280px)] w-full overflow-visible" role="img" aria-label="Grafik keuntungan bulanan">
           <defs>
             <linearGradient id="grad-bar-revenue" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#ff6200" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#ff8533" stopOpacity="0.35" />
+              <stop offset="0%" stopColor="#ff6200" stopOpacity="0.85" />
+              <stop offset="100%" stopColor="#ff6200" stopOpacity="0.2" />
             </linearGradient>
           </defs>
 
@@ -259,16 +265,17 @@ function RevenueChart({ bulanan }: { bulanan: Row[] }) {
                   x2={W - PAD.right}
                   y1={y}
                   y2={y}
-                  stroke="#e4e4e7"
+                  stroke="rgba(255,255,245,0.08)"
                   strokeDasharray={tick === 0 ? undefined : '4 4'}
                 />
-                <text x={PAD.left - 8} y={y + 4} textAnchor="end" className="fill-zinc-400 text-[11px]">
+                <text x={PAD.left - 8} y={y + 4} textAnchor="end" className="fill-cream/50 text-[11px]">
                   {tick === 0 ? '0' : rupiahRingkas(tick)}
                 </text>
               </g>
             );
           })}
 
+          {/* Batang bulanan */}
           {bulanan.map((row, idx) => {
             const centerX = PAD.left + idx * slotW + slotW / 2;
             const barH = Math.max(row.pemasukan > 0 ? 6 : 2, (row.pemasukan / maxVal) * plotH);
@@ -282,7 +289,7 @@ function RevenueChart({ bulanan }: { bulanan: Row[] }) {
                   width={barW}
                   height={barH}
                   rx={6}
-                  fill={row.pemasukan > 0 ? 'url(#grad-bar-revenue)' : '#e4e4e7'}
+                  fill={row.pemasukan > 0 ? 'url(#grad-bar-revenue)' : 'rgba(255,255,245,0.08)'}
                   opacity={hover === null || isHover ? 1 : 0.55}
                 />
                 {row.pemasukan > 0 && (
@@ -290,7 +297,7 @@ function RevenueChart({ bulanan }: { bulanan: Row[] }) {
                     x={centerX}
                     y={y - 6}
                     textAnchor="middle"
-                    className={`text-[10px] font-semibold ${isHover ? 'fill-flame' : 'fill-zinc-600'}`}
+                    className={`text-[10px] font-medium ${isHover ? 'fill-flame' : 'fill-cream/75'}`}
                   >
                     {rupiahRingkas(row.pemasukan)}
                   </text>
@@ -299,7 +306,7 @@ function RevenueChart({ bulanan }: { bulanan: Row[] }) {
                   x={centerX}
                   y={H - 8}
                   textAnchor="middle"
-                  className={`text-[11px] transition-colors ${isHover ? 'fill-flame font-semibold' : 'fill-zinc-500'}`}
+                  className={`text-[11px] transition-colors ${isHover ? 'fill-flame font-semibold' : 'fill-cream/65'}`}
                 >
                   {namaBulan(row.bulan)}
                 </text>
@@ -321,15 +328,16 @@ function RevenueChart({ bulanan }: { bulanan: Row[] }) {
             );
           })}
 
-          <path d={smoothCurve(points)} fill="none" stroke="#ff6200" strokeWidth={2} strokeOpacity={0.5} />
+          {/* Garis kurva penghubung di atas batang */}
+          <path d={smoothCurve(points)} fill="none" stroke="#ffd27a" strokeWidth={2} strokeOpacity={0.75} />
           {points.map((pt, idx) => (
             <circle
               key={bulanan[idx].bulan}
               cx={pt.x}
               cy={pt.y}
               r={hover === idx ? 4.5 : 2.8}
-              fill="#ffffff"
-              stroke="#ff6200"
+              fill="#1e1e1e"
+              stroke="#ffd27a"
               strokeWidth={2}
             />
           ))}
@@ -337,14 +345,14 @@ function RevenueChart({ bulanan }: { bulanan: Row[] }) {
 
         {hover !== null && (
           <div
-            className="pointer-events-none absolute top-1 z-10 w-48 rounded-xl border border-zinc-200 bg-white/95 p-3 text-xs text-zinc-700 shadow-lg backdrop-blur-sm"
+            className="pointer-events-none absolute top-1 z-10 w-48 rounded-xl border border-white/15 bg-[#1b1b1d]/95 p-3 text-xs text-cream shadow-xl backdrop-blur-sm"
             style={{ left: `clamp(0px, calc(${((PAD.left + hover * slotW + slotW / 2) / W) * 100}% - 6rem), calc(100% - 12rem))` }}
           >
-            <p className="mb-1 font-semibold text-zinc-900">
+            <p className="mb-1 font-semibold text-flame">
               {namaBulan(bulanan[hover].bulan)} {bulanan[hover].bulan.slice(0, 4)}
             </p>
-            <p className="text-zinc-500">Keuntungan terverifikasi:</p>
-            <p className="mt-0.5 text-sm font-bold text-flame">{rupiah(bulanan[hover].pemasukan)}</p>
+            <p className="text-cream/75">Keuntungan terverifikasi:</p>
+            <p className="mt-0.5 text-sm font-bold text-cream">{rupiah(bulanan[hover].pemasukan)}</p>
           </div>
         )}
       </div>
@@ -354,12 +362,13 @@ function RevenueChart({ bulanan }: { bulanan: Row[] }) {
 
 export default function TrendBands({ bulanan }: { bulanan: Row[] }) {
   return (
-    <section aria-label="Grafik perkembangan bulanan" className="flex flex-1 flex-col">
-      <div className="grid flex-1 gap-4 lg:grid-cols-2">
+    <section aria-label="Grafik perkembangan bulanan">
+      <div className="grid gap-4 lg:grid-cols-2">
         <ActivityChart bulanan={bulanan} />
         <RevenueChart bulanan={bulanan} />
       </div>
 
+      {/* Tabel untuk pembaca layar. */}
       <div className="sr-only">
         <table>
           <thead>

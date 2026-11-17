@@ -10,8 +10,8 @@ import { errorMessage } from '../../services/apiConfig';
 import { approveOrder, getOrder, updateOrderStatus } from '../../services/orderService';
 import { MARKETING_ORDER_STATUS, rupiahPendek } from '../../utils/format';
 
-// Tombol aksi tinjau Request Marketing: Tolak / Diskusi Lebih Lanjut / Terima.
-const bigButton = 'flex items-center justify-center rounded-xl px-4 py-3 text-center font-moon text-sm font-semibold shadow-xs transition-all hover:-translate-y-0.5 disabled:opacity-50 sm:text-base';
+// Figma "Detail Page" Marketing (wireframe 23:449): deskripsi, dokumen, lalu Tolak / Diskusi Lebih Lanjut / Terima.
+const bigButton = 'flex min-h-24 items-center justify-center rounded-[24px] px-4 py-4 text-center font-magic text-2xl uppercase transition-transform hover:-translate-y-0.5 disabled:opacity-50 sm:text-3xl';
 
 export default function RequestDetailPage() {
   const id = Number(useParams().id);
@@ -72,38 +72,36 @@ export default function RequestDetailPage() {
         </div>
 
         {order.status === 'DITOLAK' && order.alasanDitolak && (
-          <p className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-moon text-sm text-red-700">Alasan ditolak: {order.alasanDitolak}</p>
+          <p className="mt-4 rounded-2xl bg-[#f19b9b55] px-4 py-3 font-moon text-base text-coal-deep">Alasan ditolak: {order.alasanDitolak}</p>
         )}
 
         {terbuka ? (
           <>
-            <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              <button type="button" disabled={saving} onClick={() => open('TOLAK')} className={`${bigButton} border border-red-200 bg-red-50 text-red-700 hover:bg-red-100`}>
-                Tolak Request
+            <div className="mt-5 grid gap-4 sm:grid-cols-3">
+              <button type="button" disabled={saving} onClick={() => open('TOLAK')} className={`${bigButton} bg-[#9c2b2b] text-cream`}>
+                Tolak
               </button>
               <button
                 type="button"
                 disabled={saving || order.status === 'DITINJAU'}
                 onClick={() => void run(() => updateOrderStatus(order.id, 'DITINJAU'))}
-                className={`${bigButton} border border-zinc-200 bg-zinc-900 text-white hover:bg-zinc-800`}
+                className={`${bigButton} bg-coal text-flame`}
                 title={order.status === 'DITINJAU' ? 'Request ini sudah dalam tahap diskusi.' : undefined}
               >
                 Diskusi Lebih Lanjut
               </button>
-              <button type="button" disabled={saving} onClick={() => open('TERIMA')} className={`${bigButton} bg-flame text-white hover:bg-[#e05600]`}>
-                Terima Request
+              <button type="button" disabled={saving} onClick={() => open('TERIMA')} className={`${bigButton} bg-flame text-coal`}>
+                Terima
               </button>
             </div>
-            <p className="mt-2.5 font-moon text-xs text-zinc-500">
+            <p className="mt-3 font-moon text-sm text-coal-deep/70">
               Diskusi Lebih Lanjut menandai request sedang dibahas bersama klien (klien melihat status "Perlu Diskusi Lebih Lanjut"). Terima setelah MoU dan nilai disepakati.
             </p>
             {!modal && <BrandError message={actionError} />}
           </>
         ) : (
           order.status === 'DISETUJUI' && (
-            <p className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 font-moon text-sm text-emerald-800">
-              Request diterima. Terbitkan tagihan DP lewat Payment; Operasional akan membentuk tim.
-            </p>
+            <p className="mt-4 font-moon text-base text-coal-deep">Request diterima. Terbitkan tagihan DP lewat Payment; Operasional akan membentuk tim.</p>
           )
         )}
         <OrderComments orderId={order.id} canSend={order.status !== 'DITOLAK' && order.status !== 'DIBATALKAN'} />
