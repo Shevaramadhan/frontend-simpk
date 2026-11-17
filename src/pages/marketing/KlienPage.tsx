@@ -15,7 +15,7 @@ function waLink(nomor: string) {
 
 export default function KlienPage() {
   const { data, loading, error, reload } = useData(listClients);
-  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 5);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 7);
   const [actionError, setActionError] = useState('');
 
   async function toggle(client: Client) {

@@ -8,8 +8,8 @@ import ikonProfilOranye from '../../assets/staff/ikon-profil-oranye.svg';
 /** Panel gelap pembungkus isi halaman, dengan judul Magic Hat di tengah. */
 export function StaffPanel({ title, action, children }: { title: string; action?: ReactNode; children: ReactNode }) {
   return (
-    <section className="rounded-[26px] bg-coal-deep px-4 pb-5 pt-4 sm:px-6">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+    <section className="flex flex-1 flex-col rounded-[26px] bg-coal-deep px-4 pb-4 pt-4 sm:px-6">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-magic text-[clamp(24px,3.6vh,36px)] uppercase leading-none text-flame">{title}</h1>
         {action}
       </div>
@@ -28,7 +28,7 @@ export function ProjectCard({ index, title, subtitle, note, to }: { index: numbe
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: Math.min(index, 8) * 0.05, duration: 0.4 }}
-      className="flex flex-col gap-3 rounded-[22px] border-[3px] border-flame bg-cream px-5 py-3 sm:flex-row sm:items-center"
+      className="flex flex-col gap-3 rounded-[22px] border-[3px] border-flame bg-cream px-5 py-2.5 sm:flex-row sm:items-center"
     >
       <div className="min-w-0 flex-1">
         <h2 className="line-clamp-2 break-words font-magic text-[clamp(18px,2.6vh,26px)] uppercase leading-tight text-flame" title={title}>

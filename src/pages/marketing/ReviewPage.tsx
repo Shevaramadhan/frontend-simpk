@@ -10,7 +10,7 @@ import { tanggal } from '../../utils/format';
 // Figma "Review Page Marketing" (wireframe 23:512): Rating, Judul dan deskripsi, tombol Detail.
 export default function ReviewPage() {
   const { data, loading, error } = useData(listReviews);
-  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 4);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 5);
   const rata = data?.length ? data.reduce((n, review) => n + review.rating, 0) / data.length : 0;
 
   return (
@@ -32,14 +32,14 @@ export default function ReviewPage() {
         <EmptyState>Belum ada ulasan. Klien dapat memberi ulasan setelah Operasional menandai projeknya Selesai.</EmptyState>
       ) : (
         <>
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {paged.map((review, index) => (
               <motion.article
                 key={review.id}
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: Math.min(index, 8) * 0.04 }}
-                className="flex flex-col gap-3 rounded-[24px] border-[3px] border-flame bg-cream px-4 py-3 sm:flex-row sm:items-center"
+                className="flex flex-col gap-3 rounded-[24px] border-[3px] border-flame bg-cream px-4 py-2.5 sm:flex-row sm:items-center"
               >
                 <div className="sm:w-40">
                   <StarsView value={review.rating} />

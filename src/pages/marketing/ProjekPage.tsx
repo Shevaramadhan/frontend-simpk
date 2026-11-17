@@ -19,7 +19,7 @@ const TONE: Record<ProjectStatus, string> = {
 
 export default function ProjekPage() {
   const { data, loading, error } = useData(listProjects);
-  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 4);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 5);
 
   return (
     <StaffPanel title="Projek">
@@ -31,14 +31,14 @@ export default function ProjekPage() {
         <EmptyState>Belum ada projek. Projek terbentuk setelah request diterima dan Operasional memilih tim.</EmptyState>
       ) : (
         <>
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {paged.map((project, index) => (
               <motion.article
                 key={project.id}
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: Math.min(index, 8) * 0.04 }}
-                className="flex flex-col gap-3 rounded-[24px] border-[3px] border-flame bg-cream px-4 py-3 sm:flex-row sm:items-center"
+                className="flex flex-col gap-3 rounded-[24px] border-[3px] border-flame bg-cream px-4 py-2.5 sm:flex-row sm:items-center"
               >
                 <div className="sm:w-36">
                   <StatusPill label={PROJECT_STATUS_LABEL[project.status]} className={TONE[project.status]} />

@@ -7,7 +7,7 @@ import { PROJECT_STATUS_LABEL } from '../../utils/format';
 // Daftar project yang diikuti anggota Tim, bergaya halaman Project Operasional.
 export default function ProjectTimPage() {
   const { data, loading, error } = useData(listProjects);
-  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 4);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 5);
 
   return (
     <StaffPanel title="Project Saya">
@@ -19,7 +19,7 @@ export default function ProjectTimPage() {
         <EmptyState>Anda belum ditunjuk ke project mana pun. Operasional akan menambahkan Anda ke tim project.</EmptyState>
       ) : (
         <>
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {paged.map((project, index) => (
               <ProjectCard
                 key={project.id}

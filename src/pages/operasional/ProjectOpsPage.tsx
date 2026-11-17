@@ -24,7 +24,7 @@ export default function ProjectOpsPage() {
         .sort((a, b) => Number(Boolean(a.projects[0]?._count?.members)) - Number(Boolean(b.projects[0]?._count?.members))),
     [data],
   );
-  const { paged, page, totalPages, setPage } = usePagination(orders, 4);
+  const { paged, page, totalPages, setPage } = usePagination(orders, 5);
 
   return (
     <StaffPanel title="Project">
@@ -36,7 +36,7 @@ export default function ProjectOpsPage() {
         <EmptyState>Belum ada pengajuan yang disetujui Marketing.</EmptyState>
       ) : (
         <>
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {paged.map((order, index) => (
               <ProjectCard
                 key={order.id}

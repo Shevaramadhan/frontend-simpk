@@ -230,7 +230,7 @@ export default function StaffLayout() {
         </div>
       </aside>
 
-      <div className="min-w-0 flex-1">
+      <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex justify-end px-4 pt-3 sm:px-6">
           <div className="flex items-center gap-3">
             <span className="hidden font-moon text-sm text-coal-deep sm:inline">{user.name}</span>
@@ -241,7 +241,7 @@ export default function StaffLayout() {
             </span>
           </div>
         </div>
-        <main className="px-3 pb-6 pt-2 sm:px-6">
+        <main className="flex flex-1 flex-col px-3 pb-5 pt-2 sm:px-6 lg:pb-[clamp(14px,2.4vh,24px)]">
           <Outlet />
         </main>
       </div>
