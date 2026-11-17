@@ -33,36 +33,26 @@ function UserMenu() {
 
   return (
     <div ref={ref} className="relative">
-      <button
-        type="button"
-        aria-haspopup="menu"
-        aria-expanded={open}
-        onClick={() => setOpen(!open)}
-        className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3.5 py-2 font-moon text-sm font-semibold text-zinc-800 shadow-2xs transition-colors hover:border-flame/40 hover:text-flame sm:px-4"
-      >
-        <span className="grid size-6 place-items-center rounded-full bg-flame/15 text-xs font-bold text-flame">
-          {firstName.slice(0, 1).toUpperCase()}
-        </span>
-        <span className="max-w-[40vw] truncate">Halo, {firstName}</span>
+      <button type="button" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen(!open)} className="group block">
+        <Framed>
+          <span className="block max-w-[46vw] truncate px-3 py-1.5 font-magic text-sm uppercase text-flame group-hover:text-cream sm:px-5 sm:text-lg">
+            Hallo, {firstName}
+          </span>
+        </Framed>
       </button>
       {open && (
-        <div role="menu" className="absolute right-0 z-30 mt-2 w-52 overflow-hidden rounded-xl border border-zinc-200 bg-white p-1.5 shadow-xl">
+        <div role="menu" className="absolute right-0 z-30 mt-2 w-56 overflow-hidden rounded-2xl border-[3px] border-coal bg-cream shadow-xl">
           {MENU.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               end={item.end}
               role="menuitem"
-              className={({ isActive }) =>
-                `block rounded-lg px-3.5 py-2 font-moon text-sm transition-colors ${
-                  isActive ? 'bg-flame font-semibold text-white' : 'text-zinc-700 hover:bg-zinc-100'
-                }`
-              }
+              className={({ isActive }) => `block px-4 py-3 font-moon text-base ${isActive ? 'bg-flame text-cream' : 'text-coal-deep hover:bg-[#ffc49f66]'}`}
             >
               {item.label}
             </NavLink>
           ))}
-          <div className="my-1 h-px bg-zinc-100" />
           <button
             type="button"
             role="menuitem"
@@ -70,7 +60,7 @@ function UserMenu() {
               logout();
               navigate('/login', { replace: true });
             }}
-            className="block w-full rounded-lg px-3.5 py-2 text-left font-moon text-sm text-red-600 transition-colors hover:bg-red-50"
+            className="block w-full border-t-2 border-coal/20 px-4 py-3 text-left font-moon text-base text-coal-deep hover:bg-[#ffc49f66]"
           >
             Keluar
           </button>
@@ -85,23 +75,23 @@ export default function ClientLayout() {
     <div data-app-shell className="bg-cream text-coal-deep">
       {/* Header dan isi halaman setinggi satu layar; footer berada setelahnya. */}
       <div className="flex min-h-dvh flex-col">
-        <header className="sticky top-0 z-20 mb-4 grid grid-cols-[1fr_auto_1fr] items-center gap-2 border-b border-coal/10 bg-cream/90 px-3 py-2.5 backdrop-blur-md sm:px-6">
-          <Link to="/portal" className="min-w-0 justify-self-start">
-            <img alt="Neo Telemetri, IT For The Future" className="h-auto max-h-9 w-full max-w-[220px] object-contain" src={logo} />
-          </Link>
-          <Link to="/portal" className="flex flex-col items-center leading-none">
-            <span className="font-magic text-[clamp(1.25rem,min(4vh,7vw),2rem)] font-bold tracking-wider text-flame">
-              SIMPK
-            </span>
-            <span className="mt-0.5 font-moon text-[10px] tracking-wide text-coal-deep/70">by neotelemetri</span>
-          </Link>
-          <div className="justify-self-end">
-            <UserMenu />
-          </div>
-        </header>
-        <main className="flex flex-1 flex-col [&>*]:flex-1">
-          <Outlet />
-        </main>
+      <header className="relative z-20 grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 pb-[clamp(4px,1vh,8px)] pt-[clamp(6px,1.4vh,12px)] sm:px-5">
+        <Link to="/portal" className="min-w-0 justify-self-start">
+          <img alt="Neo Telemetri, IT For The Future" className="h-auto max-h-11 w-full max-w-[280px] object-contain" src={logo} />
+        </Link>
+        <Link to="/portal" className="flex flex-col items-end leading-none">
+          <OutlinedTitle as="p" className="text-[clamp(1.5rem,min(5.5vh,9vw),3.25rem)] tracking-[0.12em]">
+            SIMPK
+          </OutlinedTitle>
+          <span className="mt-0.5 font-moon text-[10px] tracking-[0.12em] text-flame sm:text-xs">by neotelemetri</span>
+        </Link>
+        <div className="justify-self-end">
+          <UserMenu />
+        </div>
+      </header>
+      <main className="flex flex-1 flex-col [&>*]:flex-1">
+        <Outlet />
+      </main>
       </div>
       <SiteFooter />
     </div>

@@ -188,7 +188,7 @@ export default function StaffLayout() {
   );
 
   return (
-    <div data-app-shell className="min-h-dvh bg-cream text-coal-deep lg:flex">
+    <div data-app-shell data-staff-shell className="min-h-dvh bg-cream text-coal-deep lg:flex">
       <aside
         className={`flex flex-col border-r border-white/5 bg-coal px-4 py-3 transition-[width] duration-300 lg:sticky lg:top-0 lg:h-dvh lg:shrink-0 lg:py-[clamp(14px,2.4vh,22px)] ${
           collapsed ? 'lg:w-[80px] lg:px-3' : 'lg:w-[clamp(210px,15.5vw,252px)] lg:px-4'

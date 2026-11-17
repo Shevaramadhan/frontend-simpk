@@ -14,7 +14,8 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 ## 2026-11-17 (modernisasi navbar/sidebar dengan mempertahankan gaya desain SIMPK)
 
 ### Diubah
-- Navbar/sidebar (`StaffLayout.tsx` dan `ClientLayout.tsx`) diperbarui agar lebih modern dan nyaman di mata (menu tidak aktif berwarna abu-abu lembut `text-zinc-400`, menu aktif tetap memakai pill oranye `#ff6200`, serta profil pengguna di kanan atas berupa badge ringkas), sedangkan panel dan kartu di seluruh halaman tetap mempertahankan karakter desain SIMPK (`bg-coal-deep`, `bg-cream`, dan aksen `flame`) dengan font `Poppins` dan grafik dashboard modern (F-24).
+- Navbar/sidebar pengurus (`StaffLayout.tsx`) diperbarui agar lebih modern dan nyaman di mata (menu tidak aktif berwarna abu-abu lembut `text-zinc-400`, menu aktif tetap memakai pill oranye `#ff6200`, serta profil pengguna di kanan atas berupa badge ringkas).
+- Tampilan utama halaman pengurus tetap mempertahankan gaya desain khas SIMPK (`bg-coal-deep`, kartu `bg-cream`, aksen `flame`) dengan font `Poppins`, sedangkan seluruh Portal Klien (`ClientLayout.tsx` dan halaman klien) dibiarkan seperti semula mengikuti desain asli Figma (F-24).
 
 ## 2026-11-17 (grafik dashboard modern dan font Poppins setelah login)
 
