@@ -14,7 +14,7 @@ const empty = { nama: '', deskripsi: '', hargaMin: '', hargaMax: '', estimasiHar
 
 export default function KatalogPage() {
   const { data, loading, error, reload } = useData(listAllServices);
-  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 7);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 8);
   const [open, setOpen] = useState(false);
   const [editId, setEditId] = useState<number>();
   const [form, setForm] = useState(empty);

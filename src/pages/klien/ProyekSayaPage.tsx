@@ -60,7 +60,7 @@ function Row({ order, index }: { order: Order; index: number }) {
 
 export default function ProyekSayaPage() {
   const { data, loading, error } = useData(listOrders);
-  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 5);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 6);
   return (
     <section className="px-3 sm:px-6">
       <h1 className="sr-only">Project saya</h1>

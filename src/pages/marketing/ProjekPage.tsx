@@ -19,7 +19,7 @@ const TONE: Record<ProjectStatus, string> = {
 
 export default function ProjekPage() {
   const { data, loading, error } = useData(listProjects);
-  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 5);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 6);
 
   return (
     <StaffPanel title="Projek">

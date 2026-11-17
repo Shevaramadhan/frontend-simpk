@@ -7,7 +7,7 @@ import { PROJECT_STATUS_LABEL } from '../../utils/format';
 // Daftar project yang diikuti anggota Tim, bergaya halaman Project Operasional.
 export default function ProjectTimPage() {
   const { data, loading, error } = useData(listProjects);
-  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 5);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 6);
 
   return (
     <StaffPanel title="Project Saya">

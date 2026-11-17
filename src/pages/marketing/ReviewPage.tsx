@@ -10,7 +10,7 @@ import { tanggal } from '../../utils/format';
 // Figma "Review Page Marketing" (wireframe 23:512): Rating, Judul dan deskripsi, tombol Detail.
 export default function ReviewPage() {
   const { data, loading, error } = useData(listReviews);
-  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 5);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 6);
   const rata = data?.length ? data.reduce((n, review) => n + review.rating, 0) / data.length : 0;
 
   return (

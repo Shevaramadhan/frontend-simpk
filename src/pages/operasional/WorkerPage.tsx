@@ -126,7 +126,7 @@ export default function WorkerPage() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<InternalUser | null>(null);
   const workers = data ?? [];
-  const { paged, page, totalPages, setPage } = usePagination(workers, 9);
+  const { paged, page, totalPages, setPage } = usePagination(workers, 12);
 
   return (
     <StaffPanel

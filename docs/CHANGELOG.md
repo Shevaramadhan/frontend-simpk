@@ -17,9 +17,9 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Komponen `Pagination` dan hook `usePagination` (`components/brand/Pagination.tsx`) dengan tombol `< Sebelumnya`, nomor halaman, dan `Selanjutnya >` (F-22).
 - `StaffPanel` (`StaffParts.tsx`) dan `StaffLayout.tsx` mengisi sisa tinggi layar secara proporsional dengan jarak bawah sejajar tombol Log Out di sidebar, serta menambatkan tombol paginasi di bagian bawah panel.
 - Paginasi diterapkan pada seluruh halaman daftar/tabel agar muat satu layar tanpa perlu digulir panjang:
-  - Marketing: `ProjekPage` (5 per halaman), `RequestPage` (5 per halaman per tab), `ReviewPage` (5 per halaman), `KatalogPage` (7 per halaman), `KlienPage` (7 per halaman).
-  - Operasional: `ProjectOpsPage` (5 per halaman), `WorkerPage` (9 kartu per halaman), `PilihWorkerPage` (6 kartu worker per halaman), `PenggunaPage` (tab Akun Internal dan Akun Klien masing-masing 6 baris per halaman).
-  - Tim & Klien: `ProjectTimPage` (5 per halaman), `ProyekSayaPage` (5 per halaman).
+  - Marketing: `ProjekPage` (6 per halaman), `RequestPage` (6 per halaman per tab), `ReviewPage` (6 per halaman), `KatalogPage` (8 per halaman), `KlienPage` (8 per halaman).
+  - Operasional: `ProjectOpsPage` (6 per halaman), `WorkerPage` (12 kartu per halaman), `PilihWorkerPage` (6 kartu worker per halaman), `PenggunaPage` (tab Akun Internal dan Akun Klien masing-masing 8 baris per halaman).
+  - Tim & Klien: `ProjectTimPage` (6 per halaman), `ProyekSayaPage` (6 per halaman).
   - Bagian dalam Detail: `OrderComments` (4 komentar per halaman, otomatis ke halaman terakhir saat ada pesan baru), `TaskTable` (5 tugas per halaman), serta `Riwayat` dan `Updates` (3 catatan per halaman).
 
 ## 2026-11-17 (komentar/chat pada detail project)

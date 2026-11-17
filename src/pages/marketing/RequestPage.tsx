@@ -24,7 +24,7 @@ export default function RequestPage() {
   const { data, loading, error } = useData(listOrders);
   const [tab, setTab] = useState<Tab>('PERLU');
   const orders = useMemo(() => (data ?? []).filter(TABS.find((t) => t.key === tab)!.match), [data, tab]);
-  const { paged, page, totalPages, setPage } = usePagination(orders, 5);
+  const { paged, page, totalPages, setPage } = usePagination(orders, 6);
 
   return (
     <StaffPanel title="Request">
@@ -58,7 +58,7 @@ export default function RequestPage() {
         <EmptyState>Tidak ada request pada bagian ini.</EmptyState>
       ) : (
         <>
-          <div className="space-y-2.5">
+          <div className="space-y-2">
             {paged.map((order, index) => {
               const status = MARKETING_ORDER_STATUS[order.status];
               const bukti = buktiMenunggu(order);
@@ -68,7 +68,7 @@ export default function RequestPage() {
                   initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: Math.min(index, 8) * 0.04 }}
-                  className="flex flex-col gap-3 rounded-[24px] border-[3px] border-flame bg-cream px-4 py-2.5 sm:flex-row sm:items-center"
+                  className="flex flex-col gap-3 rounded-[24px] border-[3px] border-flame bg-cream px-4 py-2 sm:flex-row sm:items-center"
                 >
                   <div className="sm:w-40">
                     <StatusPill label={status.label} className={status.className} />

@@ -41,7 +41,7 @@ interface PaginationProps {
   className?: string;
 }
 
-export default function Pagination({ page, totalPages, onPageChange, tone = 'dark', className = 'mt-auto pt-4' }: PaginationProps) {
+export default function Pagination({ page, totalPages, onPageChange, tone = 'dark', className = 'mt-auto pt-3' }: PaginationProps) {
   if (totalPages <= 1) return null;
 
   const isDark = tone === 'dark';

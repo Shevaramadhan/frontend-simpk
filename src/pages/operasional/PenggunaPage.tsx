@@ -26,8 +26,8 @@ export default function PenggunaPage() {
   const users = useData(listUsers);
   const clients = useData(listClients);
   const [tab, setTab] = useState<'INTERNAL' | 'KLIEN'>('INTERNAL');
-  const internalPage = usePagination(users.data ?? [], 6);
-  const clientPage = usePagination(clients.data ?? [], 6);
+  const internalPage = usePagination(users.data ?? [], 8);
+  const clientPage = usePagination(clients.data ?? [], 8);
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState(emptyUser);
   const [target, setTarget] = useState<EmailTarget | null>(null);

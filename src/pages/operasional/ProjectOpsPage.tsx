@@ -24,7 +24,7 @@ export default function ProjectOpsPage() {
         .sort((a, b) => Number(Boolean(a.projects[0]?._count?.members)) - Number(Boolean(b.projects[0]?._count?.members))),
     [data],
   );
-  const { paged, page, totalPages, setPage } = usePagination(orders, 5);
+  const { paged, page, totalPages, setPage } = usePagination(orders, 6);
 
   return (
     <StaffPanel title="Project">
