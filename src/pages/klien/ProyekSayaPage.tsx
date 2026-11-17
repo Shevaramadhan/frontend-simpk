@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
+import Pagination, { usePagination } from '../../components/brand/Pagination';
 import { useData } from '../../hooks/useData';
 import { listOrders } from '../../services/orderService';
 import type { Order } from '../../types';
@@ -59,6 +60,7 @@ function Row({ order, index }: { order: Order; index: number }) {
 
 export default function ProyekSayaPage() {
   const { data, loading, error } = useData(listOrders);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 4);
   return (
     <section className="px-3 sm:px-6">
       <h1 className="sr-only">Project saya</h1>
@@ -69,10 +71,11 @@ export default function ProyekSayaPage() {
         {Boolean(data?.length) && (
           <>
             <ul className="space-y-3">
-              {data?.map((order, index) => (
+              {paged.map((order, index) => (
                 <Row key={order.id} order={order} index={index} />
               ))}
             </ul>
+            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
             <Link
               to="/portal/pesan"
               className="mt-3 block rounded-[22px] border-[4px] border-dashed border-flame bg-[#83522f] py-4 text-center font-magic text-2xl uppercase text-flame transition-colors hover:bg-[#9a5f35]"

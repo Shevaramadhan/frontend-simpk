@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { BrandError, BrandField, brandInputSolid } from '../../components/brand/Brand';
 import BrandModal from '../../components/brand/BrandModal';
+import Pagination, { usePagination } from '../../components/brand/Pagination';
 import { BrandTable, LoadError, Loading, StaffPanel, linkButton, pillButton, tableCell as cell } from '../../components/brand/StaffParts';
 import PasswordInput from '../../components/PasswordInput';
 import { useCurrentUser } from '../../hooks/useAuth';
@@ -24,6 +25,9 @@ export default function PenggunaPage() {
   const me = useCurrentUser();
   const users = useData(listUsers);
   const clients = useData(listClients);
+  const [tab, setTab] = useState<'INTERNAL' | 'KLIEN'>('INTERNAL');
+  const internalPage = usePagination(users.data ?? [], 5);
+  const clientPage = usePagination(clients.data ?? [], 5);
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState(emptyUser);
   const [target, setTarget] = useState<EmailTarget | null>(null);
@@ -102,61 +106,93 @@ export default function PenggunaPage() {
         </button>
       }
     >
-      <p className="mb-3 font-moon text-base text-cream/80">Semua akun internal Neo Telemetri. Tambah Akun untuk pengurus Marketing dan Operasional; akun Tim ditambahkan lewat menu Worker.</p>
-      {actionError && <BrandError message={actionError} />}
-      {users.loading && !users.data ? (
-        <Loading />
-      ) : users.error ? (
-        <LoadError message={users.error} />
-      ) : (
-        <BrandTable head={['Nama', 'Email', 'Role', 'Status', 'Aksi']}>
-          {(users.data ?? []).map((user) => (
-            <tr key={user.id} className={user.isActive ? '' : 'opacity-60'}>
-              <td className={cell}>{user.name}</td>
-              <td className={cell}>{user.email}</td>
-              <td className={cell}>
-                {ROLE_LABEL[user.role]}
-                {user.role === 'TIM' && user.keahlian && <span className="block text-xs text-coal-deep/60">{user.keahlian}</span>}
-              </td>
-              <td className={cell}>
-                <span className={user.isActive ? 'text-[#14aa00]' : 'text-[#e60000]'}>{user.isActive ? 'Aktif' : 'Nonaktif'}</span>
-                {user.id !== me.id && (
-                  <button type="button" className={`${linkButton} ml-3`} onClick={() => void toggle(user.id, user.isActive)}>
-                    {user.isActive ? 'Nonaktifkan' : 'Aktifkan'}
-                  </button>
-                )}
-              </td>
-              <td className={cell}>
-                <button type="button" className={linkButton} onClick={() => openEmail({ label: user.name, email: user.email, save: (value) => updateUser(user.id, { email: value }) })}>
-                  Ubah email
-                </button>
-              </td>
-            </tr>
-          ))}
-        </BrandTable>
-      )}
+      <div role="tablist" aria-label="Jenis pengguna" className="mb-3 flex flex-wrap gap-2">
+        <button
+          role="tab"
+          aria-selected={tab === 'INTERNAL'}
+          type="button"
+          onClick={() => setTab('INTERNAL')}
+          className={`rounded-[20px] px-4 py-1.5 font-moon text-base transition-colors ${tab === 'INTERNAL' ? 'bg-flame text-coal' : 'border-2 border-flame text-flame hover:bg-flame/15'}`}
+        >
+          Akun Internal ({users.data?.length ?? 0})
+        </button>
+        <button
+          role="tab"
+          aria-selected={tab === 'KLIEN'}
+          type="button"
+          onClick={() => setTab('KLIEN')}
+          className={`rounded-[20px] px-4 py-1.5 font-moon text-base transition-colors ${tab === 'KLIEN' ? 'bg-flame text-coal' : 'border-2 border-flame text-flame hover:bg-flame/15'}`}
+        >
+          Akun Klien ({clients.data?.length ?? 0})
+        </button>
+      </div>
 
-      <h2 className="mt-8 font-magic text-2xl uppercase text-flame">Akun Klien</h2>
-      <p className="mb-3 font-moon text-base text-cream/80">Klien mendaftar sendiri. Perbaiki email hanya jika klien salah ketik dan tidak menerima tautan lupa kata sandi.</p>
-      {clients.loading && !clients.data ? (
-        <Loading />
-      ) : clients.error ? (
-        <LoadError message={clients.error} />
+      {tab === 'INTERNAL' ? (
+        <>
+          <p className="mb-3 font-moon text-base text-cream/80">Semua akun internal Neo Telemetri. Tambah Akun untuk pengurus Marketing dan Operasional; akun Tim ditambahkan lewat menu Worker.</p>
+          {actionError && <BrandError message={actionError} />}
+          {users.loading && !users.data ? (
+            <Loading />
+          ) : users.error ? (
+            <LoadError message={users.error} />
+          ) : (
+            <>
+              <BrandTable head={['Nama', 'Email', 'Role', 'Status', 'Aksi']}>
+                {internalPage.paged.map((user) => (
+                  <tr key={user.id} className={user.isActive ? '' : 'opacity-60'}>
+                    <td className={cell}>{user.name}</td>
+                    <td className={cell}>{user.email}</td>
+                    <td className={cell}>
+                      {ROLE_LABEL[user.role]}
+                      {user.role === 'TIM' && user.keahlian && <span className="block text-xs text-coal-deep/60">{user.keahlian}</span>}
+                    </td>
+                    <td className={cell}>
+                      <span className={user.isActive ? 'text-[#14aa00]' : 'text-[#e60000]'}>{user.isActive ? 'Aktif' : 'Nonaktif'}</span>
+                      {user.id !== me.id && (
+                        <button type="button" className={`${linkButton} ml-3`} onClick={() => void toggle(user.id, user.isActive)}>
+                          {user.isActive ? 'Nonaktifkan' : 'Aktifkan'}
+                        </button>
+                      )}
+                    </td>
+                    <td className={cell}>
+                      <button type="button" className={linkButton} onClick={() => openEmail({ label: user.name, email: user.email, save: (value) => updateUser(user.id, { email: value }) })}>
+                        Ubah email
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </BrandTable>
+              <Pagination page={internalPage.page} totalPages={internalPage.totalPages} onPageChange={internalPage.setPage} />
+            </>
+          )}
+        </>
       ) : (
-        <BrandTable head={['Instansi', 'Kontak', 'Email', 'Aksi']} empty={clients.data?.length ? undefined : 'Belum ada klien.'}>
-          {(clients.data ?? []).map((client) => (
-            <tr key={client.id}>
-              <td className={cell}>{client.namaInstansi}</td>
-              <td className={cell}>{client.user.name}</td>
-              <td className={cell}>{client.user.email}</td>
-              <td className={cell}>
-                <button type="button" className={linkButton} onClick={() => openEmail({ label: client.namaInstansi, email: client.user.email, save: (value) => updateClientEmail(client.id, value) })}>
-                  Ubah email
-                </button>
-              </td>
-            </tr>
-          ))}
-        </BrandTable>
+        <>
+          <p className="mb-3 font-moon text-base text-cream/80">Klien mendaftar sendiri. Perbaiki email hanya jika klien salah ketik dan tidak menerima tautan lupa kata sandi.</p>
+          {clients.loading && !clients.data ? (
+            <Loading />
+          ) : clients.error ? (
+            <LoadError message={clients.error} />
+          ) : (
+            <>
+              <BrandTable head={['Instansi', 'Kontak', 'Email', 'Aksi']} empty={clients.data?.length ? undefined : 'Belum ada klien.'}>
+                {clientPage.paged.map((client) => (
+                  <tr key={client.id}>
+                    <td className={cell}>{client.namaInstansi}</td>
+                    <td className={cell}>{client.user.name}</td>
+                    <td className={cell}>{client.user.email}</td>
+                    <td className={cell}>
+                      <button type="button" className={linkButton} onClick={() => openEmail({ label: client.namaInstansi, email: client.user.email, save: (value) => updateClientEmail(client.id, value) })}>
+                        Ubah email
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </BrandTable>
+              <Pagination page={clientPage.page} totalPages={clientPage.totalPages} onPageChange={clientPage.setPage} />
+            </>
+          )}
+        </>
       )}
 
       <BrandModal open={adding} title="Tambah Akun" onClose={() => setAdding(false)}>

@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { BrandError, BrandField, brandInputSolid } from '../../components/brand/Brand';
 import BrandModal from '../../components/brand/BrandModal';
+import Pagination, { usePagination } from '../../components/brand/Pagination';
 import { BrandTable, LoadError, Loading, StaffPanel, StatusPill, linkButton, pillButton, tableCell as cell } from '../../components/brand/StaffParts';
 import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
@@ -13,6 +14,7 @@ const empty = { nama: '', deskripsi: '', hargaMin: '', hargaMax: '', estimasiHar
 
 export default function KatalogPage() {
   const { data, loading, error, reload } = useData(listAllServices);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 5);
   const [open, setOpen] = useState(false);
   const [editId, setEditId] = useState<number>();
   const [form, setForm] = useState(empty);
@@ -65,28 +67,31 @@ export default function KatalogPage() {
       ) : error ? (
         <LoadError message={error} />
       ) : (
-        <BrandTable head={['Nama', 'Perkiraan Biaya', 'Waktu', 'Katalog', 'Aksi']} empty={data?.length ? undefined : 'Belum ada jasa.'}>
-          {(data ?? []).map((service) => (
-            <tr key={service.id}>
-              <td className={cell}>
-                {service.nama}
-                <span className="line-clamp-1 block text-xs text-coal-deep/60">{service.deskripsi}</span>
-              </td>
-              <td className={cell}>
-                {rupiahPendek(service.hargaMin)} - {rupiahPendek(service.hargaMax)}
-              </td>
-              <td className={cell}>{service.estimasiHari} hari</td>
-              <td className={cell}>
-                <StatusPill label={service.isVisible ? 'Tampil' : 'Disembunyikan'} className={service.isVisible ? 'bg-[#8fd694] text-coal-deep' : 'bg-[#bdbdbd] text-coal-deep'} />
-              </td>
-              <td className={cell}>
-                <button type="button" className={linkButton} onClick={() => edit(service)}>
-                  Ubah
-                </button>
-              </td>
-            </tr>
-          ))}
-        </BrandTable>
+        <>
+          <BrandTable head={['Nama', 'Perkiraan Biaya', 'Waktu', 'Katalog', 'Aksi']} empty={data?.length ? undefined : 'Belum ada jasa.'}>
+            {paged.map((service) => (
+              <tr key={service.id}>
+                <td className={cell}>
+                  {service.nama}
+                  <span className="line-clamp-1 block text-xs text-coal-deep/60">{service.deskripsi}</span>
+                </td>
+                <td className={cell}>
+                  {rupiahPendek(service.hargaMin)} - {rupiahPendek(service.hargaMax)}
+                </td>
+                <td className={cell}>{service.estimasiHari} hari</td>
+                <td className={cell}>
+                  <StatusPill label={service.isVisible ? 'Tampil' : 'Disembunyikan'} className={service.isVisible ? 'bg-[#8fd694] text-coal-deep' : 'bg-[#bdbdbd] text-coal-deep'} />
+                </td>
+                <td className={cell}>
+                  <button type="button" className={linkButton} onClick={() => edit(service)}>
+                    Ubah
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </BrandTable>
+          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+        </>
       )}
 
       <BrandModal open={open} title={editId ? 'Ubah Jasa' : 'Tambah Jasa'} onClose={() => setOpen(false)}>

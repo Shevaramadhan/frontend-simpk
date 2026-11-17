@@ -5,6 +5,7 @@ import { createOrderComment, listOrderComments } from '../../services/orderServi
 import type { OrderComment, Role } from '../../types';
 import { tanggalJam } from '../../utils/format';
 import { BrandError, brandInputSolid } from './Brand';
+import Pagination, { usePagination } from './Pagination';
 
 const PERAN_LABEL: Record<Role, string> = {
   KLIEN: 'Klien',
@@ -20,6 +21,8 @@ const PERAN_BADGE: Record<Role, string> = {
   TIM: 'bg-coal text-cream',
 };
 
+const PER_PAGE = 4;
+
 interface OrderCommentsProps {
   orderId: number;
   canSend?: boolean;
@@ -34,8 +37,8 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
   const [pesan, setPesan] = useState('');
   const [sendError, setSendError] = useState('');
   const [sending, setSending] = useState(false);
-  const listRef = useRef<HTMLDivElement>(null);
   const prevCount = useRef(0);
+  const { paged, page, totalPages, setPage } = usePagination(comments, PER_PAGE, true);
 
   const fetchComments = useCallback(
     async (initial = false) => {
@@ -62,12 +65,13 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
     return () => window.clearInterval(timer);
   }, [fetchComments]);
 
+  // Saat ada komentar baru masuk, arahkan ke halaman terakhir agar pesan terbaru langsung terlihat.
   useEffect(() => {
-    if (comments.length > prevCount.current && listRef.current) {
-      listRef.current.scrollTop = listRef.current.scrollHeight;
+    if (comments.length > prevCount.current) {
+      setPage(Math.max(1, Math.ceil(comments.length / PER_PAGE)));
     }
     prevCount.current = comments.length;
-  }, [comments.length]);
+  }, [comments.length, setPage]);
 
   async function submitComment() {
     const trimmed = pesan.trim();
@@ -113,7 +117,7 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
         </button>
       </div>
 
-      <div ref={listRef} className="mt-3 max-h-[380px] space-y-3 overflow-y-auto rounded-[22px] border-[3px] border-coal/15 bg-white/80 p-4">
+      <div className="mt-3 space-y-3 rounded-[22px] border-[3px] border-coal/15 bg-white/80 p-4">
         {loading ? (
           <p className="py-6 text-center font-moon text-base text-coal-deep/70">Memuat komentar...</p>
         ) : loadError ? (
@@ -125,7 +129,7 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
             Belum ada komentar. Sampaikan pertanyaan, masukan, atau pembaruan seputar project di sini.
           </p>
         ) : (
-          comments.map((comment) => {
+          paged.map((comment) => {
             const mine = comment.author.id === user.id;
             return (
               <div key={comment.id} className={`flex ${mine ? 'justify-end' : 'justify-start'}`}>
@@ -150,6 +154,8 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
           })
         )}
       </div>
+
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} tone="light" className="mt-3" />
 
       {canSend ? (
         <form onSubmit={handleSubmit} className="mt-3">

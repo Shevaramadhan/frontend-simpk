@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
+import Pagination, { usePagination } from '../../components/brand/Pagination';
 import { EmptyState, LoadError, Loading, StaffPanel, StatusPill, pillButton } from '../../components/brand/StaffParts';
 import { useData } from '../../hooks/useData';
 import { listOrders } from '../../services/orderService';
@@ -23,6 +24,7 @@ export default function RequestPage() {
   const { data, loading, error } = useData(listOrders);
   const [tab, setTab] = useState<Tab>('PERLU');
   const orders = useMemo(() => (data ?? []).filter(TABS.find((t) => t.key === tab)!.match), [data, tab]);
+  const { paged, page, totalPages, setPage } = usePagination(orders, 4);
 
   return (
     <StaffPanel title="Request">
@@ -36,7 +38,10 @@ export default function RequestPage() {
               role="tab"
               aria-selected={active}
               type="button"
-              onClick={() => setTab(item.key)}
+              onClick={() => {
+                setTab(item.key);
+                setPage(1);
+              }}
               className={`rounded-[20px] px-4 py-1.5 font-moon text-base transition-colors ${active ? 'bg-flame text-coal' : 'border-2 border-flame text-flame hover:bg-flame/15'}`}
             >
               {item.label} ({count})
@@ -52,42 +57,45 @@ export default function RequestPage() {
       ) : orders.length === 0 ? (
         <EmptyState>Tidak ada request pada bagian ini.</EmptyState>
       ) : (
-        <div className="space-y-3">
-          {orders.map((order, index) => {
-            const status = MARKETING_ORDER_STATUS[order.status];
-            const bukti = buktiMenunggu(order);
-            return (
-              <motion.article
-                key={order.id}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: Math.min(index, 8) * 0.04 }}
-                className="flex flex-col gap-3 rounded-[24px] border-[3px] border-flame bg-cream px-4 py-3 sm:flex-row sm:items-center"
-              >
-                <div className="sm:w-40">
-                  <StatusPill label={status.label} className={status.className} />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h2 className="line-clamp-2 break-words font-magic text-[clamp(17px,2.4vh,24px)] uppercase leading-tight text-flame">{order.judul || order.nomor}</h2>
-                  <p className="font-moon text-sm text-coal-deep/70">
-                    {order.client.namaInstansi} · {tanggal(order.createdAt)} · {order.nomor}
-                  </p>
-                  {bukti > 0 && <p className="mt-1 font-moon text-sm text-[#b25e00]">{bukti} bukti transfer menunggu diperiksa</p>}
-                </div>
-                <div className="flex gap-2">
-                  {bisaBayar(order) && (
-                    <Link to={`/app/request/${order.id}/payment`} className={`${pillButton} ${bukti > 0 ? 'ring-4 ring-[#ffd27a]' : ''}`}>
-                      Payment
+        <>
+          <div className="space-y-3">
+            {paged.map((order, index) => {
+              const status = MARKETING_ORDER_STATUS[order.status];
+              const bukti = buktiMenunggu(order);
+              return (
+                <motion.article
+                  key={order.id}
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: Math.min(index, 8) * 0.04 }}
+                  className="flex flex-col gap-3 rounded-[24px] border-[3px] border-flame bg-cream px-4 py-3 sm:flex-row sm:items-center"
+                >
+                  <div className="sm:w-40">
+                    <StatusPill label={status.label} className={status.className} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h2 className="line-clamp-2 break-words font-magic text-[clamp(17px,2.4vh,24px)] uppercase leading-tight text-flame">{order.judul || order.nomor}</h2>
+                    <p className="font-moon text-sm text-coal-deep/70">
+                      {order.client.namaInstansi} · {tanggal(order.createdAt)} · {order.nomor}
+                    </p>
+                    {bukti > 0 && <p className="mt-1 font-moon text-sm text-[#b25e00]">{bukti} bukti transfer menunggu diperiksa</p>}
+                  </div>
+                  <div className="flex gap-2">
+                    {bisaBayar(order) && (
+                      <Link to={`/app/request/${order.id}/payment`} className={`${pillButton} ${bukti > 0 ? 'ring-4 ring-[#ffd27a]' : ''}`}>
+                        Payment
+                      </Link>
+                    )}
+                    <Link to={`/app/request/${order.id}`} className={pillButton}>
+                      Detail
                     </Link>
-                  )}
-                  <Link to={`/app/request/${order.id}`} className={pillButton}>
-                    Detail
-                  </Link>
-                </div>
-              </motion.article>
-            );
-          })}
-        </div>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
+          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+        </>
       )}
     </StaffPanel>
   );

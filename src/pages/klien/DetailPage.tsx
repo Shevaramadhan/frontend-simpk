@@ -10,18 +10,20 @@ import type { ProjectReview } from '../../types';
 import { ProgressPanel } from '../../components/brand/Progress';
 import { tanggal } from '../../utils/format';
 import OrderComments from '../../components/brand/OrderComments';
+import Pagination, { usePagination } from '../../components/brand/Pagination';
 import ProyekInfo from '../../components/brand/ProyekInfo';
 
 // Figma "Detail Page": total progres dan progres per bidang. Klien tidak pernah menerima catatan teknis.
 function Updates({ projectId }: { projectId: number }) {
   const load = useCallback(() => listClientUpdates(projectId), [projectId]);
   const { data } = useData(load);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 3);
   if (!data?.length) return null;
   return (
     <div className="mt-8">
       <p className="text-center font-magic text-2xl uppercase text-flame">Catatan Perkembangan</p>
       <ul className="mt-3 space-y-2">
-        {data.slice(0, 5).map((update) => (
+        {paged.map((update) => (
           <li key={update.id} className="rounded-2xl border-[3px] border-coal/15 bg-white px-4 py-3">
             <p className="font-moon text-sm text-coal-deep/70">
               {tanggal(update.createdAt)} · {update.task.judul} · {update.persentase}%
@@ -30,6 +32,7 @@ function Updates({ projectId }: { projectId: number }) {
           </li>
         ))}
       </ul>
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} tone="light" className="mt-3" />
     </div>
   );
 }

@@ -11,6 +11,16 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-17 (paginasi daftar agar muat satu layar)
+
+### Ditambah
+- Komponen `Pagination` dan hook `usePagination` (`components/brand/Pagination.tsx`) dengan tombol `< Sebelumnya`, nomor halaman, dan `Selanjutnya >` (F-22).
+- Paginasi diterapkan pada seluruh halaman daftar/tabel agar muat satu layar tanpa perlu digulir panjang:
+  - Marketing: `ProjekPage` (4 per halaman), `RequestPage` (4 per halaman per tab), `ReviewPage` (4 per halaman), `KatalogPage` (5 per halaman), `KlienPage` (5 per halaman).
+  - Operasional: `ProjectOpsPage` (4 per halaman), `WorkerPage` (9 kartu per halaman), `PilihWorkerPage` (6 kartu worker per halaman), `PenggunaPage` (tab Akun Internal dan Akun Klien masing-masing 5 baris per halaman).
+  - Tim & Klien: `ProjectTimPage` (4 per halaman), `ProyekSayaPage` (4 per halaman).
+  - Bagian dalam Detail: `OrderComments` (4 komentar per halaman, otomatis ke halaman terakhir saat ada pesan baru), `TaskTable` (5 tugas per halaman), serta `Riwayat` dan `Updates` (3 catatan per halaman).
+
 ## 2026-11-17 (komentar/chat pada detail project)
 
 ### Ditambah

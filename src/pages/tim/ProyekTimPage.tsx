@@ -4,6 +4,7 @@ import { BrandError, BrandField, brandInputSolid } from '../../components/brand/
 import BrandModal from '../../components/brand/BrandModal';
 import { Bar, BIDANG_ORDER, ProgressPanel } from '../../components/brand/Progress';
 import OrderComments from '../../components/brand/OrderComments';
+import Pagination, { usePagination } from '../../components/brand/Pagination';
 import ProyekInfo from '../../components/brand/ProyekInfo';
 import { pillButton } from '../../components/brand/StaffParts';
 import { useCurrentUser } from '../../hooks/useAuth';
@@ -179,67 +180,71 @@ function TaskTable({
   onEdit: (task: Task) => void;
   onDelete: (task: Task) => void;
 }) {
+  const { paged, page, totalPages, setPage } = usePagination(tasks, 5);
   if (!tasks.length) return <p className="rounded-2xl bg-white p-5 text-center font-moon text-lg text-coal-deep">Belum ada tugas pada project ini.</p>;
   return (
-    <div className="overflow-x-auto rounded-2xl border-[3px] border-coal/15 bg-white">
-      <table className={`w-full ${ringkas ? 'min-w-[480px]' : 'min-w-[720px]'} font-moon text-base text-coal-deep`}>
-        <thead className="bg-coal text-left text-flame">
-          <tr>
-            <th className="px-3 py-2 font-normal">Tugas</th>
-            <th className="px-3 py-2 font-normal">Bidang</th>
-            {!ringkas && <th className="px-3 py-2 font-normal">Penanggung jawab</th>}
-            {!ringkas && <th className="px-3 py-2 font-normal">Tenggat</th>}
-            <th className="w-48 px-3 py-2 font-normal">Progres</th>
-            <th className="px-3 py-2" />
-          </tr>
-        </thead>
-        <tbody>
-          {tasks.map((task) => (
-            <tr key={task.id} className="border-t border-coal/10 align-middle">
-              <td className="px-3 py-2">
-                <p>{task.judul}</p>
-                <p className="text-xs text-coal-deep/60">
-                  {TASK_STATUS_LABEL[task.status]} · bobot {task.bobot}
-                </p>
-              </td>
-              <td className="px-3 py-2">{BIDANG_LABEL[task.bidang]}</td>
-              {!ringkas && <td className="px-3 py-2">{task.assignee?.name ?? <span className="text-coal-deep/50">Belum ditentukan</span>}</td>}
-              {!ringkas && <td className="px-3 py-2">{tanggalPendek(task.tenggat)}</td>}
-              <td className="px-3 py-2">
-                <span className="flex items-center gap-2">
-                  <span className="w-11 text-flame">{task.persentase}%</span>
-                  <Bar value={task.persentase} track="bg-coal/15" fill="bg-flame" />
-                </span>
-              </td>
-              <td className="px-3 py-2 text-right">
-                <span className="inline-flex flex-wrap justify-end gap-1.5">
-                  {canUpdate(task) && (
-                    <button type="button" onClick={() => onUpdate(task)} className="rounded-xl bg-coal px-3 py-1 text-sm text-flame hover:text-cream">
-                      Perbarui
-                    </button>
-                  )}
-                  {kelola && (
-                    <>
-                      <button type="button" onClick={() => onEdit(task)} className="rounded-xl border-2 border-coal px-3 py-0.5 text-sm text-coal-deep hover:bg-coal hover:text-flame">
-                        Ubah
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => onDelete(task)}
-                        aria-label={`Hapus tugas ${task.judul}`}
-                        className="rounded-xl border-2 border-[#9c2b2b] px-3 py-0.5 text-sm text-[#9c2b2b] hover:bg-[#9c2b2b] hover:text-cream"
-                      >
-                        Hapus
-                      </button>
-                    </>
-                  )}
-                </span>
-              </td>
+    <>
+      <div className="overflow-x-auto rounded-2xl border-[3px] border-coal/15 bg-white">
+        <table className={`w-full ${ringkas ? 'min-w-[480px]' : 'min-w-[720px]'} font-moon text-base text-coal-deep`}>
+          <thead className="bg-coal text-left text-flame">
+            <tr>
+              <th className="px-3 py-2 font-normal">Tugas</th>
+              <th className="px-3 py-2 font-normal">Bidang</th>
+              {!ringkas && <th className="px-3 py-2 font-normal">Penanggung jawab</th>}
+              {!ringkas && <th className="px-3 py-2 font-normal">Tenggat</th>}
+              <th className="w-48 px-3 py-2 font-normal">Progres</th>
+              <th className="px-3 py-2" />
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {paged.map((task) => (
+              <tr key={task.id} className="border-t border-coal/10 align-middle">
+                <td className="px-3 py-2">
+                  <p>{task.judul}</p>
+                  <p className="text-xs text-coal-deep/60">
+                    {TASK_STATUS_LABEL[task.status]} · bobot {task.bobot}
+                  </p>
+                </td>
+                <td className="px-3 py-2">{BIDANG_LABEL[task.bidang]}</td>
+                {!ringkas && <td className="px-3 py-2">{task.assignee?.name ?? <span className="text-coal-deep/50">Belum ditentukan</span>}</td>}
+                {!ringkas && <td className="px-3 py-2">{tanggalPendek(task.tenggat)}</td>}
+                <td className="px-3 py-2">
+                  <span className="flex items-center gap-2">
+                    <span className="w-11 text-flame">{task.persentase}%</span>
+                    <Bar value={task.persentase} track="bg-coal/15" fill="bg-flame" />
+                  </span>
+                </td>
+                <td className="px-3 py-2 text-right">
+                  <span className="inline-flex flex-wrap justify-end gap-1.5">
+                    {canUpdate(task) && (
+                      <button type="button" onClick={() => onUpdate(task)} className="rounded-xl bg-coal px-3 py-1 text-sm text-flame hover:text-cream">
+                        Perbarui
+                      </button>
+                    )}
+                    {kelola && (
+                      <>
+                        <button type="button" onClick={() => onEdit(task)} className="rounded-xl border-2 border-coal px-3 py-0.5 text-sm text-coal-deep hover:bg-coal hover:text-flame">
+                          Ubah
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => onDelete(task)}
+                          aria-label={`Hapus tugas ${task.judul}`}
+                          className="rounded-xl border-2 border-[#9c2b2b] px-3 py-0.5 text-sm text-[#9c2b2b] hover:bg-[#9c2b2b] hover:text-cream"
+                        >
+                          Hapus
+                        </button>
+                      </>
+                    )}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} tone="light" className="mt-3" />
+    </>
   );
 }
 
@@ -247,12 +252,13 @@ function Riwayat({ projectId, version }: { projectId: number; version: number })
   // `version` memicu muat ulang setelah progres disimpan.
   const load = useCallback(() => listTeamUpdates(projectId), [projectId, version]);
   const { data } = useData(load);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 3);
   if (!data?.length) return null;
   return (
     <div className="mt-8">
       <p className="text-center font-magic text-2xl uppercase text-flame">Riwayat Progres</p>
       <ul className="mt-3 space-y-2">
-        {data.slice(0, 10).map((update) => (
+        {paged.map((update) => (
           <li key={update.id} className="rounded-2xl border-[3px] border-coal/15 bg-white px-4 py-3">
             <p className="font-moon text-sm text-coal-deep/70">
               {tanggal(update.createdAt)} · {update.author ? `${update.author.name} · ` : ''}
@@ -263,6 +269,7 @@ function Riwayat({ projectId, version }: { projectId: number; version: number })
           </li>
         ))}
       </ul>
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} tone="light" className="mt-3" />
     </div>
   );
 }

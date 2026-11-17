@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Link, useParams } from 'react-router-dom';
 import ikonSegitiga from '../../assets/staff/ikon-segitiga.svg';
 import { BrandError } from '../../components/brand/Brand';
+import Pagination, { usePagination } from '../../components/brand/Pagination';
 import { ProgressPanel } from '../../components/brand/Progress';
 import OrderComments from '../../components/brand/OrderComments';
 import ProyekInfo from '../../components/brand/ProyekInfo';
@@ -53,6 +54,7 @@ export default function PilihWorkerPage() {
         ? !worker.keahlian
         : worker.keahlian?.toLowerCase() === filter.toLowerCase(),
   );
+  const { paged: pagedWorkers, page: workerPage, totalPages: workerTotalPages, setPage: setWorkerPage } = usePagination(shown, 6);
 
   function toggle(userId: number) {
     setMessage({ error: '', done: '' });
@@ -151,7 +153,14 @@ export default function PilihWorkerPage() {
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <label className="relative inline-flex items-center">
             <span className="sr-only">Saring worker</span>
-            <select value={filter} onChange={(event) => setFilter(event.target.value)} className="appearance-none rounded-[24px] bg-coal py-2 pl-5 pr-10 font-moon text-lg text-flame">
+            <select
+              value={filter}
+              onChange={(event) => {
+                setFilter(event.target.value);
+                setWorkerPage(1);
+              }}
+              className="appearance-none rounded-[24px] bg-coal py-2 pl-5 pr-10 font-moon text-lg text-flame"
+            >
               <option value={SEMUA}>Semua</option>
               {keahlian.map((nama) => (
                 <option key={nama} value={nama}>
@@ -170,7 +179,7 @@ export default function PilihWorkerPage() {
         <BrandError message={message.error} />
 
         <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {shown.map((worker) => {
+          {pagedWorkers.map((worker) => {
             const picked = team.some((member) => member.userId === worker.id);
             return (
               <button
@@ -191,6 +200,7 @@ export default function PilihWorkerPage() {
           })}
           {workers && shown.length === 0 && <p className="font-moon text-base text-coal-deep/70">Tidak ada worker pada saringan ini.</p>}
         </div>
+        <Pagination page={workerPage} totalPages={workerTotalPages} onPageChange={setWorkerPage} tone="light" />
 
         {order.project && (
           <div className="mt-8">

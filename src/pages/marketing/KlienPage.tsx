@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { BrandError } from '../../components/brand/Brand';
+import Pagination, { usePagination } from '../../components/brand/Pagination';
 import { BrandTable, LoadError, Loading, StaffPanel, linkButton, tableCell as cell } from '../../components/brand/StaffParts';
 import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
@@ -14,6 +15,7 @@ function waLink(nomor: string) {
 
 export default function KlienPage() {
   const { data, loading, error, reload } = useData(listClients);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 5);
   const [actionError, setActionError] = useState('');
 
   async function toggle(client: Client) {
@@ -35,33 +37,36 @@ export default function KlienPage() {
       ) : error ? (
         <LoadError message={error} />
       ) : (
-        <BrandTable head={['Instansi', 'Kontak', 'Email', 'WhatsApp', 'Status']} empty={data?.length ? undefined : 'Belum ada klien.'}>
-          {(data ?? []).map((client) => (
-            <tr key={client.id} className={client.isActive ? '' : 'opacity-60'}>
-              <td className={cell}>
-                {client.namaInstansi}
-                <span className="block text-xs text-coal-deep/60">{client.jenisKlien}</span>
-              </td>
-              <td className={cell}>{client.user.name}</td>
-              <td className={cell}>{client.user.email}</td>
-              <td className={cell}>
-                {client.noWhatsapp ? (
-                  <a href={waLink(client.noWhatsapp)} target="_blank" rel="noreferrer" className={linkButton}>
-                    {client.noWhatsapp}
-                  </a>
-                ) : (
-                  <span className="text-coal-deep/50">Belum diisi</span>
-                )}
-              </td>
-              <td className={cell}>
-                <span className={client.isActive ? 'text-[#14aa00]' : 'text-[#e60000]'}>{client.isActive ? 'Aktif' : 'Nonaktif'}</span>
-                <button type="button" className={`${linkButton} ml-3`} onClick={() => void toggle(client)}>
-                  {client.isActive ? 'Nonaktifkan' : 'Aktifkan'}
-                </button>
-              </td>
-            </tr>
-          ))}
-        </BrandTable>
+        <>
+          <BrandTable head={['Instansi', 'Kontak', 'Email', 'WhatsApp', 'Status']} empty={data?.length ? undefined : 'Belum ada klien.'}>
+            {paged.map((client) => (
+              <tr key={client.id} className={client.isActive ? '' : 'opacity-60'}>
+                <td className={cell}>
+                  {client.namaInstansi}
+                  <span className="block text-xs text-coal-deep/60">{client.jenisKlien}</span>
+                </td>
+                <td className={cell}>{client.user.name}</td>
+                <td className={cell}>{client.user.email}</td>
+                <td className={cell}>
+                  {client.noWhatsapp ? (
+                    <a href={waLink(client.noWhatsapp)} target="_blank" rel="noreferrer" className={linkButton}>
+                      {client.noWhatsapp}
+                    </a>
+                  ) : (
+                    <span className="text-coal-deep/50">Belum diisi</span>
+                  )}
+                </td>
+                <td className={cell}>
+                  <span className={client.isActive ? 'text-[#14aa00]' : 'text-[#e60000]'}>{client.isActive ? 'Aktif' : 'Nonaktif'}</span>
+                  <button type="button" className={`${linkButton} ml-3`} onClick={() => void toggle(client)}>
+                    {client.isActive ? 'Nonaktifkan' : 'Aktifkan'}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </BrandTable>
+          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+        </>
       )}
     </StaffPanel>
   );

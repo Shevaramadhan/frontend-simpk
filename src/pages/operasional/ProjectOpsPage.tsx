@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import Pagination, { usePagination } from '../../components/brand/Pagination';
 import { EmptyState, LoadError, Loading, ProjectCard, StaffPanel } from '../../components/brand/StaffParts';
 import { useData } from '../../hooks/useData';
 import { listOrders } from '../../services/orderService';
@@ -23,6 +24,7 @@ export default function ProjectOpsPage() {
         .sort((a, b) => Number(Boolean(a.projects[0]?._count?.members)) - Number(Boolean(b.projects[0]?._count?.members))),
     [data],
   );
+  const { paged, page, totalPages, setPage } = usePagination(orders, 4);
 
   return (
     <StaffPanel title="Project">
@@ -33,18 +35,21 @@ export default function ProjectOpsPage() {
       ) : orders.length === 0 ? (
         <EmptyState>Belum ada pengajuan yang disetujui Marketing.</EmptyState>
       ) : (
-        <div className="space-y-4">
-          {orders.map((order, index) => (
-            <ProjectCard
-              key={order.id}
-              index={index}
-              title={order.judul || order.nomor}
-              subtitle={`${order.client.namaInstansi} · ${order.nomor}`}
-              note={note(order)}
-              to={`/app/pengajuan/${order.id}`}
-            />
-          ))}
-        </div>
+        <>
+          <div className="space-y-3">
+            {paged.map((order, index) => (
+              <ProjectCard
+                key={order.id}
+                index={index}
+                title={order.judul || order.nomor}
+                subtitle={`${order.client.namaInstansi} · ${order.nomor}`}
+                note={note(order)}
+                to={`/app/pengajuan/${order.id}`}
+              />
+            ))}
+          </div>
+          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+        </>
       )}
     </StaffPanel>
   );

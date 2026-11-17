@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { motion } from 'motion/react';
 import { BrandError, BrandField, brandInputSolid } from '../../components/brand/Brand';
 import BrandModal from '../../components/brand/BrandModal';
+import Pagination, { usePagination } from '../../components/brand/Pagination';
 import { Avatar, EmptyState, LoadError, Loading, StaffPanel, pillButton, workerNote } from '../../components/brand/StaffParts';
 import PasswordInput from '../../components/PasswordInput';
 import { useData } from '../../hooks/useData';
@@ -125,6 +126,7 @@ export default function WorkerPage() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<InternalUser | null>(null);
   const workers = data ?? [];
+  const { paged, page, totalPages, setPage } = usePagination(workers, 9);
 
   return (
     <StaffPanel
@@ -142,30 +144,33 @@ export default function WorkerPage() {
       ) : !workers.length ? (
         <EmptyState>Belum ada akun worker. Tambahkan anggota tim lewat tombol Tambah Worker.</EmptyState>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {workers.map((worker, index) => (
-            <motion.div
-              key={worker.id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: Math.min(index, 9) * 0.04 }}
-              className="flex items-center gap-3 rounded-[20px] border-[3px] border-flame bg-cream p-3"
-            >
-              <Avatar />
-              <div className="min-w-0 flex-1">
-                <p className="truncate font-moon text-xl text-flame">{worker.name}</p>
-                <p className="flex flex-wrap items-center gap-x-2 font-moon text-sm">
-                  <span className={worker.keahlian ? 'text-coal-deep' : 'text-coal-deep/50'}>{worker.keahlian ?? 'Keahlian belum diisi'}</span>
-                  <button type="button" onClick={() => setEditing(worker)} className="text-xs text-flame underline underline-offset-2 hover:text-coal-deep">
-                    Ubah
-                  </button>
-                </p>
-                <p className="truncate font-moon text-xs text-coal-deep/60">{worker.email}</p>
-                <p className="font-moon text-sm leading-snug">{workerNote(worker.jumlahProject)}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {paged.map((worker, index) => (
+              <motion.div
+                key={worker.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: Math.min(index, 9) * 0.04 }}
+                className="flex items-center gap-3 rounded-[20px] border-[3px] border-flame bg-cream p-3"
+              >
+                <Avatar />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-moon text-xl text-flame">{worker.name}</p>
+                  <p className="flex flex-wrap items-center gap-x-2 font-moon text-sm">
+                    <span className={worker.keahlian ? 'text-coal-deep' : 'text-coal-deep/50'}>{worker.keahlian ?? 'Keahlian belum diisi'}</span>
+                    <button type="button" onClick={() => setEditing(worker)} className="text-xs text-flame underline underline-offset-2 hover:text-coal-deep">
+                      Ubah
+                    </button>
+                  </p>
+                  <p className="truncate font-moon text-xs text-coal-deep/60">{worker.email}</p>
+                  <p className="font-moon text-sm leading-snug">{workerNote(worker.jumlahProject)}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+        </>
       )}
       <TambahWorker
         open={open}
