@@ -9,6 +9,7 @@ import { getOrder, listClientUpdates } from '../../services/orderService';
 import type { ProjectReview } from '../../types';
 import { ProgressPanel } from '../../components/brand/Progress';
 import { tanggal } from '../../utils/format';
+import OrderComments from '../../components/brand/OrderComments';
 import ProyekInfo from '../../components/brand/ProyekInfo';
 
 // Figma "Detail Page": total progres dan progres per bidang. Klien tidak pernah menerima catatan teknis.
@@ -119,6 +120,10 @@ export default function DetailPage() {
             : 'Project belum mulai dikerjakan. Progres tampil di sini setelah Operasional membentuk tim.'}
         </p>
       )}
+      <OrderComments
+        orderId={order.id}
+        canSend={order.status !== 'DITOLAK' && order.status !== 'DIBATALKAN' && project?.status !== 'DIBATALKAN'}
+      />
     </ProyekInfo>
   );
 }

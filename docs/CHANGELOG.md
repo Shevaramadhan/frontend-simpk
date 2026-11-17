@@ -11,6 +11,12 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-17 (komentar/chat pada detail project)
+
+### Ditambah
+- Komponen `OrderComments` (`components/brand/OrderComments.tsx`) dengan tampilan utas chat (gelembung pesan sendiri vs pihak lain, label peran pengirim, stempel waktu, muat ulang berkala tiap 15 detik saat tab aktif, dan kirim dengan tombol atau Enter).
+- Dipasang pada halaman Detail klien (`DetailPage.tsx`), Detail Request Marketing (`RequestDetailPage.tsx`), Pilih Worker Operasional (`PilihWorkerPage.tsx`), dan Detail Proyek Tim/Operasional/Marketing (`ProyekTimPage.tsx`).
+
 ## 2026-11-16 (detail project dikembalikan)
 
 ### Dihapus

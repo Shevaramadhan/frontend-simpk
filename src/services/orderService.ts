@@ -1,4 +1,4 @@
-import type { ApiResponse, ClientUpdate, Invoice, InvoiceWithOrder, Order, OrderDetail, OrderInput, OrderStatus, Payment } from '../types';
+import type { ApiResponse, ClientUpdate, Invoice, InvoiceWithOrder, Order, OrderComment, OrderDetail, OrderInput, OrderStatus, Payment } from '../types';
 import api from './apiConfig';
 
 export async function listOrders() {
@@ -77,5 +77,15 @@ export async function verifyPayment(paymentId: number, status: 'DITERIMA' | 'DIT
 
 export async function listClientUpdates(projectId: number) {
   const { data } = await api.get<ApiResponse<ClientUpdate[]>>(`/projects/${projectId}/updates`);
+  return data.data;
+}
+
+export async function listOrderComments(orderId: number) {
+  const { data } = await api.get<ApiResponse<OrderComment[]>>(`/orders/${orderId}/comments`);
+  return data.data;
+}
+
+export async function createOrderComment(orderId: number, pesan: string) {
+  const { data } = await api.post<ApiResponse<OrderComment>>(`/orders/${orderId}/comments`, { pesan });
   return data.data;
 }

@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import ikonSegitiga from '../../assets/staff/ikon-segitiga.svg';
 import { BrandError } from '../../components/brand/Brand';
 import { ProgressPanel } from '../../components/brand/Progress';
+import OrderComments from '../../components/brand/OrderComments';
 import ProyekInfo from '../../components/brand/ProyekInfo';
 import { Avatar, pillButton, workerNote } from '../../components/brand/StaffParts';
 import { useData } from '../../hooks/useData';
@@ -196,6 +197,10 @@ export default function PilihWorkerPage() {
             <ProgressPanel progres={order.project.progres} progresBidang={order.project.progresBidang} />
           </div>
         )}
+        <OrderComments
+          orderId={order.id}
+          canSend={order.status !== 'DITOLAK' && order.status !== 'DIBATALKAN' && order.project?.status !== 'DIBATALKAN'}
+        />
       </ProyekInfo>
     </div>
   );

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { BrandError, BrandField, brandInputSolid } from '../../components/brand/Brand';
 import BrandModal from '../../components/brand/BrandModal';
 import { Bar, BIDANG_ORDER, ProgressPanel } from '../../components/brand/Progress';
+import OrderComments from '../../components/brand/OrderComments';
 import ProyekInfo from '../../components/brand/ProyekInfo';
 import { pillButton } from '../../components/brand/StaffParts';
 import { useCurrentUser } from '../../hooks/useAuth';
@@ -440,6 +441,7 @@ export default function ProyekTimPage() {
           />
         </div>
         <Riwayat projectId={project.id} version={version} />
+        <OrderComments orderId={project.orderId} canSend={project.status !== 'DIBATALKAN'} />
       </ProyekInfo>
 
       <PerbaruiModal

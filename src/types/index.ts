@@ -82,6 +82,7 @@ export interface Member {
 
 export interface ProjectSummary {
   id: number;
+  orderId: number;
   kode: string;
   nama: string;
   status: ProjectStatus;
@@ -229,6 +230,13 @@ export interface ClientUpdate {
   catatanKlien: string;
   createdAt: string;
   task: { id: number; judul: string };
+}
+
+export interface OrderComment {
+  id: number;
+  pesan: string;
+  createdAt: string;
+  author: { id: number; name: string; role: Role };
 }
 
 export interface OrderInput {

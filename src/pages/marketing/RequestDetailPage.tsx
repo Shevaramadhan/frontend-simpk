@@ -2,6 +2,7 @@ import { useCallback, useState, type FormEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { BrandError, BrandField, brandInputSolid } from '../../components/brand/Brand';
 import BrandModal from '../../components/brand/BrandModal';
+import OrderComments from '../../components/brand/OrderComments';
 import ProyekInfo from '../../components/brand/ProyekInfo';
 import { StatusPill, pillButton } from '../../components/brand/StaffParts';
 import { useData } from '../../hooks/useData';
@@ -103,6 +104,7 @@ export default function RequestDetailPage() {
             <p className="mt-4 font-moon text-base text-coal-deep">Request diterima. Terbitkan tagihan DP lewat Payment; Operasional akan membentuk tim.</p>
           )
         )}
+        <OrderComments orderId={order.id} canSend={order.status !== 'DITOLAK' && order.status !== 'DIBATALKAN'} />
       </ProyekInfo>
 
       <BrandModal open={modal === 'TERIMA'} title="Terima Request" onClose={() => setModal(null)}>
