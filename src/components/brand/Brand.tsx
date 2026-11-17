@@ -46,13 +46,14 @@ const INPUT_BASE = 'mt-1 w-full rounded-[16px] border-[4px] border-coal-deep px-
 /** Input di atas kartu krem (Sign In, Login). */
 export const brandInput = `${INPUT_BASE} bg-[#ffc49f66] focus:bg-[#ffc49f99]`;
 
-/** Input di atas panel gelap (form pengajuan). */
-export const brandInputSolid = `${INPUT_BASE} bg-cream focus:bg-white`;
+/** Input bersih untuk halaman setelah login dan form pengajuan. */
+export const brandInputSolid =
+  'mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2 font-moon text-sm text-zinc-900 shadow-2xs outline-none transition focus:border-flame focus:ring-2 focus:ring-flame/20';
 
 export function BrandField({ id, label, tone = 'flame', children }: { id: string; label: string; tone?: 'flame' | 'cream'; children: ReactNode }) {
   return (
-    <div className="mb-[clamp(0.375rem,1.6vh,1rem)]">
-      <label htmlFor={id} className={`block font-moon text-[clamp(0.9375rem,2.5vh,1.25rem)] ${tone === 'flame' ? 'text-flame' : 'text-cream'}`}>
+    <div className="mb-3">
+      <label htmlFor={id} className={`block font-moon text-xs font-semibold sm:text-sm ${tone === 'flame' ? 'text-zinc-700' : 'text-zinc-700'}`}>
         {label}
       </label>
       {children}
@@ -63,11 +64,11 @@ export function BrandField({ id, label, tone = 'flame', children }: { id: string
 export function BrandError({ message }: { message: string }) {
   if (!message) return null;
   return (
-    <p role="alert" className="mb-3 rounded-xl bg-[#9c2b2b] px-4 py-2 font-moon text-base text-cream">
+    <p role="alert" className="mb-3 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 font-moon text-sm font-medium text-red-700">
       {message}
     </p>
   );
 }
 
-/** Kotak bergaris putus-putus oranye (dokumen pendukung, unggah bukti). */
-export const dashedBox = 'rounded-[24px] border-[4px] border-dashed border-flame';
+/** Kotak bergaris putus-putus (dokumen pendukung, unggah bukti). */
+export const dashedBox = 'rounded-xl border-2 border-dashed border-zinc-300 transition-colors hover:border-flame';

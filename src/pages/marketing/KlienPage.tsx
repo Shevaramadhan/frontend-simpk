@@ -30,7 +30,7 @@ export default function KlienPage() {
 
   return (
     <StaffPanel title="Klien">
-      <p className="mb-3 font-moon text-base text-cream/80">Klien mendaftar sendiri lewat halaman Sign In. Nonaktifkan akun yang tidak jelas atau spam.</p>
+      <p className="mb-3 font-moon text-xs text-zinc-500 sm:text-sm">Klien mendaftar sendiri lewat halaman Sign In. Nonaktifkan akun yang tidak jelas atau spam.</p>
       <BrandError message={actionError} />
       {loading && !data ? (
         <Loading />
@@ -40,10 +40,10 @@ export default function KlienPage() {
         <>
           <BrandTable head={['Instansi', 'Kontak', 'Email', 'WhatsApp', 'Status']} empty={data?.length ? undefined : 'Belum ada klien.'}>
             {paged.map((client) => (
-              <tr key={client.id} className={client.isActive ? '' : 'opacity-60'}>
+              <tr key={client.id} className={`hover:bg-zinc-50/70 ${client.isActive ? '' : 'opacity-60'}`}>
                 <td className={cell}>
-                  {client.namaInstansi}
-                  <span className="block text-xs text-coal-deep/60">{client.jenisKlien}</span>
+                  <span className="font-semibold text-zinc-900">{client.namaInstansi}</span>
+                  <span className="block text-xs text-zinc-500">{client.jenisKlien}</span>
                 </td>
                 <td className={cell}>{client.user.name}</td>
                 <td className={cell}>{client.user.email}</td>
@@ -53,11 +53,11 @@ export default function KlienPage() {
                       {client.noWhatsapp}
                     </a>
                   ) : (
-                    <span className="text-coal-deep/50">Belum diisi</span>
+                    <span className="text-zinc-400">Belum diisi</span>
                   )}
                 </td>
                 <td className={cell}>
-                  <span className={client.isActive ? 'text-[#14aa00]' : 'text-[#e60000]'}>{client.isActive ? 'Aktif' : 'Nonaktif'}</span>
+                  <span className={`font-semibold ${client.isActive ? 'text-emerald-600' : 'text-red-600'}`}>{client.isActive ? 'Aktif' : 'Nonaktif'}</span>
                   <button type="button" className={`${linkButton} ml-3`} onClick={() => void toggle(client)}>
                     {client.isActive ? 'Nonaktifkan' : 'Aktifkan'}
                   </button>

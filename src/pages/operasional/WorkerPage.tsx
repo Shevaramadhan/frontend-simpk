@@ -145,26 +145,26 @@ export default function WorkerPage() {
         <EmptyState>Belum ada akun worker. Tambahkan anggota tim lewat tombol Tambah Worker.</EmptyState>
       ) : (
         <>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {paged.map((worker, index) => (
               <motion.div
                 key={worker.id}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: Math.min(index, 9) * 0.04 }}
-                className="flex items-center gap-3 rounded-[20px] border-[3px] border-flame bg-cream p-3"
+                transition={{ delay: Math.min(index, 9) * 0.03 }}
+                className="flex items-center gap-3 rounded-xl border border-zinc-200/90 bg-zinc-50/50 p-3.5 transition-all hover:border-flame/40 hover:bg-white hover:shadow-sm"
               >
                 <Avatar />
                 <div className="min-w-0 flex-1">
-                  <p className="truncate font-moon text-xl text-flame">{worker.name}</p>
-                  <p className="flex flex-wrap items-center gap-x-2 font-moon text-sm">
-                    <span className={worker.keahlian ? 'text-coal-deep' : 'text-coal-deep/50'}>{worker.keahlian ?? 'Keahlian belum diisi'}</span>
-                    <button type="button" onClick={() => setEditing(worker)} className="text-xs text-flame underline underline-offset-2 hover:text-coal-deep">
+                  <p className="truncate font-moon text-sm font-semibold text-zinc-900">{worker.name}</p>
+                  <p className="flex flex-wrap items-center gap-x-2 font-moon text-xs">
+                    <span className={worker.keahlian ? 'text-zinc-600' : 'text-zinc-400'}>{worker.keahlian ?? 'Keahlian belum diisi'}</span>
+                    <button type="button" onClick={() => setEditing(worker)} className="text-xs font-semibold text-flame hover:underline underline-offset-2">
                       Ubah
                     </button>
                   </p>
-                  <p className="truncate font-moon text-xs text-coal-deep/60">{worker.email}</p>
-                  <p className="font-moon text-sm leading-snug">{workerNote(worker.jumlahProject)}</p>
+                  <p className="truncate font-moon text-xs text-zinc-400">{worker.email}</p>
+                  <p className="mt-0.5 font-moon text-xs leading-snug">{workerNote(worker.jumlahProject)}</p>
                 </div>
               </motion.div>
             ))}

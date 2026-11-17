@@ -40,12 +40,12 @@ export function rupiahPendek(value: string | number | null): string {
 
 /** Status pengajuan dari sisi Marketing (Figma Request Page). */
 export const MARKETING_ORDER_STATUS: Record<OrderStatus, { label: string; className: string }> = {
-  BARU: { label: 'Baru', className: 'bg-[#bdbdbd] text-coal-deep' },
-  DITINJAU: { label: 'Diskusi Lanjut', className: 'bg-[#ffd27a] text-coal-deep' },
-  DISETUJUI: { label: 'Diterima', className: 'bg-[#8fd694] text-coal-deep' },
-  MENJADI_PROYEK: { label: 'Dikerjakan', className: 'bg-[#8fd694] text-coal-deep' },
-  DITOLAK: { label: 'Ditolak', className: 'bg-[#f19b9b] text-coal-deep' },
-  DIBATALKAN: { label: 'Dibatalkan', className: 'bg-[#f19b9b] text-coal-deep' },
+  BARU: { label: 'Baru', className: 'border border-zinc-200 bg-zinc-100 text-zinc-700' },
+  DITINJAU: { label: 'Diskusi Lanjut', className: 'border border-amber-200 bg-amber-50 text-amber-800' },
+  DISETUJUI: { label: 'Diterima', className: 'border border-emerald-200 bg-emerald-50 text-emerald-700' },
+  MENJADI_PROYEK: { label: 'Dikerjakan', className: 'border border-emerald-200 bg-emerald-50 text-emerald-700' },
+  DITOLAK: { label: 'Ditolak', className: 'border border-red-200 bg-red-50 text-red-700' },
+  DIBATALKAN: { label: 'Dibatalkan', className: 'border border-red-200 bg-red-50 text-red-700' },
 };
 
 /** Rupiah ringkas untuk kartu angka besar: 18 JT, 2,5 JT, 750 RB. */
@@ -58,12 +58,12 @@ export function rupiahRingkas(value: number): string {
 
 /** Status pengajuan yang dilihat klien (desain My Project). */
 export const CLIENT_ORDER_STATUS: Record<OrderStatus, { label: string; className: string }> = {
-  BARU: { label: 'Menunggu Persetujuan', className: 'bg-[#bdbdbd] text-coal-deep border-[#5c5c5c]' },
-  DITINJAU: { label: 'Perlu Diskusi Lebih Lanjut', className: 'bg-[#ffd27a] text-coal-deep border-[#a0701a]' },
-  DISETUJUI: { label: 'Disetujui', className: 'bg-[#8fd694] text-coal-deep border-[#2f7d35]' },
-  MENJADI_PROYEK: { label: 'Disetujui', className: 'bg-[#8fd694] text-coal-deep border-[#2f7d35]' },
-  DITOLAK: { label: 'Ditolak', className: 'bg-[#f19b9b] text-coal-deep border-[#9c2b2b]' },
-  DIBATALKAN: { label: 'Dibatalkan', className: 'bg-[#f19b9b] text-coal-deep border-[#9c2b2b]' },
+  BARU: { label: 'Menunggu Persetujuan', className: 'border-zinc-200 bg-zinc-100 text-zinc-700' },
+  DITINJAU: { label: 'Perlu Diskusi Lebih Lanjut', className: 'border-amber-200 bg-amber-50 text-amber-800' },
+  DISETUJUI: { label: 'Disetujui', className: 'border-emerald-200 bg-emerald-50 text-emerald-700' },
+  MENJADI_PROYEK: { label: 'Disetujui', className: 'border-emerald-200 bg-emerald-50 text-emerald-700' },
+  DITOLAK: { label: 'Ditolak', className: 'border-red-200 bg-red-50 text-red-700' },
+  DIBATALKAN: { label: 'Dibatalkan', className: 'border-red-200 bg-red-50 text-red-700' },
 };
 
 export const BIDANG_LABEL: Record<Bidang, string> = {

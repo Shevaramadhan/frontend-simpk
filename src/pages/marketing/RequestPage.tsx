@@ -8,7 +8,6 @@ import { listOrders } from '../../services/orderService';
 import type { Order } from '../../types';
 import { MARKETING_ORDER_STATUS, tanggal } from '../../utils/format';
 
-// Figma "Request Page Marketing" (wireframe 23:411): Status, Judul Project, tombol Payment dan Detail.
 type Tab = 'SEMUA' | 'PERLU' | 'DITERIMA' | 'SELESAI';
 const TABS: { key: Tab; label: string; match: (order: Order) => boolean }[] = [
   { key: 'PERLU', label: 'Perlu Ditinjau', match: (o) => o.status === 'BARU' || o.status === 'DITINJAU' },
@@ -42,7 +41,9 @@ export default function RequestPage() {
                 setTab(item.key);
                 setPage(1);
               }}
-              className={`rounded-[20px] px-4 py-1.5 font-moon text-base transition-colors ${active ? 'bg-flame text-coal' : 'border-2 border-flame text-flame hover:bg-flame/15'}`}
+              className={`rounded-xl px-3.5 py-1.5 font-moon text-xs font-semibold transition-all sm:text-sm ${
+                active ? 'bg-flame text-white shadow-2xs' : 'border border-zinc-200 bg-zinc-50 text-zinc-600 hover:border-zinc-300 hover:bg-white hover:text-zinc-900'
+              }`}
             >
               {item.label} ({count})
             </button>
@@ -65,24 +66,31 @@ export default function RequestPage() {
               return (
                 <motion.article
                   key={order.id}
-                  initial={{ opacity: 0, y: 14 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: Math.min(index, 8) * 0.04 }}
-                  className="flex flex-col gap-3 rounded-[24px] border-[3px] border-flame bg-cream px-4 py-2 sm:flex-row sm:items-center"
+                  transition={{ delay: Math.min(index, 8) * 0.03 }}
+                  className="flex flex-col gap-3 rounded-xl border border-zinc-200/90 bg-zinc-50/50 px-4 py-2.5 transition-all hover:border-flame/40 hover:bg-white hover:shadow-sm sm:flex-row sm:items-center"
                 >
-                  <div className="sm:w-40">
+                  <div className="sm:w-36">
                     <StatusPill label={status.label} className={status.className} />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h2 className="line-clamp-1 break-words font-magic text-[clamp(14px,1.9vh,18px)] uppercase leading-tight text-flame">{order.judul || order.nomor}</h2>
-                    <p className="font-moon text-xs text-coal-deep/70 sm:text-sm">
+                    <h2 className="line-clamp-1 break-words font-magic text-[clamp(14px,1.9vh,17px)] font-semibold leading-snug text-zinc-900">{order.judul || order.nomor}</h2>
+                    <p className="font-moon text-xs text-zinc-500">
                       {order.client.namaInstansi} · {tanggal(order.createdAt)} · {order.nomor}
                     </p>
-                    {bukti > 0 && <p className="mt-0.5 font-moon text-xs text-[#b25e00]">{bukti} bukti transfer menunggu diperiksa</p>}
+                    {bukti > 0 && <p className="mt-0.5 font-moon text-xs font-medium text-amber-700">{bukti} bukti transfer menunggu diperiksa</p>}
                   </div>
                   <div className="flex gap-2">
                     {bisaBayar(order) && (
-                      <Link to={`/app/request/${order.id}/payment`} className={`${pillButton} ${bukti > 0 ? 'ring-4 ring-[#ffd27a]' : ''}`}>
+                      <Link
+                        to={`/app/request/${order.id}/payment`}
+                        className={`inline-flex items-center justify-center rounded-xl border px-3.5 py-2 font-moon text-xs font-semibold transition-colors sm:text-sm ${
+                          bukti > 0
+                            ? 'border-amber-300 bg-amber-50 text-amber-800 hover:bg-amber-100'
+                            : 'border-zinc-200 bg-white text-zinc-700 hover:border-flame/40 hover:text-flame'
+                        }`}
+                      >
                         Payment
                       </Link>
                     )}

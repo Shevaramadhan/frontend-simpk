@@ -11,6 +11,14 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-17 (modernisasi tema halaman setelah login — Opsi A)
+
+### Diubah
+- Seluruh halaman setelah login (`[data-app-shell]`: Marketing, Operasional, Tim, dan Portal Klien) dimodernisasi ke tema **Modern Clean Light + Dark Sidebar** (F-24) agar nyaman di mata untuk pemakaian kerja sehari-hari, tanpa mengubah Landing Page publik (`/`):
+  - Latar halaman memakai abu-abu hangat lembut (`#f4f5f7`), sedangkan panel utama (`StaffPanel`, `ProyekInfo`, `ProyekSayaPage`, `ProfilPage`, `PesanPage`) memakai kartu putih bersih (`#ffffff`) dengan border tipis `1px solid #e4e4e7` dan bayangan halus, menggantikan kotak hitam pekat berkartu krem berbingkai oranye 3px.
+  - Sidebar (`StaffLayout.tsx`) memakai latar gelap `#18181b` dengan teks menu tidak aktif abu-abu lembut (`text-zinc-400`) sehingga warna oranye `#ff6200` terfokus 10% pada menu yang sedang aktif, tombol aksi utama, dan progress bar.
+  - Kartu daftar (`ProjectCard`, `ProjekPage`, `RequestPage`, `ReviewPage`, `WorkerPage`, `ProyekSayaPage`), tabel (`BrandTable`), formulir (`Brand.tsx`), modal (`BrandModal.tsx`), status pill (`format.ts`), dan kedua grafik analitik di Dashboard Marketing (`TrendBands.tsx`, `DashboardPage.tsx`) diselaraskan dengan permukaan terang, border 1px, dan tipografi Poppins *Title Case*.
+
 ## 2026-11-17 (grafik dashboard modern dan font Poppins setelah login)
 
 ### Diubah

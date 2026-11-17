@@ -41,20 +41,16 @@ interface PaginationProps {
   className?: string;
 }
 
-export default function Pagination({ page, totalPages, onPageChange, tone = 'dark', className = 'mt-auto pt-3' }: PaginationProps) {
+export default function Pagination({ page, totalPages, onPageChange, className = 'mt-auto pt-3' }: PaginationProps) {
   if (totalPages <= 1) return null;
 
-  const isDark = tone === 'dark';
-  const navBtn = isDark
-    ? 'border-2 border-flame bg-coal text-flame hover:bg-flame hover:text-coal disabled:border-cream/20 disabled:bg-coal/50 disabled:text-cream/30'
-    : 'border-2 border-coal bg-white text-coal-deep hover:border-flame hover:bg-flame hover:text-coal disabled:border-coal/15 disabled:bg-white/50 disabled:text-coal-deep/30';
+  const navBtn =
+    'border border-zinc-200 bg-white text-zinc-700 shadow-2xs hover:border-flame/50 hover:text-flame disabled:border-zinc-100 disabled:bg-zinc-50 disabled:text-zinc-300';
 
   const numBtn = (active: boolean) =>
     active
-      ? 'border-2 border-flame bg-flame text-coal font-bold'
-      : isDark
-        ? 'border-2 border-flame/50 bg-coal text-cream hover:border-flame hover:text-flame'
-        : 'border-2 border-coal/20 bg-white text-coal-deep hover:border-flame hover:text-flame';
+      ? 'border border-flame bg-flame text-white font-semibold shadow-2xs'
+      : 'border border-zinc-200 bg-white text-zinc-600 hover:border-flame/50 hover:text-flame';
 
   return (
     <nav aria-label="Navigasi halaman" className={`flex flex-wrap items-center justify-center gap-2 font-moon text-sm ${className}`}>

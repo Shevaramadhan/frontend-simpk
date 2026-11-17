@@ -7,7 +7,6 @@ import { changePassword } from '../../services/authService';
 import { ROLE_LABEL } from '../../utils/navigation';
 import PasswordInput from '../../components/PasswordInput';
 
-// Wireframe "Account": profil singkat dan ganti kata sandi. Foto profil belum didukung Backend.
 const empty = { lama: '', baru: '', ulang: '' };
 
 export default function AkunPage() {
@@ -42,21 +41,21 @@ export default function AkunPage() {
 
   return (
     <StaffPanel title="Account">
-      <div className="grid gap-6 rounded-[24px] bg-cream p-5 md:grid-cols-[auto_1fr] md:p-7">
-        <div className="flex flex-col items-center gap-3 md:w-56">
-          <Avatar size="size-32" />
-          <p className="text-center font-magic text-2xl uppercase text-flame">{user.name}</p>
-          <p className="font-moon text-base text-coal-deep/70">{user.email}</p>
-          <span className="rounded-xl bg-coal px-3 py-1 font-moon text-sm text-flame">{ROLE_LABEL[user.role]}</span>
+      <div className="grid gap-6 rounded-xl border border-zinc-200/90 bg-zinc-50/50 p-5 md:grid-cols-[auto_1fr] md:p-7">
+        <div className="flex flex-col items-center justify-center gap-2.5 rounded-xl border border-zinc-200 bg-white p-5 md:w-60">
+          <Avatar size="size-24" />
+          <p className="text-center font-magic text-lg font-bold text-zinc-900">{user.name}</p>
+          <p className="font-moon text-xs text-zinc-500">{user.email}</p>
+          <span className="rounded-lg border border-flame/20 bg-flame/10 px-3 py-1 font-moon text-xs font-semibold text-flame">{ROLE_LABEL[user.role]}</span>
         </div>
-        <form onSubmit={handleSubmit} className="max-w-lg">
-          <p className="mb-3 font-magic text-2xl uppercase text-flame">Ganti Kata Sandi</p>
+        <form onSubmit={handleSubmit} className="max-w-lg rounded-xl border border-zinc-200 bg-white p-5">
+          <p className="mb-3 font-magic text-base font-bold text-zinc-900 sm:text-lg">Ganti Kata Sandi</p>
           {input('lama', 'Kata sandi lama', 'current-password')}
           {input('baru', 'Kata sandi baru (minimal 8 karakter)', 'new-password')}
           {input('ulang', 'Konfirmasi kata sandi baru', 'new-password')}
           <BrandError message={error} />
           {done && (
-            <p role="status" className="mb-2 font-moon text-base text-[#14aa00]">
+            <p role="status" className="mb-2 font-moon text-sm font-medium text-emerald-600">
               Kata sandi diperbarui.
             </p>
           )}

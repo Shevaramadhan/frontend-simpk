@@ -14,8 +14,8 @@ const JENIS = ['Perorangan', 'Organisasi', 'Instansi', 'Perusahaan'];
 
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className="rounded-[24px] bg-cream p-5 sm:p-6">
-      <h2 className="mb-3 font-magic text-xl uppercase text-flame sm:text-2xl">{title}</h2>
+    <div className="rounded-xl border border-zinc-200/90 bg-zinc-50/50 p-5 sm:p-6">
+      <h2 className="mb-3 font-magic text-base font-bold text-zinc-900 sm:text-lg">{title}</h2>
       {children}
     </div>
   );
@@ -24,7 +24,7 @@ function Card({ title, children }: { title: string; children: ReactNode }) {
 function Saved({ show, text }: { show: boolean; text: string }) {
   if (!show) return null;
   return (
-    <p role="status" className="mb-3 font-moon text-base text-[#14aa00]">
+    <p role="status" className="mb-3 font-moon text-sm font-medium text-emerald-600">
       {text}
     </p>
   );
@@ -170,12 +170,12 @@ export default function ProfilPage() {
 
   return (
     <section className="px-3 pb-6 sm:px-6">
-      <div className="mx-auto max-w-6xl rounded-[30px] bg-coal-deep p-5 sm:p-6">
-        <h1 className="mb-4 text-center font-magic text-3xl uppercase text-flame sm:text-4xl">Profil</h1>
+      <div className="mx-auto max-w-6xl rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-xs sm:p-6">
+        <h1 className="mb-4 border-b border-zinc-100 pb-3 font-magic text-lg font-bold text-zinc-900 sm:text-xl">Profil Saya</h1>
         {loading && !data ? (
-          <p className="py-10 text-center font-moon text-xl text-cream/80">Memuat...</p>
+          <p className="py-10 text-center font-moon text-sm text-zinc-500">Memuat...</p>
         ) : error || !data ? (
-          <p role="alert" className="py-10 text-center font-moon text-xl text-[#ff8a8a]">
+          <p role="alert" className="py-10 text-center font-moon text-sm text-red-600">
             {error || 'Profil tidak ditemukan.'}
           </p>
         ) : (

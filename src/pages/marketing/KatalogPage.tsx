@@ -61,7 +61,7 @@ export default function KatalogPage() {
         </button>
       }
     >
-      <p className="mb-3 font-moon text-base text-cream/80">Jasa yang ditandai tampil muncul di katalog publik dan dapat dipilih klien saat mengajukan project.</p>
+      <p className="mb-3 font-moon text-xs text-zinc-500 sm:text-sm">Jasa yang ditandai tampil muncul di katalog publik dan dapat dipilih klien saat mengajukan project.</p>
       {loading && !data ? (
         <Loading />
       ) : error ? (
@@ -70,17 +70,20 @@ export default function KatalogPage() {
         <>
           <BrandTable head={['Nama', 'Perkiraan Biaya', 'Waktu', 'Katalog', 'Aksi']} empty={data?.length ? undefined : 'Belum ada jasa.'}>
             {paged.map((service) => (
-              <tr key={service.id}>
+              <tr key={service.id} className="hover:bg-zinc-50/70">
                 <td className={cell}>
-                  {service.nama}
-                  <span className="line-clamp-1 block text-xs text-coal-deep/60">{service.deskripsi}</span>
+                  <span className="font-semibold text-zinc-900">{service.nama}</span>
+                  <span className="line-clamp-1 block text-xs text-zinc-500">{service.deskripsi}</span>
                 </td>
                 <td className={cell}>
                   {rupiahPendek(service.hargaMin)} - {rupiahPendek(service.hargaMax)}
                 </td>
                 <td className={cell}>{service.estimasiHari} hari</td>
                 <td className={cell}>
-                  <StatusPill label={service.isVisible ? 'Tampil' : 'Disembunyikan'} className={service.isVisible ? 'bg-[#8fd694] text-coal-deep' : 'bg-[#bdbdbd] text-coal-deep'} />
+                  <StatusPill
+                    label={service.isVisible ? 'Tampil' : 'Disembunyikan'}
+                    className={service.isVisible ? 'border border-emerald-200 bg-emerald-50 text-emerald-700' : 'border border-zinc-200 bg-zinc-100 text-zinc-600'}
+                  />
                 </td>
                 <td className={cell}>
                   <button type="button" className={linkButton} onClick={() => edit(service)}>

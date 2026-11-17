@@ -153,10 +153,14 @@ export default function StaffLayout() {
   const size = 'text-sm lg:text-[clamp(13px,1.85vh,15px)]';
   // Saat diperkecil: tiap menu jadi kotak ikon membulat; menu aktif diberi garis penanda di tepi kiri sidebar.
   const item = ({ isActive }: { isActive: boolean }) =>
-    `relative flex items-center gap-2 whitespace-nowrap rounded-[24px] px-3 py-1 font-moon transition-colors lg:gap-3 lg:py-2 ${
-      collapsed ? 'lg:mx-auto lg:size-12 lg:justify-center lg:rounded-2xl lg:px-0' : 'lg:px-5'
-    } ${size} ${isActive ? 'bg-flame text-coal' : 'text-flame hover:bg-flame/15'} ${
-      collapsed && isActive ? 'lg:before:absolute lg:before:-left-4 lg:before:top-1/2 lg:before:h-8 lg:before:w-1.5 lg:before:-translate-y-1/2 lg:before:rounded-r-full lg:before:bg-flame' : ''
+    `relative flex items-center gap-2 whitespace-nowrap rounded-xl px-3 py-1.5 font-moon transition-all lg:gap-3 lg:py-2.5 ${
+      collapsed ? 'lg:mx-auto lg:size-11 lg:justify-center lg:rounded-xl lg:px-0' : 'lg:px-4'
+    } ${size} ${
+      isActive
+        ? 'bg-flame font-semibold text-white shadow-sm shadow-flame/25'
+        : 'text-zinc-400 hover:bg-white/5 hover:text-zinc-100'
+    } ${
+      collapsed && isActive ? 'lg:before:absolute lg:before:-left-3 lg:before:top-1/2 lg:before:h-6 lg:before:w-1 lg:before:-translate-y-1/2 lg:before:rounded-r-full lg:before:bg-flame' : ''
     }`;
   const logoutButton = (extra: string, iconOnly = false) => (
     <button
@@ -164,7 +168,7 @@ export default function StaffLayout() {
       onClick={handleLogout}
       title={iconOnly ? 'Log Out' : undefined}
       aria-label={iconOnly ? 'Log Out' : undefined}
-      className={`items-center justify-center gap-2 rounded-[24px] bg-flame font-moon text-coal hover:bg-[#e05600] lg:gap-3 ${extra}`}
+      className={`items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 font-moon text-zinc-300 transition-colors hover:border-red-500/30 hover:bg-red-500/15 hover:text-red-300 lg:gap-2.5 ${extra}`}
     >
       <LogoutIcon />
       {!iconOnly && 'Log Out'}
@@ -177,26 +181,26 @@ export default function StaffLayout() {
       aria-label={collapsed ? 'Perbesar menu' : 'Perkecil menu'}
       aria-expanded={!collapsed}
       title={collapsed ? 'Perbesar menu' : 'Perkecil menu'}
-      className={`hidden rounded-lg p-1 text-flame transition-colors hover:bg-flame/15 lg:block ${collapsed ? 'lg:order-first' : ''}`}
+      className={`hidden rounded-lg p-1.5 text-zinc-400 transition-colors hover:bg-white/5 hover:text-white lg:block ${collapsed ? 'lg:order-first' : ''}`}
     >
       <ToggleIcon collapsed={collapsed} />
     </button>
   );
 
   return (
-    <div data-app-shell className="min-h-dvh bg-cream text-coal-deep lg:flex">
+    <div data-app-shell className="min-h-dvh bg-[#f4f5f7] text-zinc-800 lg:flex">
       <aside
-        className={`flex flex-col bg-coal px-4 py-3 transition-[width] duration-300 lg:sticky lg:top-0 lg:h-dvh lg:shrink-0 lg:py-[clamp(14px,2.4vh,24px)] ${
-          collapsed ? 'lg:w-[84px] lg:px-3' : 'lg:w-[clamp(200px,15vw,250px)] lg:px-5'
+        className={`flex flex-col border-r border-white/5 bg-[#18181b] px-4 py-3 transition-[width] duration-300 lg:sticky lg:top-0 lg:h-dvh lg:shrink-0 lg:py-[clamp(14px,2.4vh,22px)] ${
+          collapsed ? 'lg:w-[80px] lg:px-3' : 'lg:w-[clamp(210px,15.5vw,252px)] lg:px-4'
         }`}
       >
-        <div className={`flex items-center justify-between gap-4 ${collapsed ? 'lg:flex-col lg:gap-3' : 'lg:items-start'}`}>
+        <div className={`flex items-center justify-between gap-3 ${collapsed ? 'lg:flex-col lg:gap-3' : 'lg:items-start lg:px-1'}`}>
           <div className="leading-none">
             {collapsed ? (
               <>
-                <p className="font-magic text-[clamp(24px,3.8vh,36px)] tracking-[0.1em] text-flame lg:hidden">SIMPK</p>
+                <p className="font-magic text-2xl tracking-wider text-flame lg:hidden">SIMPK</p>
                 <p
-                  className="hidden size-12 place-items-center rounded-2xl border-2 border-flame/40 bg-coal-deep font-magic text-[28px] leading-none text-flame lg:grid"
+                  className="hidden size-11 place-items-center rounded-xl border border-flame/30 bg-flame/10 font-magic text-xl leading-none text-flame lg:grid"
                   title="SIMPK by neotelemetri"
                 >
                   S
@@ -204,18 +208,20 @@ export default function StaffLayout() {
               </>
             ) : (
               <>
-                <p className="font-magic text-[clamp(24px,3.8vh,36px)] tracking-[0.1em] text-flame">SIMPK</p>
-                <p className="mt-1 text-right font-moon text-[11px] tracking-[0.1em] text-flame lg:pr-6">by neotelemetri</p>
-                <p className="mt-2 hidden font-moon text-sm text-cream/80 lg:block">{ROLE_LABEL[user.role]}</p>
+                <p className="font-magic text-[clamp(22px,3.2vh,28px)] tracking-wider text-flame">SIMPK</p>
+                <p className="mt-1 font-moon text-[11px] tracking-wide text-zinc-400">by neotelemetri</p>
+                <span className="mt-2.5 hidden w-fit rounded-md bg-white/5 px-2.5 py-0.5 font-moon text-xs font-medium text-zinc-300 lg:inline-block">
+                  {ROLE_LABEL[user.role]}
+                </span>
               </>
             )}
           </div>
           {toggleButton}
-          {logoutButton('flex px-4 py-1.5 text-base lg:hidden')}
+          {logoutButton('flex px-3.5 py-1.5 text-sm lg:hidden')}
         </div>
         <nav
           aria-label="Menu utama"
-          className={`mt-2 flex gap-1 overflow-x-auto lg:flex-col lg:gap-[clamp(4px,1vh,10px)] lg:overflow-visible ${collapsed ? 'lg:mt-[clamp(14px,3vh,32px)]' : 'lg:mt-[clamp(16px,4.5vh,48px)]'}`}
+          className={`mt-2 flex gap-1 overflow-x-auto lg:flex-col lg:gap-1 lg:overflow-visible ${collapsed ? 'lg:mt-6' : 'lg:mt-7'}`}
         >
           {menu.map((entry) => (
             <NavLink key={entry.to} to={entry.to} end={entry.end} className={item} title={collapsed ? entry.label : undefined}>
@@ -225,23 +231,21 @@ export default function StaffLayout() {
           ))}
         </nav>
         <div className="hidden lg:mt-auto lg:block">
-          <div className="mb-3 h-[3px] bg-flame" />
+          <div className="mb-3 h-px bg-white/10" />
           {logoutButton(`flex w-full py-2 ${collapsed ? 'px-0' : `px-4 ${size}`}`, collapsed)}
         </div>
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex justify-end px-4 pt-3 sm:px-6">
-          <div className="flex items-center gap-3">
-            <span className="hidden font-moon text-sm text-coal-deep sm:inline">{user.name}</span>
-            <span className="grid size-11 place-items-center bg-coal p-[3px]" title={user.name}>
-              <span className="grid size-full place-items-center border-[3px] border-cream text-cream">
-                <Icon src={ikonProfil} className="size-6" />
-              </span>
+          <div className="flex items-center gap-2.5 rounded-full border border-zinc-200/90 bg-white py-1 pl-3.5 pr-1.5 shadow-2xs">
+            <span className="hidden font-moon text-xs font-medium text-zinc-700 sm:inline">{user.name}</span>
+            <span className="grid size-8 place-items-center rounded-full bg-flame/10 text-flame" title={user.name}>
+              <Icon src={ikonProfil} className="size-4" />
             </span>
           </div>
         </div>
-        <main className="flex flex-1 flex-col px-3 pb-5 pt-2 sm:px-6 lg:pb-[clamp(14px,2.4vh,24px)]">
+        <main className="flex flex-1 flex-col px-3 pb-5 pt-2.5 sm:px-6 lg:pb-[clamp(14px,2.4vh,22px)]">
           <Outlet />
         </main>
       </div>
