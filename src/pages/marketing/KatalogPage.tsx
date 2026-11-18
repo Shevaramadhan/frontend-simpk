@@ -5,12 +5,138 @@ import Pagination, { usePagination } from '../../components/brand/Pagination';
 import { BrandTable, LoadError, Loading, StaffPanel, StatusPill, linkButton, pillButton, tableCell as cell } from '../../components/brand/StaffParts';
 import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
-import { listAllServices, saveService } from '../../services/catalogService';
-import type { Service } from '../../types';
+import { deletePortfolio, listAllPortfolios, listAllServices, savePortfolio, saveService } from '../../services/catalogService';
+import type { Portfolio, Service } from '../../types';
 import { rupiahPendek } from '../../utils/format';
 
-// Daftar jasa yang tampil di katalog publik. Menu tambahan di luar desain Figma, bergaya halaman pengurus.
+// Daftar jasa dan portofolio yang tampil di katalog publik (REQ-F01). Menu tambahan di luar desain Figma, bergaya halaman pengurus.
 const empty = { nama: '', deskripsi: '', hargaMin: '', hargaMax: '', estimasiHari: '', isVisible: true };
+
+const emptyPortfolio = { judul: '', deskripsi: '', serviceId: '', tahun: '' };
+
+/** Portofolio Neo Telemetri: tampil di bagian Portofolio pada Daftar Jasa publik. */
+function PortofolioPanel({ services }: { services: Service[] }) {
+  const { data, loading, error, reload } = useData(listAllPortfolios);
+  const { paged, page, totalPages, setPage } = usePagination(data ?? [], 6);
+  const [open, setOpen] = useState(false);
+  const [editId, setEditId] = useState<number>();
+  const [form, setForm] = useState(emptyPortfolio);
+  const [formError, setFormError] = useState('');
+  const [hapusError, setHapusError] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  function edit(item?: Portfolio) {
+    setEditId(item?.id);
+    setForm(item ? { judul: item.judul, deskripsi: item.deskripsi, serviceId: item.service ? String(item.service.id) : '', tahun: item.tahun ? String(item.tahun) : '' } : emptyPortfolio);
+    setFormError('');
+    setOpen(true);
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setFormError('');
+    setSaving(true);
+    try {
+      await savePortfolio(
+        { judul: form.judul, deskripsi: form.deskripsi, serviceId: form.serviceId ? Number(form.serviceId) : null, tahun: form.tahun ? Number(form.tahun) : null },
+        editId,
+      );
+      setOpen(false);
+      await reload();
+    } catch (err) {
+      setFormError(errorMessage(err));
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function hapus(item: Portfolio) {
+    if (!window.confirm(`Hapus portofolio "${item.judul}"?`)) return;
+    setHapusError('');
+    try {
+      await deletePortfolio(item.id);
+      await reload();
+    } catch (err) {
+      setHapusError(errorMessage(err));
+    }
+  }
+
+  return (
+    <StaffPanel
+      level={2}
+      title="Portofolio"
+      action={
+        <button type="button" onClick={() => edit()} className={pillButton}>
+          + Tambah Portofolio
+        </button>
+      }
+    >
+      <p className="mb-3 font-body text-base text-cream/80">Contoh project yang pernah dikerjakan Neo Telemetri, tampil di bagian Portofolio pada Daftar Jasa publik.</p>
+      <BrandError message={hapusError} />
+      {loading && !data ? (
+        <Loading />
+      ) : error ? (
+        <LoadError message={error} />
+      ) : (
+        <>
+          <BrandTable head={['Judul', 'Jasa', 'Tahun', 'Aksi']} empty={data?.length ? undefined : 'Belum ada portofolio.'}>
+            {paged.map((item) => (
+              <tr key={item.id}>
+                <td className={cell}>
+                  {item.judul}
+                  <span className="line-clamp-1 block text-xs text-coal-deep/60">{item.deskripsi}</span>
+                </td>
+                <td className={cell}>{item.service?.nama ?? <span className="text-coal-deep/50">-</span>}</td>
+                <td className={cell}>{item.tahun ?? '-'}</td>
+                <td className={cell}>
+                  <span className="flex gap-3">
+                    <button type="button" className={linkButton} onClick={() => edit(item)}>
+                      Ubah
+                    </button>
+                    <button type="button" className={`${linkButton} text-[#9c2b2b]`} aria-label={`Hapus portofolio ${item.judul}`} onClick={() => void hapus(item)}>
+                      Hapus
+                    </button>
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </BrandTable>
+          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+        </>
+      )}
+
+      <BrandModal open={open} title={editId ? 'Ubah Portofolio' : 'Tambah Portofolio'} onClose={() => setOpen(false)}>
+        <form onSubmit={handleSubmit}>
+          <BrandField id="p-judul" label="Judul">
+            <input id="p-judul" required minLength={3} maxLength={160} value={form.judul} onChange={(e) => setForm({ ...form, judul: e.target.value })} className={brandInputSolid} />
+          </BrandField>
+          <BrandField id="p-deskripsi" label="Deskripsi (minimal 10 karakter)">
+            <textarea id="p-deskripsi" required minLength={10} rows={3} value={form.deskripsi} onChange={(e) => setForm({ ...form, deskripsi: e.target.value })} className={`${brandInputSolid} resize-y`} />
+          </BrandField>
+          <div className="grid gap-x-3 sm:grid-cols-[2fr_1fr]">
+            <BrandField id="p-jasa" label="Jasa terkait (opsional)">
+              <select id="p-jasa" value={form.serviceId} onChange={(e) => setForm({ ...form, serviceId: e.target.value })} className={brandInputSolid}>
+                <option value="">Tidak terkait jasa tertentu</option>
+                {services.map((service) => (
+                  <option key={service.id} value={service.id}>
+                    {service.nama}
+                  </option>
+                ))}
+              </select>
+            </BrandField>
+            <BrandField id="p-tahun" label="Tahun (opsional)">
+              <input id="p-tahun" type="number" min={2000} max={2100} value={form.tahun} onChange={(e) => setForm({ ...form, tahun: e.target.value })} className={brandInputSolid} />
+            </BrandField>
+          </div>
+          <BrandError message={formError} />
+          <button type="submit" disabled={saving} className={`${pillButton} w-full`}>
+            {saving ? 'Menyimpan...' : 'Simpan'}
+          </button>
+        </form>
+      </BrandModal>
+    </StaffPanel>
+  );
+}
 
 export default function KatalogPage() {
   const { data, loading, error, reload } = useData(listAllServices);
@@ -53,6 +179,7 @@ export default function KatalogPage() {
   );
 
   return (
+    <div className="space-y-4">
     <StaffPanel
       title="Daftar Jasa"
       action={
@@ -61,7 +188,7 @@ export default function KatalogPage() {
         </button>
       }
     >
-      <p className="mb-3 font-moon text-base text-cream/80">Jasa yang ditandai tampil muncul di katalog publik dan dapat dipilih klien saat mengajukan project.</p>
+      <p className="mb-3 font-body text-base text-cream/80">Jasa yang ditandai tampil muncul di katalog publik dan dapat dipilih klien saat mengajukan project.</p>
       {loading && !data ? (
         <Loading />
       ) : error ? (
@@ -105,7 +232,7 @@ export default function KatalogPage() {
             {field('hargaMax', 'Harga maksimum (Rp)', 'number')}
             {field('estimasiHari', 'Waktu (hari)', 'number')}
           </div>
-          <label className="mb-3 flex items-center gap-2 font-moon text-base text-coal-deep">
+          <label className="mb-3 flex items-center gap-2 font-body text-base text-coal-deep">
             <input type="checkbox" className="size-5 accent-[#ff6200]" checked={form.isVisible} onChange={(e) => setForm({ ...form, isVisible: e.target.checked })} />
             Tampilkan di katalog publik
           </label>
@@ -116,5 +243,7 @@ export default function KatalogPage() {
         </form>
       </BrandModal>
     </StaffPanel>
+    <PortofolioPanel services={data ?? []} />
+    </div>
   );
 }

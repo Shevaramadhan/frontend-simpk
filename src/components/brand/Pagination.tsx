@@ -57,7 +57,7 @@ export default function Pagination({ page, totalPages, onPageChange, tone = 'dar
         : 'border-2 border-coal/20 bg-white text-coal-deep hover:border-flame hover:text-flame';
 
   return (
-    <nav aria-label="Navigasi halaman" className={`flex flex-wrap items-center justify-center gap-2 font-moon text-sm ${className}`}>
+    <nav aria-label="Navigasi halaman" className={`flex flex-wrap items-center justify-center gap-2 font-body text-sm ${className}`}>
       <button
         type="button"
         onClick={() => onPageChange(Math.max(1, page - 1))}

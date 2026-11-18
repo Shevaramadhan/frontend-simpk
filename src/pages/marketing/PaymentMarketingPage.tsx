@@ -103,22 +103,22 @@ function InvoiceCard({
         <span className="flex flex-wrap items-center gap-2">
           {bisaDiperbaiki(invoice) && (
             <>
-              <button type="button" onClick={() => onEdit(invoice)} className="rounded-xl border-2 border-coal px-3 py-0.5 font-moon text-sm text-coal-deep hover:bg-coal hover:text-flame">
+              <button type="button" onClick={() => onEdit(invoice)} className="rounded-xl border-2 border-coal px-3 py-0.5 font-body text-sm text-coal-deep hover:bg-coal hover:text-flame">
                 Ubah
               </button>
-              <button type="button" onClick={() => onCancel(invoice)} className="rounded-xl border-2 border-[#9c2b2b] px-3 py-0.5 font-moon text-sm text-[#9c2b2b] hover:bg-[#9c2b2b] hover:text-cream">
+              <button type="button" onClick={() => onCancel(invoice)} className="rounded-xl border-2 border-[#9c2b2b] px-3 py-0.5 font-body text-sm text-[#9c2b2b] hover:bg-[#9c2b2b] hover:text-cream">
                 Batalkan
               </button>
             </>
           )}
-          <Link to={`/tagihan/${orderId}/${invoice.id}`} className="rounded-xl border-2 border-coal px-3 py-0.5 font-moon text-sm text-coal-deep hover:bg-coal hover:text-flame">
+          <Link to={`/tagihan/${orderId}/${invoice.id}`} className="rounded-xl border-2 border-coal px-3 py-0.5 font-body text-sm text-coal-deep hover:bg-coal hover:text-flame">
             Cetak Tagihan
           </Link>
           <StatusPill label={status.label} className={status.className} />
         </span>
       </div>
-      {batal && invoice.alasanBatal && <p className="mt-1 font-moon text-sm text-coal-deep/70">Alasan dibatalkan: {invoice.alasanBatal}</p>}
-      <dl className="mt-1 flex flex-wrap gap-x-8 gap-y-1 font-moon text-lg">
+      {batal && invoice.alasanBatal && <p className="mt-1 font-body text-sm text-coal-deep/70">Alasan dibatalkan: {invoice.alasanBatal}</p>}
+      <dl className="mt-1 flex flex-wrap gap-x-8 gap-y-1 font-body text-lg">
         <div className="flex gap-2">
           <dt className="text-flame">Tagihan :</dt>
           <dd>{rupiahPendek(invoice.total)}</dd>
@@ -128,13 +128,13 @@ function InvoiceCard({
           <dd>{tanggalPendek(invoice.jatuhTempo)}</dd>
         </div>
       </dl>
-      <p className="font-moon text-xs text-coal-deep/60">{invoice.nomor}</p>
+      <p className="font-body text-xs text-coal-deep/60">{invoice.nomor}</p>
       {invoice.payments.length > 0 ? (
         <ul className="mt-2 space-y-1.5">
           {invoice.payments.map((payment) => {
             const status = PAYMENT_STATUS[payment.statusVerifikasi];
             return (
-              <li key={payment.id} className="flex flex-wrap items-center gap-3 rounded-xl bg-cream px-3 py-2 font-moon text-sm">
+              <li key={payment.id} className="flex flex-wrap items-center gap-3 rounded-xl bg-cream px-3 py-2 font-body text-sm">
                 <StatusPill label={status.label} className={status.className} />
                 <span>
                   {rupiahPendek(payment.jumlah)} · transfer {tanggalPendek(payment.tglTransfer)}
@@ -147,7 +147,7 @@ function InvoiceCard({
           })}
         </ul>
       ) : (
-        <p className="mt-2 font-moon text-sm text-coal-deep/60">Klien belum mengunggah bukti.</p>
+        <p className="mt-2 font-body text-sm text-coal-deep/60">Klien belum mengunggah bukti.</p>
       )}
     </div>
   );
@@ -166,8 +166,8 @@ export default function PaymentMarketingPage() {
   const [formUbah, setFormUbah] = useState({ keterangan: '', total: '', jatuhTempo: '' });
   const [alasanBatal, setAlasanBatal] = useState('');
 
-  if (loading && !order) return <p className="p-10 text-center font-moon text-xl">Memuat...</p>;
-  if (error || !order) return <p role="alert" className="p-10 text-center font-moon text-xl text-[#9c2b2b]">{error || 'Request tidak ditemukan.'}</p>;
+  if (loading && !order) return <p className="p-10 text-center font-body text-xl">Memuat...</p>;
+  if (error || !order) return <p role="alert" className="p-10 text-center font-body text-xl text-[#9c2b2b]">{error || 'Request tidak ditemukan.'}</p>;
 
   const nilai = Number(order.nilaiDisepakati ?? 0);
   // Tagihan yang dibatalkan tidak dihitung sebagai sudah ditagih.
@@ -215,7 +215,7 @@ export default function PaymentMarketingPage() {
     <div className="-mx-3 sm:-mx-6">
       <ProyekInfo title="Payment" judul={order.judul || order.nomor} deskripsi={order.kebutuhan} estimasi={order.tenggatDiharapkan} anggaran={order.anggaran} documents={order.documents} kelolaDokumen={{ orderId: order.id, bisaTambah: order.status !== 'DITOLAK' && order.status !== 'DIBATALKAN', onChange: () => void reload() }} backTo="/app/request">
         <p className="text-center font-magic text-2xl uppercase text-flame sm:text-3xl">Tabel Pembayaran</p>
-        <dl className="mx-auto mt-3 grid max-w-3xl gap-2 text-center font-moon sm:grid-cols-3">
+        <dl className="mx-auto mt-3 grid max-w-3xl gap-2 text-center font-body sm:grid-cols-3">
           {[
             ['Nilai kesepakatan', rupiahPendek(nilai || null)],
             ['Sudah ditagih', rupiahPendek(ditagih)],
@@ -229,7 +229,7 @@ export default function PaymentMarketingPage() {
         </dl>
 
         <div className="mt-5 space-y-4">
-          {order.invoices.length === 0 && <p className="rounded-2xl bg-white p-4 text-center font-moon text-lg">Belum ada tagihan untuk request ini.</p>}
+          {order.invoices.length === 0 && <p className="rounded-2xl bg-white p-4 text-center font-body text-lg">Belum ada tagihan untuk request ini.</p>}
           {order.invoices.map((invoice) => (
             <InvoiceCard
               key={invoice.id}
@@ -251,7 +251,7 @@ export default function PaymentMarketingPage() {
           {bisaTagih ? (
             <TerbitkanForm orderId={order.id} sisa={Math.max(nilai - ditagih, 0)} onDone={() => void reload()} />
           ) : (
-            <p className="font-moon text-base text-coal-deep/70">Tagihan dapat diterbitkan setelah request diterima.</p>
+            <p className="font-body text-base text-coal-deep/70">Tagihan dapat diterbitkan setelah request diterima.</p>
           )}
         </div>
       </ProyekInfo>
@@ -264,7 +264,7 @@ export default function PaymentMarketingPage() {
               void jalankan(() => updateInvoice(mengubah.id, { keterangan: formUbah.keterangan, total: Number(formUbah.total), jatuhTempo: formUbah.jatuhTempo || null }));
             }}
           >
-            <p className="mb-3 font-moon text-sm text-coal-deep/70">{mengubah.nomor}</p>
+            <p className="mb-3 font-body text-sm text-coal-deep/70">{mengubah.nomor}</p>
             <BrandField id="u-ket" label="Keterangan">
               <input id="u-ket" required maxLength={160} value={formUbah.keterangan} onChange={(e) => setFormUbah({ ...formUbah, keterangan: e.target.value })} className={brandInputSolid} />
             </BrandField>
@@ -292,15 +292,15 @@ export default function PaymentMarketingPage() {
               void jalankan(() => cancelInvoice(membatalkan.id, alasanBatal));
             }}
           >
-            <p className="mb-3 font-moon text-base text-coal-deep">
+            <p className="mb-3 font-body text-base text-coal-deep">
               {membatalkan.keterangan} · {rupiahPendek(membatalkan.total)} ({membatalkan.nomor})
             </p>
-            <p className="mb-3 font-moon text-sm text-coal-deep/70">Tagihan tidak dihapus, tetapi ditandai Dibatalkan dan tidak dapat dibayar. Klien melihat alasannya. Terbitkan tagihan baru bila perlu.</p>
+            <p className="mb-3 font-body text-sm text-coal-deep/70">Tagihan tidak dihapus, tetapi ditandai Dibatalkan dan tidak dapat dibayar. Klien melihat alasannya. Terbitkan tagihan baru bila perlu.</p>
             <BrandField id="b-alasan" label="Alasan pembatalan">
               <textarea id="b-alasan" required minLength={5} maxLength={255} rows={3} value={alasanBatal} onChange={(e) => setAlasanBatal(e.target.value)} className={`${brandInputSolid} resize-y`} />
             </BrandField>
             <BrandError message={actionError} />
-            <button type="submit" disabled={saving} className="w-full rounded-[24px] bg-[#9c2b2b] px-6 py-2 font-moon text-lg text-cream disabled:opacity-60">
+            <button type="submit" disabled={saving} className="w-full rounded-[24px] bg-[#9c2b2b] px-6 py-2 font-body text-lg text-cream disabled:opacity-60">
               {saving ? 'Menyimpan...' : 'Batalkan Tagihan'}
             </button>
           </form>
@@ -310,7 +310,7 @@ export default function PaymentMarketingPage() {
       <BrandModal open={Boolean(review)} title="Bukti Transfer" onClose={() => setReview(null)}>
         {review && (
           <>
-            <dl className="mb-3 font-moon text-base text-coal-deep">
+            <dl className="mb-3 font-body text-base text-coal-deep">
               <div className="flex justify-between gap-3">
                 <dt className="text-flame">Tagihan</dt>
                 <dd>
@@ -337,13 +337,13 @@ export default function PaymentMarketingPage() {
             </button>
             {review.payment.statusVerifikasi === 'MENUNGGU_VERIFIKASI' && (
               <>
-                <p className="mb-3 font-moon text-sm text-coal-deep/70">Cocokkan dengan mutasi rekening sebelum menerima.</p>
+                <p className="mb-3 font-body text-sm text-coal-deep/70">Cocokkan dengan mutasi rekening sebelum menerima.</p>
                 <BrandField id="alasan-bukti" label="Alasan penolakan (wajib jika ditolak)">
                   <input id="alasan-bukti" value={alasan} onChange={(event) => setAlasan(event.target.value)} className={brandInputSolid} />
                 </BrandField>
                 <BrandError message={actionError} />
                 <div className="grid grid-cols-2 gap-3">
-                  <button type="button" disabled={saving} onClick={() => void decide('DITOLAK')} className="rounded-[24px] bg-[#9c2b2b] px-4 py-2 font-moon text-lg text-cream disabled:opacity-60">
+                  <button type="button" disabled={saving} onClick={() => void decide('DITOLAK')} className="rounded-[24px] bg-[#9c2b2b] px-4 py-2 font-body text-lg text-cream disabled:opacity-60">
                     Tolak
                   </button>
                   <button type="button" disabled={saving} onClick={() => void decide('DITERIMA')} className={pillButton}>

@@ -17,7 +17,7 @@ function Empty() {
         <path d="M44 46a16 16 0 1 1 22 14c-4 2-6 5-6 9v4" stroke="#ff6200" strokeWidth="10" strokeLinecap="round" />
         <circle cx="60" cy="88" r="6" fill="#ff6200" />
       </svg>
-      <p className="mt-6 max-w-lg font-moon text-xl leading-relaxed text-flame sm:text-2xl">
+      <p className="mt-6 max-w-lg font-body text-xl leading-relaxed text-flame sm:text-2xl">
         Sepertinya belum ada project yang kamu buat, ayo buat project sekarang bersama SIMPK BY NEO TELEMETRI
       </p>
       <div className="mt-8">
@@ -33,7 +33,7 @@ function Empty() {
 
 function Row({ order, index }: { order: Order; index: number }) {
   const status = CLIENT_ORDER_STATUS[order.status];
-  const link = 'rounded-2xl bg-flame px-4 py-2 text-center font-moon text-lg text-cream transition-colors hover:bg-[#e05600] sm:px-6';
+  const link = 'rounded-2xl bg-flame px-4 py-2 text-center font-body text-lg text-cream transition-colors hover:bg-[#e05600] sm:px-6';
   return (
     <motion.li
       initial={{ opacity: 0, y: 16 }}
@@ -41,10 +41,10 @@ function Row({ order, index }: { order: Order; index: number }) {
       transition={{ delay: index * 0.06 }}
       className="flex flex-col gap-3 rounded-[22px] bg-cream p-3 sm:flex-row sm:items-center sm:gap-4"
     >
-      <span className={`shrink-0 rounded-2xl border-[3px] px-3 py-1.5 text-center font-moon text-sm leading-tight sm:w-40 ${status.className}`}>{status.label}</span>
+      <span className={`shrink-0 rounded-2xl border-[3px] px-3 py-1.5 text-center font-body text-sm leading-tight sm:w-40 ${status.className}`}>{status.label}</span>
       <div className="min-w-0 flex-1 text-center sm:text-left">
         <p className="truncate font-magic text-xl uppercase text-flame sm:text-2xl">{order.judul || order.nomor}</p>
-        {order.alasanDitolak && <p className="font-moon text-sm text-coal-deep">Alasan: {order.alasanDitolak}</p>}
+        {order.alasanDitolak && <p className="font-body text-sm text-coal-deep">Alasan: {order.alasanDitolak}</p>}
       </div>
       <div className="flex shrink-0 gap-2">
         <Link to={`/portal/proyek/${order.id}/payment`} className={`flex-1 ${link}`}>
@@ -65,8 +65,8 @@ export default function ProyekSayaPage() {
     <section className="px-3 sm:px-6">
       <h1 className="sr-only">Project saya</h1>
       <div className={PANEL}>
-        {loading && <p className="p-6 text-center font-moon text-lg text-cream">Memuat...</p>}
-        {error && <p role="alert" className="p-6 text-center font-moon text-lg text-[#f19b9b]">{error}</p>}
+        {loading && <p className="p-6 text-center font-body text-lg text-cream">Memuat...</p>}
+        {error && <p role="alert" className="p-6 text-center font-body text-lg text-[#f19b9b]">{error}</p>}
         {data?.length === 0 && <Empty />}
         {Boolean(data?.length) && (
           <>

@@ -23,8 +23,8 @@ export default function RequestDetailPage() {
   const [actionError, setActionError] = useState('');
   const [saving, setSaving] = useState(false);
 
-  if (loading && !order) return <p className="p-10 text-center font-moon text-xl">Memuat...</p>;
-  if (error || !order) return <p role="alert" className="p-10 text-center font-moon text-xl text-[#9c2b2b]">{error || 'Request tidak ditemukan.'}</p>;
+  if (loading && !order) return <p className="p-10 text-center font-body text-xl">Memuat...</p>;
+  if (error || !order) return <p role="alert" className="p-10 text-center font-body text-xl text-[#9c2b2b]">{error || 'Request tidak ditemukan.'}</p>;
 
   const terbuka = order.status === 'BARU' || order.status === 'DITINJAU';
   const status = MARKETING_ORDER_STATUS[order.status];
@@ -55,13 +55,13 @@ export default function RequestDetailPage() {
       <ProyekInfo title="Detail" judul={order.judul || order.nomor} deskripsi={order.kebutuhan} estimasi={order.tenggatDiharapkan} anggaran={order.anggaran} documents={order.documents} kelolaDokumen={{ orderId: order.id, bisaTambah: order.status !== 'DITOLAK' && order.status !== 'DIBATALKAN', onChange: () => void reload() }} backTo="/app/request">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="font-moon text-sm text-coal-deep/70">
+            <p className="font-body text-sm text-coal-deep/70">
               {order.client.namaInstansi} · {order.nomor}
               {order.service ? ` · ${order.service.nama}` : ''}
             </p>
             <div className="mt-1 flex flex-wrap items-center gap-3">
               <StatusPill label={status.label} className={status.className} />
-              {order.nilaiDisepakati && <span className="font-moon text-lg text-coal-deep">Nilai kesepakatan: {rupiahPendek(order.nilaiDisepakati)}</span>}
+              {order.nilaiDisepakati && <span className="font-body text-lg text-coal-deep">Nilai kesepakatan: {rupiahPendek(order.nilaiDisepakati)}</span>}
             </div>
           </div>
           {!terbuka && order.status !== 'DITOLAK' && order.status !== 'DIBATALKAN' && (
@@ -72,7 +72,7 @@ export default function RequestDetailPage() {
         </div>
 
         {order.status === 'DITOLAK' && order.alasanDitolak && (
-          <p className="mt-4 rounded-2xl bg-[#f19b9b55] px-4 py-3 font-moon text-base text-coal-deep">Alasan ditolak: {order.alasanDitolak}</p>
+          <p className="mt-4 rounded-2xl bg-[#f19b9b55] px-4 py-3 font-body text-base text-coal-deep">Alasan ditolak: {order.alasanDitolak}</p>
         )}
 
         {terbuka ? (
@@ -94,14 +94,14 @@ export default function RequestDetailPage() {
                 Terima
               </button>
             </div>
-            <p className="mt-3 font-moon text-sm text-coal-deep/70">
+            <p className="mt-3 font-body text-sm text-coal-deep/70">
               Diskusi Lebih Lanjut menandai request sedang dibahas bersama klien (klien melihat status "Perlu Diskusi Lebih Lanjut"). Terima setelah MoU dan nilai disepakati.
             </p>
             {!modal && <BrandError message={actionError} />}
           </>
         ) : (
           order.status === 'DISETUJUI' && (
-            <p className="mt-4 font-moon text-base text-coal-deep">Request diterima. Terbitkan tagihan DP lewat Payment; Operasional akan membentuk tim.</p>
+            <p className="mt-4 font-body text-base text-coal-deep">Request diterima. Terbitkan tagihan DP lewat Payment; Operasional akan membentuk tim.</p>
           )
         )}
         <OrderComments orderId={order.id} canSend={order.status !== 'DITOLAK' && order.status !== 'DIBATALKAN'} />
@@ -117,7 +117,7 @@ export default function RequestDetailPage() {
           <BrandField id="nilai" label="Nilai kesepakatan (Rp)">
             <input id="nilai" type="number" min="1" required value={nilai} onChange={(event) => setNilai(event.target.value)} className={brandInputSolid} />
           </BrandField>
-          <p className="mb-3 font-moon text-sm text-coal-deep/70">Anggaran klien: {rupiahPendek(order.anggaran)}. Setelah diterima, terbitkan tagihan DP di halaman Payment.</p>
+          <p className="mb-3 font-body text-sm text-coal-deep/70">Anggaran klien: {rupiahPendek(order.anggaran)}. Setelah diterima, terbitkan tagihan DP di halaman Payment.</p>
           <BrandError message={actionError} />
           <button type="submit" disabled={saving} className={`${pillButton} w-full`}>
             {saving ? 'Menyimpan...' : 'Terima Request'}
@@ -136,7 +136,7 @@ export default function RequestDetailPage() {
             <textarea id="alasan" required minLength={5} maxLength={255} rows={3} value={alasan} onChange={(event) => setAlasan(event.target.value)} className={`${brandInputSolid} resize-y`} />
           </BrandField>
           <BrandError message={actionError} />
-          <button type="submit" disabled={saving} className="w-full rounded-[24px] bg-[#9c2b2b] px-6 py-2 font-moon text-lg text-cream disabled:opacity-60">
+          <button type="submit" disabled={saving} className="w-full rounded-[24px] bg-[#9c2b2b] px-6 py-2 font-body text-lg text-cream disabled:opacity-60">
             {saving ? 'Menyimpan...' : 'Tolak Request'}
           </button>
         </form>

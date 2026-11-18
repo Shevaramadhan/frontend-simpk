@@ -11,6 +11,21 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (tipografi konsisten dan hero tanpa deskripsi)
+
+### Diubah
+- Seluruh web memakai dua font (F-25): Magic Hat untuk judul, navbar, dan tombol; Poppins untuk semua teks isi. Kelas `font-moon`, `font-poppins`, dan `font-spartan` digabung menjadi `font-body`; token `--font-moon`, `--font-poppins`, `--font-spartan`, dan `--font-heading` dihapus; judul tanpa kelas memakai `--font-magic`. Google Fonts hanya memuat Poppins, dan `@font-face` Seven Moon dihapus.
+- Landing page: judul "Website Firetech 2026" memakai Magic Hat seperti judul lain dan selalu satu baris; paragraf Latest Project 30 px (sebelumnya Seven Moon 48 px); deskripsi kartu Our Project 15 px dibatasi tiga baris.
+- `StaffPanel` menerima `level={2}`; panel Portofolio memakai h2 sehingga halaman Daftar Jasa Marketing hanya punya satu h1.
+
+### Dihapus
+- Deskripsi panjang "SIMPK Merupakan Website..." di hero landing page (layar lebar dan ponsel) atas masukan teman PM: hero cukup judul dan tombol aksi. Deskripsi di footer tetap.
+
+## 2026-11-17 (kelola portofolio)
+
+### Ditambah
+- Panel Portofolio di halaman Daftar Jasa Marketing (`/app/katalog`): tambah, ubah, dan hapus portofolio (judul, deskripsi, jasa terkait, tahun) dengan paginasi. Portofolio tampil di bagian Portofolio pada Daftar Jasa publik; portofolio milik jasa yang disembunyikan ikut tidak tampil. Memenuhi REQ-F01 dan UC-13 yang sebelumnya baru sebagian. Memakai endpoint `/portfolios` yang sudah ada; gambar portofolio belum dikelola.
+
 ## 2026-11-17 (modernisasi navbar/sidebar dengan mempertahankan gaya desain SIMPK)
 
 ### Diubah

@@ -48,7 +48,7 @@ function UserMenu() {
               to={item.to}
               end={item.end}
               role="menuitem"
-              className={({ isActive }) => `block px-4 py-3 font-moon text-base ${isActive ? 'bg-flame text-cream' : 'text-coal-deep hover:bg-[#ffc49f66]'}`}
+              className={({ isActive }) => `block px-4 py-3 font-body text-base ${isActive ? 'bg-flame text-cream' : 'text-coal-deep hover:bg-[#ffc49f66]'}`}
             >
               {item.label}
             </NavLink>
@@ -60,7 +60,7 @@ function UserMenu() {
               logout();
               navigate('/login', { replace: true });
             }}
-            className="block w-full border-t-2 border-coal/20 px-4 py-3 text-left font-moon text-base text-coal-deep hover:bg-[#ffc49f66]"
+            className="block w-full border-t-2 border-coal/20 px-4 py-3 text-left font-body text-base text-coal-deep hover:bg-[#ffc49f66]"
           >
             Keluar
           </button>
@@ -83,7 +83,7 @@ export default function ClientLayout() {
           <OutlinedTitle as="p" className="text-[clamp(1.5rem,min(5.5vh,9vw),3.25rem)] tracking-[0.12em]">
             SIMPK
           </OutlinedTitle>
-          <span className="mt-0.5 font-moon text-[10px] tracking-[0.12em] text-flame sm:text-xs">by neotelemetri</span>
+          <span className="mt-0.5 font-body text-[10px] tracking-[0.12em] text-flame sm:text-xs">by neotelemetri</span>
         </Link>
         <div className="justify-self-end">
           <UserMenu />

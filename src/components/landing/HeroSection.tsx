@@ -8,7 +8,7 @@ import subjudul from '../../assets/landing/hero-subjudul.png';
 import logo from '../../assets/landing/logo-hitam.webp';
 import { Magnet, Ornament, Reveal, RollingText, useHoverFocus } from './Motion';
 import LandingHeader from './LandingHeader';
-import { Framed, NAV_ITEMS, SECTION, SIMPK_DESCRIPTION } from './Parts';
+import { Framed, NAV_ITEMS, SECTION } from './Parts';
 import { box, Crop, Stage } from './Stage';
 
 const FILL = 'pointer-events-none absolute inset-0 size-full max-w-none object-cover';
@@ -103,12 +103,6 @@ function Desktop() {
       </div>
 
       <Title />
-
-      <div className="edge-l3 pointer-events-none absolute inset-0">
-        <Reveal immediate y={30} delay={0.8} className="absolute" style={box(21, 833, 681)}>
-        <p className="text-justify font-moon text-[32px] leading-[normal] text-cream">{SIMPK_DESCRIPTION}</p>
-      </Reveal>
-      </div>
     </Stage>
     </div>
   );
@@ -145,9 +139,6 @@ function Mobile() {
 
       <div className="bg-coal px-5 pb-10 pt-6">
         <Reveal y={30}>
-          <p className="text-justify font-moon text-lg leading-[normal] text-cream sm:text-2xl">{SIMPK_DESCRIPTION}</p>
-        </Reveal>
-        <Reveal y={30} delay={0.15} className="mt-6">
           <Link to="/katalog">
             <Framed>
               <span className="block px-4 py-4 text-center font-magic text-2xl uppercase text-flame sm:text-3xl">Lets Make A project</span>

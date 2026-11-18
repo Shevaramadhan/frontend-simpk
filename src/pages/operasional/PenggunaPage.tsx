@@ -112,7 +112,7 @@ export default function PenggunaPage() {
           aria-selected={tab === 'INTERNAL'}
           type="button"
           onClick={() => setTab('INTERNAL')}
-          className={`rounded-[20px] px-4 py-1.5 font-moon text-base transition-colors ${tab === 'INTERNAL' ? 'bg-flame text-coal' : 'border-2 border-flame text-flame hover:bg-flame/15'}`}
+          className={`rounded-[20px] px-4 py-1.5 font-body text-base transition-colors ${tab === 'INTERNAL' ? 'bg-flame text-coal' : 'border-2 border-flame text-flame hover:bg-flame/15'}`}
         >
           Akun Internal ({users.data?.length ?? 0})
         </button>
@@ -121,7 +121,7 @@ export default function PenggunaPage() {
           aria-selected={tab === 'KLIEN'}
           type="button"
           onClick={() => setTab('KLIEN')}
-          className={`rounded-[20px] px-4 py-1.5 font-moon text-base transition-colors ${tab === 'KLIEN' ? 'bg-flame text-coal' : 'border-2 border-flame text-flame hover:bg-flame/15'}`}
+          className={`rounded-[20px] px-4 py-1.5 font-body text-base transition-colors ${tab === 'KLIEN' ? 'bg-flame text-coal' : 'border-2 border-flame text-flame hover:bg-flame/15'}`}
         >
           Akun Klien ({clients.data?.length ?? 0})
         </button>
@@ -129,7 +129,7 @@ export default function PenggunaPage() {
 
       {tab === 'INTERNAL' ? (
         <>
-          <p className="mb-3 font-moon text-base text-cream/80">Semua akun internal Neo Telemetri. Tambah Akun untuk pengurus Marketing dan Operasional; akun Tim ditambahkan lewat menu Worker.</p>
+          <p className="mb-3 font-body text-base text-cream/80">Semua akun internal Neo Telemetri. Tambah Akun untuk pengurus Marketing dan Operasional; akun Tim ditambahkan lewat menu Worker.</p>
           {actionError && <BrandError message={actionError} />}
           {users.loading && !users.data ? (
             <Loading />
@@ -168,7 +168,7 @@ export default function PenggunaPage() {
         </>
       ) : (
         <>
-          <p className="mb-3 font-moon text-base text-cream/80">Klien mendaftar sendiri. Perbaiki email hanya jika klien salah ketik dan tidak menerima tautan lupa kata sandi.</p>
+          <p className="mb-3 font-body text-base text-cream/80">Klien mendaftar sendiri. Perbaiki email hanya jika klien salah ketik dan tidak menerima tautan lupa kata sandi.</p>
           {clients.loading && !clients.data ? (
             <Loading />
           ) : clients.error ? (
@@ -208,7 +208,7 @@ export default function PenggunaPage() {
               <option value="OPERASIONAL">Operasional</option>
             </select>
           </BrandField>
-          <p className="mb-3 font-moon text-sm text-coal-deep/70">Akun Tim (worker) ditambahkan lewat menu Worker agar keahliannya ikut tercatat.</p>
+          <p className="mb-3 font-body text-sm text-coal-deep/70">Akun Tim (worker) ditambahkan lewat menu Worker agar keahliannya ikut tercatat.</p>
           <BrandError message={formError} />
           <button type="submit" disabled={saving} className={`${pillButton} mt-1 w-full`}>
             {saving ? 'Menyimpan...' : 'Simpan'}

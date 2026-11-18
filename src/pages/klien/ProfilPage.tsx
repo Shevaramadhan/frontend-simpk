@@ -24,7 +24,7 @@ function Card({ title, children }: { title: string; children: ReactNode }) {
 function Saved({ show, text }: { show: boolean; text: string }) {
   if (!show) return null;
   return (
-    <p role="status" className="mb-3 font-moon text-base text-[#14aa00]">
+    <p role="status" className="mb-3 font-body text-base text-[#14aa00]">
       {text}
     </p>
   );
@@ -66,7 +66,7 @@ function DataDiri({ client, onSaved }: { client: Client; onSaved: () => Promise<
   return (
     <Card title="Data Diri">
       {!client.noWhatsapp && (
-        <p className="mb-4 rounded-xl bg-[#ffd27a] px-4 py-2 font-moon text-sm text-coal-deep">
+        <p className="mb-4 rounded-xl bg-[#ffd27a] px-4 py-2 font-body text-sm text-coal-deep">
           Lengkapi nomor WhatsApp agar Marketing dapat menghubungi Anda tentang project.
         </p>
       )}
@@ -79,7 +79,7 @@ function DataDiri({ client, onSaved }: { client: Client; onSaved: () => Promise<
           <BrandField id="p-email" label="Email">
             <input id="p-email" value={client.user.email} readOnly disabled className={`${brandInputSolid} cursor-not-allowed opacity-70`} />
           </BrandField>
-          <p className="-mt-1 mb-3 font-moon text-xs text-coal-deep/60">Email dipakai untuk masuk. Bila salah, hubungi pengurus Neo Telemetri.</p>
+          <p className="-mt-1 mb-3 font-body text-xs text-coal-deep/60">Email dipakai untuk masuk. Bila salah, hubungi pengurus Neo Telemetri.</p>
         </div>
         <BrandField id="p-wa" label="Nomor WhatsApp">
           <input id="p-wa" type="tel" required inputMode="tel" pattern="[0-9+\-\s]{8,25}" placeholder="08xxxxxxxxxx" value={form.noWhatsapp} onChange={set('noWhatsapp')} className={brandInputSolid} />
@@ -148,7 +148,7 @@ function GantiSandi() {
         {input('lama', 'Kata sandi lama', 'current-password')}
         {input('baru', 'Kata sandi baru (minimal 8 karakter)', 'new-password')}
         {input('ulang', 'Konfirmasi kata sandi baru', 'new-password')}
-        <p className="mb-3 font-moon text-xs text-coal-deep/60">Akun yang masuk dengan Google dapat membuat kata sandi lewat "Lupa kata sandi?" di halaman Login.</p>
+        <p className="mb-3 font-body text-xs text-coal-deep/60">Akun yang masuk dengan Google dapat membuat kata sandi lewat "Lupa kata sandi?" di halaman Login.</p>
         <BrandError message={error} />
         <Saved show={done} text="Kata sandi diperbarui." />
         <button type="submit" disabled={saving} className={pillButton}>
@@ -173,9 +173,9 @@ export default function ProfilPage() {
       <div className="mx-auto max-w-6xl rounded-[30px] bg-coal-deep p-5 sm:p-6">
         <h1 className="mb-4 text-center font-magic text-3xl uppercase text-flame sm:text-4xl">Profil</h1>
         {loading && !data ? (
-          <p className="py-10 text-center font-moon text-xl text-cream/80">Memuat...</p>
+          <p className="py-10 text-center font-body text-xl text-cream/80">Memuat...</p>
         ) : error || !data ? (
-          <p role="alert" className="py-10 text-center font-moon text-xl text-[#ff8a8a]">
+          <p role="alert" className="py-10 text-center font-body text-xl text-[#ff8a8a]">
             {error || 'Profil tidak ditemukan.'}
           </p>
         ) : (

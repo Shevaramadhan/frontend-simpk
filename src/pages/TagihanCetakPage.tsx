@@ -41,10 +41,10 @@ export default function TagihanCetakPage() {
     };
   }, [invoice]);
 
-  if ((loading && !order) || (!neo && !neoError)) return <p className="grid min-h-dvh place-items-center bg-cream font-moon text-xl">Memuat...</p>;
+  if ((loading && !order) || (!neo && !neoError)) return <p className="grid min-h-dvh place-items-center bg-cream font-body text-xl">Memuat...</p>;
   if (error || neoError || !order || !invoice || !neo) {
     return (
-      <p role="alert" className="grid min-h-dvh place-items-center bg-cream p-6 text-center font-moon text-xl text-[#9c2b2b]">
+      <p role="alert" className="grid min-h-dvh place-items-center bg-cream p-6 text-center font-body text-xl text-[#9c2b2b]">
         {error || neoError || 'Tagihan tidak ditemukan.'}
       </p>
     );
@@ -61,18 +61,18 @@ export default function TagihanCetakPage() {
   return (
     <div className="min-h-dvh bg-neutral-200 py-6 print:bg-white print:py-0">
       <div className="no-print mx-auto mb-4 flex max-w-[210mm] flex-wrap items-center justify-between gap-3 px-4">
-        <button type="button" onClick={() => navigate(kembali)} className="rounded-[20px] border-2 border-coal px-5 py-2 font-moon text-base text-coal hover:bg-coal hover:text-flame">
+        <button type="button" onClick={() => navigate(kembali)} className="rounded-[20px] border-2 border-coal px-5 py-2 font-body text-base text-coal hover:bg-coal hover:text-flame">
           ← Kembali
         </button>
         <div className="flex items-center gap-3">
-          <span className="hidden font-moon text-sm text-neutral-600 sm:inline">Pilih "Simpan sebagai PDF" pada jendela cetak untuk menyimpan.</span>
-          <button type="button" onClick={() => window.print()} className="rounded-[20px] bg-flame px-6 py-2 font-moon text-lg text-coal hover:bg-[#e05600]">
+          <span className="hidden font-body text-sm text-neutral-600 sm:inline">Pilih "Simpan sebagai PDF" pada jendela cetak untuk menyimpan.</span>
+          <button type="button" onClick={() => window.print()} className="rounded-[20px] bg-flame px-6 py-2 font-body text-lg text-coal hover:bg-[#e05600]">
             Cetak / Simpan PDF
           </button>
         </div>
       </div>
 
-      <article className="mx-auto max-w-[210mm] bg-white p-[12mm] font-poppins text-[13px] leading-relaxed text-neutral-900 shadow-lg print:max-w-none print:p-0 print:shadow-none">
+      <article className="mx-auto max-w-[210mm] bg-white p-[12mm] font-body text-[13px] leading-relaxed text-neutral-900 shadow-lg print:max-w-none print:p-0 print:shadow-none">
         {neo.contoh && (
           <p className="mb-5 border-2 border-dashed border-[#9c2b2b] px-3 py-2 text-center text-[12px] font-semibold text-[#9c2b2b]">
             CONTOH: identitas dan rekening Neo Telemetri pada tagihan ini masih data contoh (belum diisi Marketing di menu Pengaturan). Jangan melakukan transfer ke rekening ini.

@@ -52,11 +52,11 @@ function Form({ awal, onSaved }: { awal: Pengaturan; onSaved: () => void }) {
   return (
     <form onSubmit={handleSubmit} className="rounded-[24px] bg-cream p-5 sm:p-6">
       {awal.contoh ? (
-        <p className="mb-3 rounded-xl bg-[#ffd27a] px-4 py-2 font-moon text-sm text-coal-deep">
+        <p className="mb-3 rounded-xl bg-[#ffd27a] px-4 py-2 font-body text-sm text-coal-deep">
           Data di bawah masih contoh. Selama belum disimpan, setiap tagihan menampilkan peringatan agar klien tidak mentransfer ke rekening contoh.
         </p>
       ) : (
-        <p className="mb-4 font-moon text-sm text-coal-deep/70">Terakhir diubah {tanggal(awal.updatedAt)}. Perubahan langsung berlaku di semua tagihan, termasuk yang sudah terbit.</p>
+        <p className="mb-4 font-body text-sm text-coal-deep/70">Terakhir diubah {tanggal(awal.updatedAt)}. Perubahan langsung berlaku di semua tagihan, termasuk yang sudah terbit.</p>
       )}
       <div className="grid gap-x-4 sm:grid-cols-2">
         {FIELDS.map((field) => (
@@ -79,7 +79,7 @@ function Form({ awal, onSaved }: { awal: Pengaturan; onSaved: () => void }) {
       </div>
       <BrandError message={error} />
       {done && (
-        <p role="status" className="mb-3 font-moon text-base text-[#14aa00]">
+        <p role="status" className="mb-3 font-body text-base text-[#14aa00]">
           Pengaturan disimpan. Tagihan kini memakai data ini.
         </p>
       )}
@@ -94,7 +94,7 @@ export default function PengaturanPage() {
   const { data, loading, error, reload } = useData(getPengaturan);
   return (
     <StaffPanel title="Pengaturan">
-      <p className="mb-3 font-moon text-sm text-cream/80">Identitas dan rekening Neo Telemetri yang tercetak pada tagihan klien.</p>
+      <p className="mb-3 font-body text-sm text-cream/80">Identitas dan rekening Neo Telemetri yang tercetak pada tagihan klien.</p>
       {loading && !data ? <Loading /> : error || !data ? <LoadError message={error || 'Pengaturan tidak tersedia.'} /> : <Form awal={data} onSaved={() => void reload()} />}
     </StaffPanel>
   );

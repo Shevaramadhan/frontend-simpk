@@ -153,7 +153,7 @@ export default function StaffLayout() {
   const size = 'text-sm lg:text-[clamp(13px,1.85vh,15px)]';
   // Saat diperkecil: tiap menu jadi kotak ikon membulat; menu aktif diberi garis penanda di tepi kiri sidebar.
   const item = ({ isActive }: { isActive: boolean }) =>
-    `relative flex items-center gap-2 whitespace-nowrap rounded-xl px-3 py-1.5 font-moon transition-all lg:gap-3 lg:py-2.5 ${
+    `relative flex items-center gap-2 whitespace-nowrap rounded-xl px-3 py-1.5 font-body transition-all lg:gap-3 lg:py-2.5 ${
       collapsed ? 'lg:mx-auto lg:size-11 lg:justify-center lg:rounded-xl lg:px-0' : 'lg:px-4'
     } ${size} ${
       isActive
@@ -168,7 +168,7 @@ export default function StaffLayout() {
       onClick={handleLogout}
       title={iconOnly ? 'Log Out' : undefined}
       aria-label={iconOnly ? 'Log Out' : undefined}
-      className={`items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 font-moon text-zinc-300 transition-colors hover:border-red-500/30 hover:bg-red-500/15 hover:text-red-300 lg:gap-2.5 ${extra}`}
+      className={`items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 font-body text-zinc-300 transition-colors hover:border-red-500/30 hover:bg-red-500/15 hover:text-red-300 lg:gap-2.5 ${extra}`}
     >
       <LogoutIcon />
       {!iconOnly && 'Log Out'}
@@ -209,8 +209,8 @@ export default function StaffLayout() {
             ) : (
               <>
                 <p className="font-magic text-[clamp(22px,3.2vh,28px)] tracking-wider text-flame">SIMPK</p>
-                <p className="mt-1 font-moon text-[11px] tracking-wide text-zinc-400">by neotelemetri</p>
-                <span className="mt-2.5 hidden w-fit rounded-md bg-white/5 px-2.5 py-0.5 font-moon text-xs font-medium text-zinc-300 lg:inline-block">
+                <p className="mt-1 font-body text-[11px] tracking-wide text-zinc-400">by neotelemetri</p>
+                <span className="mt-2.5 hidden w-fit rounded-md bg-white/5 px-2.5 py-0.5 font-body text-xs font-medium text-zinc-300 lg:inline-block">
                   {ROLE_LABEL[user.role]}
                 </span>
               </>
@@ -239,7 +239,7 @@ export default function StaffLayout() {
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex justify-end px-4 pt-3 sm:px-6">
           <div className="flex items-center gap-2.5 rounded-full border border-zinc-200/90 bg-white py-1 pl-3.5 pr-1.5 shadow-2xs">
-            <span className="hidden font-moon text-xs font-medium text-zinc-700 sm:inline">{user.name}</span>
+            <span className="hidden font-body text-xs font-medium text-zinc-700 sm:inline">{user.name}</span>
             <span className="grid size-8 place-items-center rounded-full bg-flame/10 text-flame" title={user.name}>
               <Icon src={ikonProfil} className="size-4" />
             </span>

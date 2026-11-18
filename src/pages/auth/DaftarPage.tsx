@@ -79,7 +79,7 @@ export default function DaftarPage() {
         <GoogleButton onCredential={handleGoogle} label="Sign in with Google" />
       </div>
 
-      <p className="mt-[clamp(8px,2vh,24px)] text-center font-moon text-[clamp(14px,2.2vh,18px)] text-coal-deep">
+      <p className="mt-[clamp(8px,2vh,24px)] text-center font-body text-[clamp(14px,2.2vh,18px)] text-coal-deep">
         Sudah punya akun?{' '}
         <Link to={jasa ? `/login?jasa=${encodeURIComponent(jasa)}` : '/login'} className="text-flame underline underline-offset-4">
           Login

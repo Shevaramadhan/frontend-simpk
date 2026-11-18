@@ -20,7 +20,7 @@ Status: **Kerangka** berarti rute sudah ada tetapi isinya belum dibuat.
 | `/app/request`, `/app/request/:id`, `/app/request/:id/payment` | Marketing | `pages/marketing/RequestPage`, `RequestDetailPage`, `PaymentMarketingPage` | Selesai, mengikuti wireframe |
 | `/app/projek` | Marketing | `pages/marketing/ProjekPage` | Selesai, mengikuti wireframe; detail memakai `/app/proyek/:projectId` |
 | `/app/review` | Marketing | `pages/marketing/ReviewPage` | Selesai, mengikuti wireframe |
-| `/app/katalog` | Marketing | `pages/marketing/KatalogPage` | Selesai, portofolio belum dapat dikelola |
+| `/app/katalog` | Marketing | `pages/marketing/KatalogPage` | Selesai: daftar jasa dan portofolio dikelola Marketing |
 | `/app/klien` | Marketing | `pages/marketing/KlienPage` | Selesai, bergaya pengurus |
 | `/app/pengguna` | Operasional | `pages/operasional/PenggunaPage` | Selesai, akun internal dan perbaikan email; tampilan lama |
 | `/portal` | Klien | `pages/klien/BerandaKlienPage` | Selesai, desain Figma |

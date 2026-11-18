@@ -6,7 +6,7 @@ function Message({ code, title, text }: { code: string; title: string; text: str
     <div className="flex min-h-dvh flex-col items-center justify-center gap-3 bg-cream p-6 text-center text-coal-deep">
       <OutlinedTitle className="text-[clamp(5rem,22vh,11rem)]">{code}</OutlinedTitle>
       <h1 className="font-magic text-3xl uppercase text-flame sm:text-4xl">{title}</h1>
-      <p className="max-w-md font-moon text-lg">{text}</p>
+      <p className="max-w-md font-body text-lg">{text}</p>
       <div className="mt-2">
         <FramedLink to="/">Kembali ke beranda</FramedLink>
       </div>

@@ -69,7 +69,7 @@ function Desktop({ active, projects, toggle }: Filter) {
               <div className="absolute flex items-center justify-center" style={box(-18.14, -45.91, 249.879, 236.37)}>
                 <Thumbnail project={project} />
               </div>
-              <p className="absolute text-justify font-moon text-[16px] leading-[normal] text-cream" style={box(247, 80, 377)}>
+              <p className="absolute line-clamp-3 text-justify font-body text-[15px] leading-[1.45] text-cream" style={box(247, 80, 377)}>
                 {project.description}
               </p>
             </Reveal>
@@ -77,7 +77,7 @@ function Desktop({ active, projects, toggle }: Filter) {
         ))}
       </AnimatePresence>
       {projects.length === 0 && (
-        <p className="absolute text-center font-moon text-[32px] text-coal" style={box(50, 610, 1339)}>
+        <p className="absolute text-center font-body text-[32px] text-coal" style={box(50, 610, 1339)}>
           Project divisi {active} segera hadir
         </p>
       )}
@@ -150,12 +150,12 @@ function Mobile({ active, projects, toggle }: Filter) {
               </div>
               <div>
                 <h3 className="font-magic text-xl uppercase leading-tight text-flame sm:text-3xl">{project.title}</h3>
-                <p className="mt-1.5 font-moon text-[13px] leading-snug text-cream sm:text-base">{project.description}</p>
+                <p className="mt-1.5 font-body text-[13px] leading-snug text-cream sm:text-base">{project.description}</p>
               </div>
             </motion.article>
           ))}
         </AnimatePresence>
-        {projects.length === 0 && <p className="py-10 text-center font-moon text-xl text-coal">Project divisi {active} segera hadir</p>}
+        {projects.length === 0 && <p className="py-10 text-center font-body text-xl text-coal">Project divisi {active} segera hadir</p>}
       </div>
     </div>
   );

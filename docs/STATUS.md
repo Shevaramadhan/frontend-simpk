@@ -43,7 +43,7 @@ Yang sudah teruji: pengecekan tipe, build, dan alur klien mendaftar, memesan, di
 
 | Isu | Pihak | Dampak |
 |---|---|---|
-| Lisensi font Magic Hat dan Seven Moon (hanya untuk pemakaian pribadi) | PM, UI/UX Designer | Wajib beli lisensi atau ganti font sebelum dipakai Neo Telemetri |
+| Lisensi font Magic Hat (hanya untuk pemakaian pribadi; Seven Moon sudah tidak dipakai) | PM, UI/UX Designer | Wajib beli lisensi atau ganti font sebelum dipakai Neo Telemetri |
 | Kontak dan tautan media sosial Neo Telemetri yang benar | Neo Telemetri | Footer landing page |
 | Pembagian proyek ke divisi MMD, Programming, SKJ | UI/UX Designer | Tab Our Project |
 | Desain halaman lain (login, daftar jasa, dashboard) | UI/UX Designer | Halaman lain masih bertema lama |

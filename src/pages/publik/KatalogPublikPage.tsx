@@ -28,7 +28,7 @@ function Header() {
         <OutlinedTitle as="p" className="text-[clamp(1.5rem,min(7vh,10vw),3.75rem)] tracking-[0.12em]">
           SIMPK
         </OutlinedTitle>
-        <span className="mt-0.5 font-moon text-[10px] tracking-[0.12em] text-flame sm:text-xs">by neotelemetri</span>
+        <span className="mt-0.5 font-body text-[10px] tracking-[0.12em] text-flame sm:text-xs">by neotelemetri</span>
       </Link>
       <div className="justify-self-end">
         <FramedLink to={target.to} size="text-[clamp(0.9rem,2.4vh,1.5rem)]">
@@ -52,18 +52,18 @@ export default function KatalogPublikPage() {
         <main className="flex-1 px-3 pb-10 sm:px-6">
           <section className="mx-auto max-w-6xl rounded-[30px] bg-coal-deep p-5 sm:p-8">
             <h1 className="text-center font-magic text-4xl uppercase text-flame sm:text-5xl">Daftar Jasa</h1>
-            <p className="mx-auto mt-2 max-w-2xl text-center font-moon text-lg text-cream sm:text-xl">
+            <p className="mx-auto mt-2 max-w-2xl text-center font-body text-lg text-cream sm:text-xl">
               Pilih jasa yang Anda butuhkan, ajukan project, lalu pantau perkembangannya kapan saja.
             </p>
 
             {services.loading && !services.data ? (
-              <p className="py-10 text-center font-moon text-xl text-cream/80">Memuat...</p>
+              <p className="py-10 text-center font-body text-xl text-cream/80">Memuat...</p>
             ) : services.error ? (
-              <p role="alert" className="py-10 text-center font-moon text-xl text-[#ff8a8a]">
+              <p role="alert" className="py-10 text-center font-body text-xl text-[#ff8a8a]">
                 {services.error}
               </p>
             ) : !services.data?.length ? (
-              <p className="py-10 text-center font-moon text-xl text-cream/80">Belum ada jasa yang ditampilkan.</p>
+              <p className="py-10 text-center font-body text-xl text-cream/80">Belum ada jasa yang ditampilkan.</p>
             ) : (
               <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {services.data.map((service, index) => (
@@ -75,8 +75,8 @@ export default function KatalogPublikPage() {
                     className="flex flex-col rounded-[24px] border-[3px] border-flame bg-cream p-5"
                   >
                     <h2 className="font-magic text-2xl uppercase leading-tight text-flame">{service.nama}</h2>
-                    <p className="mt-2 flex-1 whitespace-pre-wrap font-moon text-base text-coal-deep">{service.deskripsi}</p>
-                    <dl className="mt-4 font-moon text-base">
+                    <p className="mt-2 flex-1 whitespace-pre-wrap font-body text-base text-coal-deep">{service.deskripsi}</p>
+                    <dl className="mt-4 font-body text-base">
                       <div className="flex flex-wrap gap-x-2">
                         <dt className="text-flame">Perkiraan biaya :</dt>
                         <dd>
@@ -91,7 +91,7 @@ export default function KatalogPublikPage() {
                     {bisaPesan && (
                       <Link
                         to={`${user ? '/portal/pesan' : '/daftar'}?jasa=${service.id}`}
-                        className="mt-4 self-start rounded-[24px] bg-flame px-6 py-2 font-moon text-lg text-coal transition-colors hover:bg-[#e05600]"
+                        className="mt-4 self-start rounded-[24px] bg-flame px-6 py-2 font-body text-lg text-coal transition-colors hover:bg-[#e05600]"
                       >
                         Pesan jasa ini
                       </Link>
@@ -102,7 +102,7 @@ export default function KatalogPublikPage() {
             )}
 
             {bisaPesan && (
-              <p className="mt-6 text-center font-moon text-base text-cream/80">
+              <p className="mt-6 text-center font-body text-base text-cream/80">
                 Kebutuhan Anda tidak ada di daftar?{' '}
                 <Link to={user ? '/portal/pesan' : '/daftar'} className="text-flame underline underline-offset-4">
                   Ajukan project lain
@@ -118,7 +118,7 @@ export default function KatalogPublikPage() {
                 {portfolios.data?.map((item) => (
                   <article key={item.id} className="rounded-[24px] border-[3px] border-flame bg-cream p-5">
                     <h3 className="font-magic text-xl uppercase text-flame">{item.judul}</h3>
-                    <p className="mt-1 font-moon text-base text-coal-deep">{item.deskripsi}</p>
+                    <p className="mt-1 font-body text-base text-coal-deep">{item.deskripsi}</p>
                   </article>
                 ))}
               </div>

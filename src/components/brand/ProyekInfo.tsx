@@ -73,35 +73,35 @@ function Dokumen({ documents, kelola }: { documents: OrderDocument[]; kelola?: K
   return (
     <>
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-        <p className="font-moon text-lg text-flame sm:text-xl">Document Pendukung</p>
+        <p className="font-body text-lg text-flame sm:text-xl">Document Pendukung</p>
         {kelola?.bisaTambah && (
           <>
             <input ref={input} id="tambah-dokumen" type="file" multiple accept=".pdf,.png,.jpg,.jpeg,.docx" className="sr-only" onChange={(event) => void unggah(event.target.files)} />
             <label
               htmlFor="tambah-dokumen"
-              className={`cursor-pointer rounded-[20px] border-2 border-flame px-4 py-1 font-moon text-base text-flame hover:bg-flame hover:text-coal ${sibuk ? 'pointer-events-none opacity-60' : ''}`}
+              className={`cursor-pointer rounded-[20px] border-2 border-flame px-4 py-1 font-body text-base text-flame hover:bg-flame hover:text-coal ${sibuk ? 'pointer-events-none opacity-60' : ''}`}
             >
               {sibuk ? 'Mengunggah...' : '+ Tambah Dokumen'}
             </label>
           </>
         )}
       </div>
-      {kelola?.bisaTambah && <p className="font-moon text-xs text-cream/60">PDF, PNG, JPG, atau DOCX, maksimal {MAX_MB} MB per berkas, paling banyak 10 dokumen.</p>}
+      {kelola?.bisaTambah && <p className="font-body text-xs text-cream/60">PDF, PNG, JPG, atau DOCX, maksimal {MAX_MB} MB per berkas, paling banyak 10 dokumen.</p>}
       {error && (
-        <p role="alert" className="mt-2 rounded-xl bg-[#9c2b2b] px-4 py-2 font-moon text-base text-cream">
+        <p role="alert" className="mt-2 rounded-xl bg-[#9c2b2b] px-4 py-2 font-body text-base text-cream">
           {error}
         </p>
       )}
       {documents.length === 0 ? (
-        <p className="mt-2 font-moon text-base text-cream/70">Tidak ada dokumen pendukung.</p>
+        <p className="mt-2 font-body text-base text-cream/70">Tidak ada dokumen pendukung.</p>
       ) : (
         <div className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {documents.map((doc) => (
             <div key={doc.id} className={`${dashedBox} relative bg-white px-4 py-3 transition-transform hover:-translate-y-0.5`}>
-              <button type="button" onClick={() => void openProtectedFile(`/files/dokumen/${doc.id}`, doc.namaFile)} className="block w-full truncate pr-6 text-left font-moon text-lg text-flame" title={doc.namaFile}>
+              <button type="button" onClick={() => void openProtectedFile(`/files/dokumen/${doc.id}`, doc.namaFile)} className="block w-full truncate pr-6 text-left font-body text-lg text-flame" title={doc.namaFile}>
                 {doc.namaFile}
               </button>
-              <p className="truncate font-moon text-xs text-coal-deep/60">
+              <p className="truncate font-body text-xs text-coal-deep/60">
                 {doc.uploadedBy ? `${PERAN[doc.uploadedBy.role] ?? doc.uploadedBy.role} · ${doc.uploadedBy.name}` : 'Pengunggah tidak diketahui'}
                 {doc.uploadedById === user.id ? ' (Anda)' : ''}
               </p>
@@ -134,8 +134,8 @@ export default function ProyekInfo({ title, judul, deskripsi, estimasi, anggaran
         <h1 className="text-center font-magic text-4xl uppercase text-flame sm:text-5xl">{title}</h1>
 
         <h2 className="mt-6 font-magic text-2xl uppercase text-flame sm:text-4xl">{judul}</h2>
-        <p className="mt-2 whitespace-pre-wrap text-justify font-moon text-lg leading-relaxed text-cream sm:text-xl">{deskripsi}</p>
-        <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-1 font-moon text-lg sm:text-xl">
+        <p className="mt-2 whitespace-pre-wrap text-justify font-body text-lg leading-relaxed text-cream sm:text-xl">{deskripsi}</p>
+        <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-1 font-body text-lg sm:text-xl">
           <div className="flex gap-2">
             <dt className="text-flame">Estimasi Selesai :</dt>
             <dd className="text-cream">{tanggalPendek(estimasi)}</dd>

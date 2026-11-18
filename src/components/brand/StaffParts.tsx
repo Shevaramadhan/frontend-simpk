@@ -6,11 +6,13 @@ import ikonProfilOranye from '../../assets/staff/ikon-profil-oranye.svg';
 // Potongan tampilan halaman Operasional dan Tim (Figma 115:162 dan 116:235).
 
 /** Panel gelap pembungkus isi halaman, dengan judul di kiri atas. */
-export function StaffPanel({ title, action, children }: { title: string; action?: ReactNode; children: ReactNode }) {
+/** `level`: panel kedua di halaman yang sama memakai h2 agar setiap halaman hanya punya satu h1 (WCAG). */
+export function StaffPanel({ title, action, children, level = 1 }: { title: string; action?: ReactNode; children: ReactNode; level?: 1 | 2 }) {
+  const Judul = level === 1 ? 'h1' : 'h2';
   return (
     <section className="flex flex-1 flex-col rounded-[26px] bg-coal-deep px-4 pb-4 pt-4 sm:px-6">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-magic text-[clamp(20px,2.8vh,26px)] uppercase leading-none text-flame">{title}</h1>
+        <Judul className="font-magic text-[clamp(20px,2.8vh,26px)] uppercase leading-none text-flame">{title}</Judul>
         {action}
       </div>
       {children}
@@ -19,7 +21,7 @@ export function StaffPanel({ title, action, children }: { title: string; action?
 }
 
 export const pillButton =
-  'inline-flex items-center justify-center gap-2 rounded-[20px] bg-flame px-5 py-1.5 font-moon text-sm font-semibold text-coal transition-colors hover:bg-[#e05600] disabled:opacity-60';
+  'inline-flex items-center justify-center gap-2 rounded-[20px] bg-flame px-5 py-1.5 font-body text-sm font-semibold text-coal transition-colors hover:bg-[#e05600] disabled:opacity-60';
 
 /** Kartu project krem berbingkai oranye dengan tombol Detail. */
 export function ProjectCard({ index, title, subtitle, note, to }: { index: number; title: string; subtitle: string; note: ReactNode; to: string }) {
@@ -34,8 +36,8 @@ export function ProjectCard({ index, title, subtitle, note, to }: { index: numbe
         <h2 className="line-clamp-1 break-words font-magic text-[clamp(15px,2vh,18px)] uppercase leading-tight text-flame" title={title}>
           {title}
         </h2>
-        <p className="font-moon text-xs text-coal-deep/70 sm:text-sm">{subtitle}</p>
-        <div className="mt-0.5 font-moon text-xs sm:text-sm">{note}</div>
+        <p className="font-body text-xs text-coal-deep/70 sm:text-sm">{subtitle}</p>
+        <div className="mt-0.5 font-body text-xs sm:text-sm">{note}</div>
       </div>
       <Link to={to} className={pillButton}>
         Detail
@@ -64,7 +66,7 @@ export function workerNote(jumlah: number) {
 export function BrandTable({ head, children, empty, minWidth = 'min-w-[640px]' }: { head: string[]; children: ReactNode; empty?: string; minWidth?: string }) {
   return (
     <div className="overflow-x-auto rounded-2xl border-[3px] border-flame bg-cream">
-      <table className={`w-full ${minWidth} font-moon text-base text-coal-deep`}>
+      <table className={`w-full ${minWidth} font-body text-base text-coal-deep`}>
         <thead className="bg-coal text-left text-flame">
           <tr>
             {head.map((label) => (
@@ -76,30 +78,30 @@ export function BrandTable({ head, children, empty, minWidth = 'min-w-[640px]' }
         </thead>
         <tbody>{children}</tbody>
       </table>
-      {empty && <p className="px-4 py-4 text-center font-moon text-coal-deep/70">{empty}</p>}
+      {empty && <p className="px-4 py-4 text-center font-body text-coal-deep/70">{empty}</p>}
     </div>
   );
 }
 
 export const tableCell = 'border-t border-coal/10 px-4 py-2 align-middle';
-export const linkButton = 'font-moon text-sm text-flame underline underline-offset-4 hover:text-coal-deep';
+export const linkButton = 'font-body text-sm text-flame underline underline-offset-4 hover:text-coal-deep';
 
 /** Label status berwarna; warna selalu disertai teks. */
 export function StatusPill({ label, className }: { label: string; className: string }) {
-  return <span className={`inline-block whitespace-nowrap rounded-xl px-3 py-1 font-moon text-sm ${className}`}>{label}</span>;
+  return <span className={`inline-block whitespace-nowrap rounded-xl px-3 py-1 font-body text-sm ${className}`}>{label}</span>;
 }
 
 export function EmptyState({ children }: { children: ReactNode }) {
-  return <p className="rounded-[24px] border-[3px] border-dashed border-flame/60 px-5 py-8 text-center font-moon text-lg text-cream/80">{children}</p>;
+  return <p className="rounded-[24px] border-[3px] border-dashed border-flame/60 px-5 py-8 text-center font-body text-lg text-cream/80">{children}</p>;
 }
 
 export function Loading() {
-  return <p className="py-10 text-center font-moon text-xl text-cream/80">Memuat...</p>;
+  return <p className="py-10 text-center font-body text-xl text-cream/80">Memuat...</p>;
 }
 
 export function LoadError({ message }: { message: string }) {
   return (
-    <p role="alert" className="py-10 text-center font-moon text-xl text-[#ff8a8a]">
+    <p role="alert" className="py-10 text-center font-body text-xl text-[#ff8a8a]">
       {message}
     </p>
   );

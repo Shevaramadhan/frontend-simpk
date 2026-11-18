@@ -145,7 +145,7 @@ function Desktop() {
             className="absolute"
             style={box(29, 89, 573)}
           >
-            <p className="text-justify font-poppins text-[22px] leading-[normal] text-cream">
+            <p className="text-justify font-body text-[22px] leading-[normal] text-cream">
               {SIMPK_DESCRIPTION}
             </p>
           </Reveal>
@@ -153,7 +153,7 @@ function Desktop() {
 
         <Reveal y={30} delay={0.15} className="absolute inset-0">
           <p
-            className="absolute whitespace-nowrap font-poppins text-[24px] font-bold leading-[normal] text-cream"
+            className="absolute whitespace-nowrap font-body text-[24px] font-bold leading-[normal] text-cream"
             style={box(700, 32)}
           >
             FOLLOW US
@@ -172,19 +172,19 @@ function Desktop() {
         <div className="edge-r pointer-events-none absolute inset-0">
           <Reveal y={30} delay={0.25} className="absolute inset-0">
             <p
-              className="absolute whitespace-nowrap font-spartan text-[27px] font-bold leading-[normal] text-cream"
+              className="absolute whitespace-nowrap font-body text-[27px] font-bold leading-[normal] text-cream"
               style={box(1079, 43)}
             >
               CONTACT US
             </p>
             <p
-              className="absolute whitespace-pre font-poppins text-[22px] leading-[normal] text-cream"
+              className="absolute whitespace-pre font-body text-[22px] leading-[normal] text-cream"
               style={box(1061, 114)}
             >
               {PHONE}
             </p>
             <p
-              className="absolute whitespace-nowrap font-poppins text-[22px] leading-[normal] text-cream"
+              className="absolute whitespace-nowrap font-body text-[22px] leading-[normal] text-cream"
               style={box(1001, 148)}
             >
               {EMAIL}
@@ -202,7 +202,7 @@ function Desktop() {
               src={ikonCopyright}
             />
             <p
-              className="absolute font-poppins text-[22px] leading-[normal] text-cream"
+              className="absolute font-body text-[22px] leading-[normal] text-cream"
               style={box(1147, 206, 270)}
             >
               {COPYRIGHT}
@@ -234,11 +234,11 @@ function Mobile() {
         <p className="text-center font-magic text-4xl uppercase text-sand [text-shadow:0px_4px_5px_rgba(0,0,0,0.25)]">
           SIMPK NEOTELEMETRI
         </p>
-        <p className="mt-3 text-justify font-poppins text-base">
+        <p className="mt-3 text-justify font-body text-base">
           {SIMPK_DESCRIPTION}
         </p>
 
-        <p className="mt-8 text-center font-poppins text-xl font-bold">
+        <p className="mt-8 text-center font-body text-xl font-bold">
           FOLLOW US
         </p>
         <div className="mx-auto mt-4 grid w-fit grid-cols-3 place-items-center gap-x-6 gap-y-4">
@@ -253,15 +253,15 @@ function Mobile() {
           ))}
         </div>
 
-        <p className="mt-8 text-center font-spartan text-2xl font-bold">
+        <p className="mt-8 text-center font-body text-2xl font-bold">
           CONTACT US
         </p>
-        <p className="mt-3 whitespace-pre text-center font-poppins text-lg">
+        <p className="mt-3 whitespace-pre text-center font-body text-lg">
           {PHONE}
         </p>
-        <p className="text-center font-poppins text-lg">{EMAIL}</p>
+        <p className="text-center font-body text-lg">{EMAIL}</p>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-2 font-poppins text-base">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2 font-body text-base">
           <img
             alt="Neo Telemetri"
             className="h-[35px] w-[200px] object-cover"

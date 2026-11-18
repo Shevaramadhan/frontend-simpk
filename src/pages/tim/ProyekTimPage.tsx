@@ -57,7 +57,7 @@ function PerbaruiModal({ projectId, task, onClose, onDone }: { projectId: number
     <BrandModal open={task !== null} title="Perbarui Progres" onClose={onClose}>
       {task && (
         <form onSubmit={handleSubmit}>
-          <p className="mb-3 font-moon text-lg text-coal-deep">{task.judul}</p>
+          <p className="mb-3 font-body text-lg text-coal-deep">{task.judul}</p>
           <BrandField id="p-persen" label={`Persentase selesai: ${persen}%`}>
             <input id="p-persen" type="range" min={0} max={100} step={5} value={persen} onChange={(event) => setPersen(Number(event.target.value))} className="mt-2 w-full accent-[#ff6200]" />
           </BrandField>
@@ -151,7 +151,7 @@ function TugasModal({ projectId, task, open, members, onClose, onDone }: { proje
             <DateInput id="t-tenggat" value={form.tenggat} onChange={(event) => setForm({ ...form, tenggat: event.target.value })} className={brandInputSolid} />
           </BrandField>
         </div>
-        <p className="mb-3 font-moon text-sm text-coal-deep/70">Bobot menentukan seberapa besar tugas ini memengaruhi progres bidangnya.</p>
+        <p className="mb-3 font-body text-sm text-coal-deep/70">Bobot menentukan seberapa besar tugas ini memengaruhi progres bidangnya.</p>
         <BrandError message={error} />
         <button type="submit" disabled={saving} className={`${pillButton} w-full`}>
           {saving ? 'Menyimpan...' : ubah ? 'Simpan Perubahan' : 'Tambah Tugas'}
@@ -181,11 +181,11 @@ function TaskTable({
   onDelete: (task: Task) => void;
 }) {
   const { paged, page, totalPages, setPage } = usePagination(tasks, 5);
-  if (!tasks.length) return <p className="rounded-2xl bg-white p-5 text-center font-moon text-lg text-coal-deep">Belum ada tugas pada project ini.</p>;
+  if (!tasks.length) return <p className="rounded-2xl bg-white p-5 text-center font-body text-lg text-coal-deep">Belum ada tugas pada project ini.</p>;
   return (
     <>
       <div className="overflow-x-auto rounded-2xl border-[3px] border-coal/15 bg-white">
-        <table className={`w-full ${ringkas ? 'min-w-[480px]' : 'min-w-[720px]'} font-moon text-base text-coal-deep`}>
+        <table className={`w-full ${ringkas ? 'min-w-[480px]' : 'min-w-[720px]'} font-body text-base text-coal-deep`}>
           <thead className="bg-coal text-left text-flame">
             <tr>
               <th className="px-3 py-2 font-normal">Tugas</th>
@@ -260,12 +260,12 @@ function Riwayat({ projectId, version }: { projectId: number; version: number })
       <ul className="mt-3 space-y-2">
         {paged.map((update) => (
           <li key={update.id} className="rounded-2xl border-[3px] border-coal/15 bg-white px-4 py-3">
-            <p className="font-moon text-sm text-coal-deep/70">
+            <p className="font-body text-sm text-coal-deep/70">
               {tanggal(update.createdAt)} · {update.author ? `${update.author.name} · ` : ''}
               {update.task.judul} · {update.persentase}%
             </p>
-            {update.catatanKlien && <p className="mt-1 font-moon text-base text-coal-deep">Untuk klien: {update.catatanKlien}</p>}
-            {update.catatanTeknis && <p className="mt-1 font-moon text-base text-coal-deep/80">Teknis: {update.catatanTeknis}</p>}
+            {update.catatanKlien && <p className="mt-1 font-body text-base text-coal-deep">Untuk klien: {update.catatanKlien}</p>}
+            {update.catatanTeknis && <p className="mt-1 font-body text-base text-coal-deep/80">Teknis: {update.catatanTeknis}</p>}
           </li>
         ))}
       </ul>
@@ -279,18 +279,18 @@ function PeranSaya({ member, jumlahTugas }: { member: Member; jumlahTugas: numbe
   return (
     <div className="mb-4 flex flex-col gap-3 rounded-[22px] bg-coal p-4 sm:flex-row sm:items-center">
       <div className="min-w-0 flex-1">
-        <p className="font-moon text-sm text-cream/70">Peran Anda di project ini</p>
+        <p className="font-body text-sm text-cream/70">Peran Anda di project ini</p>
         <p className="mt-0.5 flex flex-wrap items-center gap-2">
           <span className="font-magic text-2xl uppercase leading-tight text-flame sm:text-3xl">{member.posisi}</span>
-          {member.isPm && <span className="rounded-lg bg-flame px-2.5 py-0.5 font-moon text-sm text-coal">Project Manager</span>}
+          {member.isPm && <span className="rounded-lg bg-flame px-2.5 py-0.5 font-body text-sm text-coal">Project Manager</span>}
         </p>
-        <p className="mt-1 font-moon text-sm text-cream/80">
+        <p className="mt-1 font-body text-sm text-cream/80">
           {member.isPm
             ? 'Sebagai PM, Anda menambah tugas, membagi tugas ke anggota, dan dapat memperbarui progres semua tugas.'
             : 'Anda memperbarui progres tugas yang ditugaskan kepada Anda.'}
         </p>
       </div>
-      <p className="shrink-0 rounded-2xl bg-coal-deep px-4 py-2 text-center font-moon text-cream">
+      <p className="shrink-0 rounded-2xl bg-coal-deep px-4 py-2 text-center font-body text-cream">
         <span className="block font-magic text-3xl leading-none text-flame">{jumlahTugas}</span>
         <span className="text-sm">tugas Anda</span>
       </p>
@@ -301,12 +301,12 @@ function PeranSaya({ member, jumlahTugas }: { member: Member; jumlahTugas: numbe
 function Members({ members, myId }: { members: Member[]; myId: number }) {
   return (
     <div className="mb-6">
-      <p className="mb-2 text-center font-moon text-sm text-coal-deep/70">Susunan tim</p>
+      <p className="mb-2 text-center font-body text-sm text-coal-deep/70">Susunan tim</p>
       <div className="flex flex-wrap justify-center gap-2">
         {members.map((member) => (
           <span
             key={member.userId}
-            className={`rounded-xl px-3 py-1 font-moon text-sm ${member.isPm ? 'bg-flame text-coal' : 'bg-coal text-flame'} ${member.userId === myId ? 'ring-2 ring-coal ring-offset-2 ring-offset-cream' : ''}`}
+            className={`rounded-xl px-3 py-1 font-body text-sm ${member.isPm ? 'bg-flame text-coal' : 'bg-coal text-flame'} ${member.userId === myId ? 'ring-2 ring-coal ring-offset-2 ring-offset-cream' : ''}`}
           >
             {member.name}
             {member.userId === myId && ' (Anda)'} · {member.posisi}
@@ -346,9 +346,9 @@ function StatusProject({ project, onSaved }: { project: ProjectDetail; onSaved: 
   return (
     <form onSubmit={handleSubmit} className="mb-6 rounded-[22px] bg-coal p-4">
       <div className="flex flex-wrap items-end gap-3">
-        <label className="font-moon text-sm text-flame">
+        <label className="font-body text-sm text-flame">
           Status project
-          <select value={status} onChange={(event) => setStatus(event.target.value as ProjectStatus)} className="mt-1 block rounded-xl bg-cream px-3 py-2 font-moon text-base text-coal-deep">
+          <select value={status} onChange={(event) => setStatus(event.target.value as ProjectStatus)} className="mt-1 block rounded-xl bg-cream px-3 py-2 font-body text-base text-coal-deep">
             {STATUS_PILIHAN.map((item) => (
               <option key={item} value={item}>
                 {PROJECT_STATUS_LABEL[item]}
@@ -356,15 +356,15 @@ function StatusProject({ project, onSaved }: { project: ProjectDetail; onSaved: 
             ))}
           </select>
         </label>
-        <label className="font-moon text-sm text-flame">
+        <label className="font-body text-sm text-flame">
           Target selesai
-          <DateInput value={target} onChange={(event) => setTarget(event.target.value)} className="mt-1 block rounded-xl bg-cream px-3 py-1.5 font-moon text-base text-coal-deep" />
+          <DateInput value={target} onChange={(event) => setTarget(event.target.value)} className="mt-1 block rounded-xl bg-cream px-3 py-1.5 font-body text-base text-coal-deep" />
         </label>
         <button type="submit" disabled={saving || !berubah} className={pillButton}>
           {saving ? 'Menyimpan...' : 'Simpan'}
         </button>
       </div>
-      <p className="mt-2 font-moon text-xs text-cream/70">Project Selesai atau Dibatalkan tidak menerima progres lagi. Setelah Selesai, klien dapat memberi ulasan.</p>
+      <p className="mt-2 font-body text-xs text-cream/70">Project Selesai atau Dibatalkan tidak menerima progres lagi. Setelah Selesai, klien dapat memberi ulasan.</p>
       <BrandError message={error} />
     </form>
   );
@@ -383,8 +383,8 @@ export default function ProyekTimPage() {
   const [hapusError, setHapusError] = useState('');
   const [version, setVersion] = useState(0);
 
-  if (loading && !project) return <p className="p-10 text-center font-moon text-xl">Memuat...</p>;
-  if (error || !project) return <p role="alert" className="p-10 text-center font-moon text-xl text-[#9c2b2b]">{error || 'Project tidak ditemukan.'}</p>;
+  if (loading && !project) return <p className="p-10 text-center font-body text-xl">Memuat...</p>;
+  if (error || !project) return <p role="alert" className="p-10 text-center font-body text-xl text-[#9c2b2b]">{error || 'Project tidak ditemukan.'}</p>;
 
   const canManage = project.isPm || user.role === 'OPERASIONAL';
   const saya = project.members?.find((member) => member.userId === user.id);
@@ -419,7 +419,7 @@ export default function ProyekTimPage() {
         documents={project.documents}
         backTo={user.role === 'MARKETING' ? '/app/projek' : '/app'}
       >
-        <p className="mb-3 text-center font-moon text-sm text-coal-deep/70">
+        <p className="mb-3 text-center font-body text-sm text-coal-deep/70">
           {project.klien} · {project.kode} · {PROJECT_STATUS_LABEL[project.status]}
         </p>
         {user.role === 'OPERASIONAL' && <StatusProject key={`${project.status}-${project.targetSelesai}`} project={project} onSaved={refresh} />}

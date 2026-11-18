@@ -40,7 +40,7 @@ function StatCard({ value, label, to, index, ikon }: { value: string; label: str
           >
             {value}
           </span>
-          <span className="mt-1.5 font-moon text-[clamp(11px,min(1.6vh,0.9vw),14px)] font-medium uppercase tracking-wide text-cream/85">{label}</span>
+          <span className="mt-1.5 font-body text-[clamp(11px,min(1.6vh,0.9vw),14px)] font-medium uppercase tracking-wide text-cream/85">{label}</span>
         </span>
       </Link>
     </motion.div>
@@ -50,13 +50,13 @@ function StatCard({ value, label, to, index, ikon }: { value: string; label: str
 export default function DashboardPage() {
   const { data, loading, error } = useData(getDashboard);
 
-  if (loading && !data) return <p className="p-10 text-center font-moon text-xl text-coal-deep">Memuat...</p>;
+  if (loading && !data) return <p className="p-10 text-center font-body text-xl text-coal-deep">Memuat...</p>;
   if (error || !data) return <LoadError message={error || 'Data dashboard tidak tersedia.'} />;
 
   return (
     <div className="space-y-4">
       {data.buktiMenunggu > 0 && (
-        <Link to="/app/request" className="block rounded-2xl bg-[#ffd27a] px-5 py-2.5 font-moon text-sm text-coal-deep hover:bg-[#ffc35a]">
+        <Link to="/app/request" className="block rounded-2xl bg-[#ffd27a] px-5 py-2.5 font-body text-sm text-coal-deep hover:bg-[#ffc35a]">
           Ada {data.buktiMenunggu} bukti transfer yang menunggu diperiksa. Buka Request untuk memeriksanya.
         </Link>
       )}
@@ -67,7 +67,7 @@ export default function DashboardPage() {
         <StatCard index={3} value={rupiahRingkas(data.keuntungan)} label="Keuntungan" to="/app/request" ikon="keuntungan" />
       </div>
       <TrendBands bulanan={data.bulanan} />
-      <p className="font-moon text-xs text-coal-deep/65">
+      <p className="font-body text-xs text-coal-deep/65">
         Projek masuk dihitung saat tim dibentuk; keuntungan dari pembayaran yang sudah diverifikasi. Arahkan kursor pada grafik untuk melihat rincian tiap bulan.
       </p>
     </div>

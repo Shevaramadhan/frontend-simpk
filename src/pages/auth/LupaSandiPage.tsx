@@ -28,7 +28,7 @@ export default function LupaSandiPage() {
   return (
     <AuthShell title="Lupa Kata Sandi">
       {sent ? (
-        <p role="status" className="font-moon text-lg text-coal-deep">
+        <p role="status" className="font-body text-lg text-coal-deep">
           Jika email tersebut terdaftar, tautan untuk membuat kata sandi baru sudah dikirim. Tautan berlaku 30 menit. Periksa juga folder spam.
         </p>
       ) : (
@@ -40,7 +40,7 @@ export default function LupaSandiPage() {
           <div className="flex justify-center"><FramedButton type="submit" disabled={saving}>{saving ? 'Mengirim...' : 'Kirim Tautan'}</FramedButton></div>
         </form>
       )}
-      <p className="mt-6 text-center font-moon text-lg text-coal-deep">
+      <p className="mt-6 text-center font-body text-lg text-coal-deep">
         <Link to="/login" className="text-flame underline underline-offset-4">Kembali ke halaman masuk</Link>
       </p>
     </AuthShell>

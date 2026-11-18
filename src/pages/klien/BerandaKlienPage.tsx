@@ -18,7 +18,7 @@ function Card({ project }: { project: Project }) {
       </div>
       <h3 className="truncate font-magic text-[calc(var(--c)*0.075)] uppercase leading-tight text-flame">{project.title}</h3>
       {/* Tinggi deskripsi dikunci empat baris agar semua kartu sama besar. */}
-      <p className="mt-1 line-clamp-4 h-[calc(var(--c)*0.045*1.35*4)] font-moon text-[calc(var(--c)*0.045)] leading-[1.35] text-cream">{project.description}</p>
+      <p className="mt-1 line-clamp-4 h-[calc(var(--c)*0.045*1.35*4)] font-body text-[calc(var(--c)*0.045)] leading-[1.35] text-cream">{project.description}</p>
     </article>
   );
 }
@@ -56,11 +56,11 @@ export default function BerandaKlienPage() {
       <h1 className="sr-only">Beranda klien SIMPK</h1>
       <Marquee />
       <Reveal y={24} className="mx-auto max-w-3xl px-5 text-center">
-        <p className="font-moon text-[clamp(13px,min(2.6vh,4vw),22px)] leading-relaxed text-flame">
+        <p className="font-body text-[clamp(13px,min(2.6vh,4vw),22px)] leading-relaxed text-flame">
           Projek-projek yang telah disiapkan oleh kami dari NEO TELEMETRI sesuai dengan kebutuhan serta keinginan client, sehingga website yang dibuat dapat
           digunakan dengan nyaman dan sesuai dengan tujuan dibuatnya website tersebut.
         </p>
-        <p className="mt-[clamp(6px,1.8vh,20px)] flex flex-wrap items-center justify-center gap-2 font-moon text-[clamp(13px,min(2.6vh,4vw),22px)] text-flame">
+        <p className="mt-[clamp(6px,1.8vh,20px)] flex flex-wrap items-center justify-center gap-2 font-body text-[clamp(13px,min(2.6vh,4vw),22px)] text-flame">
           Jadi tunggu apa lagi?
           <span className="rounded-2xl bg-coal px-3 py-1 font-magic text-[clamp(11px,min(2.2vh,3.4vw),18px)] uppercase">Lets make a project with Neo Telemetri</span>
         </p>

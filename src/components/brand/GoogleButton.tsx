@@ -60,7 +60,7 @@ export default function GoogleButton({ onCredential, label = 'Sign in with Googl
           <img alt="" className="size-[clamp(22px,3.6vh,32px)]" src={ikonGoogle} />
           {label}
         </button>
-        {notice && <p className="mt-2 text-center font-moon text-sm text-coal-deep">{notice}</p>}
+        {notice && <p className="mt-2 text-center font-body text-sm text-coal-deep">{notice}</p>}
       </>
     );
   }
@@ -73,7 +73,7 @@ export default function GoogleButton({ onCredential, label = 'Sign in with Googl
         {/* Tombol resmi Google transparan di atas tampilan desain agar klik diterima Google. */}
         <div ref={slot} className={`absolute inset-0 overflow-hidden rounded-[18px] ${ready ? 'opacity-[0.01]' : 'pointer-events-none opacity-0'}`} />
       </div>
-      {notice && <p className="mt-2 text-center font-moon text-sm text-coal-deep">{notice}</p>}
+      {notice && <p className="mt-2 text-center font-body text-sm text-coal-deep">{notice}</p>}
     </>
   );
 }

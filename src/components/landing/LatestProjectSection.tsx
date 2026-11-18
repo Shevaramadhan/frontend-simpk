@@ -88,7 +88,7 @@ function Lightbox({ index, onClose, onMove }: { index: number | null; onClose: (
           </button>
           <motion.figure key={index} className="max-h-full max-w-5xl" initial={{ scale: 0.92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
             <img src={SHOTS[index].src} alt={SHOTS[index].alt} className="max-h-[80dvh] w-auto rounded-[20px] border-4 border-flame object-contain" />
-            <figcaption className="mt-2 text-center font-moon text-base text-cream">
+            <figcaption className="mt-2 text-center font-body text-base text-cream">
               {SHOTS[index].alt} ({index + 1}/{SHOTS.length})
             </figcaption>
           </motion.figure>
@@ -182,7 +182,7 @@ function Desktop() {
 
       <div className="edge-r2 pointer-events-none absolute inset-0">
         <Reveal y={30} delay={0.35} className="absolute" style={box(817, 371, 509)}>
-        <p className="text-justify font-moon text-[48px] leading-[normal] text-cream">{PROJECT_TEXT}</p>
+        <p className="text-justify font-body text-[30px] leading-[1.45] text-cream">{PROJECT_TEXT}</p>
       </Reveal>
       </div>
 
@@ -207,7 +207,7 @@ function Desktop() {
 
       <div className="edge-r2 pointer-events-none absolute inset-0">
         <Reveal y={-30} scale={0.9} delay={0.2} className="absolute" style={box(768, 214, 607)}>
-        <h3 className="text-outline-lg text-center font-moon text-[65px] leading-[normal] tracking-[3.25px] text-flame">{PROJECT_NAME}</h3>
+        <h3 className="text-outline-lg whitespace-nowrap text-center font-magic text-[46px] leading-[normal] tracking-[2px] text-flame">{PROJECT_NAME}</h3>
       </Reveal>
       </div>
 
@@ -245,10 +245,10 @@ function Mobile() {
 
       <div className="relative mx-4 mt-12 rounded-[30px] bg-coal px-5 pb-8 pt-16 sm:px-8">
         <Reveal y={-20} scale={0.9} className="absolute inset-x-0 top-0 -translate-y-1/2">
-          <h3 className="text-outline-lg text-center font-moon text-[9vw] leading-none tracking-wide text-flame">{PROJECT_NAME}</h3>
+          <h3 className="text-outline-lg whitespace-nowrap text-center font-magic text-[6.8vw] leading-none tracking-wide text-flame">{PROJECT_NAME}</h3>
         </Reveal>
         <Reveal y={30} delay={0.1}>
-          <p className="text-justify font-moon text-xl leading-[normal] text-cream sm:text-3xl">{PROJECT_TEXT}</p>
+          <p className="text-justify font-body text-base leading-relaxed text-cream sm:text-xl">{PROJECT_TEXT}</p>
         </Reveal>
       </div>
     </div>

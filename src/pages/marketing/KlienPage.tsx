@@ -30,7 +30,7 @@ export default function KlienPage() {
 
   return (
     <StaffPanel title="Klien">
-      <p className="mb-3 font-moon text-base text-cream/80">Klien mendaftar sendiri lewat halaman Sign In. Nonaktifkan akun yang tidak jelas atau spam.</p>
+      <p className="mb-3 font-body text-base text-cream/80">Klien mendaftar sendiri lewat halaman Sign In. Nonaktifkan akun yang tidak jelas atau spam.</p>
       <BrandError message={actionError} />
       {loading && !data ? (
         <Loading />

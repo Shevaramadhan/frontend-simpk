@@ -46,8 +46,8 @@ export default function AkunPage() {
         <div className="flex flex-col items-center gap-3 md:w-56">
           <Avatar size="size-32" />
           <p className="text-center font-magic text-2xl uppercase text-flame">{user.name}</p>
-          <p className="font-moon text-base text-coal-deep/70">{user.email}</p>
-          <span className="rounded-xl bg-coal px-3 py-1 font-moon text-sm text-flame">{ROLE_LABEL[user.role]}</span>
+          <p className="font-body text-base text-coal-deep/70">{user.email}</p>
+          <span className="rounded-xl bg-coal px-3 py-1 font-body text-sm text-flame">{ROLE_LABEL[user.role]}</span>
         </div>
         <form onSubmit={handleSubmit} className="max-w-lg">
           <p className="mb-3 font-magic text-2xl uppercase text-flame">Ganti Kata Sandi</p>
@@ -56,7 +56,7 @@ export default function AkunPage() {
           {input('ulang', 'Konfirmasi kata sandi baru', 'new-password')}
           <BrandError message={error} />
           {done && (
-            <p role="status" className="mb-2 font-moon text-base text-[#14aa00]">
+            <p role="status" className="mb-2 font-body text-base text-[#14aa00]">
               Kata sandi diperbarui.
             </p>
           )}

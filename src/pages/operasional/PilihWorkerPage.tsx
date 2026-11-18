@@ -92,8 +92,8 @@ export default function PilihWorkerPage() {
     }
   }
 
-  if (loading && !order) return <p className="p-10 text-center font-moon text-xl">Memuat...</p>;
-  if (error || !order) return <p role="alert" className="p-10 text-center font-moon text-xl text-[#9c2b2b]">{error || 'Pengajuan tidak ditemukan.'}</p>;
+  if (loading && !order) return <p className="p-10 text-center font-body text-xl">Memuat...</p>;
+  if (error || !order) return <p role="alert" className="p-10 text-center font-body text-xl text-[#9c2b2b]">{error || 'Pengajuan tidak ditemukan.'}</p>;
   const closed = order.project?.status === 'SELESAI' || order.project?.status === 'DIBATALKAN';
 
   return (
@@ -102,7 +102,7 @@ export default function PilihWorkerPage() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="font-magic text-2xl uppercase text-flame sm:text-3xl">Pilih Worker</p>
           {order.project && (
-            <Link to={`/app/proyek/${order.project.id}`} className="font-moon text-base text-flame underline underline-offset-4">
+            <Link to={`/app/proyek/${order.project.id}`} className="font-body text-base text-flame underline underline-offset-4">
               Lihat tugas project
             </Link>
           )}
@@ -116,7 +116,7 @@ export default function PilihWorkerPage() {
         {/* Slot worker terpilih beserta posisi dan tanda PM. */}
         <div className="mt-3 rounded-[20px] bg-coal p-3">
           {team.length === 0 ? (
-            <p className="py-3 text-center font-moon text-base text-cream/70">Belum ada worker dipilih. Klik kartu worker di bawah.</p>
+            <p className="py-3 text-center font-body text-base text-cream/70">Belum ada worker dipilih. Klik kartu worker di bawah.</p>
           ) : (
             <ul className="grid gap-3 lg:grid-cols-2">
               <AnimatePresence initial={false}>
@@ -124,7 +124,7 @@ export default function PilihWorkerPage() {
                   <motion.li key={member.userId} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="flex items-center gap-3 rounded-[16px] bg-coal-deep p-2">
                     <Avatar size="size-12" />
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-moon text-base text-flame">{byId.get(member.userId)?.name ?? `Worker #${member.userId}`}</p>
+                      <p className="truncate font-body text-base text-flame">{byId.get(member.userId)?.name ?? `Worker #${member.userId}`}</p>
                       <input
                         aria-label="Posisi di project"
                         list="saran-posisi"
@@ -133,10 +133,10 @@ export default function PilihWorkerPage() {
                         maxLength={60}
                         value={member.posisi}
                         onChange={(event) => patch(member.userId, { posisi: event.target.value })}
-                        className="mt-1 w-full rounded-lg bg-cream px-2 py-1 font-moon text-sm text-coal-deep"
+                        className="mt-1 w-full rounded-lg bg-cream px-2 py-1 font-body text-sm text-coal-deep"
                       />
                     </div>
-                    <label className={`cursor-pointer rounded-xl px-3 py-1 font-moon text-sm ${member.isPm ? 'bg-flame text-coal' : 'border-2 border-flame text-flame'}`}>
+                    <label className={`cursor-pointer rounded-xl px-3 py-1 font-body text-sm ${member.isPm ? 'bg-flame text-coal' : 'border-2 border-flame text-flame'}`}>
                       <input type="radio" name="pm" className="sr-only" checked={member.isPm} onChange={() => patch(member.userId, { isPm: true })} />
                       PM
                     </label>
@@ -159,7 +159,7 @@ export default function PilihWorkerPage() {
                 setFilter(event.target.value);
                 setWorkerPage(1);
               }}
-              className="appearance-none rounded-[24px] bg-coal py-2 pl-5 pr-10 font-moon text-lg text-flame"
+              className="appearance-none rounded-[24px] bg-coal py-2 pl-5 pr-10 font-body text-lg text-flame"
             >
               <option value={SEMUA}>Semua</option>
               {keahlian.map((nama) => (
@@ -174,7 +174,7 @@ export default function PilihWorkerPage() {
           <button type="button" onClick={() => void save()} disabled={saving || closed} className={pillButton}>
             {saving ? 'Menyimpan...' : order.project ? 'Simpan Worker' : 'Tambah Worker'}
           </button>
-          {message.done && <span role="status" className="font-moon text-base text-[#14aa00]">{message.done}</span>}
+          {message.done && <span role="status" className="font-body text-base text-[#14aa00]">{message.done}</span>}
         </div>
         <BrandError message={message.error} />
 
@@ -191,14 +191,14 @@ export default function PilihWorkerPage() {
               >
                 <Avatar size="size-14" />
                 <span className="min-w-0">
-                  <span className="block truncate font-moon text-lg text-flame">{worker.name}</span>
-                  <span className="block truncate font-moon text-sm text-cream/90">{worker.keahlian ?? 'Keahlian belum diisi'}</span>
-                  <span className="block font-moon text-xs leading-snug">{workerNote(worker.jumlahProject)}</span>
+                  <span className="block truncate font-body text-lg text-flame">{worker.name}</span>
+                  <span className="block truncate font-body text-sm text-cream/90">{worker.keahlian ?? 'Keahlian belum diisi'}</span>
+                  <span className="block font-body text-xs leading-snug">{workerNote(worker.jumlahProject)}</span>
                 </span>
               </button>
             );
           })}
-          {workers && shown.length === 0 && <p className="font-moon text-base text-coal-deep/70">Tidak ada worker pada saringan ini.</p>}
+          {workers && shown.length === 0 && <p className="font-body text-base text-coal-deep/70">Tidak ada worker pada saringan ini.</p>}
         </div>
         <Pagination page={workerPage} totalPages={workerTotalPages} onPageChange={setWorkerPage} tone="light" />
 

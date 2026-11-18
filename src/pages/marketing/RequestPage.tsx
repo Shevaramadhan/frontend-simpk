@@ -42,7 +42,7 @@ export default function RequestPage() {
                 setTab(item.key);
                 setPage(1);
               }}
-              className={`rounded-[20px] px-4 py-1.5 font-moon text-base transition-colors ${active ? 'bg-flame text-coal' : 'border-2 border-flame text-flame hover:bg-flame/15'}`}
+              className={`rounded-[20px] px-4 py-1.5 font-body text-base transition-colors ${active ? 'bg-flame text-coal' : 'border-2 border-flame text-flame hover:bg-flame/15'}`}
             >
               {item.label} ({count})
             </button>
@@ -75,10 +75,10 @@ export default function RequestPage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <h2 className="line-clamp-1 break-words font-magic text-[clamp(14px,1.9vh,18px)] uppercase leading-tight text-flame">{order.judul || order.nomor}</h2>
-                    <p className="font-moon text-xs text-coal-deep/70 sm:text-sm">
+                    <p className="font-body text-xs text-coal-deep/70 sm:text-sm">
                       {order.client.namaInstansi} · {tanggal(order.createdAt)} · {order.nomor}
                     </p>
-                    {bukti > 0 && <p className="mt-0.5 font-moon text-xs text-[#b25e00]">{bukti} bukti transfer menunggu diperiksa</p>}
+                    {bukti > 0 && <p className="mt-0.5 font-body text-xs text-[#b25e00]">{bukti} bukti transfer menunggu diperiksa</p>}
                   </div>
                   <div className="flex gap-2">
                     {bisaBayar(order) && (

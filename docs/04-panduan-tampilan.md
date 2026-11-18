@@ -48,10 +48,17 @@ Mengikuti desain Figma "SIMPK By Neotelemetri"; salinan PNG ada di `docs/desain/
 | `flame` | `#ff6200` | Judul, tombol, aksen |
 | `sand` | `#f6eddd` | Judul footer |
 
-Font: Magic Hat (`font-magic`, judul dan menu), Seven Moon (`font-moon`, teks isi), Poppins dan League Spartan (footer). Garis tepi judul memakai utility `text-outline` dan `text-outline-lg`.
+Font (F-25): hanya dua font di seluruh web.
 
-**Lisensi font.** Magic Hat dan Seven Moon gratis hanya untuk pemakaian pribadi. Pemakaian komersial wajib membeli lisensi (lihat berkas lisensi di dalam `docs/desain/desain font/*.zip`). Putuskan beli lisensi atau ganti font sebelum situs dipakai Neo Telemetri, dan sebelum berkas font dimasukkan ke repo publik.
+| Peran | Font dan kelas |
+|---|---|
+| Judul (h1 sampai h3), navbar, label tombol | Magic Hat, `font-magic` |
+| Paragraf, label form, tabel, footer | Poppins, `font-body` |
+
+Di halaman pengurus (`data-staff-shell`) `font-magic` juga menjadi Poppins tebal. Jangan menambah font lain; Seven Moon, League Spartan, Inter, dan Plus Jakarta Sans sudah dihapus. Garis tepi judul memakai utility `text-outline` dan `text-outline-lg`.
+
+**Lisensi font.** Magic Hat gratis hanya untuk pemakaian pribadi (Seven Moon sudah tidak dipakai). Pemakaian komersial wajib membeli lisensi (lihat berkas lisensi di dalam `docs/desain/desain font/*.zip`). Putuskan beli lisensi atau ganti font sebelum situs dipakai Neo Telemetri, dan sebelum berkas font dimasukkan ke repo publik.
 
 Posisi elemen di `components/landing/` memakai angka koordinat Figma lewat `box(x, y, lebar, tinggi)`. Jangan mengubahnya tanpa mengubah desain.
 
-Berkas font ada di `public/fonts/` (`MagicHat.ttf`, `SevenMoon.ttf`) agar ikut ter-build di Vercel. Lisensinya hanya untuk pemakaian pribadi, jadi lisensi komersial harus dibeli, atau font diganti, sebelum sistem dipakai resmi oleh Neo Telemetri. Tanpa berkas itu tampilan memakai huruf cadangan (Impact dan Trebuchet MS). PNG desain di `docs/desain/` juga hanya disimpan lokal; sumber utamanya file Figma "SIMPK By Neotelemetri".
+Berkas font ada di `public/fonts/` (`MagicHat.ttf`; `SevenMoon.ttf` tidak dimuat lagi) agar ikut ter-build di Vercel. Lisensinya hanya untuk pemakaian pribadi, jadi lisensi komersial harus dibeli, atau font diganti, sebelum sistem dipakai resmi oleh Neo Telemetri. Tanpa berkas itu judul memakai huruf cadangan Impact. Poppins dimuat dari Google Fonts. PNG desain di `docs/desain/` juga hanya disimpan lokal; sumber utamanya file Figma "SIMPK By Neotelemetri".

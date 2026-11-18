@@ -7,12 +7,6 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'Seven Moon';
-  src: url('/fonts/SevenMoon.ttf') format('truetype');
-  font-display: swap;
-}
-
 /* Satu-satunya tempat warna dan font. Lihat docs/04-panduan-tampilan.md. */
 @theme {
   --color-page: #0f1322;
@@ -25,8 +19,8 @@
   --color-primary-hover: #2f4fc9;
   --color-accent: #8ea6ff;
   --color-danger: #fca5a5;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  /* Tipografi (masukan PM 18 Nov): Magic Hat untuk judul, navbar, dan tombol; Poppins untuk semua teks isi. */
+  --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* Landing page publik, dari Figma "SIMPK By Neotelemetri". */
   --color-cream: #fffff5;
@@ -35,9 +29,7 @@
   --color-flame: #ff6200;
   --color-sand: #f6eddd;
   --font-magic: 'Magic Hat', Impact, sans-serif;
-  --font-moon: 'Seven Moon', 'Trebuchet MS', sans-serif;
-  --font-poppins: 'Poppins', sans-serif;
-  --font-spartan: 'League Spartan', sans-serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 @layer base {
@@ -47,10 +39,11 @@
     font-family: var(--font-sans);
   }
 
+  /* Judul tanpa kelas font mengikuti font judul; di halaman pengurus --font-magic menjadi Poppins. */
   h1,
   h2,
   h3 {
-    font-family: var(--font-heading);
+    font-family: var(--font-magic);
   }
 
   input,
@@ -78,9 +71,8 @@
  * untuk pemakaian kerja, sedangkan Portal Klien dan Landing Page publik tetap memakai desain & font asli Figma.
  */
 [data-staff-shell] {
-  --font-moon: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-magic: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-family: var(--font-poppins);
+  font-family: var(--font-body);
 }
 
 [data-staff-shell] .font-magic {
@@ -88,7 +80,7 @@
   letter-spacing: -0.01em;
 }
 
-[data-staff-shell] .font-moon {
+[data-staff-shell] .font-body {
   font-weight: 500;
 }
 

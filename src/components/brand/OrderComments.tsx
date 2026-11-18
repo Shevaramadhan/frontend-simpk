@@ -106,12 +106,12 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <p className="font-magic text-2xl uppercase text-flame sm:text-3xl">Diskusi &amp; Komentar</p>
-          <p className="font-moon text-sm text-coal-deep/70">Ruang komunikasi antara klien, Marketing, Operasional, dan tim project.</p>
+          <p className="font-body text-sm text-coal-deep/70">Ruang komunikasi antara klien, Marketing, Operasional, dan tim project.</p>
         </div>
         <button
           type="button"
           onClick={() => void fetchComments(false)}
-          className="rounded-xl border-2 border-coal/25 bg-white px-3 py-1 font-moon text-sm text-coal-deep transition-colors hover:border-flame hover:text-flame"
+          className="rounded-xl border-2 border-coal/25 bg-white px-3 py-1 font-body text-sm text-coal-deep transition-colors hover:border-flame hover:text-flame"
         >
           Muat Ulang
         </button>
@@ -119,13 +119,13 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
 
       <div className="mt-3 space-y-3 rounded-[22px] border-[3px] border-coal/15 bg-white/80 p-4">
         {loading ? (
-          <p className="py-6 text-center font-moon text-base text-coal-deep/70">Memuat komentar...</p>
+          <p className="py-6 text-center font-body text-base text-coal-deep/70">Memuat komentar...</p>
         ) : loadError ? (
-          <p role="alert" className="py-4 text-center font-moon text-base text-[#9c2b2b]">
+          <p role="alert" className="py-4 text-center font-body text-base text-[#9c2b2b]">
             {loadError}
           </p>
         ) : comments.length === 0 ? (
-          <p className="py-6 text-center font-moon text-base text-coal-deep/65">
+          <p className="py-6 text-center font-body text-base text-coal-deep/65">
             Belum ada komentar. Sampaikan pertanyaan, masukan, atau pembaruan seputar project di sini.
           </p>
         ) : (
@@ -139,15 +139,15 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
                   }`}
                 >
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className={`font-moon text-sm font-bold ${mine ? 'text-flame' : 'text-coal-deep'}`}>
+                    <span className={`font-body text-sm font-bold ${mine ? 'text-flame' : 'text-coal-deep'}`}>
                       {mine ? `${comment.author.name} (Anda)` : comment.author.name}
                     </span>
-                    <span className={`rounded-lg px-2 py-0.5 font-moon text-xs ${PERAN_BADGE[comment.author.role]}`}>
+                    <span className={`rounded-lg px-2 py-0.5 font-body text-xs ${PERAN_BADGE[comment.author.role]}`}>
                       {PERAN_LABEL[comment.author.role]}
                     </span>
-                    <span className={`font-moon text-xs ${mine ? 'text-cream/65' : 'text-coal-deep/60'}`}>{tanggalJam(comment.createdAt)}</span>
+                    <span className={`font-body text-xs ${mine ? 'text-cream/65' : 'text-coal-deep/60'}`}>{tanggalJam(comment.createdAt)}</span>
                   </div>
-                  <p className="mt-1 whitespace-pre-wrap break-words font-moon text-base leading-snug">{comment.pesan}</p>
+                  <p className="mt-1 whitespace-pre-wrap break-words font-body text-base leading-snug">{comment.pesan}</p>
                 </article>
               </div>
             );
@@ -184,10 +184,10 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
               {sending ? 'Mengirim...' : 'Kirim'}
             </button>
           </div>
-          <p className="mt-1 font-moon text-xs text-coal-deep/65">Komentar ini terlihat oleh klien, Marketing, Operasional, dan tim project.</p>
+          <p className="mt-1 font-body text-xs text-coal-deep/65">Komentar ini terlihat oleh klien, Marketing, Operasional, dan tim project.</p>
         </form>
       ) : (
-        <p className="mt-3 rounded-xl bg-coal/10 px-4 py-2 text-center font-moon text-sm text-coal-deep/75">
+        <p className="mt-3 rounded-xl bg-coal/10 px-4 py-2 text-center font-body text-sm text-coal-deep/75">
           Pengajuan atau project ini sudah ditutup. Komentar baru dinonaktifkan.
         </p>
       )}

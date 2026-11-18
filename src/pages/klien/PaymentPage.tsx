@@ -44,15 +44,15 @@ function UploadForm({ invoice, onDone }: { invoice: Invoice; onDone: () => void 
     }
   }
 
-  const small = 'w-full rounded-xl border-[3px] border-coal-deep bg-white px-3 py-1.5 font-moon text-base text-coal-deep';
+  const small = 'w-full rounded-xl border-[3px] border-coal-deep bg-white px-3 py-1.5 font-body text-base text-coal-deep';
   return (
     <form onSubmit={handleSubmit} className="mt-3">
       <div className="mb-3 grid gap-3 sm:grid-cols-2">
-        <label className="font-moon text-sm text-flame">
+        <label className="font-body text-sm text-flame">
           Jumlah transfer (Rp)
           <input type="number" min="1" required value={jumlah} onChange={(event) => setJumlah(event.target.value)} className={small} />
         </label>
-        <label className="font-moon text-sm text-flame">
+        <label className="font-body text-sm text-flame">
           Tanggal transfer
           <DateInput required max={hariIni()} value={tgl} onChange={(event) => setTgl(event.target.value)} className={small} />
         </label>
@@ -61,7 +61,7 @@ function UploadForm({ invoice, onDone }: { invoice: Invoice; onDone: () => void 
       <label htmlFor={inputId} className={`${dashedBox} block cursor-pointer bg-[#f7833c6e] px-4 py-4 text-center font-magic text-lg uppercase text-flame hover:bg-[#f7833c99]`}>
         {file ? file.name : 'Upload bukti pembayaran'}
       </label>
-      <p className="mt-1 font-moon text-xs text-coal-deep/70">JPG, PNG, atau PDF, maksimal 2 MB.</p>
+      <p className="mt-1 font-body text-xs text-coal-deep/70">JPG, PNG, atau PDF, maksimal 2 MB.</p>
       <BrandError message={error} />
       {file && (
         <button type="submit" disabled={saving} className="mt-2 w-full rounded-2xl bg-coal py-2.5 font-magic text-lg uppercase text-flame hover:text-cream disabled:opacity-60">
@@ -79,13 +79,13 @@ function InvoiceCard({ orderId, invoice, onChange }: { orderId: number; invoice:
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="font-magic text-xl uppercase text-coal-deep">{invoice.keterangan}</p>
         <span className="flex items-center gap-2">
-          <Link to={`/tagihan/${orderId}/${invoice.id}`} className="rounded-xl border-2 border-coal px-3 py-0.5 font-moon text-sm text-coal-deep hover:bg-coal hover:text-flame">
+          <Link to={`/tagihan/${orderId}/${invoice.id}`} className="rounded-xl border-2 border-coal px-3 py-0.5 font-body text-sm text-coal-deep hover:bg-coal hover:text-flame">
             Cetak Tagihan
           </Link>
-          <span className={`rounded-xl px-3 py-1 font-moon text-sm text-coal-deep ${state.tone}`}>{state.label}</span>
+          <span className={`rounded-xl px-3 py-1 font-body text-sm text-coal-deep ${state.tone}`}>{state.label}</span>
         </span>
       </div>
-      <dl className="mt-2 flex flex-wrap gap-x-8 gap-y-1 font-moon text-lg">
+      <dl className="mt-2 flex flex-wrap gap-x-8 gap-y-1 font-body text-lg">
         <div className="flex gap-2">
           <dt className="text-flame">Tagihan :</dt>
           <dd className="text-coal-deep">{rupiahPendek(invoice.total)}</dd>
@@ -95,10 +95,10 @@ function InvoiceCard({ orderId, invoice, onChange }: { orderId: number; invoice:
           <dd className="text-coal-deep">{tanggalPendek(invoice.jatuhTempo)}</dd>
         </div>
       </dl>
-      <p className="font-moon text-xs text-coal-deep/60">{invoice.nomor}</p>
-      {state.note && <p className="mt-2 rounded-xl bg-[#f19b9b55] px-3 py-1.5 font-moon text-sm text-coal-deep">Alasan ditolak: {state.note}</p>}
+      <p className="font-body text-xs text-coal-deep/60">{invoice.nomor}</p>
+      {state.note && <p className="mt-2 rounded-xl bg-[#f19b9b55] px-3 py-1.5 font-body text-sm text-coal-deep">Alasan ditolak: {state.note}</p>}
       {invoice.status === 'DIBATALKAN' && (
-        <p className="mt-2 rounded-xl bg-coal/10 px-3 py-1.5 font-moon text-sm text-coal-deep">
+        <p className="mt-2 rounded-xl bg-coal/10 px-3 py-1.5 font-body text-sm text-coal-deep">
           Tagihan ini dibatalkan Marketing dan tidak perlu dibayar.{invoice.alasanBatal ? ` Alasan: ${invoice.alasanBatal}` : ''}
         </p>
       )}
@@ -112,8 +112,8 @@ export default function PaymentPage() {
   const load = useCallback(() => getOrder(id), [id]);
   const { data: order, loading, error, reload } = useData(load);
 
-  if (loading && !order) return <p className="p-10 text-center font-moon text-xl text-coal-deep">Memuat...</p>;
-  if (error || !order) return <p role="alert" className="p-10 text-center font-moon text-xl text-[#9c2b2b]">{error || 'Project tidak ditemukan.'}</p>;
+  if (loading && !order) return <p className="p-10 text-center font-body text-xl text-coal-deep">Memuat...</p>;
+  if (error || !order) return <p role="alert" className="p-10 text-center font-body text-xl text-[#9c2b2b]">{error || 'Project tidak ditemukan.'}</p>;
 
   return (
     <ProyekInfo title="Payment" judul={order.judul || order.nomor} deskripsi={order.kebutuhan} estimasi={order.tenggatDiharapkan} anggaran={order.anggaran} documents={order.documents} kelolaDokumen={{ orderId: order.id, bisaTambah: order.status === 'BARU' || order.status === 'DITINJAU', onChange: () => void reload() }} backTo="/portal/proyek">
@@ -121,7 +121,7 @@ export default function PaymentPage() {
       <div className="mt-3 grid gap-4 lg:grid-cols-[1fr_auto]">
         <div className="space-y-3">
           {order.invoices.length === 0 ? (
-            <p className="rounded-2xl bg-white p-5 text-center font-moon text-lg text-coal-deep">
+            <p className="rounded-2xl bg-white p-5 text-center font-body text-lg text-coal-deep">
               {order.status === 'DISETUJUI' || order.status === 'MENJADI_PROYEK'
                 ? 'Tagihan belum diterbitkan. Marketing akan segera menerbitkan tagihan DP.'
                 : 'Tagihan diterbitkan setelah pengajuan disetujui Marketing.'}
@@ -132,7 +132,7 @@ export default function PaymentPage() {
         </div>
         <div className="mx-auto w-[190px] rounded-[20px] bg-flame p-3">
           {/* Kode QRIS resmi Neo Telemetri belum tersedia; QR pada desain hanya contoh dan tidak dipakai. */}
-          <div className="grid aspect-square place-items-center rounded-xl bg-white p-4 text-center font-moon text-sm text-coal-deep">
+          <div className="grid aspect-square place-items-center rounded-xl bg-white p-4 text-center font-body text-sm text-coal-deep">
             Kode QRIS Neo Telemetri akan tampil di sini. Sementara, transfer sesuai arahan Marketing.
           </div>
         </div>

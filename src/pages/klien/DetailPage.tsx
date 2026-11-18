@@ -25,10 +25,10 @@ function Updates({ projectId }: { projectId: number }) {
       <ul className="mt-3 space-y-2">
         {paged.map((update) => (
           <li key={update.id} className="rounded-2xl border-[3px] border-coal/15 bg-white px-4 py-3">
-            <p className="font-moon text-sm text-coal-deep/70">
+            <p className="font-body text-sm text-coal-deep/70">
               {tanggal(update.createdAt)} · {update.task.judul} · {update.persentase}%
             </p>
-            <p className="mt-1 font-moon text-base text-coal-deep">{update.catatanKlien}</p>
+            <p className="mt-1 font-body text-base text-coal-deep">{update.catatanKlien}</p>
           </li>
         ))}
       </ul>
@@ -51,8 +51,8 @@ function Ulasan({ projectId, review, onSaved }: { projectId: number; review: Pro
         <div className="mt-2">
           <StarsView value={review.rating} size="size-8" />
         </div>
-        {review.komentar && <p className="mt-2 whitespace-pre-wrap font-moon text-base text-coal-deep">{review.komentar}</p>}
-        <p className="mt-2 font-moon text-sm text-coal-deep/60">Terima kasih telah memakai jasa Neo Telemetri.</p>
+        {review.komentar && <p className="mt-2 whitespace-pre-wrap font-body text-base text-coal-deep">{review.komentar}</p>}
+        <p className="mt-2 font-body text-sm text-coal-deep/60">Terima kasih telah memakai jasa Neo Telemetri.</p>
       </div>
     );
   }
@@ -74,7 +74,7 @@ function Ulasan({ projectId, review, onSaved }: { projectId: number; review: Pro
   return (
     <form onSubmit={handleSubmit} className="mt-8 rounded-[22px] bg-white p-5 text-center">
       <p className="font-magic text-2xl uppercase text-flame">Beri Ulasan</p>
-      <p className="font-moon text-base text-coal-deep">Project sudah selesai. Bagaimana hasil kerja tim Neo Telemetri?</p>
+      <p className="font-body text-base text-coal-deep">Project sudah selesai. Bagaimana hasil kerja tim Neo Telemetri?</p>
       <div className="mt-2">
         <StarsInput value={rating} onChange={setRating} />
       </div>
@@ -103,8 +103,8 @@ export default function DetailPage() {
   const load = useCallback(() => getOrder(id), [id]);
   const { data: order, loading, error, reload } = useData(load);
 
-  if (loading) return <p className="p-10 text-center font-moon text-xl text-coal-deep">Memuat...</p>;
-  if (error || !order) return <p role="alert" className="p-10 text-center font-moon text-xl text-[#9c2b2b]">{error || 'Project tidak ditemukan.'}</p>;
+  if (loading) return <p className="p-10 text-center font-body text-xl text-coal-deep">Memuat...</p>;
+  if (error || !order) return <p role="alert" className="p-10 text-center font-body text-xl text-[#9c2b2b]">{error || 'Project tidak ditemukan.'}</p>;
   const project = order.project;
 
   return (
@@ -116,7 +116,7 @@ export default function DetailPage() {
           <Updates projectId={project.id} />
         </>
       ) : (
-        <p className="mt-3 text-center font-moon text-lg text-coal-deep">
+        <p className="mt-3 text-center font-body text-lg text-coal-deep">
           <span className="mb-2 block font-magic text-2xl uppercase text-flame sm:text-3xl">Total Progress</span>
           {order.status === 'DITOLAK' || order.status === 'DIBATALKAN'
             ? 'Pengajuan ini tidak dilanjutkan.'

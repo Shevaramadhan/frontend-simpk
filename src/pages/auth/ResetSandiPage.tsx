@@ -36,7 +36,7 @@ export default function ResetSandiPage() {
   return (
     <AuthShell title="Buat Kata Sandi Baru">
       {done ? (
-        <p role="status" className="font-moon text-lg text-coal-deep">
+        <p role="status" className="font-body text-lg text-coal-deep">
           Kata sandi diperbarui. <Link to="/login" className="text-flame underline underline-offset-4">Masuk sekarang</Link>
         </p>
       ) : (

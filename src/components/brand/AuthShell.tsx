@@ -97,7 +97,7 @@ export default function AuthShell({ title, children }: { title: string; children
     <div className="relative flex min-h-dvh items-center px-4 py-[clamp(8px,2.5vh,48px)]">
       <Backdrop />
       <Reveal immediate y={40} duration={0.6} className="relative mx-auto w-full max-w-2xl rounded-[30px] bg-cream px-6 py-[clamp(14px,3.2vh,32px)] shadow-[0_10px_40px_rgba(0,0,0,0.25)] sm:px-12">
-        <Link to="/" className="absolute left-5 top-5 font-moon text-sm text-coal-deep/70 underline-offset-4 hover:underline">
+        <Link to="/" className="absolute left-5 top-5 font-body text-sm text-coal-deep/70 underline-offset-4 hover:underline">
           Beranda
         </Link>
         <div className="mb-[clamp(8px,2.4vh,24px)] flex flex-col items-center">

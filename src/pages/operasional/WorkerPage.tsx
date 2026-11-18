@@ -63,7 +63,7 @@ function TambahWorker({ open, workers, onClose, onDone }: { open: boolean; worke
         <BrandField id="w-password" label="Kata sandi awal (minimal 8 karakter)">
           <PasswordInput id="w-password" required minLength={8} autoComplete="new-password" value={form.password} onChange={(event) => setForm({ ...form, password: event.target.value })} className={brandInputSolid} />
         </BrandField>
-        <p className="mb-3 font-moon text-sm text-coal-deep/70">Sampaikan email dan kata sandi awal kepada anggota. Anggota dapat menggantinya di menu Account.</p>
+        <p className="mb-3 font-body text-sm text-coal-deep/70">Sampaikan email dan kata sandi awal kepada anggota. Anggota dapat menggantinya di menu Account.</p>
         <BrandError message={error} />
         <button type="submit" disabled={saving} className={`${pillButton} mt-2 w-full`}>
           {saving ? 'Menyimpan...' : 'Tambah Worker'}
@@ -106,7 +106,7 @@ function UbahKeahlian({ worker, workers, onClose, onDone }: { worker: InternalUs
     <BrandModal open={worker !== null} title="Ubah Keahlian" onClose={onClose}>
       {worker && (
         <form onSubmit={handleSubmit}>
-          <p className="mb-3 font-moon text-lg text-coal-deep">{worker.name}</p>
+          <p className="mb-3 font-body text-lg text-coal-deep">{worker.name}</p>
           <BrandField id="k-keahlian" label="Keahlian">
             <input id="k-keahlian" list="saran-keahlian-ubah" maxLength={60} autoComplete="off" value={value} onChange={(event) => setValue(event.target.value)} className={brandInputSolid} />
             <KeahlianOptions id="saran-keahlian-ubah" workers={workers} />
@@ -156,15 +156,15 @@ export default function WorkerPage() {
               >
                 <Avatar />
                 <div className="min-w-0 flex-1">
-                  <p className="truncate font-moon text-xl text-flame">{worker.name}</p>
-                  <p className="flex flex-wrap items-center gap-x-2 font-moon text-sm">
+                  <p className="truncate font-body text-xl text-flame">{worker.name}</p>
+                  <p className="flex flex-wrap items-center gap-x-2 font-body text-sm">
                     <span className={worker.keahlian ? 'text-coal-deep' : 'text-coal-deep/50'}>{worker.keahlian ?? 'Keahlian belum diisi'}</span>
                     <button type="button" onClick={() => setEditing(worker)} className="text-xs text-flame underline underline-offset-2 hover:text-coal-deep">
                       Ubah
                     </button>
                   </p>
-                  <p className="truncate font-moon text-xs text-coal-deep/60">{worker.email}</p>
-                  <p className="font-moon text-sm leading-snug">{workerNote(worker.jumlahProject)}</p>
+                  <p className="truncate font-body text-xs text-coal-deep/60">{worker.email}</p>
+                  <p className="font-body text-sm leading-snug">{workerNote(worker.jumlahProject)}</p>
                 </div>
               </motion.div>
             ))}

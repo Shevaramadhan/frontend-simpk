@@ -42,7 +42,7 @@ export default function LoginPage() {
           <PasswordInput id="password" required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className={brandInput} />
         </BrandField>
         <div className="mb-[clamp(8px,2.4vh,24px)] text-right">
-          <Link to="/lupa-sandi" className="font-moon text-[clamp(13px,2vh,16px)] text-coal-deep underline underline-offset-4">
+          <Link to="/lupa-sandi" className="font-body text-[clamp(13px,2vh,16px)] text-coal-deep underline underline-offset-4">
             Lupa kata sandi?
           </Link>
         </div>
@@ -53,7 +53,7 @@ export default function LoginPage() {
           </FramedButton>
         </div>
       </form>
-      <p className="mt-[clamp(8px,2vh,24px)] text-center font-moon text-[clamp(14px,2.2vh,18px)] text-coal-deep">
+      <p className="mt-[clamp(8px,2vh,24px)] text-center font-body text-[clamp(14px,2.2vh,18px)] text-coal-deep">
         Belum punya akun?{' '}
         <Link to={jasa ? `/daftar?jasa=${encodeURIComponent(jasa)}` : '/daftar'} className="text-flame underline underline-offset-4">
           Sign In

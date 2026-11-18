@@ -42,12 +42,12 @@ export default function SiteFooter() {
           >
             SIMPK NEOTELEMETRI
           </p>
-          <p className="mt-2 text-justify font-poppins leading-[normal]" style={{ fontSize: skala(22) }}>
+          <p className="mt-2 text-justify font-body leading-[normal]" style={{ fontSize: skala(22) }}>
             {SIMPK_DESCRIPTION}
           </p>
         </div>
         <div className="text-center">
-          <p className="font-poppins font-bold leading-[normal]" style={{ fontSize: skala(24) }}>
+          <p className="font-body font-bold leading-[normal]" style={{ fontSize: skala(24) }}>
             FOLLOW US
           </p>
           <div className="mx-auto mt-[clamp(14px,1.6vw,24px)] grid w-fit grid-cols-3 place-items-center gap-x-[clamp(14px,1.4vw,20px)] gap-y-[clamp(10px,1.6vw,24px)]">
@@ -56,8 +56,8 @@ export default function SiteFooter() {
             ))}
           </div>
         </div>
-        <div className="text-center font-poppins leading-[normal]" style={{ fontSize: skala(22) }}>
-          <p className="font-spartan font-bold" style={{ fontSize: skala(27) }}>
+        <div className="text-center font-body leading-[normal]" style={{ fontSize: skala(22) }}>
+          <p className="font-body font-bold" style={{ fontSize: skala(27) }}>
             CONTACT US
           </p>
           <p className="mt-[clamp(10px,1.6vw,24px)] whitespace-pre">{CONTACT.phone}</p>

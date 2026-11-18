@@ -18,7 +18,7 @@ export default function ReviewPage() {
       title="Review"
       action={
         data?.length ? (
-          <span className="flex items-center gap-2 font-moon text-lg text-cream">
+          <span className="flex items-center gap-2 font-body text-lg text-cream">
             <StarsView value={Math.round(rata)} /> Rata-rata {rata.toLocaleString('id-ID', { maximumFractionDigits: 1 })} dari 5 · {data.length} ulasan
           </span>
         ) : undefined
@@ -43,12 +43,12 @@ export default function ReviewPage() {
               >
                 <div className="sm:w-40">
                   <StarsView value={review.rating} />
-                  <p className="font-moon text-xs text-coal-deep/60">{tanggal(review.createdAt)}</p>
+                  <p className="font-body text-xs text-coal-deep/60">{tanggal(review.createdAt)}</p>
                 </div>
                 <div className="min-w-0 flex-1">
                   <h2 className="line-clamp-1 break-words font-magic text-[clamp(14px,1.9vh,18px)] uppercase leading-tight text-flame">{review.project.nama}</h2>
-                  <p className="font-moon text-xs text-coal-deep/70">{review.client.namaInstansi}</p>
-                  <p className="mt-0.5 line-clamp-1 font-moon text-sm text-coal-deep">{review.komentar ?? <span className="text-coal-deep/50">Tanpa komentar.</span>}</p>
+                  <p className="font-body text-xs text-coal-deep/70">{review.client.namaInstansi}</p>
+                  <p className="mt-0.5 line-clamp-1 font-body text-sm text-coal-deep">{review.komentar ?? <span className="text-coal-deep/50">Tanpa komentar.</span>}</p>
                 </div>
                 <Link to={`/app/proyek/${review.project.id}`} className={pillButton}>
                   Detail
