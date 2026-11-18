@@ -11,6 +11,13 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (pita bayangan bersambung, CTA sejajar, judul Our Project)
+
+### Diubah
+- Bayangan hitam hero diteruskan ke Latest Project sebagai satu pita 45 derajat yang menyambung mulus (masukan PM: sambungan kurang rapi; sebelumnya segitiga Latest Project bersudut lain dan ada garis terang di sambungan). Hero diskalakan menurut tinggi layar dan Latest Project menurut lebar, jadi posisi pita dihitung saat halaman dibuka dari posisi kedua artboard (`data-artboard` pada Stage) dan garis tepi bayangan hero yang diukur (x + y = 718 dan 1660, koordinat artboard hero). Warna pita disamakan dengan bayangan (`coal-deep`). Teruji di 1280x720, 1366x768, 1536x730, dan 1900x917: tepi pita di sambungan bergeser paling banyak 1 px.
+- Tombol LETS MAKE A PROJECT kini sejajar tepi kanannya dengan tombol SIGN IN di navbar (diukur di layar, selisih 0 px di keempat ukuran layar).
+- Judul OUR PROJECT memakai gaya yang sama dengan OUR JOURNEY WITH CLIENT: oranye tanpa garis tepi, garis bawah selebar 1215 (krem di latar gelap); juga di ponsel.
+
 ## 2026-11-18 (kartu Latest Project seragam)
 
 ### Diubah

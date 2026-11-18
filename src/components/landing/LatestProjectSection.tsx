@@ -1,4 +1,4 @@
-import { useCallback, useState, type CSSProperties } from 'react';
+import { useCallback, useLayoutEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import utama from '../../assets/landing/latest-utama.webp';
 import bakti from '../../assets/landing/proyek-bakti.webp';
@@ -38,6 +38,59 @@ function Triangle() {
     <div className="pointer-events-none absolute bg-coal" style={box(-1000, 0, 999, 579.5)} />
     <div className="pointer-events-none absolute bg-coal" style={{ ...box(-2, 0, 644, 579.5), ...TRIANGLE_MASK }} />
     </>
+  );
+}
+
+// Garis tepi bayangan hero (koordinat artboard hero, garis 45 derajat x + y = K), diukur dari piksel di beberapa ukuran layar.
+const TEPI_BAYANGAN_HERO = { kiri: 718, kanan: 1660 };
+const ARTBOARD_W = 1440;
+
+/**
+ * Bayangan hero diteruskan ke Latest Project sebagai satu pita 45 derajat yang menyambung mulus (masukan PM: sambungan
+ * kurang rapi). Hero diskalakan menurut tinggi layar dan Latest Project menurut lebar, jadi posisi pita dihitung dari
+ * posisi kedua artboard di layar. Hasil: K kiri dan kanan dalam koordinat artboard Latest Project.
+ */
+function usePitaBayangan() {
+  const [pita, setPita] = useState({ kiri: -2000, kanan: 644 });
+  useLayoutEffect(() => {
+    let frame = 0;
+    const hitung = () => {
+      cancelAnimationFrame(frame);
+      // Tunggu Stage selesai menghitung skala barunya.
+      frame = requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          const hero = document.querySelector('#home [data-artboard]')?.getBoundingClientRect();
+          const latest = document.querySelector('#latest-project [data-artboard]')?.getBoundingClientRect();
+          if (!hero?.width || !latest?.width) return;
+          const skalaHero = hero.width / ARTBOARD_W;
+          const skalaLatest = latest.width / ARTBOARD_W;
+          const ke = (k: number) => (hero.left + hero.top + skalaHero * k - (latest.left + latest.top)) / skalaLatest;
+          setPita({ kiri: ke(TEPI_BAYANGAN_HERO.kiri), kanan: ke(TEPI_BAYANGAN_HERO.kanan) });
+        }),
+      );
+    };
+    hitung();
+    const observer = new ResizeObserver(hitung);
+    observer.observe(document.documentElement);
+    document.querySelectorAll('#home, #latest-project').forEach((el) => observer.observe(el));
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, []);
+  return pita;
+}
+
+/** Bidang pita (x + y antara kiri dan kanan) di artboard Latest Project, memanjang ke tepi kiri layar. */
+function PitaClip({ kiri, kanan, children, className = '' }: { kiri: number; kanan: number; children?: ReactNode; className?: string }) {
+  const L = 1000; // pita boleh melewati tepi kiri artboard (ruang kosong di layar lebar)
+  const T = 4; // dimulai sedikit di atas artboard agar menutup baris tepi bingkai Stage (tanpa garis terang di sambungan)
+  const H = 1100;
+  const clipPath = `polygon(${kiri + L + T}px 0, ${kanan + L + T}px 0, ${kanan + L + T - H}px ${H}px, ${kiri + L + T - H}px ${H}px)`;
+  return (
+    <div aria-hidden={children ? true : undefined} className={`pointer-events-none absolute ${className}`} style={{ left: -L, top: -T, width: ARTBOARD_W + 2 * L, height: H, clipPath }}>
+      {children && <div className="absolute" style={{ left: L, top: T, width: ARTBOARD_W, height: H - T }}>{children}</div>}
+    </div>
   );
 }
 
@@ -173,6 +226,7 @@ function Teks({ aktif, judul, isi }: { aktif: number; judul: string; isi: string
 
 function Desktop(latest: Latest) {
   const { aktif } = latest;
+  const pita = usePitaBayangan();
   return (
     <Stage framed className="bg-cream">
       <div className="edge-r2 absolute inset-0">
@@ -183,7 +237,8 @@ function Desktop(latest: Latest) {
         <SplitWords text={TITLE} />
       </h2>
 
-      <Triangle />
+      {/* Warna sama dengan bayangan hero (coal-deep) agar sambungan tidak terlihat. */}
+      <PitaClip {...pita} className="bg-coal-deep" />
 
       <div className="absolute h-0" style={box(68, 162, 1298)}>
         <DrawLine className="absolute inset-[-10px_0_0_0]">
@@ -191,16 +246,16 @@ function Desktop(latest: Latest) {
         </DrawLine>
       </div>
 
-      <div aria-hidden="true" className="pointer-events-none absolute" style={{ ...box(-2, 0, 644, 579.5), ...TRIANGLE_MASK }}>
-        <p className={`absolute text-cream ${TITLE_TEXT}`} style={box(66, 57)}>
+      <PitaClip {...pita}>
+        <p className={`absolute text-cream ${TITLE_TEXT}`} style={box(68, 57)}>
           <SplitWords text={TITLE} />
         </p>
-        <div className="absolute h-0" style={box(70, 163, 1298)}>
+        <div className="absolute h-0" style={box(68, 162, 1298)}>
           <DrawLine className="absolute inset-[-10px_0_0_0]">
             <span className="block size-full bg-cream" />
           </DrawLine>
         </div>
-      </div>
+      </PitaClip>
 
       {/* Judul proyek berdiri di atas kotak gelap (tidak menumpuk tepinya), deskripsi di dalam kotak, kontrol di bawahnya. */}
       <div className="edge-r2 absolute inset-0">

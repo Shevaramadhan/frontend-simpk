@@ -86,6 +86,7 @@ export function Stage({ framed = false, view = FULL, fill = false, className = '
       style={{ height, marginTop: fill ? undefined : -1 }}
     >
       <div
+        data-artboard
         className="absolute left-0 top-0 origin-top-left"
         style={{
           width: ARTBOARD_WIDTH,

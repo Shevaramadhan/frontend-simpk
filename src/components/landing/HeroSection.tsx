@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import ornamenKananAtas from '../../assets/landing/hero-ornamen-kanan-atas.webp';
@@ -89,16 +90,50 @@ function Title() {
 // Bagian artboard di bawah menu Figma (y 110 sampai 1024) harus muat di sisa tinggi layar.
 const HERO_VIEW = { x: 0, y: 110, w: 1440, h: 914 };
 
+/**
+ * Geseran tombol LETS MAKE A PROJECT (satuan artboard) agar tepi kanannya sejajar dengan tombol SIGN IN di navbar
+ * (masukan PM). Navbar memakai ukuran layar sedangkan hero diskalakan, jadi selisihnya diukur di layar.
+ */
+function useSejajarSignIn() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [geser, setGeser] = useState(0);
+  useLayoutEffect(() => {
+    let frame = 0;
+    const hitung = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          const tombol = ref.current;
+          const artboard = tombol?.closest('[data-artboard]')?.getBoundingClientRect();
+          const signIn = [...document.querySelectorAll('header a[href="/login"]')].find((a) => a.getBoundingClientRect().width > 0);
+          if (!tombol || !artboard?.width || !signIn) return;
+          const selisih = signIn.getBoundingClientRect().right - tombol.getBoundingClientRect().right;
+          if (Math.abs(selisih) > 0.5) setGeser((g) => g + selisih / (artboard.width / 1440));
+        }),
+      );
+    };
+    hitung();
+    const observer = new ResizeObserver(hitung);
+    observer.observe(document.documentElement);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, []);
+  return { ref, geser };
+}
+
 function Desktop() {
   const cta = useHoverFocus();
+  const sejajar = useSejajarSignIn();
   return (
     // Navbar menempel di atas (LandingHeader di LandingPage); hero mengisi sisa tinggi layar di bawahnya.
     <div className="hidden h-[calc(100dvh-var(--landing-header-h,0px))] min-h-[480px] flex-col bg-cream lg:flex">
     <Stage framed fill view={HERO_VIEW} className="min-h-0 flex-1">
-      <div className="edge-r pointer-events-none absolute inset-0">
+      <div className="pointer-events-none absolute inset-0" style={{ translate: `${sejajar.geser}px 0` }}>
         <Reveal immediate y={40} delay={0.9} className="pointer-events-auto absolute" style={box(883, 856, 505, 132)}>
         {/* Diperkecil 18% dari ukuran Figma (masukan PM: terlalu mendominasi), sudut kanan bawah tetap di posisi desain. */}
-        <div className="size-full origin-bottom-right scale-[0.82]">
+        <div ref={sejajar.ref} className="size-full origin-bottom-right scale-[0.82]">
         <Magnet className="size-full" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
           <Link to="/katalog" className="group absolute inset-0 block" {...cta.handlers}>
             <span className="absolute border-5 border-coal bg-coal" style={box(0, 0, 505, 132)} />

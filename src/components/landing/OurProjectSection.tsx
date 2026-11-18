@@ -2,7 +2,7 @@ import { useCallback, useState, type CSSProperties } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { PROJECTS, type Division, type Project } from '../../data/portofolio';
 import Lightbox, { type LightboxItem } from './Lightbox';
-import { BorderBeam, Reveal, SplitWords } from './Motion';
+import { BorderBeam, DrawLine, Reveal, SplitWords } from './Motion';
 import PillMenu from './PillMenu';
 import { SECTION } from './Parts';
 import { box, Stage } from './Stage';
@@ -104,11 +104,17 @@ function Desktop({ active, setActive, projects, setOpen }: State) {
       </AnimatePresence>
       {projects.length === 0 && <EmptyNote active={active} className="absolute text-center font-body text-[32px] text-coal" style={box(50, 610, 1339)} />}
 
-      <h2 className="text-outline absolute whitespace-nowrap font-magic text-[64px] uppercase leading-[normal] tracking-[3.2px] text-flame" style={box(494, 50)}>
+      {/* Gaya judul sama dengan Our Journey With Client: oranye, garis bawah selebar 1215 (krem di latar gelap). */}
+      <h2 className="absolute whitespace-nowrap text-center font-magic text-[64px] uppercase leading-[normal] tracking-[3.2px] text-flame" style={box(0, 40, 1440)}>
         <SplitWords text="our Project" />
       </h2>
+      <div className="absolute h-0" style={box(112, 137, 1215)}>
+        <DrawLine className="absolute inset-[-10px_0_0_0]">
+          <span className="block size-full bg-cream" />
+        </DrawLine>
+      </div>
 
-      <Reveal y={30} delay={0.15} className="absolute flex justify-center" style={box(365, 163, 708)}>
+      <Reveal y={30} delay={0.15} className="absolute flex justify-center" style={box(365, 182, 708)}>
         <PillMenu kind="tab" label="Saring project berdasarkan divisi" size="artboard" items={tabItems(setActive)} active={active} />
       </Reveal>
     </Stage>
@@ -118,11 +124,12 @@ function Desktop({ active, setActive, projects, setOpen }: State) {
 function Mobile({ active, setActive, projects, setOpen }: State) {
   return (
     <div className="bg-coal px-4 pb-10 pt-8 lg:hidden">
-      <h2 className="text-outline text-center font-magic text-[11vw] uppercase leading-[normal] tracking-wide text-flame sm:text-6xl">
+      <h2 className="text-center font-magic text-[7.4vw] uppercase leading-tight tracking-wide text-flame sm:text-5xl">
         <SplitWords text="our Project" />
       </h2>
+      <DrawLine className="mt-2 h-1.5 bg-cream sm:h-2.5" />
 
-      <Reveal y={20} className="mx-auto mt-3 flex max-w-xl justify-center">
+      <Reveal y={20} className="mx-auto mt-5 flex max-w-xl justify-center">
         <PillMenu kind="tab" label="Saring project berdasarkan divisi" size="kecil" items={tabItems(setActive)} active={active} />
       </Reveal>
 
