@@ -11,6 +11,16 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (judul hero dengan HTML dan CSS)
+
+### Diubah
+- Judul hero (SIMPK, subjudul, dan bidang bayangan gelap) dibuat dengan HTML dan CSS, menggantikan tiga gambar `hero-simpk.png`, `hero-subjudul.png`, dan `hero-bayangan.png` (masukan teman PM). Bayangan panjang ke kiri bawah dibuat dari `text-shadow` berlapis (langkah 1,5 px) sehingga kedua bayangan menyatu seperti desain; lapisan bayangan dipisah dari lapisan huruf agar bayangan huruf berikutnya tidak menimpa huruf sebelumnya.
+- Animasi masuk dengan motion: huruf S-I-M-P-K masuk satu per satu dari kiri bawah bersama bayangannya, lalu subjudul.
+- H1 kini teks yang terlihat, "SIMPK, Sistem Informasi Manajemen Proyek Klien" (sebelumnya H1 tersembunyi dan judul berupa gambar). Ejaan subjudul diperbaiki dari "Management Projek Klient" pada gambar desain.
+
+### Dihapus
+- Gambar `hero-simpk.png`, `hero-subjudul.png`, dan `hero-bayangan.png`, serta komponen `Backdrop`.
+
 ## 2026-11-18 (navbar landing menempel)
 
 ### Diubah

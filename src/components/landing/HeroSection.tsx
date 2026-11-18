@@ -1,10 +1,8 @@
+import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import bayangan from '../../assets/landing/hero-bayangan.png';
 import ornamenKananAtas from '../../assets/landing/hero-ornamen-kanan-atas.webp';
 import ornamenKananBawah from '../../assets/landing/hero-ornamen-kanan-bawah.webp';
 import ornamenKiri from '../../assets/landing/hero-ornamen-kiri.webp';
-import judulSimpk from '../../assets/landing/hero-simpk.png';
-import subjudul from '../../assets/landing/hero-subjudul.png';
 import { Magnet, Ornament, Reveal, RollingText, useHoverFocus } from './Motion';
 import { Framed, SECTION } from './Parts';
 import { box, Crop, Stage } from './Stage';
@@ -13,26 +11,77 @@ const FILL = 'pointer-events-none absolute inset-0 size-full max-w-none object-c
 // Transformasi ornamen dari Figma: skala, lalu miring, lalu putar. Urutan kelas Tailwind berbeda, jadi ditulis langsung.
 const isometric = (rotate: number, skew: number) => ({ transform: `rotate(${rotate}deg) skewX(${skew}deg) scaleY(${Math.cos((skew * Math.PI) / 180)})` });
 
-/** Bayangan miring di sudut kiri bawah. Masuk dari arah bayangannya. */
-function Backdrop() {
+// Judul hero dibuat dengan HTML dan CSS (masukan teman PM 18 Nov), menggantikan tiga gambar: tulisan SIMPK, subjudul,
+// dan bayangan latar. Bayangan panjang ke kiri bawah dibuat dari text-shadow berlapis sehingga kedua bayangan menyatu
+// menjadi bidang gelap seperti desain. Lapisan bayangan dipisah dari lapisan huruf agar bayangan huruf berikutnya tidak
+// menimpa huruf sebelumnya. Ukuran memakai koordinat artboard Figma lewat box().
+const BAYANGAN_WARNA = 'var(--color-coal-deep)';
+const bayanganPanjang = (panjang: number, langkah = 1.5) =>
+  Array.from({ length: Math.ceil(panjang / langkah) }, (_, i) => `${-(i + 1) * langkah}px ${(i + 1) * langkah}px 0 ${BAYANGAN_WARNA}`).join(', ');
+const BAYANGAN_JUDUL = bayanganPanjang(950);
+const BAYANGAN_SUB = bayanganPanjang(800);
+const JUDUL = 'SIMPK';
+const MASUK = { x: -160, y: 160 };
+const EASE_JUDUL = [0.22, 1, 0.36, 1] as const;
+
+function HurufJudul({ bayangan }: { bayangan: boolean }) {
   return (
-    <Reveal immediate x={-140} y={140} duration={1} className="pointer-events-none absolute" style={box(-366, 522, 1469, 667)}>
-      <img alt="" className={FILL} src={bayangan} />
-    </Reveal>
+    <>
+      {JUDUL.split('').map((huruf, index) => (
+        <motion.span
+          key={index}
+          className="inline-block"
+          style={bayangan ? { color: 'transparent', textShadow: BAYANGAN_JUDUL } : undefined}
+          initial={{ opacity: 0, ...MASUK }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.1 + index * 0.08, ease: EASE_JUDUL }}
+        >
+          {huruf}
+        </motion.span>
+      ))}
+    </>
   );
 }
 
-/** Tulisan SIMPK dan subjudulnya, berupa gambar dari desain. */
+function Subjudul({ bayangan }: { bayangan: boolean }) {
+  return (
+    <motion.span
+      className="absolute block text-center"
+      style={{ ...SUB_BOX, ...(bayangan ? { color: 'transparent', textShadow: BAYANGAN_SUB } : null) }}
+      initial={{ opacity: 0, x: -120, y: 120 }}
+      animate={{ opacity: 1, x: 0, y: 0 }}
+      transition={{ duration: 1, delay: 0.5, ease: EASE_JUDUL }}
+    >
+      Sistem Informasi Manajemen{' '}
+      <br />
+      Proyek Klien
+    </motion.span>
+  );
+}
+
+const JUDUL_BOX = { ...box(452, 232), fontSize: 198 };
+const SUB_BOX = { ...box(318, 487, 838), fontSize: 49, lineHeight: 1.12 };
+
+/** Judul hero: SIMPK dan subjudulnya, berupa teks asli (h1) dengan bayangan panjang. */
 function Title() {
   return (
-    <>
-      <Reveal immediate x={-160} y={160} duration={1.1} delay={0.1} className="pointer-events-none absolute" style={box(-253, 222, 1356, 890)}>
-        <img alt="" className={FILL} src={judulSimpk} />
-      </Reveal>
-      <Reveal immediate x={-120} y={120} duration={1} delay={0.35} className="pointer-events-none absolute" style={box(-18, 484, 1163, 451)}>
-        <img alt="" className={FILL} src={subjudul} />
-      </Reveal>
-    </>
+    <h1 className="pointer-events-none absolute inset-0 m-0 font-magic font-normal uppercase leading-none text-flame">
+      <span aria-hidden="true">
+        <span className="absolute flex whitespace-nowrap" style={JUDUL_BOX}>
+          <HurufJudul bayangan />
+        </span>
+      </span>
+      <span className="absolute flex whitespace-nowrap" style={JUDUL_BOX}>
+        <span className="sr-only">SIMPK, </span>
+        <span aria-hidden="true" className="flex">
+          <HurufJudul bayangan={false} />
+        </span>
+      </span>
+      <span aria-hidden="true">
+        <Subjudul bayangan />
+      </span>
+      <Subjudul bayangan={false} />
+    </h1>
   );
 }
 
@@ -45,8 +94,6 @@ function Desktop() {
     // Navbar menempel di atas (LandingHeader di LandingPage); hero mengisi sisa tinggi layar di bawahnya.
     <div className="hidden h-[calc(100dvh-var(--landing-header-h,0px))] min-h-[480px] flex-col bg-cream lg:flex">
     <Stage framed fill view={HERO_VIEW} className="min-h-0 flex-1">
-      <Backdrop />
-
       <div className="edge-r pointer-events-none absolute inset-0">
         <Reveal immediate y={40} delay={0.9} className="pointer-events-auto absolute" style={box(883, 856, 505, 132)}>
         <Magnet className="size-full" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
@@ -110,7 +157,6 @@ function Mobile() {
   return (
     <div className="bg-cream lg:hidden">
       <Crop x={300} y={150} w={870} h={650} className="mt-2">
-        <Backdrop />
         <Title />
       </Crop>
 
@@ -130,7 +176,6 @@ function Mobile() {
 export default function HeroSection() {
   return (
     <section id={SECTION.home}>
-      <h1 className="sr-only">SIMPK, Sistem Informasi Manajemen Proyek Klien Neo Telemetri</h1>
       <Desktop />
       <Mobile />
     </section>
