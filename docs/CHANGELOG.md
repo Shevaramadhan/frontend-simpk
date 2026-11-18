@@ -11,6 +11,12 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (ajakan saat belum ada ulasan)
+
+### Diubah
+- Bagian WHAT OUR CLIENTS SAY kini tetap tampil saat belum ada ulasan yang disetujui (masukan PM): kotak bergaris putus-putus dengan bintang kosong, "Belum ada ulasan", ajakan "Jadilah klien pertama kami...", dan tombol LETS MAKE A PROJECT ke Daftar Jasa. Otomatis berganti menjadi ulasan bergerak begitu ada ulasan yang disetujui. Selama data dimuat tidak menampilkan apa pun agar tidak berkedip.
+- Ulasan tidak pernah dicentang tampil atas nama klien; persetujuan tetap hanya dari klien saat mengulas (B-41 backend).
+
 ## 2026-11-18 (ulasan klien di landing page)
 
 ### Ditambah
