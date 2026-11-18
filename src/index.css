@@ -207,3 +207,13 @@ main section[id] {
     color: black;
   }
 }
+
+/*
+ * Tanda fokus keyboard landing page (WCAG 2.4.7 dan 1.4.11): cincin gelap di dalam dan garis oranye di luar,
+ * sehingga terlihat di latar krem maupun latar gelap. Gaya bawaan peramban hanya garis 1 px gelap.
+ */
+[data-landing] :is(a, button):focus-visible {
+  outline: 3px solid var(--color-flame);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--color-coal-deep);
+}

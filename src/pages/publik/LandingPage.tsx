@@ -11,7 +11,7 @@ export default function LandingPage() {
   const page = usePageWidth();
   return (
     <MotionConfig reducedMotion="user">
-      <div ref={page.ref} style={page.style} className="overflow-x-clip bg-cream text-coal">
+      <div ref={page.ref} style={page.style} data-landing className="overflow-x-clip bg-cream text-coal">
         <LandingHeader />
         <main>
           <HeroSection />

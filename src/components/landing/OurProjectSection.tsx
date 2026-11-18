@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { Fragment, useCallback, useState, type CSSProperties } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { PROJECTS, type Division, type Project } from '../../data/portofolio';
+import Lightbox, { type LightboxItem } from './Lightbox';
 import { BorderBeam, Reveal, SplitWords } from './Motion';
-import { Framed, PillLayers, SECTION, Separator } from './Parts';
+import { Framed, PillLayers, SECTION } from './Parts';
 import { box, Stage } from './Stage';
 
 // Posisi kartu di Figma, urut kiri ke kanan lalu atas ke bawah.
@@ -15,23 +16,36 @@ const SLOTS = [
   { left: 729.14, top: 782.91 },
 ];
 
-const TABS: { division: Division; left: number }[] = [
-  { division: 'MMD', left: 111 },
-  { division: 'PROGRAMMING', left: 271 },
-  { division: 'SKJ', left: 554 },
-];
+type Tab = Division | 'SEMUA';
+const TABS: Tab[] = ['SEMUA', 'MMD', 'PROGRAMMING', 'SKJ'];
 
 const THUMB = 'relative h-[117.772px] w-[227.372px] rounded-[30px] shadow-[0px_4px_25px_0px_rgba(0,0,0,0.75)]';
 const SPRING = { type: 'spring', stiffness: 260, damping: 20 } as const;
+// Tombol transparan yang menutupi kartu: klik atau Enter membuka tampilan penuh. Tanda fokus dari index.css ([data-landing]).
+const OPEN_CARD =
+  'absolute inset-0 z-10 cursor-zoom-in rounded-[20px]';
 
-function useDivisionFilter() {
-  const [active, setActive] = useState<Division | null>(null);
-  const projects = active ? PROJECTS.filter((project) => project.division === active) : PROJECTS;
-  const toggle = (division: Division) => setActive((current) => (current === division ? null : division));
-  return { active, projects, toggle };
+function useProjects() {
+  const [active, setActive] = useState<Tab>('SEMUA');
+  const [open, setOpen] = useState<number | null>(null);
+  const projects = active === 'SEMUA' ? PROJECTS : PROJECTS.filter((project) => project.division === active);
+  const close = useCallback(() => setOpen(null), []);
+  const move = useCallback(
+    (step: number) => setOpen((i) => (i === null ? i : (i + step + projects.length) % projects.length)),
+    [projects.length],
+  );
+  return { active, setActive, projects, open, setOpen, close, move };
 }
 
-type Filter = ReturnType<typeof useDivisionFilter>;
+type State = ReturnType<typeof useProjects>;
+
+const toLightbox = (project: Project): LightboxItem => ({
+  src: project.image,
+  alt: `Tampilan ${project.title}`,
+  title: project.title,
+  label: `Divisi ${project.division}`,
+  description: project.description,
+});
 
 function Thumbnail({ project }: { project: Project }) {
   return (
@@ -44,7 +58,28 @@ function Thumbnail({ project }: { project: Project }) {
   );
 }
 
-function Desktop({ active, projects, toggle }: Filter) {
+function TabButton({ tab, active, onSelect, className }: { tab: Tab; active: Tab; onSelect: (tab: Tab) => void; className: string }) {
+  return (
+    <button
+      type="button"
+      aria-pressed={active === tab}
+      onClick={() => onSelect(tab)}
+      className={`cursor-pointer whitespace-nowrap font-magic uppercase transition-colors hover:text-cream ${active === tab ? 'text-cream' : 'text-flame'} ${className}`}
+    >
+      {tab}
+    </button>
+  );
+}
+
+function EmptyNote({ active, className, style }: { active: Tab; className: string; style?: CSSProperties }) {
+  return (
+    <p className={className} style={style}>
+      Project divisi {active} segera hadir
+    </p>
+  );
+}
+
+function Desktop({ active, setActive, projects, setOpen }: State) {
   return (
     <Stage framed className="bg-coal">
       <Reveal y={60} className="absolute rounded-[30px] bg-cream" style={box(50, 315, 1339, 648)} />
@@ -72,15 +107,12 @@ function Desktop({ active, projects, toggle }: Filter) {
               <p className="absolute line-clamp-3 text-justify font-body text-[15px] leading-[1.45] text-cream" style={box(247, 80, 377)}>
                 {project.description}
               </p>
+              <button type="button" className={OPEN_CARD} aria-label={`Lihat ${project.title}`} onClick={() => setOpen(index)} />
             </Reveal>
           </motion.article>
         ))}
       </AnimatePresence>
-      {projects.length === 0 && (
-        <p className="absolute text-center font-body text-[32px] text-coal" style={box(50, 610, 1339)}>
-          Project divisi {active} segera hadir
-        </p>
-      )}
+      {projects.length === 0 && <EmptyNote active={active} className="absolute text-center font-body text-[32px] text-coal" style={box(50, 610, 1339)} />}
 
       <h2 className="text-outline absolute whitespace-nowrap font-magic text-[64px] uppercase leading-[normal] tracking-[3.2px] text-flame" style={box(494, 50)}>
         <SplitWords text="our Project" />
@@ -88,26 +120,20 @@ function Desktop({ active, projects, toggle }: Filter) {
 
       <Reveal y={30} delay={0.15} className="absolute" style={box(365, 151, 708, 85)}>
         <PillLayers />
-        {TABS.map((tab) => (
-          <button
-            key={tab.division}
-            type="button"
-            aria-pressed={active === tab.division}
-            onClick={() => toggle(tab.division)}
-            className={`absolute cursor-pointer whitespace-nowrap font-magic text-[24px] uppercase leading-[normal] transition-colors hover:text-cream ${active === tab.division ? 'text-cream' : 'text-flame'}`}
-            style={box(tab.left, 29)}
-          >
-            {tab.division}
-          </button>
-        ))}
-        <Separator left={221} top={24} />
-        <Separator left={488} top={24} />
+        <div role="group" aria-label="Saring project berdasarkan divisi" className="absolute flex items-center justify-evenly" style={box(23, 8, 664, 69)}>
+          {TABS.map((tab, index) => (
+            <Fragment key={tab}>
+              {index > 0 && <span aria-hidden="true" className="h-[35px] w-[2px] bg-cream" />}
+              <TabButton tab={tab} active={active} onSelect={setActive} className="text-[24px] leading-[normal]" />
+            </Fragment>
+          ))}
+        </div>
       </Reveal>
     </Stage>
   );
 }
 
-function Mobile({ active, projects, toggle }: Filter) {
+function Mobile({ active, setActive, projects, setOpen }: State) {
   return (
     <div className="bg-coal px-4 pb-10 pt-8 lg:hidden">
       <h2 className="text-outline text-center font-magic text-[11vw] uppercase leading-[normal] tracking-wide text-flame sm:text-6xl">
@@ -116,17 +142,9 @@ function Mobile({ active, projects, toggle }: Filter) {
 
       <Reveal y={20} className="mx-auto mt-3 max-w-xl">
         <Framed rounded="rounded-[22px]">
-          <span className="flex items-center justify-center divide-x-2 divide-cream py-2">
+          <span role="group" aria-label="Saring project berdasarkan divisi" className="flex items-center justify-center divide-x-2 divide-cream py-2">
             {TABS.map((tab) => (
-              <button
-                key={tab.division}
-                type="button"
-                aria-pressed={active === tab.division}
-                onClick={() => toggle(tab.division)}
-                className={`px-3 font-magic text-sm uppercase min-[400px]:px-5 sm:text-xl ${active === tab.division ? 'text-cream' : 'text-flame'}`}
-              >
-                {tab.division}
-              </button>
+              <TabButton key={tab} tab={tab} active={active} onSelect={setActive} className="px-2.5 text-sm min-[400px]:px-4 sm:px-5 sm:text-xl" />
             ))}
           </span>
         </Framed>
@@ -134,7 +152,7 @@ function Mobile({ active, projects, toggle }: Filter) {
 
       <div className="mx-auto mt-8 max-w-2xl rounded-[30px] bg-cream p-3 sm:p-5">
         <AnimatePresence initial={false} mode="popLayout">
-          {projects.map((project) => (
+          {projects.map((project, index) => (
             <motion.article
               key={project.id}
               layout
@@ -152,21 +170,26 @@ function Mobile({ active, projects, toggle }: Filter) {
                 <h3 className="font-magic text-xl uppercase leading-tight text-flame sm:text-3xl">{project.title}</h3>
                 <p className="mt-1.5 font-body text-[13px] leading-snug text-cream sm:text-base">{project.description}</p>
               </div>
+              <button type="button" className={OPEN_CARD} aria-label={`Lihat ${project.title}`} onClick={() => setOpen(index)} />
             </motion.article>
           ))}
         </AnimatePresence>
-        {projects.length === 0 && <p className="py-10 text-center font-body text-xl text-coal">Project divisi {active} segera hadir</p>}
+        {projects.length === 0 && <EmptyNote active={active} className="py-10 text-center font-body text-xl text-coal" />}
       </div>
     </div>
   );
 }
 
 export default function OurProjectSection() {
-  const filter = useDivisionFilter();
+  const state = useProjects();
   return (
     <section id={SECTION.projects}>
-      <Desktop {...filter} />
-      <Mobile {...filter} />
+      <Desktop {...state} />
+      <Mobile {...state} />
+      <p aria-live="polite" className="sr-only">
+        {state.projects.length ? `Menampilkan ${state.projects.length} project` : `Project divisi ${state.active} segera hadir`}
+      </p>
+      <Lightbox items={state.projects.map(toLightbox)} index={state.open} onClose={state.close} onMove={state.move} />
     </section>
   );
 }

@@ -11,6 +11,22 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (Our Project interaktif dan aksesibilitas keyboard landing page)
+
+### Ditambah
+- Our Project: tab **SEMUA** (aktif sejak awal) di depan MMD, PROGRAMMING, dan SKJ; tab kini memilih, bukan menyalakan dan mematikan. Pil menu disusun dengan flex sehingga empat tab tetap rapi; garis pemisah dibuat dengan `span`.
+- Our Project: kartu dapat diklik atau dibuka dengan Enter untuk melihat gambar project dalam ukuran besar beserta judul, divisi, dan deskripsi; panah kiri dan kanan berpindah project dalam tab yang sedang dipilih.
+- Pengumuman jumlah project untuk pembaca layar saat tab berganti (`aria-live`).
+- Komponen bersama `components/landing/Lightbox.tsx`, dipakai Latest Project dan Our Project: fokus pindah ke tombol Tutup saat dibuka, Tab berputar di dalam dialog, Esc menutup, dan fokus kembali ke kartu pemicu (WCAG 2.4.3).
+
+### Diperbaiki
+- Tombol Sign In dan Lets Make A Project terkena Tab dua kali karena pembungkus `Magnet` diberi `tabindex=0` oleh motion (`whileTap`); pembungkus kini `tabIndex={-1}`.
+- Tanda fokus keyboard di landing page hanya garis 1 px gelap yang tidak terlihat di latar gelap; kini garis oranye 3 px dengan cincin gelap di dalamnya (`[data-landing] :focus-visible` di `index.css`), terlihat di latar krem maupun gelap (WCAG 2.4.7, 1.4.11).
+- Salah ketik data portofolio: "anniversarry" menjadi "anniversary", "entertaiment" menjadi "entertainment", "betugas" menjadi "bertugas", serta spasi setelah koma.
+
+### Dihapus
+- Komponen `Separator` di `landing/Parts.tsx` (tidak dipakai lagi).
+
 ## 2026-11-18 (elemen desain landing page tanpa gambar)
 
 ### Diubah

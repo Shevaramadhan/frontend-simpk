@@ -262,5 +262,7 @@ export function Magnet({ strength = 0.18, ...props }: HTMLMotionProps<'div'> & {
     y.set(0);
   }
 
-  return <motion.div onPointerMove={handleMove} onPointerLeave={handleLeave} {...props} style={{ ...props.style, x: springX, y: springY }} />;
+  // tabIndex -1: whileTap membuat motion memberi tabindex 0 pada div ini, sehingga tombol di dalamnya
+  // terkena Tab dua kali. Fokus keyboard cukup pada tautan di dalamnya.
+  return <motion.div tabIndex={-1} onPointerMove={handleMove} onPointerLeave={handleLeave} {...props} style={{ ...props.style, x: springX, y: springY }} />;
 }

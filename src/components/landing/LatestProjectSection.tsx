@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState, type CSSProperties } from 'react';
-import { createPortal } from 'react-dom';
-import { AnimatePresence, motion } from 'motion/react';
+import { useCallback, useState, type CSSProperties } from 'react';
+import { motion } from 'motion/react';
 import belakangAtas from '../../assets/landing/latest-belakang-atas.webp';
 import belakangBawah from '../../assets/landing/latest-belakang-bawah.webp';
 import utama from '../../assets/landing/latest-utama.webp';
+import Lightbox from './Lightbox';
 import { DrawLine, Reveal, SplitWords } from './Motion';
 import { SECTION } from './Parts';
 import { box, Crop, Stage } from './Stage';
@@ -34,63 +34,6 @@ const SHOTS = [
   { src: belakangAtas, alt: 'Halaman beranda Firetech' },
   { src: belakangBawah, alt: 'Halaman tentang Firetech' },
 ];
-
-function Panah({ arah }: { arah: 'kiri' | 'kanan' }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="size-6">
-      <path d={arah === 'kiri' ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7'} />
-    </svg>
-  );
-}
-
-/** Tampilan penuh tangkapan layar. Dirender ke body karena artboard diskalakan dengan transform. */
-function Lightbox({ index, onClose, onMove }: { index: number | null; onClose: () => void; onMove: (step: number) => void }) {
-  useEffect(() => {
-    if (index === null) return;
-    const key = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
-      if (event.key === 'ArrowRight') onMove(1);
-      if (event.key === 'ArrowLeft') onMove(-1);
-    };
-    window.addEventListener('keydown', key);
-    return () => window.removeEventListener('keydown', key);
-  }, [index, onClose, onMove]);
-
-  const tombol = 'grid size-12 shrink-0 place-items-center rounded-full bg-flame font-magic text-2xl text-coal transition-transform hover:scale-110';
-  return createPortal(
-    <AnimatePresence>
-      {index !== null && (
-        <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center gap-3 bg-black/80 p-4 sm:gap-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onMouseDown={(event) => event.target === event.currentTarget && onClose()}
-          role="dialog"
-          aria-modal="true"
-          aria-label={SHOTS[index].alt}
-        >
-          <button type="button" onClick={() => onMove(-1)} aria-label="Gambar sebelumnya" className={tombol}>
-            <Panah arah="kiri" />
-          </button>
-          <motion.figure key={index} className="max-h-full max-w-5xl" initial={{ scale: 0.92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
-            <img src={SHOTS[index].src} alt={SHOTS[index].alt} className="max-h-[80dvh] w-auto rounded-[20px] border-4 border-flame object-contain" />
-            <figcaption className="mt-2 text-center font-body text-base text-cream">
-              {SHOTS[index].alt} ({index + 1}/{SHOTS.length})
-            </figcaption>
-          </motion.figure>
-          <button type="button" onClick={() => onMove(1)} aria-label="Gambar berikutnya" className={tombol}>
-            <Panah arah="kanan" />
-          </button>
-          <button type="button" onClick={onClose} aria-label="Tutup" className="absolute right-4 top-4 font-magic text-4xl leading-none text-cream hover:text-flame">
-            ×
-          </button>
-        </motion.div>
-      )}
-    </AnimatePresence>,
-    document.body,
-  );
-}
 
 /**
  * Susunan tiga tangkapan layar proyek. Saat diam bertumpuk sesuai Figma; gambar yang diarahkan kursor
@@ -151,7 +94,7 @@ function Collage() {
         </motion.button>
       </Reveal>
 
-      <Lightbox index={buka} onClose={tutup} onMove={geser} />
+      <Lightbox items={SHOTS} index={buka} onClose={tutup} onMove={geser} />
     </>
   );
 }

@@ -1,21 +1,6 @@
 import type { ReactNode } from 'react';
 import { box } from './Stage';
 
-/** Garis pemisah tegak pada pil menu, strukturnya mengikuti Figma. */
-export function Separator({ left, top }: { left: number; top: number }) {
-  return (
-    <div className="pointer-events-none absolute flex h-[35px] w-0 items-center justify-center" style={{ left, top }}>
-      <div className="flex-none rotate-90">
-        <div className="relative h-0 w-[35px]">
-          <div className="absolute inset-[-2px_0_0_0]">
-            <span className="block size-full bg-cream" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /** Tiga lapis kotak pil menu (708 x 85) seperti di Figma: gelap, garis krem, gelap. */
 export function PillLayers() {
   return (
