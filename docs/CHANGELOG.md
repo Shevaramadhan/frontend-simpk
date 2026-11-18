@@ -11,6 +11,15 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (Latest Project tiga proyek dan bayangan lembut)
+
+### Diubah
+- Latest Project menampilkan tiga proyek (masukan PM): Website Firetech 2026, Bakti Unand 2026, dan TEDx Unand. Proyek aktif berada di kartu depan, dua lainnya di kartu belakang kolase Figma. Klik kartu belakang, panah, atau titik penanda untuk memajukan proyek; gambar dan teks berganti dengan memudar; klik kartu depan membuka tampilan penuh. Tanpa putar otomatis (tidak perlu tombol jeda, WCAG 2.2.2); pergantian diumumkan ke pembaca layar (`aria-live`). Deskripsi Bakti dan TEDx diambil dari `data/portofolio.ts`.
+- Alas di bawah kolase kini bayangan lembut (gradien radial yang diburamkan), bukan elips hitam padat; kartu diberi bayangan jatuh.
+
+### Dihapus
+- `latest-belakang-atas.webp` (layar pembuka Firetech) dan `latest-belakang-bawah.webp` (halaman tentang Firetech), tidak dipakai lagi.
+
 ## 2026-11-18 (angka Neo Telemetri di hero)
 
 ### Ditambah
