@@ -14,7 +14,7 @@ export function Framed({ className = '', children }: { className?: string; child
   );
 }
 
-const FRAMED_TEXT = 'block px-6 py-[clamp(0.375rem,1.3vh,0.75rem)] text-center font-magic uppercase text-flame transition-colors group-hover:text-cream';
+const FRAMED_TEXT = 'block whitespace-nowrap px-6 py-[clamp(0.375rem,1.3vh,0.75rem)] text-center font-magic uppercase text-flame transition-colors group-hover:text-cream';
 
 export function FramedLink({ to, children, size = 'text-2xl' }: { to: string; children: ReactNode; size?: string }) {
   return (

@@ -4,7 +4,7 @@ import Pagination, { usePagination } from '../../components/brand/Pagination';
 import { useData } from '../../hooks/useData';
 import { listOrders } from '../../services/orderService';
 import type { Order } from '../../types';
-import { CLIENT_ORDER_STATUS } from '../../utils/format';
+import { CLIENT_ORDER_STATUS, CLIENT_PROJECT_STATUS } from '../../utils/format';
 import { tombol } from '../../components/brand/Tombol';
 
 // Figma "MyProject ketika belum ada isi" dan "MyProject ketika sudah ada isi".
@@ -33,7 +33,8 @@ function Empty() {
 }
 
 function Row({ order, index }: { order: Order; index: number }) {
-  const status = CLIENT_ORDER_STATUS[order.status];
+  const proyek = order.status === 'MENJADI_PROYEK' ? order.projects?.[0] : undefined;
+  const status = proyek ? CLIENT_PROJECT_STATUS[proyek.status] : CLIENT_ORDER_STATUS[order.status];
   const link = tombol('utama', 'besar');
   return (
     <motion.li

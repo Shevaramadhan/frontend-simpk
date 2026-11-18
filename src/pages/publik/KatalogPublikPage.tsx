@@ -32,7 +32,7 @@ function Header() {
         <span className="mt-0.5 font-body text-[10px] tracking-[0.12em] text-flame-ink sm:text-xs">by neotelemetri</span>
       </Link>
       <div className="justify-self-end">
-        <FramedLink to={target.to} size="text-[clamp(0.9rem,2.4vh,1.5rem)]">
+        <FramedLink to={target.to} size="text-[clamp(0.85rem,min(2.4vh,3.6vw),1.5rem)]">
           {target.label}
         </FramedLink>
       </div>

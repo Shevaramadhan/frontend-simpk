@@ -52,7 +52,7 @@ function TerbitkanForm({ orderId, sisa, onDone }: { orderId: number; sisa: numbe
           </datalist>
         </BrandField>
         <BrandField id="t-total" label="Nominal (Rp)">
-          <input id="t-total" type="number" min="1" required value={form.total} onChange={(e) => setForm({ ...form, total: e.target.value })} className={brandInputSolid} />
+          <input id="t-total" type="number" min="1" max={sisa > 0 ? sisa : undefined} required value={form.total} onChange={(e) => setForm({ ...form, total: e.target.value })} className={brandInputSolid} />
         </BrandField>
         <BrandField id="t-tempo" label="Tenggat pembayaran">
           <DateInput id="t-tempo" min={hariIni()} value={form.jatuhTempo} onChange={(e) => setForm({ ...form, jatuhTempo: e.target.value })} className={brandInputSolid} />
@@ -249,7 +249,14 @@ export default function PaymentMarketingPage() {
               }}
             />
           ))}
-          {bisaTagih ? (
+          {bisaTagih && nilai > 0 && ditagih >= nilai ? (
+            // Seluruh nilai kesepakatan sudah ditagih (BUG-01 QA): form disembunyikan agar klien tidak ditagih dua kali.
+            <p role="status" className="rounded-[22px] border-[3px] border-dashed border-coal/25 bg-white p-4 font-body text-sm text-coal-deep">
+              {order.invoices.every((invoice) => invoice.status === 'LUNAS' || invoice.status === 'DIBATALKAN')
+                ? 'Seluruh tagihan sudah lunas. Tidak ada lagi yang perlu ditagih.'
+                : `Seluruh nilai yang disepakati (${rupiahPendek(nilai)}) sudah ditagih. Batalkan tagihan yang belum dibayar bila perlu menerbitkan ulang.`}
+            </p>
+          ) : bisaTagih ? (
             <TerbitkanForm orderId={order.id} sisa={Math.max(nilai - ditagih, 0)} onDone={() => void reload()} />
           ) : (
             <p className="font-body text-base text-coal-deep/70">Tagihan dapat diterbitkan setelah request diterima.</p>

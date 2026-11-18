@@ -66,6 +66,18 @@ export const CLIENT_ORDER_STATUS: Record<OrderStatus, { label: string; className
   DIBATALKAN: { label: 'Dibatalkan', className: 'bg-[#f19b9b] text-coal-deep border-[#9c2b2b]' },
 };
 
+/**
+ * Status yang dilihat klien setelah pesanan menjadi proyek (BUG-03 QA): mengikuti status proyek, bukan status pesanan,
+ * agar klien tahu proyeknya sedang dikerjakan atau sudah selesai tanpa membuka Detail.
+ */
+export const CLIENT_PROJECT_STATUS: Record<ProjectStatus, { label: string; className: string }> = {
+  PERSIAPAN: { label: 'Tim Disiapkan', className: 'bg-[#ffd27a] text-coal-deep border-[#a0701a]' },
+  BERJALAN: { label: 'Sedang Dikerjakan', className: 'bg-[#ffc49f] text-coal-deep border-[#c2410c]' },
+  DITUNDA: { label: 'Ditunda', className: 'bg-[#bdbdbd] text-coal-deep border-[#5c5c5c]' },
+  SELESAI: { label: 'Selesai', className: 'bg-[#8fd694] text-coal-deep border-[#2f7d35]' },
+  DIBATALKAN: { label: 'Dibatalkan', className: 'bg-[#f19b9b] text-coal-deep border-[#9c2b2b]' },
+};
+
 export const BIDANG_LABEL: Record<Bidang, string> = {
   UI_UX: 'UI/UX',
   FRONTEND: 'FrontEnd',

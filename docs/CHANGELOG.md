@@ -11,6 +11,13 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (perbaikan temuan QA)
+
+### Diperbaiki
+- BUG-01: halaman Payment Marketing menyembunyikan form Terbitkan Tagihan setelah seluruh nilai kesepakatan ditagih ("Seluruh tagihan sudah lunas" atau petunjuk membatalkan tagihan yang belum dibayar); kolom nominal dibatasi sisa yang belum ditagih.
+- BUG-02 (ponsel): tombol Sign In di header Daftar Jasa tidak lagi membesar dan terlipat (ukuran dibatasi lebar layar, `whitespace-nowrap` pada tombol berbingkai); tautan "← Beranda" di halaman Login dan Daftar berada di atas judul pada layar sempit sehingga tidak menumpuk; tulisan tombol Masuk dengan Google diperkecil dan satu baris.
+- BUG-03: Project Saya menampilkan status proyek (Tim Disiapkan, Sedang Dikerjakan, Ditunda, Selesai, Dibatalkan) setelah pesanan menjadi proyek, bukan selalu "Disetujui" (`CLIENT_PROJECT_STATUS`).
+
 ## 2026-11-18 (tombol konsisten dan perbaikan WCAG)
 
 ### Ditambah
