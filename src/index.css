@@ -27,6 +27,8 @@
   --color-coal: #292929;
   --color-coal-deep: #262626;
   --color-flame: #ff6200;
+  /* Oranye untuk teks di atas latar terang (5,15:1 di atas krem); #ff6200 tetap untuk latar, ikon, dan teks di latar gelap. */
+  --color-flame-ink: #c2410c;
   --color-sand: #f6eddd;
   --font-magic: 'Magic Hat', Impact, sans-serif;
   --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

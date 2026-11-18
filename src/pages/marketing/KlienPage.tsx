@@ -43,7 +43,7 @@ export default function KlienPage() {
               <tr key={client.id} className={client.isActive ? '' : 'opacity-60'}>
                 <td className={cell}>
                   {client.namaInstansi}
-                  <span className="block text-xs text-coal-deep/60">{client.jenisKlien}</span>
+                  <span className="block text-xs text-coal-deep/70">{client.jenisKlien}</span>
                 </td>
                 <td className={cell}>{client.user.name}</td>
                 <td className={cell}>{client.user.email}</td>
@@ -57,7 +57,7 @@ export default function KlienPage() {
                   )}
                 </td>
                 <td className={cell}>
-                  <span className={client.isActive ? 'text-[#14aa00]' : 'text-[#e60000]'}>{client.isActive ? 'Aktif' : 'Nonaktif'}</span>
+                  <span className={client.isActive ? 'text-[#0f7a00]' : 'text-[#c62828]'}>{client.isActive ? 'Aktif' : 'Nonaktif'}</span>
                   <button type="button" className={`${linkButton} ml-3`} onClick={() => void toggle(client)}>
                     {client.isActive ? 'Nonaktifkan' : 'Aktifkan'}
                   </button>

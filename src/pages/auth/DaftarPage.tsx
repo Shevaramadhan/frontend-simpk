@@ -81,7 +81,7 @@ export default function DaftarPage() {
 
       <p className="mt-[clamp(8px,2vh,24px)] text-center font-body text-[clamp(14px,2.2vh,18px)] text-coal-deep">
         Sudah punya akun?{' '}
-        <Link to={jasa ? `/login?jasa=${encodeURIComponent(jasa)}` : '/login'} className="text-flame underline underline-offset-4">
+        <Link to={jasa ? `/login?jasa=${encodeURIComponent(jasa)}` : '/login'} className="text-flame-ink underline underline-offset-4">
           Login
         </Link>
       </p>

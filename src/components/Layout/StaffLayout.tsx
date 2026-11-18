@@ -157,7 +157,7 @@ export default function StaffLayout() {
       collapsed ? 'lg:mx-auto lg:size-11 lg:justify-center lg:rounded-xl lg:px-0' : 'lg:px-4'
     } ${size} ${
       isActive
-        ? 'bg-flame font-semibold text-white shadow-sm shadow-flame/25'
+        ? 'bg-flame font-semibold text-coal-deep shadow-sm shadow-flame/25'
         : 'text-zinc-400 hover:bg-white/5 hover:text-zinc-100'
     } ${
       collapsed && isActive ? 'lg:before:absolute lg:before:-left-3 lg:before:top-1/2 lg:before:h-6 lg:before:w-1 lg:before:-translate-y-1/2 lg:before:rounded-r-full lg:before:bg-flame' : ''

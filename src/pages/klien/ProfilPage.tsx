@@ -15,7 +15,7 @@ const JENIS = ['Perorangan', 'Organisasi', 'Instansi', 'Perusahaan'];
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="rounded-[24px] bg-cream p-5 sm:p-6">
-      <h2 className="mb-3 font-magic text-xl uppercase text-flame sm:text-2xl">{title}</h2>
+      <h2 className="mb-3 font-magic text-xl uppercase text-flame-ink sm:text-2xl">{title}</h2>
       {children}
     </div>
   );
@@ -24,7 +24,7 @@ function Card({ title, children }: { title: string; children: ReactNode }) {
 function Saved({ show, text }: { show: boolean; text: string }) {
   if (!show) return null;
   return (
-    <p role="status" className="mb-3 font-body text-base text-[#14aa00]">
+    <p role="status" className="mb-3 font-body text-base text-[#0f7a00]">
       {text}
     </p>
   );
@@ -79,7 +79,7 @@ function DataDiri({ client, onSaved }: { client: Client; onSaved: () => Promise<
           <BrandField id="p-email" label="Email">
             <input id="p-email" value={client.user.email} readOnly disabled className={`${brandInputSolid} cursor-not-allowed opacity-70`} />
           </BrandField>
-          <p className="-mt-1 mb-3 font-body text-xs text-coal-deep/60">Email dipakai untuk masuk. Bila salah, hubungi pengurus Neo Telemetri.</p>
+          <p className="-mt-1 mb-3 font-body text-xs text-coal-deep/70">Email dipakai untuk masuk. Bila salah, hubungi pengurus Neo Telemetri.</p>
         </div>
         <BrandField id="p-wa" label="Nomor WhatsApp">
           <input id="p-wa" type="tel" required inputMode="tel" pattern="[0-9+\-\s]{8,25}" placeholder="08xxxxxxxxxx" value={form.noWhatsapp} onChange={set('noWhatsapp')} className={brandInputSolid} />
@@ -148,7 +148,7 @@ function GantiSandi() {
         {input('lama', 'Kata sandi lama', 'current-password')}
         {input('baru', 'Kata sandi baru (minimal 8 karakter)', 'new-password')}
         {input('ulang', 'Konfirmasi kata sandi baru', 'new-password')}
-        <p className="mb-3 font-body text-xs text-coal-deep/60">Akun yang masuk dengan Google dapat membuat kata sandi lewat "Lupa kata sandi?" di halaman Login.</p>
+        <p className="mb-3 font-body text-xs text-coal-deep/70">Akun yang masuk dengan Google dapat membuat kata sandi lewat "Lupa kata sandi?" di halaman Login.</p>
         <BrandError message={error} />
         <Saved show={done} text="Kata sandi diperbarui." />
         <button type="submit" disabled={saving} className={pillButton}>

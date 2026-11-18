@@ -98,10 +98,10 @@ function Dokumen({ documents, kelola }: { documents: OrderDocument[]; kelola?: K
         <div className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {documents.map((doc) => (
             <div key={doc.id} className={`${dashedBox} relative bg-white px-4 py-3 transition-transform hover:-translate-y-0.5`}>
-              <button type="button" onClick={() => void openProtectedFile(`/files/dokumen/${doc.id}`, doc.namaFile)} className="block w-full truncate pr-6 text-left font-body text-lg text-flame" title={doc.namaFile}>
+              <button type="button" onClick={() => void openProtectedFile(`/files/dokumen/${doc.id}`, doc.namaFile)} className="block w-full truncate pr-6 text-left font-body text-lg text-flame-ink" title={doc.namaFile}>
                 {doc.namaFile}
               </button>
-              <p className="truncate font-body text-xs text-coal-deep/60">
+              <p className="truncate font-body text-xs text-coal-deep/70">
                 {doc.uploadedBy ? `${PERAN[doc.uploadedBy.role] ?? doc.uploadedBy.role} · ${doc.uploadedBy.name}` : 'Pengunggah tidak diketahui'}
                 {doc.uploadedById === user.id ? ' (Anda)' : ''}
               </p>
@@ -110,7 +110,7 @@ function Dokumen({ documents, kelola }: { documents: OrderDocument[]; kelola?: K
                   type="button"
                   onClick={() => void hapus(doc)}
                   aria-label={`Hapus dokumen ${doc.namaFile}`}
-                  className="absolute right-3 top-3 font-magic text-xl leading-none text-coal-deep/60 hover:text-[#9c2b2b]"
+                  className="absolute right-3 top-3 font-magic text-xl leading-none text-coal-deep/70 hover:text-[#9c2b2b]"
                 >
                   ×
                 </button>

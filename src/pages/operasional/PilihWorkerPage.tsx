@@ -174,7 +174,7 @@ export default function PilihWorkerPage() {
           <button type="button" onClick={() => void save()} disabled={saving || closed} className={pillButton}>
             {saving ? 'Menyimpan...' : order.project ? 'Simpan Worker' : 'Tambah Worker'}
           </button>
-          {message.done && <span role="status" className="font-body text-base text-[#14aa00]">{message.done}</span>}
+          {message.done && <span role="status" className="font-body text-base text-[#0f7a00]">{message.done}</span>}
         </div>
         <BrandError message={message.error} />
 

@@ -6,6 +6,7 @@ import type { OrderComment, Role } from '../../types';
 import { tanggalJam } from '../../utils/format';
 import { BrandError, brandInputSolid } from './Brand';
 import Pagination, { usePagination } from './Pagination';
+import { tombol } from './Tombol';
 
 const PERAN_LABEL: Record<Role, string> = {
   KLIEN: 'Klien',
@@ -105,13 +106,13 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
     <div className="mt-8">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <p className="font-magic text-2xl uppercase text-flame sm:text-3xl">Diskusi &amp; Komentar</p>
+          <p className="font-magic text-2xl uppercase text-flame-ink sm:text-3xl">Diskusi &amp; Komentar</p>
           <p className="font-body text-sm text-coal-deep/70">Ruang komunikasi antara klien, Marketing, Operasional, dan tim project.</p>
         </div>
         <button
           type="button"
           onClick={() => void fetchComments(false)}
-          className="rounded-xl border-2 border-coal/25 bg-white px-3 py-1 font-body text-sm text-coal-deep transition-colors hover:border-flame hover:text-flame"
+          className={tombol('garis', 'kecil')}
         >
           Muat Ulang
         </button>
@@ -145,7 +146,7 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
                     <span className={`rounded-lg px-2 py-0.5 font-body text-xs ${PERAN_BADGE[comment.author.role]}`}>
                       {PERAN_LABEL[comment.author.role]}
                     </span>
-                    <span className={`font-body text-xs ${mine ? 'text-cream/65' : 'text-coal-deep/60'}`}>{tanggalJam(comment.createdAt)}</span>
+                    <span className={`font-body text-xs ${mine ? 'text-cream/65' : 'text-coal-deep/70'}`}>{tanggalJam(comment.createdAt)}</span>
                   </div>
                   <p className="mt-1 whitespace-pre-wrap break-words font-body text-base leading-snug">{comment.pesan}</p>
                 </article>
@@ -179,7 +180,7 @@ export default function OrderComments({ orderId, canSend = true }: OrderComments
             <button
               type="submit"
               disabled={sending || !pesan.trim()}
-              className="shrink-0 rounded-2xl bg-coal px-6 py-2.5 font-magic text-lg uppercase text-flame transition-colors hover:text-cream disabled:opacity-50"
+              className={`shrink-0 ${tombol('gelap', 'besar')}`}
             >
               {sending ? 'Mengirim...' : 'Kirim'}
             </button>

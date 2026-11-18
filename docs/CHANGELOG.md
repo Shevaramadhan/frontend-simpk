@@ -11,6 +11,17 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (tombol konsisten dan perbaikan WCAG)
+
+### Ditambah
+- `components/brand/Tombol.ts`: satu sumber gaya tombol aksi (F-26) dengan varian utama, gelap, garis, bahaya, bahayaPenuh, dan tautan; ukuran kecil, sedang, besar; tanda fokus keyboard terlihat di latar terang maupun gelap. `pillButton` dan `linkButton` menjadi alias. Tombol yang sebelumnya ditulis sendiri-sendiri di Payment klien dan Marketing, Detail klien, Daftar Jasa publik, Project Saya, Tagihan cetak, detail project Tim, dan komentar kini memakai komponen ini.
+- Warna `flame-ink` (#c2410c) untuk teks oranye di atas latar terang.
+
+### Diperbaiki
+- Kontras teks (WCAG 1.4.3): label form, judul kartu, tautan, "by neotelemetri", nilai progres, nama dokumen, dan judul bagian di latar terang memakai `flame-ink`; menu aktif sidebar, persentase progres, dan tombol utama memakai teks gelap di atas oranye; hijau status `#14aa00` menjadi `#0f7a00`, merah `#ff4d4d`/`#e60000` menjadi `#c62828`; teks abu `text-coal-deep/60` menjadi `/70`.
+- Grafik dashboard: area yang dapat difokus diberi `role="img"` agar `aria-label` sah (WCAG 4.1.2), dan Dashboard Marketing mendapat h1.
+- Hasil audit axe WCAG 2.1 AA pada 12 halaman: 11 halaman tanpa pelanggaran; satu sisa di landing page adalah positif palsu (subjudul hero berdiri di atas bayangannya sendiri yang gelap, 5,04:1, tetapi axe tidak membaca latar dari `text-shadow`).
+
 ## 2026-11-18 (judul hero dengan HTML dan CSS)
 
 ### Diubah

@@ -8,6 +8,7 @@ import type { Invoice } from '../../types';
 import { rupiahPendek, tanggalPendek } from '../../utils/format';
 import ProyekInfo from '../../components/brand/ProyekInfo';
 import DateInput, { hariIni } from '../../components/DateInput';
+import { tombol } from '../../components/brand/Tombol';
 
 // Figma "Payment Page": tabel pembayaran, QR, dan unggah bukti. Skema DP lalu pelunasan = beberapa tagihan.
 function invoiceState(invoice: Invoice) {
@@ -64,7 +65,7 @@ function UploadForm({ invoice, onDone }: { invoice: Invoice; onDone: () => void 
       <p className="mt-1 font-body text-xs text-coal-deep/70">JPG, PNG, atau PDF, maksimal 2 MB.</p>
       <BrandError message={error} />
       {file && (
-        <button type="submit" disabled={saving} className="mt-2 w-full rounded-2xl bg-coal py-2.5 font-magic text-lg uppercase text-flame hover:text-cream disabled:opacity-60">
+        <button type="submit" disabled={saving} className={`mt-2 w-full ${tombol('gelap', 'besar')}`}>
           {saving ? 'Mengirim...' : 'Kirim bukti'}
         </button>
       )}
@@ -79,7 +80,7 @@ function InvoiceCard({ orderId, invoice, onChange }: { orderId: number; invoice:
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="font-magic text-xl uppercase text-coal-deep">{invoice.keterangan}</p>
         <span className="flex items-center gap-2">
-          <Link to={`/tagihan/${orderId}/${invoice.id}`} className="rounded-xl border-2 border-coal px-3 py-0.5 font-body text-sm text-coal-deep hover:bg-coal hover:text-flame">
+          <Link to={`/tagihan/${orderId}/${invoice.id}`} className={tombol('garis', 'kecil')}>
             Cetak Tagihan
           </Link>
           <span className={`rounded-xl px-3 py-1 font-body text-sm text-coal-deep ${state.tone}`}>{state.label}</span>
@@ -95,7 +96,7 @@ function InvoiceCard({ orderId, invoice, onChange }: { orderId: number; invoice:
           <dd className="text-coal-deep">{tanggalPendek(invoice.jatuhTempo)}</dd>
         </div>
       </dl>
-      <p className="font-body text-xs text-coal-deep/60">{invoice.nomor}</p>
+      <p className="font-body text-xs text-coal-deep/70">{invoice.nomor}</p>
       {state.note && <p className="mt-2 rounded-xl bg-[#f19b9b55] px-3 py-1.5 font-body text-sm text-coal-deep">Alasan ditolak: {state.note}</p>}
       {invoice.status === 'DIBATALKAN' && (
         <p className="mt-2 rounded-xl bg-coal/10 px-3 py-1.5 font-body text-sm text-coal-deep">

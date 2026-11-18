@@ -56,7 +56,7 @@ export default function AkunPage() {
           {input('ulang', 'Konfirmasi kata sandi baru', 'new-password')}
           <BrandError message={error} />
           {done && (
-            <p role="status" className="mb-2 font-body text-base text-[#14aa00]">
+            <p role="status" className="mb-2 font-body text-base text-[#0f7a00]">
               Kata sandi diperbarui.
             </p>
           )}

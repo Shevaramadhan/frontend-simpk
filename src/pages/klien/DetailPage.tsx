@@ -12,6 +12,7 @@ import { tanggal } from '../../utils/format';
 import OrderComments from '../../components/brand/OrderComments';
 import Pagination, { usePagination } from '../../components/brand/Pagination';
 import ProyekInfo from '../../components/brand/ProyekInfo';
+import { tombol } from '../../components/brand/Tombol';
 
 // Figma "Detail Page": total progres dan progres per bidang. Klien tidak pernah menerima catatan teknis.
 function Updates({ projectId }: { projectId: number }) {
@@ -52,7 +53,7 @@ function Ulasan({ projectId, review, onSaved }: { projectId: number; review: Pro
           <StarsView value={review.rating} size="size-8" />
         </div>
         {review.komentar && <p className="mt-2 whitespace-pre-wrap font-body text-base text-coal-deep">{review.komentar}</p>}
-        <p className="mt-2 font-body text-sm text-coal-deep/60">Terima kasih telah memakai jasa Neo Telemetri.</p>
+        <p className="mt-2 font-body text-sm text-coal-deep/70">Terima kasih telah memakai jasa Neo Telemetri.</p>
       </div>
     );
   }
@@ -91,7 +92,7 @@ function Ulasan({ projectId, review, onSaved }: { projectId: number; review: Pro
         className={`${brandInputSolid} mx-auto mt-3 max-w-2xl resize-y text-left`}
       />
       <BrandError message={error} />
-      <button type="submit" disabled={saving} className="mt-3 rounded-2xl bg-coal px-8 py-2.5 font-magic text-lg uppercase text-flame hover:text-cream disabled:opacity-60">
+      <button type="submit" disabled={saving} className={`mt-3 ${tombol('gelap', 'besar')}`}>
         {saving ? 'Mengirim...' : 'Kirim Ulasan'}
       </button>
     </form>

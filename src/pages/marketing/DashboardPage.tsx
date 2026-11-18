@@ -55,6 +55,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-4">
+      <h1 className="sr-only">Dashboard Marketing</h1>
       {data.buktiMenunggu > 0 && (
         <Link to="/app/request" className="block rounded-2xl bg-[#ffd27a] px-5 py-2.5 font-body text-sm text-coal-deep hover:bg-[#ffc35a]">
           Ada {data.buktiMenunggu} bukti transfer yang menunggu diperiksa. Buka Request untuk memeriksanya.

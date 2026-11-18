@@ -178,6 +178,7 @@ function ActivityChart({ bulanan }: { bulanan: Row[] }) {
                   onFocus={() => setHover(idx)}
                   onBlur={() => setHover(null)}
                   tabIndex={0}
+                  role="img"
                   aria-label={`${namaBulan(row.bulan)}: Request ${row.request}, Projek ${row.projek}, Selesai ${row.selesai}`}
                 />
               </g>
@@ -241,7 +242,7 @@ function RevenueChart({ bulanan }: { bulanan: Row[] }) {
           <h2 className="text-base font-semibold text-cream sm:text-lg">Tren Keuntungan Bulanan</h2>
           <p className="text-xs text-cream/60">Total pembayaran terverifikasi yang masuk tiap bulan</p>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-flame/15 px-3 py-1 text-xs font-medium text-flame">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-flame/15 px-3 py-1 text-xs font-medium text-[#ff8a3d]">
           <span className="size-2 rounded-full bg-flame" />
           Pemasukan (Rp)
         </span>
@@ -322,6 +323,7 @@ function RevenueChart({ bulanan }: { bulanan: Row[] }) {
                   onFocus={() => setHover(idx)}
                   onBlur={() => setHover(null)}
                   tabIndex={0}
+                  role="img"
                   aria-label={`${namaBulan(row.bulan)}: Keuntungan ${rupiah(row.pemasukan)}`}
                 />
               </g>

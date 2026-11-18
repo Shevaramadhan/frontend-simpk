@@ -8,6 +8,7 @@ import { useData } from '../../hooks/useData';
 import { listPortfolios, listServices } from '../../services/catalogService';
 import { homePath } from '../../utils/navigation';
 import { rupiahPendek } from '../../utils/format';
+import { tombol } from '../../components/brand/Tombol';
 
 // Daftar Jasa publik (tombol LETS MAKE A PROJECT di landing). Tidak ada di Figma; mengikuti gaya halaman klien.
 // Pesan jasa ini: pengunjung ke Sign In, klien langsung ke form pengajuan dengan jasa terpilih.
@@ -28,7 +29,7 @@ function Header() {
         <OutlinedTitle as="p" className="text-[clamp(1.5rem,min(7vh,10vw),3.75rem)] tracking-[0.12em]">
           SIMPK
         </OutlinedTitle>
-        <span className="mt-0.5 font-body text-[10px] tracking-[0.12em] text-flame sm:text-xs">by neotelemetri</span>
+        <span className="mt-0.5 font-body text-[10px] tracking-[0.12em] text-flame-ink sm:text-xs">by neotelemetri</span>
       </Link>
       <div className="justify-self-end">
         <FramedLink to={target.to} size="text-[clamp(0.9rem,2.4vh,1.5rem)]">
@@ -74,24 +75,24 @@ export default function KatalogPublikPage() {
                     transition={{ delay: Math.min(index, 8) * 0.06, duration: 0.4 }}
                     className="flex flex-col rounded-[24px] border-[3px] border-flame bg-cream p-5"
                   >
-                    <h2 className="font-magic text-2xl uppercase leading-tight text-flame">{service.nama}</h2>
+                    <h2 className="font-magic text-2xl uppercase leading-tight text-flame-ink">{service.nama}</h2>
                     <p className="mt-2 flex-1 whitespace-pre-wrap font-body text-base text-coal-deep">{service.deskripsi}</p>
                     <dl className="mt-4 font-body text-base">
                       <div className="flex flex-wrap gap-x-2">
-                        <dt className="text-flame">Perkiraan biaya :</dt>
+                        <dt className="text-flame-ink">Perkiraan biaya :</dt>
                         <dd>
                           {rupiahPendek(service.hargaMin)} - {rupiahPendek(service.hargaMax)}
                         </dd>
                       </div>
                       <div className="flex gap-2">
-                        <dt className="text-flame">Perkiraan waktu :</dt>
+                        <dt className="text-flame-ink">Perkiraan waktu :</dt>
                         <dd>{service.estimasiHari} hari</dd>
                       </div>
                     </dl>
                     {bisaPesan && (
                       <Link
                         to={`${user ? '/portal/pesan' : '/daftar'}?jasa=${service.id}`}
-                        className="mt-4 self-start rounded-[24px] bg-flame px-6 py-2 font-body text-lg text-coal transition-colors hover:bg-[#e05600]"
+                        className={`mt-4 self-start ${tombol('utama', 'besar')}`}
                       >
                         Pesan jasa ini
                       </Link>
@@ -117,7 +118,7 @@ export default function KatalogPublikPage() {
               <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {portfolios.data?.map((item) => (
                   <article key={item.id} className="rounded-[24px] border-[3px] border-flame bg-cream p-5">
-                    <h3 className="font-magic text-xl uppercase text-flame">{item.judul}</h3>
+                    <h3 className="font-magic text-xl uppercase text-flame-ink">{item.judul}</h3>
                     <p className="mt-1 font-body text-base text-coal-deep">{item.deskripsi}</p>
                   </article>
                 ))}

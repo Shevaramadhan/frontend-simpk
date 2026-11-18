@@ -5,6 +5,7 @@ import { useData } from '../../hooks/useData';
 import { listOrders } from '../../services/orderService';
 import type { Order } from '../../types';
 import { CLIENT_ORDER_STATUS } from '../../utils/format';
+import { tombol } from '../../components/brand/Tombol';
 
 // Figma "MyProject ketika belum ada isi" dan "MyProject ketika sudah ada isi".
 const PANEL = 'mx-auto mb-10 min-h-[60vh] max-w-6xl rounded-[30px] bg-coal-deep p-4 sm:p-6';
@@ -23,7 +24,7 @@ function Empty() {
       <div className="mt-8">
         <Link to="/portal/pesan" className="group inline-block transition-transform hover:-translate-y-0.5">
           <span className="block bg-cream p-[4px]">
-            <span className="block border-[4px] border-coal bg-cream px-8 py-3 font-magic text-2xl uppercase text-flame">Tambah Project</span>
+            <span className="block border-[4px] border-coal bg-cream px-8 py-3 font-magic text-2xl uppercase text-flame-ink">Tambah Project</span>
           </span>
         </Link>
       </div>
@@ -33,7 +34,7 @@ function Empty() {
 
 function Row({ order, index }: { order: Order; index: number }) {
   const status = CLIENT_ORDER_STATUS[order.status];
-  const link = 'rounded-2xl bg-flame px-4 py-2 text-center font-body text-lg text-cream transition-colors hover:bg-[#e05600] sm:px-6';
+  const link = tombol('utama', 'besar');
   return (
     <motion.li
       initial={{ opacity: 0, y: 16 }}
@@ -43,7 +44,7 @@ function Row({ order, index }: { order: Order; index: number }) {
     >
       <span className={`shrink-0 rounded-2xl border-[3px] px-3 py-1.5 text-center font-body text-sm leading-tight sm:w-40 ${status.className}`}>{status.label}</span>
       <div className="min-w-0 flex-1 text-center sm:text-left">
-        <p className="truncate font-magic text-xl uppercase text-flame sm:text-2xl">{order.judul || order.nomor}</p>
+        <p className="truncate font-magic text-xl uppercase text-flame-ink sm:text-2xl">{order.judul || order.nomor}</p>
         {order.alasanDitolak && <p className="font-body text-sm text-coal-deep">Alasan: {order.alasanDitolak}</p>}
       </div>
       <div className="flex shrink-0 gap-2">
@@ -78,7 +79,7 @@ export default function ProyekSayaPage() {
             <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
             <Link
               to="/portal/pesan"
-              className="mt-3 block rounded-[22px] border-[4px] border-dashed border-flame bg-[#83522f] py-4 text-center font-magic text-2xl uppercase text-flame transition-colors hover:bg-[#9a5f35]"
+              className="mt-3 block rounded-[22px] border-[4px] border-dashed border-flame bg-[#83522f] py-4 text-center font-magic text-2xl uppercase text-cream transition-colors hover:bg-[#9a5f35]"
             >
               Tambah Project
             </Link>

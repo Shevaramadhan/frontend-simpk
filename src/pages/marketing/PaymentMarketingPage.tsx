@@ -11,6 +11,7 @@ import { cancelInvoice, createInvoice, getOrder, updateInvoice, verifyPayment } 
 import type { Invoice, Payment } from '../../types';
 import { rupiahPendek, tanggalPendek } from '../../utils/format';
 import DateInput, { hariIni } from '../../components/DateInput';
+import { tombol } from '../../components/brand/Tombol';
 
 // Tombol Payment di Figma "Request Page Marketing" (BPMN 3): terbitkan tagihan DP lalu pelunasan, periksa bukti transfer.
 const PAYMENT_STATUS: Record<Payment['statusVerifikasi'], { label: string; className: string }> = {
@@ -103,15 +104,15 @@ function InvoiceCard({
         <span className="flex flex-wrap items-center gap-2">
           {bisaDiperbaiki(invoice) && (
             <>
-              <button type="button" onClick={() => onEdit(invoice)} className="rounded-xl border-2 border-coal px-3 py-0.5 font-body text-sm text-coal-deep hover:bg-coal hover:text-flame">
+              <button type="button" onClick={() => onEdit(invoice)} className={tombol('garis', 'kecil')}>
                 Ubah
               </button>
-              <button type="button" onClick={() => onCancel(invoice)} className="rounded-xl border-2 border-[#9c2b2b] px-3 py-0.5 font-body text-sm text-[#9c2b2b] hover:bg-[#9c2b2b] hover:text-cream">
+              <button type="button" onClick={() => onCancel(invoice)} className={tombol('bahaya', 'kecil')}>
                 Batalkan
               </button>
             </>
           )}
-          <Link to={`/tagihan/${orderId}/${invoice.id}`} className="rounded-xl border-2 border-coal px-3 py-0.5 font-body text-sm text-coal-deep hover:bg-coal hover:text-flame">
+          <Link to={`/tagihan/${orderId}/${invoice.id}`} className={tombol('garis', 'kecil')}>
             Cetak Tagihan
           </Link>
           <StatusPill label={status.label} className={status.className} />
@@ -128,7 +129,7 @@ function InvoiceCard({
           <dd>{tanggalPendek(invoice.jatuhTempo)}</dd>
         </div>
       </dl>
-      <p className="font-body text-xs text-coal-deep/60">{invoice.nomor}</p>
+      <p className="font-body text-xs text-coal-deep/70">{invoice.nomor}</p>
       {invoice.payments.length > 0 ? (
         <ul className="mt-2 space-y-1.5">
           {invoice.payments.map((payment) => {
@@ -147,7 +148,7 @@ function InvoiceCard({
           })}
         </ul>
       ) : (
-        <p className="mt-2 font-body text-sm text-coal-deep/60">Klien belum mengunggah bukti.</p>
+        <p className="mt-2 font-body text-sm text-coal-deep/70">Klien belum mengunggah bukti.</p>
       )}
     </div>
   );
@@ -300,7 +301,7 @@ export default function PaymentMarketingPage() {
               <textarea id="b-alasan" required minLength={5} maxLength={255} rows={3} value={alasanBatal} onChange={(e) => setAlasanBatal(e.target.value)} className={`${brandInputSolid} resize-y`} />
             </BrandField>
             <BrandError message={actionError} />
-            <button type="submit" disabled={saving} className="w-full rounded-[24px] bg-[#9c2b2b] px-6 py-2 font-body text-lg text-cream disabled:opacity-60">
+            <button type="submit" disabled={saving} className={`w-full ${tombol('bahayaPenuh', 'besar')}`}>
               {saving ? 'Menyimpan...' : 'Batalkan Tagihan'}
             </button>
           </form>
@@ -343,7 +344,7 @@ export default function PaymentMarketingPage() {
                 </BrandField>
                 <BrandError message={actionError} />
                 <div className="grid grid-cols-2 gap-3">
-                  <button type="button" disabled={saving} onClick={() => void decide('DITOLAK')} className="rounded-[24px] bg-[#9c2b2b] px-4 py-2 font-body text-lg text-cream disabled:opacity-60">
+                  <button type="button" disabled={saving} onClick={() => void decide('DITOLAK')} className={tombol('bahayaPenuh', 'besar')}>
                     Tolak
                   </button>
                   <button type="button" disabled={saving} onClick={() => void decide('DITERIMA')} className={pillButton}>

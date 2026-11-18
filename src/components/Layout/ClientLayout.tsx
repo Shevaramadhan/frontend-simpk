@@ -83,7 +83,7 @@ export default function ClientLayout() {
           <OutlinedTitle as="p" className="text-[clamp(1.5rem,min(5.5vh,9vw),3.25rem)] tracking-[0.12em]">
             SIMPK
           </OutlinedTitle>
-          <span className="mt-0.5 font-body text-[10px] tracking-[0.12em] text-flame sm:text-xs">by neotelemetri</span>
+          <span className="mt-0.5 font-body text-[10px] tracking-[0.12em] text-flame-ink sm:text-xs">by neotelemetri</span>
         </Link>
         <div className="justify-self-end">
           <UserMenu />

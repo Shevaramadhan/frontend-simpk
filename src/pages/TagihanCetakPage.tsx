@@ -6,6 +6,7 @@ import { useData } from '../hooks/useData';
 import { getOrder } from '../services/orderService';
 import { getPengaturan } from '../services/pengaturanService';
 import { rupiahPendek, tanggal } from '../utils/format';
+import { tombol } from '../components/brand/Tombol';
 
 // Tagihan siap cetak atau simpan PDF lewat fitur cetak browser (FR-12, UC-16, Charter Tujuan 4).
 // Dibuka klien pemilik pesanan dan pengurus; data diambil dari detail pesanan yang sudah dibatasi hak aksesnya.
@@ -61,12 +62,12 @@ export default function TagihanCetakPage() {
   return (
     <div className="min-h-dvh bg-neutral-200 py-6 print:bg-white print:py-0">
       <div className="no-print mx-auto mb-4 flex max-w-[210mm] flex-wrap items-center justify-between gap-3 px-4">
-        <button type="button" onClick={() => navigate(kembali)} className="rounded-[20px] border-2 border-coal px-5 py-2 font-body text-base text-coal hover:bg-coal hover:text-flame">
+        <button type="button" onClick={() => navigate(kembali)} className={tombol('garis', 'besar')}>
           ← Kembali
         </button>
         <div className="flex items-center gap-3">
           <span className="hidden font-body text-sm text-neutral-600 sm:inline">Pilih "Simpan sebagai PDF" pada jendela cetak untuk menyimpan.</span>
-          <button type="button" onClick={() => window.print()} className="rounded-[20px] bg-flame px-6 py-2 font-body text-lg text-coal hover:bg-[#e05600]">
+          <button type="button" onClick={() => window.print()} className={tombol('utama', 'besar')}>
             Cetak / Simpan PDF
           </button>
         </div>
@@ -112,7 +113,7 @@ export default function TagihanCetakPage() {
             </dl>
             <p
               className={`mt-3 inline-block border-2 px-3 py-1 text-[12px] font-bold uppercase tracking-wider ${
-                lunas ? 'border-[#14aa00] text-[#14aa00]' : batal ? 'border-neutral-500 text-neutral-500' : 'border-[#9c2b2b] text-[#9c2b2b]'
+                lunas ? 'border-[#0f7a00] text-[#0f7a00]' : batal ? 'border-neutral-500 text-neutral-500' : 'border-[#9c2b2b] text-[#9c2b2b]'
               }`}
             >
               {lunas ? 'Lunas' : batal ? 'Dibatalkan' : 'Belum lunas'}

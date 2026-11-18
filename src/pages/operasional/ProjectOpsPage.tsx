@@ -9,9 +9,9 @@ import type { Order } from '../../types';
 function note(order: Order) {
   const project = order.projects[0];
   const members = project?._count?.members ?? 0;
-  if (!members) return <span className="text-[#e60000]">Belum ada worker yang mengerjakan</span>;
-  if (project.status === 'SELESAI') return <span className="text-[#14aa00]">Project selesai · {members} worker</span>;
-  return <span className="text-[#14aa00]">{members} worker sedang mengerjakan</span>;
+  if (!members) return <span className="text-[#c62828]">Belum ada worker yang mengerjakan</span>;
+  if (project.status === 'SELESAI') return <span className="text-[#0f7a00]">Project selesai · {members} worker</span>;
+  return <span className="text-[#0f7a00]">{members} worker sedang mengerjakan</span>;
 }
 
 export default function ProjectOpsPage() {

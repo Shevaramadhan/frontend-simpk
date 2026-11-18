@@ -163,7 +163,7 @@ export default function WorkerPage() {
                       Ubah
                     </button>
                   </p>
-                  <p className="truncate font-body text-xs text-coal-deep/60">{worker.email}</p>
+                  <p className="truncate font-body text-xs text-coal-deep/70">{worker.email}</p>
                   <p className="font-body text-sm leading-snug">{workerNote(worker.jumlahProject)}</p>
                 </div>
               </motion.div>

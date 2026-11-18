@@ -9,6 +9,7 @@ import { useData } from '../../hooks/useData';
 import { errorMessage } from '../../services/apiConfig';
 import { approveOrder, getOrder, updateOrderStatus } from '../../services/orderService';
 import { MARKETING_ORDER_STATUS, rupiahPendek } from '../../utils/format';
+import { tombol } from '../../components/brand/Tombol';
 
 // Figma "Detail Page" Marketing (wireframe 23:449): deskripsi, dokumen, lalu Tolak / Diskusi Lebih Lanjut / Terima.
 const bigButton = 'flex min-h-24 items-center justify-center rounded-[24px] px-4 py-4 text-center font-magic text-2xl uppercase transition-transform hover:-translate-y-0.5 disabled:opacity-50 sm:text-3xl';
@@ -136,7 +137,7 @@ export default function RequestDetailPage() {
             <textarea id="alasan" required minLength={5} maxLength={255} rows={3} value={alasan} onChange={(event) => setAlasan(event.target.value)} className={`${brandInputSolid} resize-y`} />
           </BrandField>
           <BrandError message={actionError} />
-          <button type="submit" disabled={saving} className="w-full rounded-[24px] bg-[#9c2b2b] px-6 py-2 font-body text-lg text-cream disabled:opacity-60">
+          <button type="submit" disabled={saving} className={`w-full ${tombol('bahayaPenuh', 'besar')}`}>
             {saving ? 'Menyimpan...' : 'Tolak Request'}
           </button>
         </form>

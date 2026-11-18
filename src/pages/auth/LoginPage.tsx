@@ -55,7 +55,7 @@ export default function LoginPage() {
       </form>
       <p className="mt-[clamp(8px,2vh,24px)] text-center font-body text-[clamp(14px,2.2vh,18px)] text-coal-deep">
         Belum punya akun?{' '}
-        <Link to={jasa ? `/daftar?jasa=${encodeURIComponent(jasa)}` : '/daftar'} className="text-flame underline underline-offset-4">
+        <Link to={jasa ? `/daftar?jasa=${encodeURIComponent(jasa)}` : '/daftar'} className="text-flame-ink underline underline-offset-4">
           Sign In
         </Link>
       </p>

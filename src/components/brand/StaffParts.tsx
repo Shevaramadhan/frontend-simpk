@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import ikonProfilOranye from '../../assets/staff/ikon-profil-oranye.svg';
+import { tautan, tombol } from './Tombol';
 
 // Potongan tampilan halaman Operasional dan Tim (Figma 115:162 dan 116:235).
 
@@ -20,8 +21,8 @@ export function StaffPanel({ title, action, children, level = 1 }: { title: stri
   );
 }
 
-export const pillButton =
-  'inline-flex items-center justify-center gap-2 rounded-[20px] bg-flame px-5 py-1.5 font-body text-sm font-semibold text-coal transition-colors hover:bg-[#e05600] disabled:opacity-60';
+/** Tombol aksi utama; gaya semua tombol ada di Tombol.ts. */
+export const pillButton = tombol('utama');
 
 /** Kartu project krem berbingkai oranye dengan tombol Detail. */
 export function ProjectCard({ index, title, subtitle, note, to }: { index: number; title: string; subtitle: string; note: ReactNode; to: string }) {
@@ -33,7 +34,7 @@ export function ProjectCard({ index, title, subtitle, note, to }: { index: numbe
       className="flex flex-col gap-3 rounded-[22px] border-[3px] border-flame bg-cream px-5 py-2.5 sm:flex-row sm:items-center"
     >
       <div className="min-w-0 flex-1">
-        <h2 className="line-clamp-1 break-words font-magic text-[clamp(15px,2vh,18px)] uppercase leading-tight text-flame" title={title}>
+        <h2 className="line-clamp-1 break-words font-magic text-[clamp(15px,2vh,18px)] uppercase leading-tight text-flame-ink" title={title}>
           {title}
         </h2>
         <p className="font-body text-xs text-coal-deep/70 sm:text-sm">{subtitle}</p>
@@ -56,9 +57,9 @@ export function Avatar({ size = 'size-[clamp(40px,6vh,56px)]' }: { size?: string
 
 export function workerNote(jumlah: number) {
   return jumlah > 0 ? (
-    <span className="text-[#14aa00]">Sudah membuat {jumlah} project selama kepengurusan</span>
+    <span className="text-[#0f7a00]">Sudah membuat {jumlah} project selama kepengurusan</span>
   ) : (
-    <span className="text-[#ff4d4d]">Belum ada membuat project selama kepengurusan</span>
+    <span className="text-[#c62828]">Belum ada membuat project selama kepengurusan</span>
   );
 }
 
@@ -84,7 +85,7 @@ export function BrandTable({ head, children, empty, minWidth = 'min-w-[640px]' }
 }
 
 export const tableCell = 'border-t border-coal/10 px-4 py-2 align-middle';
-export const linkButton = 'font-body text-sm text-flame underline underline-offset-4 hover:text-coal-deep';
+export const linkButton = tautan;
 
 /** Label status berwarna; warna selalu disertai teks. */
 export function StatusPill({ label, className }: { label: string; className: string }) {

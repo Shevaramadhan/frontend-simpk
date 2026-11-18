@@ -57,6 +57,10 @@ Font (F-25): hanya dua font di seluruh web.
 
 Di halaman pengurus (`data-staff-shell`) `font-magic` juga menjadi Poppins tebal. Jangan menambah font lain; Seven Moon, League Spartan, Inter, dan Plus Jakarta Sans sudah dihapus. Garis tepi judul memakai utility `text-outline` dan `text-outline-lg`.
 
+**Tombol (F-26).** Semua tombol aksi memakai `tombol(varian, ukuran)` dari `components/brand/Tombol.ts`: bentuk kapsul, Poppins tebal, dan tanda fokus keyboard yang sama. Varian: `utama` (oranye, teks gelap), `gelap`, `garis`, `bahaya`, `bahayaPenuh`; ukuran: `kecil`, `sedang`, `besar`. Tautan teks memakai `tautan`. `pillButton` dan `linkButton` di `StaffParts` adalah alias keduanya. Tombol merek berbingkai (`Framed`, Magic Hat) hanya untuk ajakan utama di landing page dan halaman masuk. Jangan menulis kelas tombol sendiri.
+
+**Kontras (WCAG 2.1 AA).** Oranye `flame` (#ff6200) hanya untuk latar, ikon, dan teks di atas latar gelap. Teks oranye di atas latar terang memakai `text-flame-ink` (#c2410c, 5,15:1 di atas krem). Teks di atas latar oranye memakai `text-coal-deep`, bukan putih atau krem. Warna status: hijau `#0f7a00`, merah `#c62828`. Teks abu di atas krem paling pudar `text-coal-deep/70`.
+
 **Lisensi font.** Magic Hat gratis hanya untuk pemakaian pribadi (Seven Moon sudah tidak dipakai). Pemakaian komersial wajib membeli lisensi (lihat berkas lisensi di dalam `docs/desain/desain font/*.zip`). Putuskan beli lisensi atau ganti font sebelum situs dipakai Neo Telemetri, dan sebelum berkas font dimasukkan ke repo publik.
 
 Posisi elemen di `components/landing/` memakai angka koordinat Figma lewat `box(x, y, lebar, tinggi)`. Jangan mengubahnya tanpa mengubah desain.

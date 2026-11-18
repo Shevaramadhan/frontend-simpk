@@ -79,7 +79,7 @@ function Form({ awal, onSaved }: { awal: Pengaturan; onSaved: () => void }) {
       </div>
       <BrandError message={error} />
       {done && (
-        <p role="status" className="mb-3 font-body text-base text-[#14aa00]">
+        <p role="status" className="mb-3 font-body text-base text-[#0f7a00]">
           Pengaturan disimpan. Tagihan kini memakai data ini.
         </p>
       )}

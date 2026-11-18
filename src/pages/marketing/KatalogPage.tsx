@@ -84,7 +84,7 @@ function PortofolioPanel({ services }: { services: Service[] }) {
               <tr key={item.id}>
                 <td className={cell}>
                   {item.judul}
-                  <span className="line-clamp-1 block text-xs text-coal-deep/60">{item.deskripsi}</span>
+                  <span className="line-clamp-1 block text-xs text-coal-deep/70">{item.deskripsi}</span>
                 </td>
                 <td className={cell}>{item.service?.nama ?? <span className="text-coal-deep/50">-</span>}</td>
                 <td className={cell}>{item.tahun ?? '-'}</td>
@@ -200,7 +200,7 @@ export default function KatalogPage() {
               <tr key={service.id}>
                 <td className={cell}>
                   {service.nama}
-                  <span className="line-clamp-1 block text-xs text-coal-deep/60">{service.deskripsi}</span>
+                  <span className="line-clamp-1 block text-xs text-coal-deep/70">{service.deskripsi}</span>
                 </td>
                 <td className={cell}>
                   {rupiahPendek(service.hargaMin)} - {rupiahPendek(service.hargaMax)}

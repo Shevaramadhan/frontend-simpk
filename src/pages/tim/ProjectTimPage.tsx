@@ -27,7 +27,7 @@ export default function ProjectTimPage() {
                 title={project.nama}
                 subtitle={`${project.klien} · ${project.kode}${project.isPm ? ' · Anda PM' : ''}`}
                 note={
-                  <span className={project.progres === 100 ? 'text-[#14aa00]' : 'text-coal-deep'}>
+                  <span className={project.progres === 100 ? 'text-[#0f7a00]' : 'text-coal-deep'}>
                     {PROJECT_STATUS_LABEL[project.status]} · Progres {project.progres}%
                   </span>
                 }

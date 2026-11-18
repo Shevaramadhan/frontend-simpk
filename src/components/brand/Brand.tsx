@@ -52,7 +52,7 @@ export const brandInputSolid = `${INPUT_BASE} bg-cream focus:bg-white`;
 export function BrandField({ id, label, tone = 'flame', children }: { id: string; label: string; tone?: 'flame' | 'cream'; children: ReactNode }) {
   return (
     <div className="mb-[clamp(0.375rem,1.6vh,1rem)]">
-      <label htmlFor={id} className={`block font-body text-[clamp(0.9375rem,2.5vh,1.25rem)] ${tone === 'flame' ? 'text-flame' : 'text-cream'}`}>
+      <label htmlFor={id} className={`block font-body text-[clamp(0.9375rem,2.5vh,1.25rem)] ${tone === 'flame' ? 'text-flame-ink' : 'text-cream'}`}>
         {label}
       </label>
       {children}

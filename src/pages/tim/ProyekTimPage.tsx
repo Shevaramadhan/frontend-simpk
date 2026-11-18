@@ -14,6 +14,7 @@ import { addProgress, createTask, deleteTask, getProject, listTasks, listTeamUpd
 import type { Bidang, Member, ProjectDetail, ProjectStatus, Task } from '../../types';
 import { BIDANG_LABEL, PROJECT_STATUS_LABEL, tanggal, tanggalPendek, TASK_STATUS_LABEL } from '../../utils/format';
 import DateInput from '../../components/DateInput';
+import { tombol } from '../../components/brand/Tombol';
 
 // Detail project untuk Tim (dan Operasional): bergaya halaman Detail klien, ditambah tabel tugas.
 // PM membuat tugas; anggota memperbarui progres tugas miliknya. Catatan teknis hanya untuk tim (REQ-F05).
@@ -201,7 +202,7 @@ function TaskTable({
               <tr key={task.id} className="border-t border-coal/10 align-middle">
                 <td className="px-3 py-2">
                   <p>{task.judul}</p>
-                  <p className="text-xs text-coal-deep/60">
+                  <p className="text-xs text-coal-deep/70">
                     {TASK_STATUS_LABEL[task.status]} · bobot {task.bobot}
                   </p>
                 </td>
@@ -210,27 +211,27 @@ function TaskTable({
                 {!ringkas && <td className="px-3 py-2">{tanggalPendek(task.tenggat)}</td>}
                 <td className="px-3 py-2">
                   <span className="flex items-center gap-2">
-                    <span className="w-11 text-flame">{task.persentase}%</span>
+                    <span className="w-11 text-flame-ink">{task.persentase}%</span>
                     <Bar value={task.persentase} track="bg-coal/15" fill="bg-flame" />
                   </span>
                 </td>
                 <td className="px-3 py-2 text-right">
                   <span className="inline-flex flex-wrap justify-end gap-1.5">
                     {canUpdate(task) && (
-                      <button type="button" onClick={() => onUpdate(task)} className="rounded-xl bg-coal px-3 py-1 text-sm text-flame hover:text-cream">
+                      <button type="button" onClick={() => onUpdate(task)} className={tombol('gelap', 'kecil')}>
                         Perbarui
                       </button>
                     )}
                     {kelola && (
                       <>
-                        <button type="button" onClick={() => onEdit(task)} className="rounded-xl border-2 border-coal px-3 py-0.5 text-sm text-coal-deep hover:bg-coal hover:text-flame">
+                        <button type="button" onClick={() => onEdit(task)} className={tombol('garis', 'kecil')}>
                           Ubah
                         </button>
                         <button
                           type="button"
                           onClick={() => onDelete(task)}
                           aria-label={`Hapus tugas ${task.judul}`}
-                          className="rounded-xl border-2 border-[#9c2b2b] px-3 py-0.5 text-sm text-[#9c2b2b] hover:bg-[#9c2b2b] hover:text-cream"
+                          className={tombol('bahaya', 'kecil')}
                         >
                           Hapus
                         </button>
@@ -256,7 +257,7 @@ function Riwayat({ projectId, version }: { projectId: number; version: number })
   if (!data?.length) return null;
   return (
     <div className="mt-8">
-      <p className="text-center font-magic text-2xl uppercase text-flame">Riwayat Progres</p>
+      <p className="text-center font-magic text-2xl uppercase text-flame-ink">Riwayat Progres</p>
       <ul className="mt-3 space-y-2">
         {paged.map((update) => (
           <li key={update.id} className="rounded-2xl border-[3px] border-coal/15 bg-white px-4 py-3">
@@ -428,7 +429,7 @@ export default function ProyekTimPage() {
         <ProgressPanel progres={project.progres} progresBidang={project.progresBidang} />
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
-          <p className="font-magic text-2xl uppercase text-flame sm:text-3xl">Daftar Tugas</p>
+          <p className="font-magic text-2xl uppercase text-flame-ink sm:text-3xl">Daftar Tugas</p>
           {canManage && !closed && (
             <button type="button" onClick={() => setFormTugas({ task: null })} className={pillButton}>
               + Tambah Tugas

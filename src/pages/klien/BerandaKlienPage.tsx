@@ -56,13 +56,13 @@ export default function BerandaKlienPage() {
       <h1 className="sr-only">Beranda klien SIMPK</h1>
       <Marquee />
       <Reveal y={24} className="mx-auto max-w-3xl px-5 text-center">
-        <p className="font-body text-[clamp(13px,min(2.6vh,4vw),22px)] leading-relaxed text-flame">
+        <p className="font-body text-[clamp(13px,min(2.6vh,4vw),22px)] leading-relaxed text-flame-ink">
           Projek-projek yang telah disiapkan oleh kami dari NEO TELEMETRI sesuai dengan kebutuhan serta keinginan client, sehingga website yang dibuat dapat
           digunakan dengan nyaman dan sesuai dengan tujuan dibuatnya website tersebut.
         </p>
-        <p className="mt-[clamp(6px,1.8vh,20px)] flex flex-wrap items-center justify-center gap-2 font-body text-[clamp(13px,min(2.6vh,4vw),22px)] text-flame">
+        <p className="mt-[clamp(6px,1.8vh,20px)] flex flex-wrap items-center justify-center gap-2 font-body text-[clamp(13px,min(2.6vh,4vw),22px)] text-flame-ink">
           Jadi tunggu apa lagi?
-          <span className="rounded-2xl bg-coal px-3 py-1 font-magic text-[clamp(11px,min(2.2vh,3.4vw),18px)] uppercase">Lets make a project with Neo Telemetri</span>
+          <span className="rounded-2xl bg-coal px-3 py-1 text-flame font-magic text-[clamp(11px,min(2.2vh,3.4vw),18px)] uppercase">Lets make a project with Neo Telemetri</span>
         </p>
       </Reveal>
       <Reveal y={30} delay={0.15} className="flex justify-center">

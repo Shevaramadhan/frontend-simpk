@@ -144,10 +144,10 @@ export default function PenggunaPage() {
                     <td className={cell}>{user.email}</td>
                     <td className={cell}>
                       {ROLE_LABEL[user.role]}
-                      {user.role === 'TIM' && user.keahlian && <span className="block text-xs text-coal-deep/60">{user.keahlian}</span>}
+                      {user.role === 'TIM' && user.keahlian && <span className="block text-xs text-coal-deep/70">{user.keahlian}</span>}
                     </td>
                     <td className={cell}>
-                      <span className={user.isActive ? 'text-[#14aa00]' : 'text-[#e60000]'}>{user.isActive ? 'Aktif' : 'Nonaktif'}</span>
+                      <span className={user.isActive ? 'text-[#0f7a00]' : 'text-[#c62828]'}>{user.isActive ? 'Aktif' : 'Nonaktif'}</span>
                       {user.id !== me.id && (
                         <button type="button" className={`${linkButton} ml-3`} onClick={() => void toggle(user.id, user.isActive)}>
                           {user.isActive ? 'Nonaktifkan' : 'Aktifkan'}
