@@ -11,6 +11,14 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (angka Neo Telemetri di hero)
+
+### Ditambah
+- Angka Neo Telemetri di dalam bayangan hitam hero, di bawah subjudul (masukan PM): 8+ Projects Delivered, 40 Tech Visionaries, 99% System Reliability, 10+ Years of Expertise, sesuai halaman marketing resmi neotelemetri.id (ejaan "Reability" dan "Expertise of years" dirapikan). Versi ringkas (angka dan label) agar tidak bersaing dengan judul SIMPK; di ponsel berupa grid 2x2 di atas tombol Lets Make A Project.
+- Angka berhitung naik saat terlihat (motion `animate`); pembaca layar langsung mendapat angka akhir lewat teks `sr-only`; dengan "kurangi gerakan" angka akhir tampil tanpa animasi.
+- Daftar angka diberi latar `coal-deep` sewarna bayangan (seluruhnya di dalam bayangan sehingga tidak terlihat) agar kontras terjamin dan terbaca axe.
+- Angka disimpan di `src/data/statistik.ts`; ubah di sana bila situs Neo Telemetri memperbarui angkanya.
+
 ## 2026-11-18 (pil menu seragam beranimasi dan tombol hero)
 
 ### Ditambah

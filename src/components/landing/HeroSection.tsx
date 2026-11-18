@@ -5,6 +5,7 @@ import ornamenKananBawah from '../../assets/landing/hero-ornamen-kanan-bawah.web
 import ornamenKiri from '../../assets/landing/hero-ornamen-kiri.webp';
 import { Magnet, Ornament, Reveal, RollingText, useHoverFocus } from './Motion';
 import { Framed, SECTION } from './Parts';
+import StatistikHero from './StatistikHero';
 import { box, Crop, Stage } from './Stage';
 
 const FILL = 'pointer-events-none absolute inset-0 size-full max-w-none object-cover';
@@ -151,6 +152,12 @@ function Desktop() {
       </div>
 
       <Title />
+
+      {/* Angka Neo Telemetri di dalam bayangan hitam di bawah subjudul (bidang miring 45 derajat, aman di x 200-900). */}
+      <Reveal immediate y={30} delay={1.1} className="pointer-events-none absolute" style={box(200, 652, 680)}>
+        {/* Latar gelap sungguhan sewarna bayangan (seluruhnya di dalam bayangan, tidak terlihat): kontras terjamin dan terbaca alat audit. */}
+        <StatistikHero ukuran="artboard" tunda={1.2} className="grid grid-cols-4 bg-coal-deep py-2" />
+      </Reveal>
     </Stage>
     </div>
   );
@@ -164,6 +171,7 @@ function Mobile() {
       </Crop>
 
       <div className="bg-coal px-5 pb-10 pt-6">
+        <StatistikHero ukuran="ponsel" className="mb-8 grid grid-cols-2 gap-x-4 gap-y-6" />
         <Reveal y={30}>
           <Link to="/katalog">
             <Framed>
