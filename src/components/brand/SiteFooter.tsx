@@ -1,12 +1,6 @@
 import type { CSSProperties } from 'react';
 import logoFooter from '../../assets/landing/footer-logo.webp';
-import ikonCopyright from '../../assets/landing/ikon-copyright.svg';
-import ikonFacebook from '../../assets/landing/ikon-facebook.svg';
-import ikonInstagram from '../../assets/landing/ikon-instagram.svg';
-import ikonSpotify from '../../assets/landing/ikon-spotify.svg';
-import ikonX from '../../assets/landing/ikon-vector-a.svg';
-import ikonYoutube from '../../assets/landing/ikon-vector-b.svg';
-import ikonTiktok from '../../assets/landing/ikon-vector-c.svg';
+import IkonSosial, { type NamaSosial } from '../landing/IkonSosial';
 import { SIMPK_DESCRIPTION } from '../landing/Parts';
 
 // Footer halaman klien dan Daftar Jasa publik, mengikuti footer landing page (Figma "Group 97"):
@@ -22,13 +16,13 @@ export const CONTACT = { phone: '+62 897  1504 300', email: 'baktiunand2025@gmai
 const skala = (px: number) => `clamp(${Math.round(px * 0.7)}px, ${(px / 16).toFixed(2)}vw, ${Math.round(px * 0.9)}px)`;
 const ikon = (w: number, h = w): CSSProperties => ({ width: skala(w), height: skala(h) });
 
-const SOCIALS = [
-  { src: ikonInstagram, alt: 'Instagram', style: ikon(55) },
-  { src: ikonFacebook, alt: 'Facebook', style: ikon(50) },
-  { src: ikonSpotify, alt: 'Spotify', style: ikon(55) },
-  { src: ikonX, alt: 'X', style: ikon(45) },
-  { src: ikonTiktok, alt: 'TikTok', style: ikon(45) },
-  { src: ikonYoutube, alt: 'YouTube', style: ikon(55, 45) },
+const SOCIALS: { nama: NamaSosial; style: CSSProperties }[] = [
+  { nama: 'Instagram', style: ikon(55) },
+  { nama: 'Facebook', style: ikon(50) },
+  { nama: 'Spotify', style: ikon(55) },
+  { nama: 'X', style: ikon(45) },
+  { nama: 'TikTok', style: ikon(45) },
+  { nama: 'YouTube', style: ikon(55, 45) },
 ];
 
 export default function SiteFooter() {
@@ -52,7 +46,7 @@ export default function SiteFooter() {
           </p>
           <div className="mx-auto mt-[clamp(14px,1.6vw,24px)] grid w-fit grid-cols-3 place-items-center gap-x-[clamp(14px,1.4vw,20px)] gap-y-[clamp(10px,1.6vw,24px)]">
             {SOCIALS.map((item) => (
-              <img key={item.alt} alt={item.alt} className="block max-w-none" style={item.style} src={item.src} />
+              <IkonSosial key={item.nama} nama={item.nama} className="text-cream" style={item.style} />
             ))}
           </div>
         </div>
@@ -65,7 +59,7 @@ export default function SiteFooter() {
           <div className="mt-[clamp(12px,1.6vw,24px)] flex flex-wrap items-center justify-center gap-x-[clamp(6px,0.6vw,10px)] gap-y-2">
             <img alt="Neo Telemetri" className="max-w-none object-cover" style={{ width: skala(200), height: skala(35) }} src={logoFooter} />
             <span className="flex items-center gap-1.5">
-              <img alt="" className="block max-w-none" style={ikon(25)} src={ikonCopyright} />
+              <span aria-hidden="true">©</span>
               2026. All Rights Reserved
             </span>
           </div>

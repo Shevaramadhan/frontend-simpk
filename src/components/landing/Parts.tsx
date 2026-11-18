@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import garis from '../../assets/landing/garis-menu.svg';
 import { box } from './Stage';
 
 /** Garis pemisah tegak pada pil menu, strukturnya mengikuti Figma. */
@@ -9,7 +8,7 @@ export function Separator({ left, top }: { left: number; top: number }) {
       <div className="flex-none rotate-90">
         <div className="relative h-0 w-[35px]">
           <div className="absolute inset-[-2px_0_0_0]">
-            <img alt="" className="block size-full max-w-none" src={garis} />
+            <span className="block size-full bg-cream" />
           </div>
         </div>
       </div>

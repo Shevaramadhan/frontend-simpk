@@ -11,6 +11,16 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (elemen desain landing page tanpa gambar)
+
+### Diubah
+- Elemen desain landing page dibuat dengan HTML, Tailwind, dan SVG inline, tidak lagi dari berkas gambar (permintaan PM): segitiga latar Latest Project memakai `clip-path`, elips alas dan garis judul memakai `div`/`span` berwarna, garis pemisah menu Our Project memakai `span` krem, dan tanda © memakai teks.
+- Ikon media sosial (Instagram, Facebook, Spotify, X, TikTok, YouTube) di footer landing page dan footer halaman klien memakai komponen baru `components/landing/IkonSosial.tsx` (SVG inline, warna mengikuti `currentColor`, `role="img"` dengan `aria-label`). Tampilan tidak berubah; uji regresi landing dan audit axe tetap lulus.
+- Yang masih berupa gambar: foto kegiatan, tangkapan layar proyek, logo, dan ornamen hero (karya grafis merek).
+
+### Dihapus
+- 14 berkas SVG yang tidak dipakai lagi di `assets/landing`: `latest-segitiga`, `latest-mask`, `latest-garis-gelap`, `latest-garis-terang`, `latest-elips`, `journey-garis`, `garis-menu`, `ikon-copyright`, `ikon-facebook`, `ikon-instagram`, `ikon-spotify`, `ikon-vector-a`, `ikon-vector-b`, `ikon-vector-c`.
+
 ## 2026-11-18 (perbaikan temuan QA)
 
 ### Diperbaiki

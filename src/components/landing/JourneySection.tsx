@@ -1,18 +1,11 @@
 import { motion } from "motion/react";
 import logoFooter from "../../assets/landing/footer-logo.webp";
-import ikonCopyright from "../../assets/landing/ikon-copyright.svg";
-import ikonFacebook from "../../assets/landing/ikon-facebook.svg";
-import ikonInstagram from "../../assets/landing/ikon-instagram.svg";
-import ikonSpotify from "../../assets/landing/ikon-spotify.svg";
-import ikonX from "../../assets/landing/ikon-vector-a.svg";
-import ikonYoutube from "../../assets/landing/ikon-vector-b.svg";
-import ikonTiktok from "../../assets/landing/ikon-vector-c.svg";
 import foto1 from "../../assets/landing/journey-1.webp";
 import foto2 from "../../assets/landing/journey-2.webp";
 import foto3 from "../../assets/landing/journey-3.webp";
 import foto4 from "../../assets/landing/journey-4.webp";
 import foto5 from "../../assets/landing/journey-5.webp";
-import garis from "../../assets/landing/journey-garis.svg";
+import IkonSosial, { type NamaSosial } from "./IkonSosial";
 import { DrawLine, Reveal, SplitWords } from "./Motion";
 import { SECTION, SIMPK_DESCRIPTION } from "./Parts";
 import { box, Crop, Stage } from "./Stage";
@@ -68,13 +61,13 @@ const PHOTOS = [
 ];
 
 // Ikon media sosial pada posisi Figma, relatif terhadap footer (0, 728).
-const SOCIALS = [
-  { src: ikonInstagram, alt: "Instagram", style: box(673, 117, 55, 55) },
-  { src: ikonFacebook, alt: "Facebook", style: box(748, 117, 50, 50) },
-  { src: ikonSpotify, alt: "Spotify", style: box(818, 117, 55, 55) },
-  { src: ikonX, alt: "X", style: box(678, 195, 45, 45) },
-  { src: ikonTiktok, alt: "TikTok", style: box(750, 195, 45, 45) },
-  { src: ikonYoutube, alt: "YouTube", style: box(818, 194, 55, 45) },
+const SOCIALS: { nama: NamaSosial; style: ReturnType<typeof box> }[] = [
+  { nama: "Instagram", style: box(673, 117, 55, 55) },
+  { nama: "Facebook", style: box(748, 117, 50, 50) },
+  { nama: "Spotify", style: box(818, 117, 55, 55) },
+  { nama: "X", style: box(678, 195, 45, 45) },
+  { nama: "TikTok", style: box(750, 195, 45, 45) },
+  { nama: "YouTube", style: box(818, 194, 55, 45) },
 ];
 
 function Photos() {
@@ -119,7 +112,7 @@ function Desktop() {
       </h2>
       <div className="absolute h-0" style={box(112, 156, 1215)}>
         <DrawLine className="absolute inset-[-10px_0_0_0]">
-          <img alt="" className="block size-full max-w-none" src={garis} />
+          <span className="block size-full bg-coal" />
         </DrawLine>
       </div>
 
@@ -159,13 +152,7 @@ function Desktop() {
             FOLLOW US
           </p>
           {SOCIALS.map((icon) => (
-            <img
-              key={icon.alt}
-              alt={icon.alt}
-              className="absolute block max-w-none"
-              style={icon.style}
-              src={icon.src}
-            />
+            <IkonSosial key={icon.nama} nama={icon.nama} className="absolute text-cream" style={icon.style} />
           ))}
         </Reveal>
 
@@ -195,12 +182,13 @@ function Desktop() {
               style={box(912, 204, 200, 35)}
               src={logoFooter}
             />
-            <img
-              alt=""
-              className="absolute block max-w-none"
-              style={box(1119, 210, 25, 25)}
-              src={ikonCopyright}
-            />
+            <span
+              aria-hidden="true"
+              className="absolute font-body text-[26px] leading-none text-cream"
+              style={box(1117, 208, 25, 25)}
+            >
+              ©
+            </span>
             <p
               className="absolute font-body text-[22px] leading-[normal] text-cream"
               style={box(1147, 206, 270)}
@@ -243,13 +231,7 @@ function Mobile() {
         </p>
         <div className="mx-auto mt-4 grid w-fit grid-cols-3 place-items-center gap-x-6 gap-y-4">
           {SOCIALS.map((icon) => (
-            <img
-              key={icon.alt}
-              alt={icon.alt}
-              className="block"
-              style={{ width: icon.style.width, height: icon.style.height }}
-              src={icon.src}
-            />
+            <IkonSosial key={icon.nama} nama={icon.nama} className="text-cream" style={{ width: icon.style.width, height: icon.style.height }} />
           ))}
         </div>
 
@@ -268,7 +250,7 @@ function Mobile() {
             src={logoFooter}
           />
           <span className="flex items-center gap-1.5">
-            <img alt="" className="size-5" src={ikonCopyright} />
+            <span aria-hidden="true">©</span>
             {COPYRIGHT}
           </span>
         </div>

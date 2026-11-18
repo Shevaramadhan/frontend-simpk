@@ -3,11 +3,6 @@ import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import belakangAtas from '../../assets/landing/latest-belakang-atas.webp';
 import belakangBawah from '../../assets/landing/latest-belakang-bawah.webp';
-import elips from '../../assets/landing/latest-elips.svg';
-import garisGelap from '../../assets/landing/latest-garis-gelap.svg';
-import garisTerang from '../../assets/landing/latest-garis-terang.svg';
-import mask from '../../assets/landing/latest-mask.svg';
-import segitiga from '../../assets/landing/latest-segitiga.svg';
 import utama from '../../assets/landing/latest-utama.webp';
 import { DrawLine, Reveal, SplitWords } from './Motion';
 import { SECTION } from './Parts';
@@ -21,22 +16,14 @@ const PROJECT_TEXT =
 const FILL = 'pointer-events-none absolute inset-0 size-full max-w-none rounded-[30px] object-cover';
 const TITLE_TEXT = 'whitespace-nowrap font-magic text-[64px] uppercase leading-[normal] tracking-[3.2px]';
 // Bagian judul dan garis yang berada di atas segitiga gelap digambar ulang dengan warna krem.
-const TRIANGLE_MASK: CSSProperties = {
-  maskImage: `url("${mask}")`,
-  maskSize: '100% 100%',
-  maskRepeat: 'no-repeat',
-  WebkitMaskImage: `url("${mask}")`,
-  WebkitMaskSize: '100% 100%',
-  WebkitMaskRepeat: 'no-repeat',
-};
+// Bentuk segitiga dibuat dengan clip-path (bukan gambar).
+const TRIANGLE_MASK: CSSProperties = { clipPath: 'polygon(0 0, 100% 0, 0 100%)' };
 
 function Triangle() {
   return (
     <>
     <div className="pointer-events-none absolute bg-coal" style={box(-1000, 0, 999, 579.5)} />
-    <div className="pointer-events-none absolute" style={box(-2, 0, 644, 579.5)}>
-      <img alt="" className="absolute inset-0 block size-full max-w-none" src={segitiga} />
-    </div>
+    <div className="pointer-events-none absolute bg-coal" style={{ ...box(-2, 0, 644, 579.5), ...TRIANGLE_MASK }} />
     </>
   );
 }
@@ -131,7 +118,7 @@ function Collage() {
   return (
     <>
       <Reveal scale={0.5} delay={0.2} className="pointer-events-none absolute" style={box(55, 788, 627, 157)}>
-        <img alt="" className="absolute inset-0 block size-full max-w-none" src={elips} />
+        <div className="absolute inset-0 rounded-[50%] bg-coal" />
       </Reveal>
 
       <Reveal x={120} y={60} delay={0.35} className="absolute" style={{ ...box(296, 646, 472, 230), zIndex: z(2, 1) }}>
@@ -190,7 +177,7 @@ function Desktop() {
 
       <div className="absolute h-0" style={box(68, 162, 1298)}>
         <DrawLine className="absolute inset-[-10px_0_0_0]">
-          <img alt="" className="block size-full max-w-none" src={garisGelap} />
+          <span className="block size-full bg-coal" />
         </DrawLine>
       </div>
 
@@ -200,7 +187,7 @@ function Desktop() {
         </p>
         <div className="absolute h-0" style={box(70, 163, 1298)}>
           <DrawLine className="absolute inset-[-10px_0_0_0]">
-            <img alt="" className="block size-full max-w-none" src={garisTerang} />
+            <span className="block size-full bg-cream" />
           </DrawLine>
         </div>
       </div>
