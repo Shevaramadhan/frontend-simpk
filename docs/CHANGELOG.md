@@ -11,6 +11,16 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (ulasan klien di landing page)
+
+### Ditambah
+- Bagian WHAT OUR CLIENTS SAY (`components/landing/UlasanSection.tsx`) di antara Our Project dan Our Journey With Client (masukan PM): kartu ulasan (bintang, komentar, nama, instansi) bergerak ke samping. Data dari `GET /testimonials` (`listTestimonials`), hanya ulasan yang klien izinkan tampil (B-41 backend). Bagian tidak tampil selama belum ada ulasan yang disetujui, termasuk bila backend belum diperbarui.
+- WCAG 2.2.2: gerakan berhenti saat diarahkan atau difokus, tombol Jeda/Putar ulasan (`aria-pressed`), dan dengan "kurangi gerakan" berupa daftar diam yang dapat digulir. Salinan kartu untuk putaran disembunyikan dari pembaca layar.
+- Form ulasan klien (Detail project) memiliki centang "Izinkan nama, instansi, rating, dan komentar saya ditampilkan di halaman depan SIMPK", bawaan tidak dicentang; ulasan yang disetujui ditandai di halaman Detail klien dan Review Marketing ("Tampil di beranda").
+
+### Diubah
+- Menu TESTI mengarah ke pembungkus `#testi` yang berisi ulasan klien lalu Our Journey (`#journey`): menuju ulasan bila ada, ke Our Journey bila belum.
+
 ## 2026-11-18 (pita bayangan bersambung, CTA sejajar, judul Our Project)
 
 ### Diubah

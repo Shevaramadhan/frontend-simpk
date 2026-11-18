@@ -205,6 +205,18 @@ export interface OrderDetail extends Omit<Order, 'projects' | 'client'> {
 export interface ProjectReview {
   rating: number;
   komentar: string | null;
+  /** Klien mengizinkan ulasan tampil di landing page (B-41 backend). */
+  tampilPublik?: boolean;
+  createdAt: string;
+}
+
+/** Ulasan publik untuk landing page (`GET /testimonials`): tanpa email, WhatsApp, atau data proyek. */
+export interface Testimonial {
+  id: number;
+  nama: string;
+  instansi: string;
+  rating: number;
+  komentar: string;
   createdAt: string;
 }
 

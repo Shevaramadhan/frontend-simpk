@@ -14,6 +14,7 @@ export const SECTION = {
   latest: 'latest-project',
   projects: 'our-project',
   testi: 'testi',
+  journey: 'journey',
 } as const;
 
 export const NAV_ITEMS = [

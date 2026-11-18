@@ -261,7 +261,7 @@ function Mobile() {
 
 export default function JourneySection() {
   return (
-    <section id={SECTION.testi}>
+    <section id={SECTION.journey}>
       <Desktop />
       <Mobile />
     </section>

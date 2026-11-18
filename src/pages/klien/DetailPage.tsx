@@ -42,6 +42,7 @@ function Updates({ projectId }: { projectId: number }) {
 function Ulasan({ projectId, review, onSaved }: { projectId: number; review: ProjectReview | null; onSaved: () => void }) {
   const [rating, setRating] = useState(0);
   const [komentar, setKomentar] = useState('');
+  const [tampilPublik, setTampilPublik] = useState(false);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
 
@@ -53,6 +54,7 @@ function Ulasan({ projectId, review, onSaved }: { projectId: number; review: Pro
           <StarsView value={review.rating} size="size-8" />
         </div>
         {review.komentar && <p className="mt-2 whitespace-pre-wrap font-body text-base text-coal-deep">{review.komentar}</p>}
+        {review.tampilPublik && <p className="mt-2 font-body text-sm text-coal-deep/70">Ulasan ini ditampilkan di halaman depan SIMPK.</p>}
         <p className="mt-2 font-body text-sm text-coal-deep/70">Terima kasih telah memakai jasa Neo Telemetri.</p>
       </div>
     );
@@ -64,7 +66,7 @@ function Ulasan({ projectId, review, onSaved }: { projectId: number; review: Pro
     setError('');
     setSaving(true);
     try {
-      await createReview(projectId, { rating, komentar });
+      await createReview(projectId, { rating, komentar, tampilPublik });
       onSaved();
     } catch (err) {
       setError(errorMessage(err));
@@ -91,6 +93,17 @@ function Ulasan({ projectId, review, onSaved }: { projectId: number; review: Pro
         onChange={(event) => setKomentar(event.target.value)}
         className={`${brandInputSolid} mx-auto mt-3 max-w-2xl resize-y text-left`}
       />
+      {/* Persetujuan tampil di landing page (B-41 backend); bawaan tidak dicentang. */}
+      <label htmlFor="tampil-publik" className="mx-auto mt-3 flex max-w-2xl cursor-pointer items-start gap-2 text-left font-body text-sm text-coal-deep">
+        <input
+          id="tampil-publik"
+          type="checkbox"
+          checked={tampilPublik}
+          onChange={(event) => setTampilPublik(event.target.checked)}
+          className="mt-0.5 size-4 shrink-0 accent-[#c2410c]"
+        />
+        Izinkan nama, instansi, rating, dan komentar saya ditampilkan di halaman depan SIMPK. Email dan nomor WhatsApp tidak pernah ditampilkan.
+      </label>
       <BrandError message={error} />
       <button type="submit" disabled={saving} className={`mt-3 ${tombol('gelap', 'besar')}`}>
         {saving ? 'Mengirim...' : 'Kirim Ulasan'}
