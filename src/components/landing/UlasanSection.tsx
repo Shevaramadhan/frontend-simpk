@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { useReducedMotion } from 'motion/react';
 import { listTestimonials } from '../../services/dashboardService';
@@ -11,39 +11,49 @@ import { Framed } from './Parts';
 // Data dari SIMPK: hanya ulasan yang klien izinkan tampil (GET /testimonials, B-41 backend). Selama belum ada ulasan
 // yang disetujui, bagian ini berisi ajakan menjadi klien pertama (masukan PM) dan otomatis berganti menjadi ulasan
 // bergerak begitu ada yang disetujui.
-// WCAG 2.2.2: gerakan berhenti saat diarahkan atau difokus, ada tombol Jeda, dan "kurangi gerakan" menampilkan
-// daftar yang dapat digulir tanpa animasi.
+// Bergerak hanya bila ulasan cukup banyak (MIN_BERGERAK); sedikit ulasan tampil diam di tengah tanpa diulang
+// (masukan PM: satu ulasan yang diulang tampak seperti spam).
+// WCAG 2.2.2 tanpa tombol Jeda (masukan PM): gerakan berhenti saat diarahkan kursor, disentuh, atau difokus
+// keyboard (pita dapat difokus dengan Tab), dan "kurangi gerakan" menampilkan daftar diam tanpa animasi.
 
-const MIN_KARTU = 6;
+const MIN_BERGERAK = 4;
+/** Kartu per salinan pita agar pita lebih lebar dari layar lebar saat bergerak. */
+const KARTU_PER_SALINAN = 8;
 
 function Kartu({ ulasan }: { ulasan: Testimonial }) {
   return (
-    <figure className="flex w-[clamp(260px,26vw,380px)] shrink-0 flex-col rounded-[24px] bg-coal p-[clamp(18px,1.6vw,26px)] text-cream shadow-[0_14px_28px_-14px_rgba(0,0,0,0.5)]">
+    <figure className="flex w-[clamp(220px,17vw,290px)] shrink-0 flex-col rounded-[20px] bg-coal p-[clamp(14px,1.1vw,18px)] text-cream shadow-[0_12px_24px_-14px_rgba(0,0,0,0.5)]">
       <div className="flex items-center justify-between">
-        <span aria-hidden="true" className="font-magic text-5xl leading-none text-flame">
+        <span aria-hidden="true" className="font-magic text-3xl leading-none text-flame">
           &ldquo;
         </span>
-        <StarsView value={ulasan.rating} size="size-5" />
+        <StarsView value={ulasan.rating} size="size-4" />
       </div>
-      <blockquote className="mt-2 line-clamp-5 flex-1 font-body text-[clamp(14px,1.05vw,16px)] leading-relaxed">{ulasan.komentar}</blockquote>
-      <figcaption className="mt-4 border-t-2 border-cream/20 pt-3">
-        <span className="block font-magic text-xl uppercase leading-tight text-flame">{ulasan.nama}</span>
-        {ulasan.instansi && ulasan.instansi !== ulasan.nama && <span className="block font-body text-sm text-cream/80">{ulasan.instansi}</span>}
+      <blockquote className="mt-1 line-clamp-4 flex-1 font-body text-[clamp(13px,0.95vw,15px)] leading-relaxed">{ulasan.komentar}</blockquote>
+      <figcaption className="mt-3 border-t-2 border-cream/20 pt-2">
+        <span className="block font-magic text-lg uppercase leading-tight text-flame">{ulasan.nama}</span>
+        {ulasan.instansi && ulasan.instansi !== ulasan.nama && <span className="block font-body text-xs text-cream/80">{ulasan.instansi}</span>}
       </figcaption>
     </figure>
   );
 }
 
-const SECTION_CLASS = 'bg-cream pb-[clamp(36px,4.5vw,64px)] pt-[clamp(36px,4.5vw,64px)]';
+// --s: satu px artboard dalam ukuran layar, sama dengan skala Stage judul lain (min(lebar/1440, tinggi/1024)),
+// sehingga di layar lebar judul, garis, dan jaraknya sama persis dengan Our Journey With Client.
+const SKALA = { '--s': 'min(calc(var(--vw) * 1px / 1440), calc(100dvh / 1024))' } as CSSProperties;
+const SECTION_CLASS = 'bg-cream pb-10 pt-8 lg:pb-[calc(var(--s)*56)] lg:pt-[calc(var(--s)*59)]';
 
-/** Judul bergaya sama dengan Our Journey With Client. */
+/** Judul bergaya dan berukuran sama dengan Our Journey With Client (64 px artboard, garis 1215 x 10). */
 function Judul() {
   return (
-    <div className="mx-auto max-w-[1215px] px-4">
-      <h2 id="judul-ulasan" className="text-center font-magic text-[clamp(2rem,4.4vw,4rem)] uppercase leading-tight tracking-[0.05em] text-flame">
+    <div className="px-4 lg:px-0">
+      <h2
+        id="judul-ulasan"
+        className="text-center font-magic text-[7.4vw] uppercase leading-tight tracking-wide text-flame sm:text-5xl lg:text-[calc(var(--s)*64)] lg:leading-[normal] lg:tracking-[calc(var(--s)*3.2)]"
+      >
         <SplitWords text="What Our Clients Say" />
       </h2>
-      <DrawLine className="mt-2 h-[clamp(6px,0.7vw,10px)] bg-coal" />
+      <DrawLine className="mx-auto mt-2 h-1.5 bg-coal sm:h-2.5 lg:mt-[calc(var(--s)*6)] lg:h-[calc(var(--s)*10)] lg:w-[calc(var(--s)*1215)]" />
     </div>
   );
 }
@@ -51,7 +61,7 @@ function Judul() {
 /** Belum ada ulasan yang disetujui tampil: ajakan menjadi klien pertama. */
 function Kosong() {
   return (
-    <section aria-labelledby="judul-ulasan" className={SECTION_CLASS}>
+    <section aria-labelledby="judul-ulasan" className={SECTION_CLASS} style={SKALA}>
       <Judul />
       <Reveal y={30} className="mx-auto mt-8 max-w-2xl px-4">
         <div className="rounded-[24px] border-[3px] border-dashed border-coal-deep/40 px-6 py-[clamp(24px,3vw,40px)] text-center">
@@ -78,7 +88,6 @@ function Kosong() {
 export default function UlasanSection() {
   // null: masih dimuat (tidak menampilkan apa pun agar tidak berkedip).
   const [ulasan, setUlasan] = useState<Testimonial[] | null>(null);
-  const [jeda, setJeda] = useState(false);
   const kurangiGerak = useReducedMotion();
 
   useEffect(() => {
@@ -94,31 +103,41 @@ export default function UlasanSection() {
   if (ulasan === null) return null;
   if (!ulasan.length) return <Kosong />;
 
-  // Sedikit ulasan diulang agar pita penuh, lalu digandakan untuk putaran tanpa sambungan.
-  const isi = Array.from({ length: Math.max(1, Math.ceil(MIN_KARTU / ulasan.length)) }, () => ulasan).flat();
+  // Pita diisi ulang sampai lebih lebar dari layar, lalu digandakan untuk putaran tanpa sambungan.
+  const isi = Array.from({ length: Math.ceil(KARTU_PER_SALINAN / ulasan.length) }, () => ulasan).flat();
+  const diam = kurangiGerak || ulasan.length < MIN_BERGERAK;
 
   return (
-    <section aria-labelledby="judul-ulasan" className={SECTION_CLASS}>
+    <section aria-labelledby="judul-ulasan" className={SECTION_CLASS} style={SKALA}>
       <Judul />
 
-      {kurangiGerak ? (
-        <ul aria-label="Ulasan klien" className="mt-8 flex gap-6 overflow-x-auto px-4 pb-4">
+      {diam ? (
+        // Sedikit ulasan atau "kurangi gerakan": kartu diam di tengah, dapat digulir bila tidak muat.
+        <ul aria-label="Ulasan klien" className="mx-auto mt-8 flex w-fit max-w-full gap-5 overflow-x-auto px-4 pb-4">
           {ulasan.map((item) => (
             <li key={item.id} className="flex">
-              <Kartu ulasan={item} />
+              <Reveal y={24} className="flex">
+                <Kartu ulasan={item} />
+              </Reveal>
             </li>
           ))}
         </ul>
       ) : (
         <Reveal y={30}>
-          <div className="marquee relative mt-8 overflow-hidden py-2 [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
-            <div className="marquee-track flex w-max gap-6" style={{ animationPlayState: jeda ? 'paused' : undefined }}>
+          {/* Dapat difokus agar pengguna keyboard dapat menghentikan gerakan (berhenti saat :focus-within). */}
+          <div
+            tabIndex={0}
+            role="region"
+            aria-label="Ulasan klien, berhenti bergerak saat difokus"
+            className="marquee relative mt-8 overflow-hidden py-2 outline-none [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] focus-visible:ring-3 focus-visible:ring-flame-ink focus-visible:ring-inset"
+          >
+            <div className="marquee-track flex w-max gap-5">
               {[0, 1].map((salinan) => (
                 <ul
                   key={salinan}
                   aria-label={salinan ? undefined : 'Ulasan klien'}
                   aria-hidden={salinan ? true : undefined}
-                  className="flex gap-6"
+                  className="flex gap-5"
                 >
                   {isi.map((item, index) => (
                     // Salinan kedua dan ulangan hanya untuk tampilan, disembunyikan dari pembaca layar.
@@ -129,16 +148,6 @@ export default function UlasanSection() {
                 </ul>
               ))}
             </div>
-          </div>
-          <div className="mt-4 flex justify-center">
-            <button
-              type="button"
-              aria-pressed={jeda}
-              onClick={() => setJeda((value) => !value)}
-              className="rounded-full border-2 border-coal-deep px-4 py-1 font-body text-sm font-semibold text-coal-deep transition-colors hover:bg-coal-deep hover:text-cream"
-            >
-              {jeda ? 'Putar ulasan' : 'Jeda ulasan'}
-            </button>
           </div>
         </Reveal>
       )}

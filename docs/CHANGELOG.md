@@ -11,6 +11,16 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (ulasan tidak diulang, kartu lebih kecil, judul seragam)
+
+### Diubah
+- Ulasan kurang dari 4 kini tampil diam di tengah tanpa diulang (masukan PM: satu ulasan yang diulang tampak seperti spam); pita bergerak hanya untuk 4 ulasan atau lebih.
+- Kartu ulasan diperkecil (lebar 220-290 px, teks dan bintang lebih kecil).
+- Judul WHAT OUR CLIENTS SAY di layar lebar memakai skala yang sama dengan judul artboard lain (`--s` = min(lebar/1440, tinggi/1024)): 64 px artboard, garis 1215 x 10, sehingga sama persis dengan OUR JOURNEY WITH CLIENT.
+
+### Dihapus
+- Tombol Jeda/Putar ulasan (masukan PM). Pengganti untuk WCAG 2.2.2: pita dapat difokus dengan Tab dan berhenti saat difokus, diarahkan kursor, atau disentuh; "kurangi gerakan" tetap menampilkan daftar diam.
+
 ## 2026-11-18 (ajakan saat belum ada ulasan)
 
 ### Diubah
