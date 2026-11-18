@@ -217,6 +217,8 @@ export interface Testimonial {
   instansi: string;
   rating: number;
   komentar: string;
+  /** Ulasan dari data demo, ditampilkan dengan label "Data contoh" (B-42 backend). */
+  contoh: boolean;
   createdAt: string;
 }
 

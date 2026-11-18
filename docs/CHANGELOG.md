@@ -11,6 +11,11 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (label ulasan contoh)
+
+### Ditambah
+- Kartu ulasan dari data demo (`contoh: true` dari `GET /testimonials`, B-42 backend) diberi label "Data contoh" agar tidak terbaca sebagai ulasan klien sungguhan. Ulasan contoh hanya dikirim backend bila `TAMPILKAN_ULASAN_CONTOH=true`; dengan empat ulasan contoh dari `npm run db:demo`, pita ulasan bergerak.
+
 ## 2026-11-18 (ulasan tidak diulang, kartu lebih kecil, judul seragam)
 
 ### Diubah

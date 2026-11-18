@@ -23,10 +23,16 @@ const KARTU_PER_SALINAN = 8;
 function Kartu({ ulasan }: { ulasan: Testimonial }) {
   return (
     <figure className="flex w-[clamp(220px,17vw,290px)] shrink-0 flex-col rounded-[20px] bg-coal p-[clamp(14px,1.1vw,18px)] text-cream shadow-[0_12px_24px_-14px_rgba(0,0,0,0.5)]">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <span aria-hidden="true" className="font-magic text-3xl leading-none text-flame">
           &ldquo;
         </span>
+        {/* Ulasan dari data demo selalu diberi label agar tidak terbaca sebagai ulasan klien sungguhan (B-42). */}
+        {ulasan.contoh && (
+          <span className="mr-auto rounded-full border border-cream/40 px-2 py-0.5 font-body text-[11px] font-semibold uppercase tracking-wide text-cream/90">
+            Data contoh
+          </span>
+        )}
         <StarsView value={ulasan.rating} size="size-4" />
       </div>
       <blockquote className="mt-1 line-clamp-4 flex-1 font-body text-[clamp(13px,0.95vw,15px)] leading-relaxed">{ulasan.komentar}</blockquote>
