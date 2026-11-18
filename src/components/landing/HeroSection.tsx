@@ -96,16 +96,19 @@ function Desktop() {
     <Stage framed fill view={HERO_VIEW} className="min-h-0 flex-1">
       <div className="edge-r pointer-events-none absolute inset-0">
         <Reveal immediate y={40} delay={0.9} className="pointer-events-auto absolute" style={box(883, 856, 505, 132)}>
+        {/* Diperkecil 18% dari ukuran Figma (masukan PM: terlalu mendominasi), sudut kanan bawah tetap di posisi desain. */}
+        <div className="size-full origin-bottom-right scale-[0.82]">
         <Magnet className="size-full" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
           <Link to="/katalog" className="group absolute inset-0 block" {...cta.handlers}>
             <span className="absolute border-5 border-coal bg-coal" style={box(0, 0, 505, 132)} />
             <span className="absolute border-5 border-cream bg-coal transition-colors group-hover:border-flame" style={box(6, 5, 493, 120)} />
             <span className="absolute border-5 border-coal bg-coal" style={box(17, 12, 472, 106)} />
-            <span className="absolute whitespace-nowrap font-magic text-[36px] uppercase leading-[normal] text-flame" style={box(52, 45)}>
+            <span className="absolute whitespace-nowrap font-magic text-[36px] uppercase leading-[normal] text-flame" style={box(52, 48)}>
               <RollingText text="Lets Make A project" active={cta.active} />
             </span>
           </Link>
         </Magnet>
+        </div>
       </Reveal>
       </div>
 

@@ -1,9 +1,10 @@
-import { Fragment, useCallback, useState, type CSSProperties } from 'react';
+import { useCallback, useState, type CSSProperties } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { PROJECTS, type Division, type Project } from '../../data/portofolio';
 import Lightbox, { type LightboxItem } from './Lightbox';
 import { BorderBeam, Reveal, SplitWords } from './Motion';
-import { Framed, PillLayers, SECTION } from './Parts';
+import PillMenu from './PillMenu';
+import { SECTION } from './Parts';
 import { box, Stage } from './Stage';
 
 // Posisi kartu di Figma, urut kiri ke kanan lalu atas ke bawah.
@@ -58,18 +59,7 @@ function Thumbnail({ project }: { project: Project }) {
   );
 }
 
-function TabButton({ tab, active, onSelect, className }: { tab: Tab; active: Tab; onSelect: (tab: Tab) => void; className: string }) {
-  return (
-    <button
-      type="button"
-      aria-pressed={active === tab}
-      onClick={() => onSelect(tab)}
-      className={`cursor-pointer whitespace-nowrap font-magic uppercase transition-colors hover:text-cream ${active === tab ? 'text-cream' : 'text-flame'} ${className}`}
-    >
-      {tab}
-    </button>
-  );
-}
+const tabItems = (setActive: (tab: Tab) => void) => TABS.map((tab) => ({ key: tab, label: tab, onSelect: () => setActive(tab) }));
 
 function EmptyNote({ active, className, style }: { active: Tab; className: string; style?: CSSProperties }) {
   return (
@@ -118,16 +108,8 @@ function Desktop({ active, setActive, projects, setOpen }: State) {
         <SplitWords text="our Project" />
       </h2>
 
-      <Reveal y={30} delay={0.15} className="absolute" style={box(365, 151, 708, 85)}>
-        <PillLayers />
-        <div role="group" aria-label="Saring project berdasarkan divisi" className="absolute flex items-center justify-evenly" style={box(23, 8, 664, 69)}>
-          {TABS.map((tab, index) => (
-            <Fragment key={tab}>
-              {index > 0 && <span aria-hidden="true" className="h-[35px] w-[2px] bg-cream" />}
-              <TabButton tab={tab} active={active} onSelect={setActive} className="text-[24px] leading-[normal]" />
-            </Fragment>
-          ))}
-        </div>
+      <Reveal y={30} delay={0.15} className="absolute flex justify-center" style={box(365, 163, 708)}>
+        <PillMenu kind="tab" label="Saring project berdasarkan divisi" size="artboard" items={tabItems(setActive)} active={active} />
       </Reveal>
     </Stage>
   );
@@ -140,14 +122,8 @@ function Mobile({ active, setActive, projects, setOpen }: State) {
         <SplitWords text="our Project" />
       </h2>
 
-      <Reveal y={20} className="mx-auto mt-3 max-w-xl">
-        <Framed rounded="rounded-[22px]">
-          <span role="group" aria-label="Saring project berdasarkan divisi" className="flex items-center justify-center divide-x-2 divide-cream py-2">
-            {TABS.map((tab) => (
-              <TabButton key={tab} tab={tab} active={active} onSelect={setActive} className="px-2.5 text-sm min-[400px]:px-4 sm:px-5 sm:text-xl" />
-            ))}
-          </span>
-        </Framed>
+      <Reveal y={20} className="mx-auto mt-3 flex max-w-xl justify-center">
+        <PillMenu kind="tab" label="Saring project berdasarkan divisi" size="kecil" items={tabItems(setActive)} active={active} />
       </Reveal>
 
       <div className="mx-auto mt-8 max-w-2xl rounded-[30px] bg-cream p-3 sm:p-5">

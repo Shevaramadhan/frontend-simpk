@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/landing/logo-hitam.webp';
 import { Magnet, Reveal, RollingText, useHoverFocus } from './Motion';
 import { Framed, NAV_ITEMS } from './Parts';
+import PillMenu from './PillMenu';
 
 // Header landing page: menempel di atas layar saat digulir (masukan teman PM 18 Nov) agar pengunjung selalu tahu
 // posisinya dan bisa kembali ke bagian lain. Tampilan mengikuti Figma: pil menu dan tombol berbingkai.
@@ -55,24 +56,7 @@ export default function LandingHeader() {
     };
   }, []);
 
-  const menu = (kecil: boolean) =>
-    NAV_ITEMS.map((item, index) => {
-      const dipilih = aktif === item.id;
-      return (
-        <a
-          key={item.id}
-          href={`#${item.id}`}
-          aria-current={dipilih ? 'location' : undefined}
-          className={`whitespace-nowrap transition-colors hover:text-cream ${dipilih ? 'text-cream' : 'text-flame'} ${
-            kecil
-              ? 'px-1.5 font-magic text-[11px] uppercase min-[400px]:px-2.5 min-[400px]:text-[13px] sm:px-5 sm:text-xl'
-              : `${TEXT} px-[clamp(8px,1vw,16px)] ${index ? 'border-l-2 border-cream' : ''}`
-          }`}
-        >
-          {item.label}
-        </a>
-      );
-    });
+  const menu = NAV_ITEMS.map((item) => ({ key: item.id, label: item.label, href: `#${item.id}` }));
 
   return (
     <header
@@ -88,18 +72,15 @@ export default function LandingHeader() {
         </Reveal>
 
         <Reveal immediate y={-40}>
-          <nav aria-label="Bagian halaman" className="rounded-[clamp(18px,3vh,30px)] bg-coal p-[3px]">
-            <div className="flex items-center rounded-[clamp(16px,2.7vh,27px)] border-[clamp(3px,0.45vh,5px)] border-cream bg-coal px-[clamp(10px,1.6vw,26px)] py-[clamp(8px,1.6vh,16px)]">
-              {menu(false)}
-            </div>
-          </nav>
+          <PillMenu kind="nav" label="Bagian halaman" size="nav" items={menu} active={aktif} />
         </Reveal>
 
         <Reveal immediate y={-40} delay={0.15} className="justify-self-end">
           <Magnet whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
             <Link to="/login" className="group block bg-coal p-[3px]" {...signIn.handlers}>
               <span className="block border-[clamp(3px,0.45vh,5px)] border-cream bg-coal px-[clamp(18px,2.6vw,48px)] py-[clamp(7px,1.4vh,14px)] transition-colors group-hover:border-flame">
-                <span className={`${TEXT} text-flame`}>
+                {/* Huruf besar Magic Hat duduk tinggi di dalam baris; diturunkan agar tampak di tengah bingkai. */}
+                <span className={`${TEXT} relative top-[0.07em] block text-flame`}>
                   <RollingText text="Sign in" active={signIn.active} />
                 </span>
               </span>
@@ -120,11 +101,9 @@ export default function LandingHeader() {
             </Framed>
           </Link>
         </div>
-        <nav aria-label="Bagian halaman" className="mt-3">
-          <Framed rounded="rounded-[22px]">
-            <span className="flex items-center justify-center divide-x-2 divide-cream py-2">{menu(true)}</span>
-          </Framed>
-        </nav>
+        <div className="mt-3 flex justify-center">
+          <PillMenu kind="nav" label="Bagian halaman" size="kecil" items={menu} active={aktif} />
+        </div>
       </div>
     </header>
   );

@@ -11,6 +11,23 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (pil menu seragam beranimasi dan tombol hero)
+
+### Ditambah
+- `components/landing/PillMenu.tsx`: satu pil menu untuk navbar utama dan tab Our Project (desktop dan ponsel) agar gayanya sama: bingkai gelap, garis krem, pemisah krem. Menu aktif ditandai pil oranye dengan teks gelap (5,04:1) yang meluncur ke menu terpilih (pegas motion), baik saat halaman digulir (navbar) maupun saat tab diklik. Posisi pil dihitung dari `offsetLeft`/`offsetWidth` karena tab Our Project berada di artboard yang diskalakan. Dengan "kurangi gerakan", pil langsung pindah tanpa meluncur.
+
+### Diubah
+- Tombol LETS MAKE A PROJECT diperkecil 18% dari ukuran Figma (masukan PM: terlalu mendominasi), sudut kanan bawah tetap; tulisannya kini tepat di tengah bingkai.
+- Tulisan SIGN IN di navbar diturunkan 0,07em agar di tengah bingkai (sebelumnya jarak atas 13 px, bawah 20 px; kini sama dengan selisih maksimal 1 px).
+
+### Dihapus
+- `PillLayers` di `landing/Parts.tsx` (diganti `PillMenu`).
+
+## 2026-11-18 (halaman pendaftaran menjadi Sign Up)
+
+### Diubah
+- Halaman pendaftaran `/daftar` berganti judul dari SIGN IN menjadi **SIGN UP** (tombol "Sign Up", "Sign up with Google"), dan tautan di halaman Login menjadi "Belum punya akun? Sign Up" (KEPUTUSAN F-27). Sebelumnya "Sign In" dipakai untuk dua hal: tombol SIGN IN di landing page membuka Login, sedangkan halaman pendaftaran juga berjudul SIGN IN. Tombol SIGN IN di landing page dan Daftar Jasa tetap menuju Login.
+
 ## 2026-11-18 (audit tombol dan WCAG halaman masuk)
 
 ### Diperbaiki
