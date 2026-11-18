@@ -15,7 +15,7 @@ import { box } from '../landing/Stage';
 import { OutlinedTitle } from './Brand';
 import { tautanTeks } from './Tombol';
 
-/** Ukuran tulisan tombol utama semua halaman masuk agar LOGIN, SIGN IN, KIRIM TAUTAN, dan SIMPAN sama besar. */
+/** Ukuran tulisan tombol utama semua halaman masuk agar LOGIN, SIGN UP, KIRIM TAUTAN, dan SIMPAN sama besar. */
 export const AUTH_BUTTON_SIZE = 'text-[clamp(1.25rem,4vh,1.875rem)]';
 
 const isometric = (rotate: number, skew: number) => ({ transform: `rotate(${rotate}deg) skewX(${skew}deg) scaleY(${Math.cos((skew * Math.PI) / 180)})` });

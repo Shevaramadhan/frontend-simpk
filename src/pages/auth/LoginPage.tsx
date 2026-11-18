@@ -57,7 +57,7 @@ export default function LoginPage() {
       <p className="mt-[clamp(8px,2vh,24px)] text-center font-body text-[clamp(14px,2.2vh,18px)] text-coal-deep">
         Belum punya akun?{' '}
         <Link to={jasa ? `/daftar?jasa=${encodeURIComponent(jasa)}` : '/daftar'} className={tautanTeks}>
-          Sign In
+          Sign Up
         </Link>
       </p>
     </AuthShell>

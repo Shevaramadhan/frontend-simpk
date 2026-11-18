@@ -13,7 +13,7 @@ Terakhir diperbarui: 14 November 2026.
 | Katalog, kelola jasa, klien, pesanan, portal klien | Selesai, teruji di browser |
 | Daftar, ganti dan lupa kata sandi, kelola pengguna | Selesai, teruji di browser |
 | Landing page publik sesuai desain Figma | Selesai, dibandingkan dengan desain di Chrome (1440 px, 768 px, 390 px) |
-| Sign In, Login, lupa dan reset kata sandi sesuai desain Figma | Selesai, teruji di Chrome |
+| Sign Up (pendaftaran), Login, lupa dan reset kata sandi sesuai desain Figma | Selesai, teruji di Chrome |
 | Portal klien sesuai desain: beranda galeri, My Project, form pengajuan, Payment, Detail | Selesai, teruji di Chrome (laptop dan ponsel) |
 | Tagihan dan verifikasi pembayaran untuk Marketing | Selesai, lewat Payment di halaman Request |
 | Halaman Operasional (project, pilih worker dan PM, worker, account) dan Tim (project, tugas, perbarui progres) | Selesai, teruji di Chrome (laptop dan ponsel) |

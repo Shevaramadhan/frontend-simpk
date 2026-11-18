@@ -40,14 +40,14 @@ export function FramedButton({ children, size = 'text-2xl', className = '', ...p
   );
 }
 
-/** Judul oranye bergaris tepi gelap (SIGN IN, LOGIN, SIMPK). */
+/** Judul oranye bergaris tepi gelap (SIGN UP, LOGIN, SIMPK). */
 export function OutlinedTitle({ as: Tag = 'h1', className = '', children }: { as?: 'h1' | 'h2' | 'p'; className?: string; children: ReactNode }) {
   return <Tag className={`text-outline-dark font-magic uppercase leading-none text-flame ${className}`}>{children}</Tag>;
 }
 
 const INPUT_BASE = 'mt-1 w-full rounded-[16px] border-[4px] border-coal-deep px-4 py-[clamp(0.25rem,0.9vh,0.625rem)] font-body text-[clamp(0.9375rem,2.3vh,1.125rem)] text-coal-deep outline-none transition focus:border-flame';
 
-/** Input di atas kartu krem (Sign In, Login). */
+/** Input di atas kartu krem (Sign Up, Login). */
 export const brandInput = `${INPUT_BASE} bg-[#ffc49f66] focus:bg-[#ffc49f99]`;
 
 /** Input di atas panel gelap (form pengajuan). */

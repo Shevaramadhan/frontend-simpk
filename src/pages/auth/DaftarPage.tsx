@@ -9,7 +9,8 @@ import { errorMessage } from '../../services/apiConfig';
 import { afterAuthPath } from '../../utils/navigation';
 import PasswordInput from '../../components/PasswordInput';
 
-// Sign In = pendaftaran akun. Semua akun dari halaman ini adalah Klien (role ditentukan backend).
+// Sign Up = pendaftaran akun (sebelumnya berjudul Sign In seperti desain, diganti agar tidak tertukar dengan Login).
+// Semua akun dari halaman ini adalah Klien (role ditentukan backend).
 const empty = { name: '', email: '', password: '', noWhatsapp: '' };
 
 export default function DaftarPage() {
@@ -54,7 +55,7 @@ export default function DaftarPage() {
   );
 
   return (
-    <AuthShell title="Sign In">
+    <AuthShell title="Sign Up">
       <form onSubmit={handleSubmit}>
         {/* Layar pendek (laptop, zoom besar): dua kolom agar halaman muat tanpa digulir. */}
         <div className="grid gap-x-6 [@media(min-width:640px)_and_(max-height:820px)]:grid-cols-2">
@@ -66,7 +67,7 @@ export default function DaftarPage() {
         <BrandError message={error} />
         <div className="mt-2 flex justify-center">
           <FramedButton type="submit" disabled={saving} size={AUTH_BUTTON_SIZE}>
-            {saving ? 'Memproses...' : 'Sign In'}
+            {saving ? 'Memproses...' : 'Sign Up'}
           </FramedButton>
         </div>
       </form>
@@ -77,7 +78,7 @@ export default function DaftarPage() {
         <span className="h-[5px] flex-1 bg-coal" />
       </div>
       <div className="mx-auto max-w-md">
-        <GoogleButton onCredential={handleGoogle} label="Sign in with Google" />
+        <GoogleButton onCredential={handleGoogle} label="Sign up with Google" />
       </div>
 
       <p className="mt-[clamp(8px,2vh,24px)] text-center font-body text-[clamp(14px,2.2vh,18px)] text-coal-deep">
