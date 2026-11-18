@@ -11,6 +11,12 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (kartu Latest Project seragam)
+
+### Diubah
+- Tiga kartu kolase Latest Project kini seragam (masukan PM): rasio dan bingkai sama (tepi gelap, garis krem); kartu belakang 88% kartu depan (sebelumnya sekitar 75% dengan bingkai oranye) dan sedikit diredupkan agar proyek aktif tetap menonjol.
+- Tiap kartu terikat pada proyeknya: saat proyek berganti, kartu meluncur dan berubah ukuran ke posisi barunya (efek tumpukan kartu, pegas motion); dengan "kurangi gerakan" langsung berpindah.
+
 ## 2026-11-18 (Latest Project tiga proyek dan bayangan lembut)
 
 ### Diubah

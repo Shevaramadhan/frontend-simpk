@@ -1,5 +1,5 @@
 import { useCallback, useState, type CSSProperties } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import utama from '../../assets/landing/latest-utama.webp';
 import bakti from '../../assets/landing/proyek-bakti.webp';
 import tedx from '../../assets/landing/proyek-tedx.webp';
@@ -52,108 +52,68 @@ function useLatest() {
 
 type Latest = ReturnType<typeof useLatest>;
 
-/** Gambar yang berganti dengan memudar saat proyek berganti. */
-function Gambar({ index }: { index: number }) {
-  return (
-    <AnimatePresence initial={false}>
-      <motion.img
-        key={index}
-        alt={LATEST[index].alt}
-        className={FILL}
-        src={LATEST[index].src}
-        initial={{ opacity: 0, scale: 1.04 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0 }}
-        transition={GANTI}
-      />
-    </AnimatePresence>
-  );
-}
+// Posisi tiga slot kolase di artboard. Kartu belakang 88% kartu depan dengan rasio sama (masukan PM: ukuran lebih seragam).
+// Slot 0 depan (proyek aktif), slot 1 belakang kiri atas, slot 2 belakang kanan bawah.
+const SLOT = [
+  { left: 54, top: 403, width: 628, height: 358, zIndex: 3 },
+  { left: 4, top: 292, width: 553, height: 315, zIndex: 2 },
+  { left: 196, top: 560, width: 553, height: 315, zIndex: 1 },
+];
 
 /**
- * Susunan tiga kartu seperti Figma. Kartu depan berisi proyek aktif (klik: tampilan penuh); kartu belakang berisi dua
- * proyek lain (klik: dimajukan). Kartu yang diarahkan kursor naik ke depan agar terlihat utuh.
+ * Tumpukan tiga kartu proyek. Tiap kartu terikat pada proyeknya: saat proyek berganti, kartu meluncur dan
+ * berubah ukuran ke slot barunya. Kartu depan (klik: tampilan penuh), kartu belakang (klik: dimajukan, diredupkan
+ * sedikit). Kartu belakang yang diarahkan kursor naik ke depan agar terlihat utuh.
  */
 function Collage({ aktif, setAktif, setBuka }: Latest) {
-  const [depan, setDepan] = useState<number | null>(null);
-  const atas = (aktif + 1) % LATEST.length;
-  const bawah = (aktif + 2) % LATEST.length;
-
-  // Urutan tumpukan bawaan desain: bawah (slot 2), atas (slot 1), utama (slot 0) di paling depan.
-  const z = (slot: number, bawaan: number) => (depan === slot ? 20 : bawaan);
-  const sorot = (slot: number) => ({
-    onMouseEnter: () => setDepan(slot),
-    onMouseLeave: () => setDepan((d) => (d === slot ? null : d)),
-    onFocus: () => setDepan(slot),
-    onBlur: () => setDepan((d) => (d === slot ? null : d)),
-  });
-  const hover = { scale: 1.06, rotate: -1 };
-  const pegas = { type: 'spring', stiffness: 260, damping: 18 } as const;
+  const [sorotan, setSorotan] = useState<number | null>(null);
+  const kurangiGerak = useReducedMotion();
+  const pindah = kurangiGerak ? { duration: 0 } : ({ type: 'spring', stiffness: 170, damping: 24 } as const);
 
   return (
-    <>
-      {/* Bayangan lembut di bawah kartu (sebelumnya elips hitam padat). */}
-      <Reveal scale={0.5} delay={0.2} className="pointer-events-none absolute" style={box(55, 770, 627, 175)}>
-        <div className="absolute inset-0 rounded-[50%] bg-[radial-gradient(closest-side,rgba(20,20,20,0.6),rgba(20,20,20,0.28)_55%,transparent)] blur-[10px]" />
-      </Reveal>
-
-      <Reveal x={120} y={60} delay={0.35} className="absolute" style={{ ...box(296, 646, 472, 230), zIndex: z(2, 1) }}>
-        <motion.button
-          type="button"
-          className="absolute inset-0 cursor-pointer"
-          whileHover={hover}
-          whileFocus={hover}
-          transition={pegas}
-          onClick={() => setAktif(bawah)}
-          aria-label={`Tampilkan ${LATEST[bawah].name}`}
-          {...sorot(2)}
-        >
-          <div className="absolute inset-0 rounded-[30px] bg-flame shadow-[0_18px_30px_-12px_rgba(0,0,0,0.45)]" />
-          <div className="absolute overflow-hidden rounded-[30px]" style={box(33, 11, 407, 208)}>
-            <Gambar index={bawah} />
-            <div className="absolute inset-0 rounded-[30px] border-3 border-coal-deep" />
-          </div>
-        </motion.button>
-      </Reveal>
-
-      <Reveal x={-120} y={-60} delay={0.25} className="absolute" style={{ ...box(13, 270, 472, 230), zIndex: z(1, 2) }}>
-        <motion.button
-          type="button"
-          className="absolute inset-0 cursor-pointer"
-          whileHover={hover}
-          whileFocus={hover}
-          transition={pegas}
-          onClick={() => setAktif(atas)}
-          aria-label={`Tampilkan ${LATEST[atas].name}`}
-          {...sorot(1)}
-        >
-          <div className="absolute inset-0 rounded-[30px] bg-flame shadow-[0_18px_30px_-12px_rgba(0,0,0,0.45)]" />
-          <div className="absolute overflow-hidden rounded-[30px]" style={box(38, 12, 402, 206)}>
-            <Gambar index={atas} />
-            <div className="absolute inset-0 rounded-[30px] border-3 border-black" />
-          </div>
-        </motion.button>
-      </Reveal>
-
-      <Reveal scale={0.85} delay={0.1} className="absolute" style={{ ...box(54, 403, 627.619, 358), zIndex: z(0, 3) }}>
-        <motion.button
-          type="button"
-          className="absolute inset-0 cursor-zoom-in"
-          whileHover={{ scale: 1.03, rotate: -1 }}
-          whileFocus={{ scale: 1.03, rotate: -1 }}
-          transition={pegas}
-          onClick={() => setBuka(aktif)}
-          aria-label={`Lihat ${LATEST[aktif].alt}`}
-          {...sorot(0)}
-        >
-          <div className="absolute inset-0 rounded-[30px] bg-coal shadow-[0_24px_40px_-14px_rgba(0,0,0,0.5)]" />
-          <div className="absolute overflow-hidden rounded-[30px]" style={box(16.78, 26.85, 594.483, 304.082)}>
-            <Gambar index={aktif} />
-            <div className="absolute inset-0 rounded-[30px] border-3 border-cream" />
-          </div>
-        </motion.button>
-      </Reveal>
-    </>
+    <Reveal scale={0.9} delay={0.15} className="absolute inset-0">
+      {/* Bayangan lembut di bawah tumpukan (sebelumnya elips hitam padat). */}
+      <div
+        className="pointer-events-none absolute rounded-[50%] bg-[radial-gradient(closest-side,rgba(20,20,20,0.55),rgba(20,20,20,0.25)_55%,transparent)] blur-[10px]"
+        style={box(40, 790, 720, 160)}
+      />
+      {LATEST.map((item, index) => {
+        const slot = (index - aktif + LATEST.length) % LATEST.length;
+        const depan = slot === 0;
+        const posisi = SLOT[slot];
+        return (
+          <motion.button
+            key={item.name}
+            type="button"
+            className={`absolute rounded-[30px] bg-coal ${depan ? 'cursor-zoom-in shadow-[0_26px_44px_-14px_rgba(0,0,0,0.55)]' : 'cursor-pointer shadow-[0_18px_30px_-12px_rgba(0,0,0,0.45)]'}`}
+            style={{ zIndex: sorotan === index ? 20 : posisi.zIndex }}
+            initial={false}
+            animate={{ left: posisi.left, top: posisi.top, width: posisi.width, height: posisi.height }}
+            transition={pindah}
+            whileHover={{ scale: depan ? 1.03 : 1.05, rotate: -1 }}
+            whileFocus={{ scale: depan ? 1.03 : 1.05, rotate: -1 }}
+            onMouseEnter={() => setSorotan(index)}
+            onMouseLeave={() => setSorotan((s) => (s === index ? null : s))}
+            onFocus={() => setSorotan(index)}
+            onBlur={() => setSorotan((s) => (s === index ? null : s))}
+            onClick={() => (depan ? setBuka(index) : setAktif(index))}
+            aria-label={depan ? `Lihat ${item.alt}` : `Tampilkan ${item.name}`}
+          >
+            {/* Bingkai sama untuk ketiga kartu: tepi gelap dan garis krem, seperti kartu utama Figma. */}
+            <span className="absolute inset-x-[2.7%] inset-y-[7.5%] overflow-hidden rounded-[26px]">
+              <img alt={item.alt} className={FILL} src={item.src} />
+              <span className="absolute inset-0 rounded-[26px] border-3 border-cream" />
+              <motion.span
+                className="absolute inset-0 bg-coal-deep"
+                initial={false}
+                animate={{ opacity: depan || sorotan === index ? 0 : 0.28 }}
+                transition={{ duration: 0.3 }}
+              />
+            </span>
+          </motion.button>
+        );
+      })}
+    </Reveal>
   );
 }
 
