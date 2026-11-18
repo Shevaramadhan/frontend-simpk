@@ -11,6 +11,14 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (gambar utama Latest Project dan judul proyek)
+
+### Diubah
+- Latest Project: gambar utama kini halaman beranda website Firetech 2026 (tangkapan layar baru dari PM), bukan layar pembuka yang hanya berisi logo. Layar pembuka pindah ke kartu belakang atas (`latest-belakang-atas.webp`); tangkapan beranda kecil yang lama dihapus karena sama dengan gambar utama.
+
+### Diperbaiki
+- Judul "WEBSITE FIRETECH 2026" menumpuk tepi atas kotak gelap; garis tepi krem tidak menutup celah antarhuruf sehingga kotak gelap tampak sebagai titik-titik kecil di bawah huruf. Judul kini berdiri di atas kotak (desktop dan ponsel).
+
 ## 2026-11-18 (Our Project interaktif dan aksesibilitas keyboard landing page)
 
 ### Ditambah

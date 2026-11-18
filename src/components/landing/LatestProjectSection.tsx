@@ -28,10 +28,11 @@ function Triangle() {
   );
 }
 
-// Tiga tangkapan layar proyek, urut seperti tampil di lightbox.
+// Tiga tangkapan layar proyek, urut seperti tampil di lightbox. Gambar utama adalah halaman beranda
+// (sebelumnya layar pembuka yang hanya berisi logo), layar pembuka pindah ke kartu belakang.
 const SHOTS = [
-  { src: utama, alt: 'Halaman pembuka website Firetech 2026' },
-  { src: belakangAtas, alt: 'Halaman beranda Firetech' },
+  { src: utama, alt: 'Halaman beranda website Firetech 2026' },
+  { src: belakangAtas, alt: 'Halaman pembuka website Firetech' },
   { src: belakangBawah, alt: 'Halaman tentang Firetech' },
 ];
 
@@ -136,7 +137,9 @@ function Desktop() {
       </div>
 
       <div className="edge-r2 pointer-events-none absolute inset-0">
-        <Reveal y={-30} scale={0.9} delay={0.2} className="absolute" style={box(768, 214, 607)}>
+        {/* Judul berdiri di atas kotak gelap, tidak menumpuk tepinya: garis tepi krem tidak menutup celah antarhuruf
+            sehingga kotak gelap tampak sebagai titik-titik kecil. */}
+        <Reveal y={-30} scale={0.9} delay={0.2} className="absolute" style={box(768, 186, 607)}>
         <h3 className="text-outline-lg whitespace-nowrap text-center font-magic text-[46px] leading-[normal] tracking-[2px] text-flame">{PROJECT_NAME}</h3>
       </Reveal>
       </div>
@@ -173,11 +176,11 @@ function Mobile() {
         </div>
       </div>
 
-      <div className="relative mx-4 mt-12 rounded-[30px] bg-coal px-5 pb-8 pt-16 sm:px-8">
-        <Reveal y={-20} scale={0.9} className="absolute inset-x-0 top-0 -translate-y-1/2">
-          <h3 className="text-outline-lg whitespace-nowrap text-center font-magic text-[6.8vw] leading-none tracking-wide text-flame">{PROJECT_NAME}</h3>
+      <div className="relative mx-4 mt-8">
+        <Reveal y={-20} scale={0.9}>
+          <h3 className="whitespace-nowrap text-center font-magic text-[6.8vw] leading-none tracking-wide text-flame">{PROJECT_NAME}</h3>
         </Reveal>
-        <Reveal y={30} delay={0.1}>
+        <Reveal y={30} delay={0.1} className="mt-3 rounded-[30px] bg-coal px-5 py-8 sm:px-8">
           <p className="text-justify font-body text-base leading-relaxed text-cream sm:text-xl">{PROJECT_TEXT}</p>
         </Reveal>
       </div>
