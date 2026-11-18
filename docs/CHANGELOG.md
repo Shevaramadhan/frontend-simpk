@@ -11,6 +11,16 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (audit tombol dan WCAG halaman masuk)
+
+### Diperbaiki
+- Halaman Login, Sign In (daftar), Lupa Kata Sandi, dan Buat Kata Sandi Baru diaudit dengan axe WCAG 2.1 AA dan uji keyboard.
+- Tanda fokus keyboard tombol berbingkai (`FramedButton`, `FramedLink`) hanya garis bawaan 1 px yang nyaris tidak terlihat; kini garis `flame-ink` 3 px (5,15:1 di atas krem) dan tulisan berubah krem seperti saat diarahkan (WCAG 2.4.7). Berlaku juga di halaman klien dan Daftar Jasa yang memakai tombol yang sama.
+- Tombol Google kini memiliki tanda fokus yang sama; pada tombol resmi Google fokus berada di iframe sehingga memakai `has-[iframe:focus]` pada pembungkus. Tombol lihat kata sandi juga diberi tanda fokus.
+- Tautan "Kembali ke halaman masuk" dan "Masuk sekarang" berwarna `#ff6200` dengan kontras 2,98:1 (gagal WCAG 1.4.3). Semua tautan di halaman masuk (Beranda, Lupa kata sandi, Sign In, Login, Kembali, Masuk sekarang) kini satu gaya `tautanTeks` (`Tombol.ts`): oranye tua bergaris bawah dengan tanda fokus.
+- Ukuran tombol utama disamakan (`AUTH_BUTTON_SIZE`): KIRIM TAUTAN dan SIMPAN sebelumnya lebih kecil dari LOGIN dan SIGN IN.
+- Judul panjang (Lupa Kata Sandi, Buat Kata Sandi Baru) menutupi tautan "← Beranda" di desktop; tautan kini selalu di atas judul. Semua halaman tetap muat tanpa gulir di 1280x720, 1366x768, dan 1536x730.
+
 ## 2026-11-18 (gambar utama Latest Project dan judul proyek)
 
 ### Diubah

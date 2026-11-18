@@ -26,7 +26,7 @@ export default function PasswordInput({ className = '', tone = 'dark', ...props 
         aria-pressed={visible}
         title={visible ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
         // Sedikit diturunkan karena isian bergaya desain punya margin atas 4 px.
-        className={`absolute right-3 top-[calc(50%+2px)] -translate-y-1/2 rounded-md p-1 transition ${
+        className={`absolute right-3 top-[calc(50%+2px)] -translate-y-1/2 rounded-md p-1 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-flame-ink ${
           tone === 'dark' ? 'text-coal-deep hover:text-flame' : 'text-ink/80 hover:text-ink'
         }`}
       >

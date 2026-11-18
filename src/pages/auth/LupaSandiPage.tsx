@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import AuthShell from '../../components/brand/AuthShell';
+import AuthShell, { AUTH_BUTTON_SIZE } from '../../components/brand/AuthShell';
+import { tautanTeks } from '../../components/brand/Tombol';
 import { BrandError, BrandField, FramedButton, brandInput } from '../../components/brand/Brand';
 import { errorMessage } from '../../services/apiConfig';
 import { forgotPassword } from '../../services/authService';
@@ -37,11 +38,11 @@ export default function LupaSandiPage() {
             <input id="email" type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className={brandInput} />
           </BrandField>
           <BrandError message={error} />
-          <div className="flex justify-center"><FramedButton type="submit" disabled={saving}>{saving ? 'Mengirim...' : 'Kirim Tautan'}</FramedButton></div>
+          <div className="flex justify-center"><FramedButton type="submit" disabled={saving} size={AUTH_BUTTON_SIZE}>{saving ? 'Mengirim...' : 'Kirim Tautan'}</FramedButton></div>
         </form>
       )}
       <p className="mt-6 text-center font-body text-lg text-coal-deep">
-        <Link to="/login" className="text-flame underline underline-offset-4">Kembali ke halaman masuk</Link>
+        <Link to="/login" className={tautanTeks}>Kembali ke halaman masuk</Link>
       </p>
     </AuthShell>
   );

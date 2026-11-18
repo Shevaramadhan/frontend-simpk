@@ -37,7 +37,10 @@ export function tombol(varian: VarianTombol = 'utama', ukuran: UkuranTombol = 's
   return `${DASAR} ${UKURAN[ukuran]} ${VARIAN[varian]}`;
 }
 
-/** Tautan teks di atas latar terang, misalnya Ubah dan Hapus di tabel. */
-export const tautan =
-  'rounded font-body text-sm font-medium text-flame-ink underline underline-offset-4 transition-colors hover:text-coal-deep ' +
+/** Tautan teks di atas latar terang dengan ukuran mengikuti teks di sekitarnya (halaman masuk, kalimat ajakan). */
+export const tautanTeks =
+  'rounded font-body font-medium text-flame-ink underline underline-offset-4 transition-colors hover:text-coal-deep ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coal-deep focus-visible:ring-offset-2 focus-visible:ring-offset-cream';
+
+/** Tautan teks di atas latar terang, misalnya Ubah dan Hapus di tabel. */
+export const tautan = `${tautanTeks} text-sm`;

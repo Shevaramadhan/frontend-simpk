@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
-import AuthShell from '../../components/brand/AuthShell';
+import AuthShell, { AUTH_BUTTON_SIZE } from '../../components/brand/AuthShell';
+import { tautanTeks } from '../../components/brand/Tombol';
 import { BrandError, BrandField, FramedButton, brandInput } from '../../components/brand/Brand';
 import GoogleButton from '../../components/brand/GoogleButton';
 import { useAuth } from '../../hooks/useAuth';
@@ -64,7 +65,7 @@ export default function DaftarPage() {
         </div>
         <BrandError message={error} />
         <div className="mt-2 flex justify-center">
-          <FramedButton type="submit" disabled={saving} size="text-[clamp(1.25rem,4vh,1.875rem)]">
+          <FramedButton type="submit" disabled={saving} size={AUTH_BUTTON_SIZE}>
             {saving ? 'Memproses...' : 'Sign In'}
           </FramedButton>
         </div>
@@ -81,7 +82,7 @@ export default function DaftarPage() {
 
       <p className="mt-[clamp(8px,2vh,24px)] text-center font-body text-[clamp(14px,2.2vh,18px)] text-coal-deep">
         Sudah punya akun?{' '}
-        <Link to={jasa ? `/login?jasa=${encodeURIComponent(jasa)}` : '/login'} className="text-flame-ink underline underline-offset-4">
+        <Link to={jasa ? `/login?jasa=${encodeURIComponent(jasa)}` : '/login'} className={tautanTeks}>
           Login
         </Link>
       </p>

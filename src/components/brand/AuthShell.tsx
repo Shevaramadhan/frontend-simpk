@@ -13,6 +13,10 @@ import ornamenBawah from '../../assets/landing/hero-ornamen-kanan-bawah.webp';
 import { Reveal } from '../landing/Motion';
 import { box } from '../landing/Stage';
 import { OutlinedTitle } from './Brand';
+import { tautanTeks } from './Tombol';
+
+/** Ukuran tulisan tombol utama semua halaman masuk agar LOGIN, SIGN IN, KIRIM TAUTAN, dan SIMPAN sama besar. */
+export const AUTH_BUTTON_SIZE = 'text-[clamp(1.25rem,4vh,1.875rem)]';
 
 const isometric = (rotate: number, skew: number) => ({ transform: `rotate(${rotate}deg) skewX(${skew}deg) scaleY(${Math.cos((skew * Math.PI) / 180)})` });
 
@@ -97,7 +101,8 @@ export default function AuthShell({ title, children }: { title: string; children
     <div className="relative flex min-h-dvh items-center px-4 py-[clamp(8px,2.5vh,48px)]">
       <Backdrop />
       <Reveal immediate y={40} duration={0.6} className="relative mx-auto w-full max-w-2xl rounded-[30px] bg-cream px-6 py-[clamp(14px,3.2vh,32px)] shadow-[0_10px_40px_rgba(0,0,0,0.25)] sm:px-12">
-        <Link to="/" className="mb-1 inline-block font-body text-sm text-coal-deep/70 underline-offset-4 hover:underline sm:absolute sm:left-5 sm:top-5 sm:mb-0">
+        {/* Selalu di atas judul: di pojok kartu, judul panjang (Lupa Kata Sandi) menutupinya. */}
+        <Link to="/" className={`mb-1 inline-block text-sm ${tautanTeks}`}>
           ← Beranda
         </Link>
         <div className="mb-[clamp(8px,2.4vh,24px)] flex flex-col items-center">

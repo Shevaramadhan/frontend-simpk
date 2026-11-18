@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import AuthShell from '../../components/brand/AuthShell';
+import AuthShell, { AUTH_BUTTON_SIZE } from '../../components/brand/AuthShell';
+import { tautanTeks } from '../../components/brand/Tombol';
 import { BrandError, BrandField, FramedButton, brandInput } from '../../components/brand/Brand';
 import { errorMessage } from '../../services/apiConfig';
 import { resetPassword } from '../../services/authService';
@@ -37,7 +38,7 @@ export default function ResetSandiPage() {
     <AuthShell title="Buat Kata Sandi Baru">
       {done ? (
         <p role="status" className="font-body text-lg text-coal-deep">
-          Kata sandi diperbarui. <Link to="/login" className="text-flame underline underline-offset-4">Masuk sekarang</Link>
+          Kata sandi diperbarui. <Link to="/login" className={tautanTeks}>Masuk sekarang</Link>
         </p>
       ) : (
         <form onSubmit={handleSubmit}>
@@ -48,7 +49,7 @@ export default function ResetSandiPage() {
             <PasswordInput id="ulang" required autoComplete="new-password" value={ulang} onChange={(event) => setUlang(event.target.value)} className={brandInput} />
           </BrandField>
           <BrandError message={error} />
-          <div className="flex justify-center"><FramedButton type="submit" disabled={saving}>{saving ? 'Menyimpan...' : 'Simpan'}</FramedButton></div>
+          <div className="flex justify-center"><FramedButton type="submit" disabled={saving} size={AUTH_BUTTON_SIZE}>{saving ? 'Menyimpan...' : 'Simpan'}</FramedButton></div>
         </form>
       )}
     </AuthShell>

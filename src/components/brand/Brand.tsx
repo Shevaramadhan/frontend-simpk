@@ -14,11 +14,15 @@ export function Framed({ className = '', children }: { className?: string; child
   );
 }
 
-const FRAMED_TEXT = 'block whitespace-nowrap px-6 py-[clamp(0.375rem,1.3vh,0.75rem)] text-center font-magic uppercase text-flame transition-colors group-hover:text-cream';
+const FRAMED_TEXT =
+  'block whitespace-nowrap px-6 py-[clamp(0.375rem,1.3vh,0.75rem)] text-center font-magic uppercase text-flame transition-colors group-hover:text-cream group-focus-visible:text-cream';
+
+/** Tanda fokus keyboard tombol berbingkai (WCAG 2.4.7): garis #c2410c 3 px, kontras 5,15:1 terhadap krem. */
+const FRAMED_FOCUS = 'focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-flame-ink';
 
 export function FramedLink({ to, children, size = 'text-2xl' }: { to: string; children: ReactNode; size?: string }) {
   return (
-    <Link to={to} className="group inline-block transition-transform hover:-translate-y-0.5 active:translate-y-0">
+    <Link to={to} className={`group inline-block transition-transform hover:-translate-y-0.5 active:translate-y-0 ${FRAMED_FOCUS}`}>
       <Framed>
         <span className={`${FRAMED_TEXT} ${size}`}>{children}</span>
       </Framed>
@@ -28,7 +32,7 @@ export function FramedLink({ to, children, size = 'text-2xl' }: { to: string; ch
 
 export function FramedButton({ children, size = 'text-2xl', className = '', ...props }: ButtonHTMLAttributes<HTMLButtonElement> & { size?: string }) {
   return (
-    <button type="button" className={`group inline-block transition-transform enabled:hover:-translate-y-0.5 disabled:opacity-60 ${className}`} {...props}>
+    <button type="button" className={`group inline-block transition-transform enabled:hover:-translate-y-0.5 disabled:opacity-60 ${FRAMED_FOCUS} ${className}`} {...props}>
       <Framed>
         <span className={`${FRAMED_TEXT} ${size}`}>{children}</span>
       </Framed>

@@ -30,7 +30,10 @@ function loadScript(): Promise<void> {
   return loading;
 }
 
-const LOOK = 'relative flex h-[clamp(40px,6vh,56px)] w-full items-center justify-center gap-3 whitespace-nowrap rounded-[18px] bg-coal px-4 font-magic text-[clamp(13px,min(2.4vh,4vw),20px)] uppercase text-white';
+// Tanda fokus: pada tombol resmi, fokus berada di iframe Google sehingga memakai focus-within pada pembungkus.
+const LOOK =
+  'relative flex h-[clamp(40px,6vh,56px)] w-full items-center justify-center gap-3 whitespace-nowrap rounded-[18px] bg-coal px-4 font-magic text-[clamp(13px,min(2.4vh,4vw),20px)] uppercase text-white ' +
+  'focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-flame-ink has-[iframe:focus]:outline-3 has-[iframe:focus]:outline-offset-3 has-[iframe:focus]:outline-flame-ink';
 
 export default function GoogleButton({ onCredential, label = 'Sign in with Google' }: { onCredential: (credential: string) => void; label?: string }) {
   const slot = useRef<HTMLDivElement>(null);

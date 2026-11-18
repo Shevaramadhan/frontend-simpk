@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
-import AuthShell from '../../components/brand/AuthShell';
+import AuthShell, { AUTH_BUTTON_SIZE } from '../../components/brand/AuthShell';
+import { tautanTeks } from '../../components/brand/Tombol';
 import { BrandError, BrandField, FramedButton, brandInput } from '../../components/brand/Brand';
 import { useAuth } from '../../hooks/useAuth';
 import { errorMessage } from '../../services/apiConfig';
@@ -42,20 +43,20 @@ export default function LoginPage() {
           <PasswordInput id="password" required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className={brandInput} />
         </BrandField>
         <div className="mb-[clamp(8px,2.4vh,24px)] text-right">
-          <Link to="/lupa-sandi" className="font-body text-[clamp(13px,2vh,16px)] text-coal-deep underline underline-offset-4">
+          <Link to="/lupa-sandi" className={`text-[clamp(13px,2vh,16px)] ${tautanTeks}`}>
             Lupa kata sandi?
           </Link>
         </div>
         <BrandError message={error} />
         <div className="flex justify-center">
-          <FramedButton type="submit" disabled={submitting} size="text-[clamp(1.25rem,4vh,1.875rem)]">
+          <FramedButton type="submit" disabled={submitting} size={AUTH_BUTTON_SIZE}>
             {submitting ? 'Memproses...' : 'Login'}
           </FramedButton>
         </div>
       </form>
       <p className="mt-[clamp(8px,2vh,24px)] text-center font-body text-[clamp(14px,2.2vh,18px)] text-coal-deep">
         Belum punya akun?{' '}
-        <Link to={jasa ? `/daftar?jasa=${encodeURIComponent(jasa)}` : '/daftar'} className="text-flame-ink underline underline-offset-4">
+        <Link to={jasa ? `/daftar?jasa=${encodeURIComponent(jasa)}` : '/daftar'} className={tautanTeks}>
           Sign In
         </Link>
       </p>
