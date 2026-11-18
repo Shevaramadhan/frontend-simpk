@@ -11,6 +11,13 @@ Semua perubahan dicatat di sini, terbaru di atas. Setiap entri ditulis dalam com
 - Apa yang berubah dan alasannya.
 ```
 
+## 2026-11-18 (navbar landing menempel)
+
+### Diubah
+- Navbar landing page (`LandingHeader`) dipindah dari dalam hero ke `LandingPage` dan menempel di atas layar saat digulir, di layar lebar maupun ponsel, atas masukan teman PM agar pengunjung selalu dapat berpindah bagian. Navbar berlatar krem dan berbayang tipis setelah halaman digulir.
+- Menu menyorot bagian yang sedang dilihat (teks krem) dan menandainya dengan `aria-current`.
+- Tinggi navbar ditulis ke `--landing-header-h`: hero layar lebar mengisi sisa tinggi layar, dan setiap bagian memakai `scroll-margin-top` sehingga judul bagian tidak tertutup navbar saat menu diklik.
+
 ## 2026-11-18 (tipografi konsisten dan hero tanpa deskripsi)
 
 ### Diubah

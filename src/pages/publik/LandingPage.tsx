@@ -1,6 +1,7 @@
 import { MotionConfig } from 'motion/react';
 import HeroSection from '../../components/landing/HeroSection';
 import JourneySection from '../../components/landing/JourneySection';
+import LandingHeader from '../../components/landing/LandingHeader';
 import LatestProjectSection from '../../components/landing/LatestProjectSection';
 import OurProjectSection from '../../components/landing/OurProjectSection';
 import { usePageWidth } from '../../components/landing/Stage';
@@ -11,6 +12,7 @@ export default function LandingPage() {
   return (
     <MotionConfig reducedMotion="user">
       <div ref={page.ref} style={page.style} className="overflow-x-clip bg-cream text-coal">
+        <LandingHeader />
         <main>
           <HeroSection />
           <LatestProjectSection />

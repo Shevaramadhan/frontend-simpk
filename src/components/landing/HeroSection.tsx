@@ -5,10 +5,8 @@ import ornamenKananBawah from '../../assets/landing/hero-ornamen-kanan-bawah.web
 import ornamenKiri from '../../assets/landing/hero-ornamen-kiri.webp';
 import judulSimpk from '../../assets/landing/hero-simpk.png';
 import subjudul from '../../assets/landing/hero-subjudul.png';
-import logo from '../../assets/landing/logo-hitam.webp';
 import { Magnet, Ornament, Reveal, RollingText, useHoverFocus } from './Motion';
-import LandingHeader from './LandingHeader';
-import { Framed, NAV_ITEMS, SECTION } from './Parts';
+import { Framed, SECTION } from './Parts';
 import { box, Crop, Stage } from './Stage';
 
 const FILL = 'pointer-events-none absolute inset-0 size-full max-w-none object-cover';
@@ -44,8 +42,8 @@ const HERO_VIEW = { x: 0, y: 110, w: 1440, h: 914 };
 function Desktop() {
   const cta = useHoverFocus();
   return (
-    <div className="hidden h-dvh min-h-[560px] flex-col bg-cream lg:flex">
-    <LandingHeader />
+    // Navbar menempel di atas (LandingHeader di LandingPage); hero mengisi sisa tinggi layar di bawahnya.
+    <div className="hidden h-[calc(100dvh-var(--landing-header-h,0px))] min-h-[480px] flex-col bg-cream lg:flex">
     <Stage framed fill view={HERO_VIEW} className="min-h-0 flex-1">
       <Backdrop />
 
@@ -111,27 +109,6 @@ function Desktop() {
 function Mobile() {
   return (
     <div className="bg-cream lg:hidden">
-      <div className="flex items-center justify-between gap-3 px-4 pt-4">
-        <img alt="Neo Telemetri, IT For The Future" className="h-8 w-auto sm:h-10" src={logo} />
-        <Link to="/login">
-          <Framed>
-            <span className="block px-5 py-1.5 font-magic text-base uppercase text-flame sm:text-xl">SIGN IN</span>
-          </Framed>
-        </Link>
-      </div>
-
-      <nav aria-label="Bagian halaman" className="mx-4 mt-4">
-        <Framed rounded="rounded-[22px]">
-          <span className="flex items-center justify-center divide-x-2 divide-cream py-2">
-            {NAV_ITEMS.map((item) => (
-              <a key={item.id} href={`#${item.id}`} className="whitespace-nowrap px-1.5 font-magic text-[11px] uppercase text-flame min-[400px]:px-2.5 min-[400px]:text-[13px] sm:px-5 sm:text-xl">
-                {item.label}
-              </a>
-            ))}
-          </span>
-        </Framed>
-      </nav>
-
       <Crop x={300} y={150} w={870} h={650} className="mt-2">
         <Backdrop />
         <Title />

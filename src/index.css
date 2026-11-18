@@ -150,6 +150,11 @@ input[type='date']::-webkit-calendar-picker-indicator {
   translate: calc(var(--edge, 0px) * -0.3) 0;
 }
 
+/* Navbar landing menempel di atas; bagian yang dituju menu berhenti tepat di bawah navbar. */
+main section[id] {
+  scroll-margin-top: var(--landing-header-h, 0px);
+}
+
 /* Galeri karya di beranda klien bergerak ke samping dan berhenti saat disentuh. */
 @keyframes marquee {
   to {
